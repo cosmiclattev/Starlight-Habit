@@ -2,8 +2,8 @@
   "name": "별빛달빛해빗",
   "short_name": "⭐해빗",
   "description": "일상과 일생을 함께 가꾸는 습관",
-  "start_url": "./index.html",
-  "scope": "./",
+  "start_url": "/Starlight-Habit/index.html",
+  "scope": "/Starlight-Habit/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#ede0ff",
@@ -11,20 +11,17 @@
   "lang": "ko-KR",
   "icons": [
     {
-      "src": "./icon-192.png",
+      "src": "/Starlight-Habit/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "./icon-512.png",
+      "src": "/Starlight-Habit/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     }
   ],
-  "categories": [
-    "lifestyle",
-    "productivity"
-  ]
+  "categories": ["lifestyle", "productivity"]
 }
