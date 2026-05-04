@@ -1,0 +1,27 @@
+{
+  "name": "별빛달빛해빗",
+  "short_name": "⭐해빗",
+  "description": "일상과 일생을 함께 가꾸는 습관",
+  "start_url": "./ymwt.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ede0ff",
+  "theme_color": "#8b7fd4",
+  "lang": "ko-KR",
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["lifestyle", "productivity"]
+}
