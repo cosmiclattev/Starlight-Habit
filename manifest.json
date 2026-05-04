@@ -2,7 +2,7 @@
   "name": "별빛달빛해빗",
   "short_name": "⭐해빗",
   "description": "일상과 일생을 함께 가꾸는 습관",
-  "start_url": "./ymwt.html",
+  "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
@@ -23,5 +23,8 @@
       "purpose": "any maskable"
     }
   ],
-  "categories": ["lifestyle", "productivity"]
+  "categories": [
+    "lifestyle",
+    "productivity"
+  ]
 }

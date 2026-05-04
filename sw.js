@@ -4,7 +4,7 @@
 ───────────────────────────────────── */
 var CACHE_NAME = 'ymwt-cache-v1';
 var CACHED_URLS = [
-  './ymwt.html',
+  './index.html',
   './manifest.json',
   './icon-192.png',
   './icon-512.png'
