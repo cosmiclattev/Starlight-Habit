@@ -1538,6 +1538,7 @@ textarea.inp{resize:vertical;line-height:1.6}
 .btn-del{width:22px;height:22px;border-radius:50%;border:none;background:rgba(255,100,80,.12);color:#e05544;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;line-height:1}
 .btn-del:hover{background:rgba(255,100,80,.22)}
 .btn-goal-check{width:30px;height:30px;border-radius:9px;border:none;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s cubic-bezier(.34,1.56,.64,1)}
+.btn-goal-check *,.check-row *,.mc *,.cb *{pointer-events:none}
 .btn-goal-check.off{background:rgba(180,180,220,.3)}
 .btn-goal-check.on{background:linear-gradient(135deg,var(--lav),var(--sky))}
 .tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:8px;letter-spacing:.3px}
@@ -3213,7 +3214,7 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
 
 'use strict';
 
-var CHECK_SVG = '<svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1.5 5L4.5 8L10.5 1.5" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+var CHECK_SVG = '<svg width="12" height="10" viewBox="0 0 12 10" fill="none" style="pointer-events:none"><path d="M1.5 5L4.5 8L10.5 1.5" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="pointer-events:none"/></svg>';
 
 function mkCircleSVG(pct, hasData) {
   var r=11, c=15, circ=69.11;
