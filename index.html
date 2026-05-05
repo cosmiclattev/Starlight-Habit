@@ -39,7 +39,6 @@ html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif;overscroll-beh
 .petal.y .petal-top,.petal.wd .petal-top{flex-direction:row-reverse;}.petal.y .petal-body,.petal.wd .petal-body{text-align:right;}
 #lumi-screen .card-lav{background:var(--grad-hi)!important;border-color:transparent;}
 #lumi-screen .card-grn{background:var(--grad-s)!important;border-color:transparent;}
-/* HOME */
 
 @import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Nanum+Gothic:wght@400;700;800&display=swap');
 
@@ -84,7 +83,6 @@ html, body {
   overflow: hidden;
 }
 
-/* ── HEADER ── */
 .header {
   padding: 52px 24px 12px;
   display: flex;
@@ -124,7 +122,6 @@ html, body {
   letter-spacing: -.2px;
 }
 
-/* ── CLOVER GRID ── */
 .clover-wrap {
   flex: 1;
   display: flex;
@@ -143,7 +140,6 @@ html, body {
   position: relative;
 }
 
-/* center logo overlay */
 .clover-center {
   position: absolute;
   top: 50%; left: 50%;
@@ -172,7 +168,6 @@ html, body {
   margin-bottom: 2px;
 }
 
-/* ── PETAL CARD ── */
 .petal {
   background: var(--card-bg);
   backdrop-filter: blur(16px);
@@ -191,13 +186,11 @@ html, body {
 }
 .petal:active { transform: scale(.95); }
 
-/* clover petal shapes — heart-like rounded corners toward center */
 .petal.y  { border-radius: 50% var(--r) var(--r) var(--r); }
 .petal.m  { border-radius: var(--r) 50% var(--r) var(--r); }
 .petal.wd { border-radius: var(--r) var(--r) var(--r) 50%; }
 .petal.t  { border-radius: var(--r) var(--r) 50% var(--r); }
 
-/* color stripe top */
 .petal::before {
   content: '';
   position: absolute;
@@ -210,7 +203,6 @@ html, body {
 .petal.wd::before { background: var(--wd-color); }
 .petal.t::before  { background: var(--t-color); }
 
-/* bg glow */
 .petal::after {
   content: '';
   position: absolute;
@@ -272,7 +264,6 @@ html, body {
   line-height: 1.45;
 }
 
-/* WIP badge */
 .wip-badge {
   display: inline-flex;
   align-items: center;
@@ -287,7 +278,6 @@ html, body {
   letter-spacing: .3px;
 }
 
-/* T petal — active link */
 .petal.t .petal-name { color: var(--t-color); }
 .petal.t .go-arrow {
   display: inline-flex;
@@ -329,7 +319,6 @@ html, body {
   letter-spacing: .3px;
 }
 
-/* ── FOOTER ── */
 .footer {
   padding: 10px 24px 28px;
   display: flex;
@@ -347,7 +336,6 @@ html, body {
 }
 .fdot.active { background: var(--mint); width: 20px; border-radius: 3px; }
 
-/* ── CONSTRUCTION OVERLAY ── */
 .wip-overlay {
   display: none;
   position: fixed; inset: 0;
@@ -389,7 +377,6 @@ html, body {
 }
 .wip-close:active { transform: scale(.97); }
 
-/* entry animations */
 .petal {
   opacity: 0;
   transform: scale(.85) translateY(16px);
@@ -411,8 +398,6 @@ html, body {
   to   { transform: translate(-50%,-50%) scale(1); opacity: 1; }
 }
 
-/* LUMI */
-
 :root {
   --card-s: rgba(255,255,255,.96);
   --text:   #1e3a5f;
@@ -420,7 +405,6 @@ html, body {
   --muted-lt:#b4c8e0;
   --r: 14px;
 
-  /* ── theme tokens (default: lav/sky) ── */
   --t-bg-a:    #ede0ff;
   --t-bg-b:    #d8e8ff;
   --t-bg-c:    #c8e0ff;
@@ -461,13 +445,12 @@ html, body {
   --t-icon2:   rgba(200,230,255,.8);
   --t-nudge:   #8b7fd4;
 
-  /* nav inactive text — darker than muted-lt, lighter than active */
   --t-nav-muted: #8898c8;
 
   --grad: linear-gradient(135deg,var(--t-p1),var(--t-p2));
   --grad-s: linear-gradient(135deg,var(--t-s1),var(--t-s2));
   --grad-k: linear-gradient(135deg,var(--t-k1),var(--t-k2));
-  /* highlight gradient — used for nav pill + 집중횟수 card */
+
   --grad-hi: linear-gradient(135deg, rgba(185,165,248,.72), rgba(120,198,250,.62));
   --grad-c1: rgba(185,165,248,.78);
   --grad-c2: rgba(120,198,250,.72);
@@ -480,7 +463,6 @@ html, body {
   --border: var(--t-border);
 }
 
-/* ── TOMATO theme ── */
 body[data-theme="tomato"] {
   --t-bg-a: #ffe6e4; --t-bg-b: #e8f8f0; --t-bg-c: #ccf0e4;
   --t-nav:    rgba(255,230,225,.94);
@@ -505,16 +487,15 @@ body[data-theme="tomato"] {
   --t-nudge: #d23737;
   --text: #3a1010; --muted: #a06060; --muted-lt: #b87870;
   --t-nav-muted: #b87870;
-  /* ring: lighter red→green, mid stops set shorter via JS */
+
   --t-ring1: #e87878; --t-ring2: #42cc8a;
-  /* 토마토 버튼 배경과 동일: 연핑크 → 민트 */
+
   --grad-hi: linear-gradient(135deg, #ff9a8b, #66e0a2);
   --grad-c1: rgba(255,154,139,.88);
   --grad-c2: rgba(102,224,162,.88);
   --t-hi-text: #7a1a10;
 }
 
-/* ── CAT theme ── */
 body[data-theme="cat"] {
   --t-bg-a: #fff8d0; --t-bg-b: #ffe8f0; --t-bg-c: #ffd6e8;
   --t-nav:    rgba(255,248,208,.94);
@@ -539,7 +520,7 @@ body[data-theme="cat"] {
   --t-nudge: #d4900a;
   --text: #3a2800; --muted: #a07830; --muted-lt: #c09a40;
   --t-nav-muted: #c09a40;
-  /* 고양이 버튼 배경과 동일: 노른자 → 발바닥 핑크 */
+
   --grad-hi: linear-gradient(135deg, #ffe066, #f0a0c0);
   --grad-c1: rgba(255,224,102,.88);
   --grad-c2: rgba(240,160,192,.88);
@@ -549,12 +530,10 @@ body[data-theme="cat"] {
 
 #app{max-width:480px;margin:0 auto;height:100%;display:flex;flex-direction:column;overflow:hidden;}
 
-/* ── VIEWS ── */
 .view{flex:1;overflow-y:auto;overflow-x:hidden;display:none;flex-direction:column;padding-bottom:90px;}
 .view.active{display:flex;}
 .view::-webkit-scrollbar{display:none;}
 
-/* ── STICKY HEADER ── */
 .sticky-header{
   position:sticky;top:0;z-index:50;
   background:var(--t-header);
@@ -565,9 +544,6 @@ body[data-theme="cat"] {
 .sticky-header h1{font-size:17px;font-weight:800;color:var(--text);letter-spacing:-.3px;}
 .sticky-header .sub{font-size:12px;color:var(--muted);margin-top:2px;font-weight:600;}
 
-/* ────────────────────────────────────────
-   BOTTOM NAV  —  sliding "tablet/capsule" pill
-──────────────────────────────────────── */
 #nav{
   position:fixed;bottom:0;left:50%;transform:translateX(-50%);
   width:100%;max-width:480px;
@@ -580,7 +556,6 @@ body[data-theme="cat"] {
   gap:0;
 }
 
-/* Sliding pill — fat capsule shape */
 .nav-pill{
   position:absolute;
   height:54px;
@@ -614,7 +589,6 @@ body[data-theme="cat"] {
 #nav .nav-btn.active .ni{transform:scale(1.12);}
 #nav .nav-btn:active{opacity:.75;}
 
-/* ── CARD ── */
 .card{background:var(--card-s);border:1px solid var(--bmd);border-radius:var(--r);box-shadow:0 3px 12px rgba(120,100,200,.07);}
 .card-lav{background:var(--grad-hi);border-color:transparent;box-shadow:0 3px 10px rgba(0,0,0,.08);}
 .card-lav .tsc-val,.card-lav .tsc-lbl,.card-lav .sc-val,.card-lav .sc-lbl{color:var(--t-hi-text);}
@@ -623,9 +597,6 @@ body[data-theme="cat"] {
 .card-sky{background:var(--grad);border-color:transparent;box-shadow:0 4px 14px var(--t-shadow2);}
 .card-sky .tsc-val,.card-sky .tsc-lbl,.card-sky .sc-val,.card-sky .sc-lbl{color:#fff;}
 
-/* ════════════════════════════════
-   TIMER VIEW
-════════════════════════════════ */
 #lumi-top-bar{display:flex;align-items:center;justify-content:space-between;padding:8px 16px 10px;flex-shrink:0;border-bottom:1px solid rgba(180,170,220,.18);}
 #timer-view{padding-top:0;align-items:center;}
 
@@ -634,7 +605,6 @@ body[data-theme="cat"] {
 .t-lbl{font-size:12px;font-weight:600;color:#7a90b8;margin-top:1px;}
 .session-badge{background:var(--t-pale);border:1px solid var(--t-pale-b);color:var(--t-accent-dk);border-radius:10px;padding:5px 12px;font-size:11px;font-weight:700;white-space:nowrap;flex-shrink:0;}
 
-/* Ring */
 .ring-wrap{position:relative;width:262px;height:262px;margin:4px auto 16px;flex-shrink:0;cursor:pointer;user-select:none;}
 .ring-wrap:active .ring-inner{transform:scale(.97);}
 .ring-inner{width:100%;height:100%;transition:transform .12s ease;}
@@ -647,7 +617,6 @@ body[data-theme="cat"] {
 .rmode{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--t-accent);margin-top:8px;}
 .rmode.break{color:var(--grn);}
 
-/* Buttons below ring — centered */
 .btn-row{
   width:100%;padding:0 20px;
   display:flex;align-items:center;justify-content:center;
@@ -681,12 +650,11 @@ body[data-theme="cat"] {
   color:var(--muted);
   transition:width .2s,border-radius .2s,font-size .2s,padding .2s,transform .13s;
 }
-/* wider when showing skip text */
+
 .action-btn.secondary.skip-mode{
   width:80px;border-radius:24px;font-size:13px;font-weight:700;
 }
 
-/* Info banner — speech bubble above ring */
 .info-banner{
   position:relative;
   margin:4px 28px 8px;
@@ -700,7 +668,7 @@ body[data-theme="cat"] {
   box-shadow:0 2px 8px rgba(0,0,0,.06);
   transition:background .25s,color .25s,border-color .25s;
 }
-/* tail pointing DOWN toward ring */
+
 .info-banner::after{
   content:'';
   position:absolute;
@@ -736,7 +704,6 @@ body[data-theme="cat"] {
 .info-banner.is-done::after{border-top-color:rgba(255,220,100,.45);}
 .info-banner.is-done::before{border-top-color:rgba(220,160,60,.45);}
 
-/* Task selector */
 .task-selector-wrap{width:100%;padding:0 20px;margin-bottom:12px;}
 .task-selector-label{
   font-size:10px;font-weight:700;color:var(--muted);
@@ -762,10 +729,8 @@ body[data-theme="cat"] {
 .tsb-arrow{font-size:14px;color:var(--t-accent);}
 .tsb-change{font-size:9px;font-weight:700;color:var(--t-accent);letter-spacing:.3px;}
 
-/* task selector card gets themed border */
 .task-selector-btn.card{border-color:var(--t-pale-b);}
 
-/* Timer stats — horizontal layout */
 .timer-stats{width:100%;padding:0 20px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
 .tsc{padding:11px 12px;display:flex;align-items:center;gap:10px;}
 .tsc-icon{font-size:22px;flex-shrink:0;line-height:1;}
@@ -775,13 +740,9 @@ body[data-theme="cat"] {
 .tsc.plain .tsc-val{color:var(--muted);} .tsc.plain .tsc-lbl{color:var(--muted);}
 .tsc.col .tsc-val,.tsc.col .tsc-lbl{color:#fff;}
 
-/* ════════════════════════════════
-   REPORT VIEW
-════════════════════════════════ */
 #report-view{padding-top:0;}
 .report-body{padding:16px 20px;}
 
-/* ── Stats section ── */
 .stats-section{margin-bottom:16px;}
 .stats-section-header{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
 .stats-section-label{font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;}
@@ -797,7 +758,6 @@ body[data-theme="cat"] {
 
 .section-divider{height:1px;background:rgba(180,170,220,.25);margin:0 0 18px;}
 
-/* ── Calendar ── */
 .cal-section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
 .cal-section-label{font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;}
 .cal-card{padding:18px;margin-bottom:16px;}
@@ -809,21 +769,19 @@ body[data-theme="cat"] {
 .cal-dname{text-align:center;font-size:10px;font-weight:700;color:var(--muted-lt);padding:3px 0;}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
 
-/* Calendar cell — flex-col so we can stack number + icon */
 .cal-cell{
   aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
   border-radius:10px;font-size:11px;font-weight:600;color:var(--muted);
   position:relative;
 }
 .cal-cell.today{background:var(--t-pale);color:var(--t-accent-dk);font-weight:800;}
-/* days with sessions */
+
 .cal-cell.has{
   background:var(--grad-hi);
   color:var(--t-hi-text);font-weight:800;
 }
 .cal-cell.empty{opacity:0;pointer-events:none;}
 
-/* success icon overlaid bottom-right of cell */
 .cal-cell .cal-success{
   font-size:8px;
   line-height:1;
@@ -831,9 +789,6 @@ body[data-theme="cat"] {
   display:block;
 }
 
-/* ════════════════════════════════
-   SETTINGS VIEW
-════════════════════════════════ */
 #settings-view{padding-top:0;}
 .settings-body{padding:16px 20px;}
 .section-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
@@ -862,7 +817,6 @@ body[data-theme="cat"] {
 .empty-state .ei{font-size:34px;margin-bottom:10px;}
 .empty-state p{font-size:13px;font-weight:600;}
 
-/* ── MODALS ── */
 .modal-bd{display:none;position:fixed;inset:0;background:rgba(30,20,60,.28);z-index:200;align-items:flex-end;justify-content:center;}
 .modal-bd.open{display:flex;}
 .modal-sheet{background:var(--card-s);border-radius:22px 22px 0 0;padding:18px 22px 50px;width:100%;max-width:480px;animation:slideUp .22s ease;}
@@ -875,8 +829,6 @@ body[data-theme="cat"] {
 .form-inp:focus{border-color:rgba(139,127,212,.7);box-shadow:0 0 0 3px rgba(139,127,212,.14);}
 .submit-btn{width:100%;background:var(--grad-hi);color:var(--t-hi-text);border:none;border-radius:var(--r);padding:13px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;margin-top:4px;transition:transform .13s;}
 .submit-btn:active{transform:scale(.97);}
-
-/* ── Drum-roll picker — always visible, compact ── */
 
 .picker-wrap{
   display:flex;
@@ -901,12 +853,11 @@ body[data-theme="cat"] {
   border-bottom:1px solid rgba(180,170,220,.2);
 }
 
-/* drum wrapper — fades strictly inside */
 .picker-drum-wrap{
   position:relative;width:100%;flex:1;
   overflow:hidden;
 }
-/* Fades start from MIDDLE (50%) of drum height — aggressive fade for items just above/below center */
+
 .picker-drum-wrap::before,
 .picker-drum-wrap::after{
   content:'';position:absolute;left:0;right:0;height:50%;
@@ -926,7 +877,7 @@ body[data-theme="cat"] {
     var(--t-pfade) 20%,
     rgba(255,255,255,.0) 100%);
 }
-/* selection band */
+
 .picker-selection-band{
   position:absolute;
   top:50%;transform:translateY(-50%);
@@ -936,7 +887,6 @@ body[data-theme="cat"] {
   border-radius:8px;pointer-events:none;z-index:2;
 }
 
-/* 3 items visible: 34px × 3 = 102px + a sliver of 4th */
 .picker-drum{
   width:100%;height:108px;
   overflow-y:scroll;
@@ -976,7 +926,6 @@ body[data-theme="cat"] {
 .so-check{font-size:18px;color:var(--t-accent);opacity:0;transition:opacity .15s;}
 .sel-option.chosen .so-check{opacity:1;}
 
-/* ── Emoji picker grid ── */
 .emoji-grid{
   display:flex;flex-wrap:wrap;gap:6px;
   margin-bottom:12px;
@@ -997,7 +946,6 @@ body[data-theme="cat"] {
   transform:scale(1.08);
 }
 
-/* Edit button in task list */
 .ti-edit{background:none;border:none;font-size:14px;cursor:pointer;color:var(--t-accent);padding:4px;line-height:1;opacity:.75;}
 .theme-section{margin-bottom:20px;}
 .theme-row{display:flex;gap:10px;}
@@ -1020,7 +968,6 @@ body[data-theme="cat"] {
 .theme-btn-name{font-size:10px;font-weight:800;color:#fff;letter-spacing:.3px;
   text-shadow:0 1px 4px rgba(0,0,0,.28);}
 
-/* gradient backgrounds per theme button */
 .theme-btn-lav .theme-btn-inner{background:linear-gradient(135deg,#b9a5f8,#78c6fa);}
 .theme-btn-lav .theme-btn-name{color:#fff;}
 .theme-btn-tomato .theme-btn-inner{background:linear-gradient(135deg,#ff9a8b,#66e0a2);}
@@ -1028,7 +975,6 @@ body[data-theme="cat"] {
 .conf-item{position:fixed;pointer-events:none;z-index:999;animation:floatUp 1.6s ease-out forwards;}
 @keyframes floatUp{0%{transform:translateY(0) scale(.4) rotate(0deg);opacity:1;}50%{opacity:1;transform:translateY(-70px) scale(1.15) rotate(18deg);}100%{transform:translateY(-150px) scale(.7) rotate(-12deg);opacity:0;}}
 
-/* ── Tomato dots inside ring ── */
 .tomato-dots{
   display:flex;justify-content:center;align-items:center;
   gap:5px;margin-top:10px;min-height:24px;flex-wrap:wrap;
@@ -1039,11 +985,6 @@ body[data-theme="cat"] {
 .tdot.done{animation:tomatoPop .35s cubic-bezier(.34,1.56,.64,1);}
 @keyframes tomatoPop{0%{transform:scale(0);}60%{transform:scale(1.35);}100%{transform:scale(1);}}
 
-/* BINGO */
-
-/* ============================================================
-   Lumi Design System
-   ============================================================ */
 :root {
   --card:      rgba(255,255,255,.88);
   --card-s:    rgba(255,255,255,.96);
@@ -1067,14 +1008,12 @@ body[data-theme="cat"] {
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-
 .bg-layer {
   position: fixed; inset: 0; z-index: -1;
   background: linear-gradient(160deg, var(--t-bg-a,#ede0ff) 0%, var(--t-bg-b,#d8e8ff) 50%, var(--t-bg-c,#c8e0ff) 100%);
   transition: background 0.4s ease;
 }
 
-/* ============ Header ============ */
 .app-header {
   position: sticky; top: 0; z-index: 50;
   background: rgba(238,230,255,.92);
@@ -1114,7 +1053,6 @@ body[data-theme="cat"] {
   box-shadow: 0 2px 8px rgba(120,100,200,.22);
 }
 
-/* ============ Layout ============ */
 .app-body {
   max-width: 480px; margin: 0 auto;
   padding: 14px 20px 40px;
@@ -1122,7 +1060,6 @@ body[data-theme="cat"] {
 .tab-content { display: none; }
 .tab-content.active { display: block; }
 
-/* ============ Card ============ */
 .card {
   background: var(--card-s);
   border: 1.5px solid var(--border-md);
@@ -1131,7 +1068,6 @@ body[data-theme="cat"] {
 }
 .card-pad { padding: 14px 16px; }
 
-/* ============ Edit Panel ============ */
 .edit-grid { display: grid; gap: 14px; }
 .field { display: grid; gap: 6px; }
 .field-label { font-size: 13px; font-weight: 700; }
@@ -1167,7 +1103,6 @@ details.beta > summary {
 }
 details.beta > summary::-webkit-details-marker { display: none; }
 
-/* ============ Buttons ============ */
 .btn {
   min-height: 42px; font: inherit; font-size: 13px; font-weight: 700;
   display: inline-flex; align-items: center; justify-content: center;
@@ -1187,7 +1122,6 @@ details.beta > summary::-webkit-details-marker { display: none; }
 .btn-danger { color: #b03030; border-color: rgba(200,100,100,.4); }
 .btn-full { width: 100%; }
 
-/* ============ Board ============ */
 .board-title {
   text-align: center; font-size: clamp(1.3rem,5vw,1.9rem);
   font-weight: 800; letter-spacing: -0.03em;
@@ -1275,7 +1209,6 @@ details.beta > summary::-webkit-details-marker { display: none; }
   font-size: 10px; font-weight: 800; cursor: pointer;
 }
 
-/* Cell colors - new Lumi palette */
 .c-blue   { background: var(--bc-blue,  rgba(200,228,255,.78)); }
 .c-lav    { background: var(--bc-lav,   rgba(218,208,255,.78)); }
 .c-pink   { background: var(--bc-pink,  rgba(255,210,235,.78)); }
@@ -1284,7 +1217,7 @@ details.beta > summary::-webkit-details-marker { display: none; }
 .c-easy   { background: rgba(255,242,180,.85); }
 .c-medium { background: rgba(255,216,162,.85); }
 .c-hard   { background: rgba(255,190,175,.85); }
-/* Legacy class aliases */
+
 .bg-pastel-blue      { background: rgba(200,228,255,.78); }
 .bg-pastel-lavender  { background: rgba(218,208,255,.78); }
 .bg-pastel-pink      { background: rgba(255,210,235,.78); }
@@ -1293,12 +1226,10 @@ details.beta > summary::-webkit-details-marker { display: none; }
 .bg-difficulty-medium{ background: rgba(255,216,162,.85); }
 .bg-difficulty-hard  { background: rgba(255,190,175,.85); }
 
-/* Font sizes */
 .fs-3 { font-size: 12px; }
 .fs-4 { font-size: 10px; }
 .fs-5 { font-size: 9px; }
 
-/* ============ View tab ============ */
 .stats-row {
   display: flex; align-items: center; justify-content: space-between;
   margin-bottom: 12px;
@@ -1321,7 +1252,6 @@ details.beta > summary::-webkit-details-marker { display: none; }
   font-size: 11px; color: var(--muted);
 }
 
-/* ============ Monthly tab ============ */
 .monthly-hdr {
   display: flex; align-items: center; justify-content: space-between;
   margin-bottom: 14px;
@@ -1374,7 +1304,6 @@ details.beta > summary::-webkit-details-marker { display: none; }
   color: #b03030; cursor: pointer;
 }
 
-/* ============ Overlays ============ */
 .hearts { position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:999; }
 .heart { position:absolute; bottom:-40px; animation: heartRise var(--dur,2.5s) ease-out forwards; }
 @keyframes heartRise {
@@ -1433,17 +1362,12 @@ details.beta > summary::-webkit-details-marker { display: none; }
 .modal-actions { display:flex; justify-content:flex-end; gap:8px; }
 .hidden { display:none !important; }
 
-/* ROUTINE */
-
-/* ─ RESET ─────────────────────────────────────────── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-
 
 button{font-family:inherit;cursor:pointer;transition:transform .13s,opacity .13s}
 button:active{transform:scale(.95)}
 input,textarea{font-family:inherit;font-size:14px;color:#1e3a5f;outline:none;transition:border-color .18s,box-shadow .18s}
 
-/* ─ CSS VARS ────────────────────────────────────────── */
 :root{
   --card:rgba(255,255,255,.88);
   --card-s:rgba(255,255,255,.96);
@@ -1455,25 +1379,22 @@ input,textarea{font-family:inherit;font-size:14px;color:#1e3a5f;outline:none;tra
   --r:14px;
 }
 
-/* ─ LAYOUT ──────────────────────────────────────────── */
 #app{max-width:480px;margin:0 auto;min-height:100vh}
-/* NO opacity animation - causes blank screen on some browsers */
+
 .page{display:none}
 .page.active{display:block}
 
-/* ─ STICKY HEADER ───────────────────────────────────── */
 .sticky-hdr{
   position:sticky;top:0;z-index:50;
   background:transparent;
 }
-/* 주간/데일리 sticky header: 완전 불투명 (컨텐츠 비침 방지) */
+
 #pg-weekly .sticky-hdr,
 #pg-day .sticky-hdr{
   background:#f0ecff;
   backdrop-filter:none;-webkit-backdrop-filter:none;
 }
 
-/* ─ NAV BUTTON ───────────────────────────────────────── */
 .nav-btn{
   width:36px;height:36px;border-radius:50%;
   border:1.5px solid var(--border-md);background:var(--card-s);
@@ -1482,7 +1403,6 @@ input,textarea{font-family:inherit;font-size:14px;color:#1e3a5f;outline:none;tra
 }
 .nav-btn:hover{background:var(--lav-pale);border-color:var(--lav-lt)}
 
-/* ─ INPUTS ──────────────────────────────────────────── */
 .inp{
   width:100%;padding:9px 12px;
   background:rgba(255,255,255,.7);border:1.5px solid var(--border-md);border-radius:10px;
@@ -1490,7 +1410,6 @@ input,textarea{font-family:inherit;font-size:14px;color:#1e3a5f;outline:none;tra
 .inp:focus{border-color:var(--lav-lt);box-shadow:0 0 0 3px rgba(139,127,212,.14);background:#fff}
 textarea.inp{resize:vertical;line-height:1.6}
 
-/* ─ 9-COL CALENDAR ─────────────────────────────────── */
 .cal-8{display:grid;grid-template-columns:34px repeat(7,1fr);gap:3px;align-items:center}
 .cal-hdr-cell{text-align:center;font-size:10px;font-weight:700;padding:3px 0;color:var(--muted)}
 .cal-hdr-cell.wknd{color:var(--lav)}
@@ -1515,7 +1434,6 @@ textarea.inp{resize:vertical;line-height:1.6}
 .cal-day-ring{padding:0!important}
 .day-pct{font-size:7px;font-weight:700;color:rgba(140,128,200,.75);text-align:center;line-height:1;margin-top:1px}
 
-/* ─ SECTION CARDS ───────────────────────────────────── */
 .sect-card{margin-bottom:12px;border-radius:var(--r);overflow:hidden;background:var(--card-s);border:1px solid var(--border-md);box-shadow:0 3px 12px rgba(120,100,200,.07)}
 .sect-hdr{padding:13px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
 .sect-hdr-left{display:flex;align-items:center;gap:8px}
@@ -1533,7 +1451,6 @@ textarea.inp{resize:vertical;line-height:1.6}
 .bg-ngt{background:linear-gradient(135deg,rgba(230,220,255,.7) 0%,rgba(215,205,250,.7) 100%)}
 .bg-refl{background:linear-gradient(135deg,rgba(85,100,200,.38) 0%,rgba(148,72,205,.38) 100%)}
 
-/* ─ CHECKLIST ───────────────────────────────────────── */
 .check-row{width:100%;display:flex;align-items:center;gap:12px;padding:9px 16px;background:none;border:none;text-align:left;transition:background .13s}
 .check-row:hover{background:rgba(139,127,212,.06)}
 .check-row.hd-row{padding:9px 16px 3px;font-size:13px;font-weight:700;color:var(--lav);display:block}
@@ -1549,18 +1466,15 @@ textarea.inp{resize:vertical;line-height:1.6}
 .cb-text{font-size:14px;transition:all .18s}
 .cb-text.done{text-decoration:line-through;color:var(--muted)}
 
-/* ─ PROGRESS ────────────────────────────────────────── */
 .top-bar{height:6px;background:rgba(180,180,220,.3);border-radius:3px;overflow:hidden}
 .top-bar-fill{height:100%;border-radius:3px;background:linear-gradient(to right,var(--sky-lt),var(--lav));transition:width .4s}
 .top-bar-fill.high{background:var(--grn)}
 
-/* ─ REFLECTION ──────────────────────────────────────── */
 .refl-group{margin-bottom:18px}
 .refl-label{font-size:13px;font-weight:700;margin-bottom:10px}
 .refl-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
 .refl-num{font-size:12px;color:var(--muted);width:16px;text-align:center;flex-shrink:0}
 
-/* ─ WEEKLY LEFT PANEL ───────────────────────────────── */
 .wk-overlay{position:fixed;inset:0;z-index:200;background:rgba(255,255,255,.01);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:flex-end;justify-content:center;opacity:0;transition:opacity .22s;pointer-events:none}
 .wk-overlay.open{opacity:1;pointer-events:all}
 .wk-panel{width:100%;max-width:480px;background:linear-gradient(180deg,#f5f0ff 0%,#eff6ff 100%);border-radius:22px 22px 0 0;max-height:92vh;overflow:hidden;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .3s cubic-bezier(.22,1,.36,1);box-shadow:0 -8px 40px rgba(80,60,160,.18)}
@@ -1569,7 +1483,7 @@ textarea.inp{resize:vertical;line-height:1.6}
 .wk-handle{width:42px;height:4px;background:var(--lav-lt);border-radius:2px;margin:10px auto 12px;flex-shrink:0}
 .wk-hdr{padding:18px 16px 14px;border-bottom:1px solid rgba(180,170,220,.35);flex-shrink:0;background:rgba(248,244,255,.95)}
 .wk-body{overflow-y:auto;flex:1;padding:0 0 40px}
-/* ─ WEEKLY UNIFIED SECTIONS ─────────────────────────── */
+
 .wk-section{padding:10px 16px 4px}
 .wk-section+.wk-section{border-top:1px solid rgba(180,170,220,.2);margin-top:2px}
 .wk-sec-hdr{display:flex;align-items:center;gap:8px;margin-bottom:12px}
@@ -1581,21 +1495,20 @@ textarea.inp{resize:vertical;line-height:1.6}
 .wk-add-btn-sm{display:inline-flex;align-items:center;gap:3px;padding:3px 10px;border:1.5px dashed rgba(180,170,220,.45);background:rgba(240,236,255,.4);border-radius:8px;color:var(--lav-dk);font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:background .12s,border-color .12s;font-family:inherit;}
 .wk-add-btn-sm:hover{background:var(--lav-pale);border-color:var(--lav-lt);}
 
-/* ─ HABIT TRACKER TABLE ─────────────────────────────── */
 .tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;background:#fff;border-radius:12px;border:1px solid rgba(180,170,220,.35);box-shadow:0 2px 8px rgba(120,100,200,.06)}
 .tbl{border-collapse:collapse;width:100%;min-width:0;table-layout:fixed}
 .tbl th{color:#2a1f5a;font-size:10px;font-weight:700;padding:6px 2px;text-align:center;white-space:nowrap;position:relative}
-/* Section 1: Habit — lavender */
+
 .tbl th.th-habit{text-align:left;padding-left:6px;width:22%;background:rgba(215,205,255,.55);border-radius:12px 0 0 0}
-/* Section 2: Condition cols — lavender→sky gradient across 3 columns */
+
 .tbl th.th-cond-over{background:rgba(200,215,255,.5);width:9%}
 .tbl th.th-cond-ach {background:rgba(190,230,255,.5);width:9%}
 .tbl th.th-cond-fail{background:rgba(180,240,245,.5);width:9%}
-/* Section 3: Weekday cols — mint */
+
 .tbl th.th-day-col{min-width:22px;width:22px;padding:7px 2px;background:rgba(200,245,230,.5)}
-/* Section 4: Weekend cols — also mint (same) */
+
 .tbl th.th-wknd{background:rgba(200,245,230,.5)}
-/* Last col (delete) — deep lavender */
+
 .tbl th.th-del-col{width:24px;padding:4px;background:rgba(185,245,235,.5);border-radius:0 12px 0 0}
 .tbl td{padding:4px 2px;border-bottom:1px solid rgba(200,195,230,.18);vertical-align:middle}
 .tbl td.td-habit{width:22%}
@@ -1609,7 +1522,7 @@ textarea.inp{resize:vertical;line-height:1.6}
 .tbl tr:last-child td{border-bottom:none}
 .tbl tr:last-child td:first-child{border-radius:0 0 0 12px}
 .tbl tr:last-child td:last-child{border-radius:0 0 12px 0}
-/* Day cycle button — 4 states */
+
 .day-cyc{width:22px;height:22px;border-radius:6px;border:1.5px solid rgba(180,180,220,.45);background:rgba(245,244,252,.8);display:flex;align-items:center;justify-content:center;margin:0 auto;cursor:pointer;font-size:11px;font-weight:700;color:var(--muted);line-height:1;user-select:none;-webkit-user-select:none;transition:border-color .13s,background .13s}
 .day-cyc.s1{border-color:rgba(60,160,100,.4);background:rgba(195,240,215,.6);color:#1a6a40}
 .day-cyc.s2{border-color:rgba(200,80,160,.4);background:rgba(255,215,240,.6);color:#8a1060}
@@ -1618,7 +1531,6 @@ textarea.inp{resize:vertical;line-height:1.6}
 .day-cyc.s1{border-color:rgba(220,60,60,.4);background:rgba(255,200,200,.2)}
 .day-cyc.s2{border-color:rgba(220,60,60,.35);background:rgba(255,170,180,.15)}
 
-/* ─ BUTTONS ─────────────────────────────────────────── */
 .btn-cta{background:linear-gradient(135deg,rgba(155,140,220,.9) 0%,rgba(100,175,220,.9) 100%);color:#fff;border:none;border-radius:30px;padding:14px 38px;font-size:15px;font-weight:700;box-shadow:0 4px 16px rgba(120,100,200,.22);letter-spacing:.3px}
 .btn-cta:hover{box-shadow:0 6px 22px rgba(120,100,200,.32)}
 .btn-add-row{width:100%;padding:11px;border:1.5px dashed var(--lav-lt);background:var(--lav-pale);border-radius:10px;color:var(--lav);font-size:13px;font-weight:700;transition:border-color .13s}
@@ -1637,7 +1549,6 @@ textarea.inp{resize:vertical;line-height:1.6}
 .goal-row+.goal-row{border-top:1px solid var(--border)}
 .complete-banner{background:var(--grn-pale);border:1.5px solid var(--grn-lt);border-radius:var(--r);padding:14px 18px;text-align:center;font-size:15px;font-weight:700;color:#166534;margin-bottom:12px}
 
-/* ─ MISSION TRACKER ──────────────────────────────────── */
 .mission-card{background:var(--card-s);border-radius:12px;border:1px solid var(--border-md);overflow:hidden;margin-bottom:8px;box-shadow:0 2px 8px rgba(120,100,200,.06)}
 .mission-hdr{display:flex;align-items:center;gap:8px;padding:9px 13px;border-bottom:1px solid rgba(180,170,220,.25)}
 .cnt-ctrl{display:flex;align-items:center;gap:5px;flex-shrink:0}
@@ -1654,7 +1565,6 @@ textarea.inp{resize:vertical;line-height:1.6}
 .btn-add-mission:hover{border-color:var(--lav);background:rgba(210,200,255,.4)}
 .miss-empty{text-align:center;padding:16px;color:var(--muted);font-size:13px}
 
-/* ─ TEMPLATE PANEL ───────────────────────────────────── */
 .tpanel{position:fixed;top:0;right:0;bottom:0;z-index:300;width:min(340px,100vw);background:linear-gradient(160deg,#f8f4ff 0%,#eff6ff 100%);box-shadow:-8px 0 40px rgba(80,60,160,.22);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .28s cubic-bezier(.22,1,.36,1)}
 .tpanel.open{transform:translateX(0)}
 .tpanel-hdr{padding:20px 18px 14px;border-bottom:1.5px solid var(--border);flex-shrink:0;display:flex;align-items:center;gap:10px}
@@ -1667,7 +1577,6 @@ textarea.inp{resize:vertical;line-height:1.6}
 .btn-apply{padding:5px 13px;border-radius:20px;border:none;background:linear-gradient(135deg,var(--lav),var(--sky));color:#fff;font-size:12px;font-weight:700;white-space:nowrap}
 .btn-tmpl-new{width:100%;padding:12px;border:1.5px dashed var(--lav-lt);background:var(--lav-pale);border-radius:12px;color:var(--lav-dk);font-size:13px;font-weight:700;margin-top:4px}
 
-/* ─ TEMPLATE EDITOR ──────────────────────────────────── */
 .tedit-panel{position:fixed;top:0;right:0;bottom:0;z-index:400;width:min(400px,100vw);background:linear-gradient(160deg,#faf7ff 0%,#f2f8ff 100%);box-shadow:-8px 0 40px rgba(80,60,160,.22);display:flex;flex-direction:column;transform:translateX(100%);transition:transform .28s cubic-bezier(.22,1,.36,1)}
 .tedit-panel.open{transform:translateX(0)}
 .tedit-hdr{padding:16px 16px 4px;border-bottom:1.5px solid var(--border);flex-shrink:0}
@@ -1718,7 +1627,6 @@ textarea.inp{resize:vertical;line-height:1.6}
 .te-add-type-btn:hover{border-color:var(--lav);background:var(--lav-pale)}
 .te-tl-icon{font-size:14px;flex-shrink:0;margin-top:4px;width:18px;text-align:center}
 
-/* ─ LOAD POPUP ───────────────────────────────────────── */
 .tpopup-overlay{position:fixed;inset:0;z-index:500;background:rgba(80,60,140,.2);backdrop-filter:blur(5px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .16s;pointer-events:none}
 .tpopup-overlay.open{opacity:1;pointer-events:all}
 .tpopup{background:linear-gradient(160deg,#f8f4ff,#f0f6ff);border-radius:18px;padding:20px;min-width:250px;max-width:310px;width:100%;box-shadow:0 8px 32px rgba(80,60,160,.22);transform:scale(.94);transition:transform .16s}
@@ -1729,24 +1637,22 @@ textarea.inp{resize:vertical;line-height:1.6}
 .tpopup-item-name{font-size:13px;font-weight:700;color:var(--text)}
 .tpopup-item-sub{font-size:11px;color:var(--muted)}
 
-/* ─ DAY HEADER EXTRAS ────────────────────────────────── */
 .tmpl-badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:7px;background:var(--lav-pale);color:var(--lav-dk);border:1px solid var(--lav-lt);white-space:nowrap;max-width:90px;overflow:hidden;text-overflow:ellipsis}
 .btn-tmpl-open{background:rgba(220,210,255,.5);border:1.5px solid rgba(180,170,220,.4);border-radius:10px;padding:6px 12px;font-size:12px;font-weight:700;color:var(--lav-dk);cursor:pointer;flex-shrink:0;white-space:nowrap}
 .btn-tmpl-open:hover{background:var(--lav-pale);border-color:var(--lav)}
 
-/* ─ TIME BLOCK (daily view) ─────────────────────────── */
 .tblock-outer{margin:5px 8px;border-radius:14px;box-shadow:0 0 5px 3px rgba(0,0,0,.09);position:relative}
 .tblock-hdr{padding:8px 14px;display:flex;align-items:center;gap:8px;border-radius:14px 14px 0 0;overflow:hidden}
 .tblock-hdr-title{font-size:13px;font-weight:700;flex:1}
 .tblock-body{padding:3px 0 6px;border-radius:0 0 14px 14px;overflow:hidden}
-/* ─ TIME BLOCK (editor) ─────────────────────────────── */
+
 .te-tblock-wrap{margin:4px 5px;border-radius:12px;box-shadow:0 0 5px 3px rgba(0,0,0,.08);position:relative}
 .te-item-timeblock{border-radius:12px 12px 0 0;overflow:hidden}
 .te-tblock-body{padding:2px 0;border-radius:0 0 12px 12px;overflow:hidden}
 .te-swatch{width:20px;height:20px;border-radius:5px;cursor:pointer;flex-shrink:0;border:2px solid transparent;transition:border-color .12s,transform .1s;display:inline-block}
 .te-swatch.sel{border-color:rgba(0,0,0,.35);transform:scale(1.18)}
 .te-swatch:hover{transform:scale(1.12)}
-/* ─ FILE-FOLDER TABS (shared style for daily + editor) ─ */
+
 .day-tabs-bar{display:flex;align-items:flex-end;padding:0 12px;gap:3px;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-behavior:smooth}
 .day-tabs-bar::-webkit-scrollbar{height:0}
 .day-tab{flex-shrink:0;padding:6px 11px 7px;border-radius:8px 8px 0 0;border:1.5px solid rgba(180,165,225,.35);border-bottom:none;font-size:11px;font-weight:700;cursor:pointer;color:rgba(60,45,110,.7);transition:transform .15s,box-shadow .15s,opacity .15s;user-select:none;position:relative;line-height:1.2;white-space:nowrap}
@@ -1754,12 +1660,12 @@ textarea.inp{resize:vertical;line-height:1.6}
 .day-tab:not(.active){opacity:.72}
 .day-tab:hover:not(.active){opacity:.9;transform:translateY(-1px)}
 .day-tab-refl{margin-left:6px;border-color:rgba(130,90,200,.3)}
-/* Editor tabs — same folder style */
+
 .tedit-tabs-row{display:flex;align-items:flex-end;gap:3px;padding:8px 12px 0;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-behavior:smooth}
 .tedit-tabs-row::-webkit-scrollbar{height:3px}
 .tedit-tabs-row::-webkit-scrollbar-track{background:rgba(200,195,230,.18);border-radius:2px}
 .tedit-tabs-row::-webkit-scrollbar-thumb{background:rgba(160,148,210,.45);border-radius:2px}
-/* ─ BACKUP BUTTONS ──────────────────────────────────── */
+
 .backup-row{display:flex;gap:8px;justify-content:center;padding:0 16px 20px}
 .backup-btn{flex:1;max-width:160px;padding:10px 14px;border-radius:12px;font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:opacity .12s,transform .12s;border:1.5px solid}
 .backup-btn:active{transform:scale(.95)}
@@ -1770,16 +1676,16 @@ textarea.inp{resize:vertical;line-height:1.6}
 .tedit-tab:not(.active){opacity:.68}
 .tedit-tab:hover:not(.active){opacity:.88;transform:translateY(-1px)}
 .te-item-active{outline:2px solid var(--lav-lt)!important;border-radius:10px!important}
-/* ─ BLOCK (Design A) ─────────────────────────────────── */
+
 .te-block-wrap{margin:5px 0 5px 8px;border-radius:0 12px 12px 0;overflow:visible}
 .btn-weekly-go{background:linear-gradient(135deg,rgba(139,127,212,.85),rgba(59,159,214,.8));color:#fff;border:none;border-radius:10px;padding:6px 14px;font-size:12px;font-weight:800;cursor:pointer;flex-shrink:0;white-space:nowrap}
 .def-tmpl{border-color:rgba(139,127,212,.4)!important;background:rgba(139,127,212,.06)!important}
 .te-block-dragging{box-shadow:0 0 0 2px var(--lav),0 4px 20px rgba(120,90,200,.22)!important;opacity:.82;transition:box-shadow .12s,opacity .12s}
 .te-block-drop-target{box-shadow:0 0 0 2.5px var(--lav-dk),0 2px 12px rgba(120,90,200,.18)!important;background:rgba(180,165,240,.18)!important;transition:box-shadow .08s,background .08s}
 .te-block-drop-into{box-shadow:0 0 0 2px var(--lav-dk)!important;transition:box-shadow .08s}
-/* Absolutely block ALL inline-add during drag */
+
 [data-te-dragging] .te-inline-add{display:none!important}
-/* Empty block: show insert indicator on block title */
+
 .te-block-empty-target .te-item-block{border-bottom:2.5px solid var(--lav-dk)!important}
 .blk-count-badge{display:inline-flex;align-items:center;justify-content:center;min-width:14px;height:14px;border-radius:7px;background:rgba(140,120,200,.25);color:var(--lav-dk);font-size:9px;font-weight:800;padding:0 3px;line-height:1}
 .te-block-children{padding-top:4px}
@@ -1793,12 +1699,12 @@ textarea.inp{resize:vertical;line-height:1.6}
 .te-refl-sel:focus{outline:none;border-color:var(--lav-lt)}
 .tedit-tab-refl{margin-left:auto;border-color:rgba(130,90,200,.3)}
 .tl-tblock-group{border-radius:0 0 10px 10px;padding-bottom:4px;background:rgba(240,236,255,.15)}
-/* ─ TE-TBLOCK-TOGGLE ──────────────────────────────────── */
+
 .te-tblock-toggle{display:flex;align-items:center;gap:5px;padding:4px 8px;border-radius:7px;cursor:pointer;font-size:11px;font-weight:600;border:1.5px dashed rgba(180,170,220,.45);background:rgba(240,236,255,.3);transition:background .12s,border-color .12s;user-select:none}
 .te-tblock-toggle:hover{background:var(--lav-pale);border-color:var(--lav-lt)}
 .te-tblock-toggle.on{background:rgba(220,208,255,.5);border-color:var(--lav-lt);border-style:solid;color:var(--lav-dk)}
 .te-item-active{outline:2px solid var(--lav-lt)!important;border-radius:10px!important}
-/* ─ EDITOR INLINE ADD (button style) ────────────────── */
+
 .te-inline-add{display:flex;flex-wrap:wrap;gap:6px;padding:8px 10px;margin:3px 0 3px 18px;border-radius:10px;background:linear-gradient(135deg,rgba(235,228,255,.85),rgba(220,235,255,.85));border:1.5px solid rgba(180,165,225,.45);animation:fadeInAdd .14s ease-out;backdrop-filter:blur(4px);align-items:center}
 .te-add-plus{font-size:16px;font-weight:900;color:var(--lav-dk);flex-shrink:0;line-height:1;margin-right:2px;user-select:none}
 @keyframes fadeInAdd{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:none}}
@@ -1811,14 +1717,13 @@ textarea.inp{resize:vertical;line-height:1.6}
 .chip-tb.te-add-link{background:rgba(200,245,225,.7);border-color:rgba(90,185,145,.5);color:#1a6a50}
 .te-end-add{display:flex;flex-wrap:wrap;gap:6px;padding:8px 10px;margin-top:8px;border-radius:10px;background:rgba(240,236,255,.55);border:1.5px dashed rgba(180,165,225,.4)}
 .te-inline-sep{display:none}
-/* keep te-chip for any legacy references */
+
 .te-chip{padding:5px 11px;border-radius:20px;border:1.5px solid;font-size:11px;font-weight:700;cursor:pointer;transition:background .1s,transform .1s;white-space:nowrap;line-height:1.2}
 .te-chip:active{transform:scale(.93)}
 
-/* ─ REFLECTION ADD BUTTON ───────────────────────────── */
 .refl-add-btn{display:block;margin:6px auto 0;padding:4px 14px;border:1.5px dashed rgba(180,170,220,.5);background:none;border-radius:14px;font-size:11px;font-weight:700;color:var(--muted);cursor:pointer;transition:border-color .12s,color .12s}
 .refl-add-btn:hover{border-color:var(--lav);color:var(--lav-dk)}
-/* ─ MISSION GRID (10 per row) ───────────────────────── */
+
 .mc-grid{display:flex;flex-direction:column;gap:6px;padding:8px 12px 12px}
 .mc-row{display:flex;gap:5px;flex-wrap:nowrap}
 .mc-vsep{width:0;height:20px;border-left:1.5px dashed rgba(160,150,200,.45);margin:0 2px;flex-shrink:0}
@@ -1836,7 +1741,6 @@ textarea.inp{resize:vertical;line-height:1.6}
 ::-webkit-scrollbar{width:3px;height:3px}
 ::-webkit-scrollbar-thumb{background:var(--border-md);border-radius:3px}
 
-/* ── Weekly KPT ── */
 .kpt-block{border-radius:12px;padding:12px 14px;margin-bottom:10px}
 .kpt-keep{background:rgba(210,245,225,.45);border:1px solid rgba(100,200,140,.3)}
 .kpt-problem{background:rgba(255,235,210,.45);border:1px solid rgba(220,160,80,.3)}
@@ -1850,9 +1754,7 @@ textarea.inp{resize:vertical;line-height:1.6}
 .kpt-title-keep,.kpt-title-drop,.kpt-title-try{font-size:12px;font-weight:700;flex:1}
 .kpt-title-keep{color:#2a7a46}.kpt-title-drop{color:#a05010}.kpt-title-try{color:#2040a0}
 .kpt-block textarea{font-size:12px;resize:vertical;width:100%;line-height:1.7}
-/* ── BINGO THEME BTN ── */
 
-/* ── 빙고 커스텀 확인 모달 ── */
 .bingo-confirm-overlay{
   position:fixed;inset:0;z-index:9999;
   background:rgba(40,30,80,.45);
@@ -1886,7 +1788,6 @@ textarea.inp{resize:vertical;line-height:1.6}
 .bingo-confirm-btn.ok{background:linear-gradient(135deg,#8b7fd4,#6ab0e8);color:#fff;box-shadow:0 3px 12px rgba(120,100,200,.3);}
 .bingo-confirm-btn.ok.danger{background:linear-gradient(135deg,#e87878,#e8a070);}
 
-/* ── 빙고 액션 버튼 ── */
 .bingo-action-btn{
   padding:14px 4px;border:none;border-radius:12px;font-size:11px;font-weight:700;
   cursor:pointer;font-family:inherit;color:#fff;letter-spacing:.2px;
@@ -1894,16 +1795,16 @@ textarea.inp{resize:vertical;line-height:1.6}
   transition:opacity .15s,transform .12s;white-space:nowrap;
 }
 .bingo-action-btn:active{transform:scale(.96);opacity:.85;}
-/* 리포트에 저장: c1→c2 */
+
 .bingo-action-btn.save{background:linear-gradient(135deg,var(--grad-c1,rgba(185,165,248,.78)),var(--grad-c2,rgba(120,198,250,.72)));}
-/* 이미지로 저장: c2 단색 */
+
 .bingo-action-btn.dl{background:linear-gradient(135deg,var(--grad-c2,rgba(120,198,250,.72)),var(--grad-c2,rgba(120,198,250,.72)));}
-/* 전체 리셋: c2→c1 */
+
 .bingo-action-btn.reset{background:linear-gradient(135deg,var(--grad-c2,rgba(120,198,250,.72)),var(--grad-c1,rgba(185,165,248,.78)));}
 .bingo-theme-btn{flex:1;padding:8px 4px;border-radius:10px;border:1.5px solid rgba(180,170,220,.3);background:rgba(240,236,255,.4);cursor:pointer;font-size:20px;text-align:center;transition:all .15s;font-family:inherit;line-height:1.6;}
 .bingo-theme-btn:active{transform:scale(.95);}
 .bingo-theme-btn.active{background:rgba(120,90,200,.18);border-color:rgba(120,90,200,.4);}
-/* ── BINGO BOTTOM NAV ── */
+
 #bingo-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:var(--t-nav,rgba(240,236,255,.92));backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-top:1px solid rgba(180,170,220,.25);padding:6px 8px 26px;z-index:100;display:none;align-items:center;gap:0;}
 .bingo-nav-pill{position:absolute;height:54px;border-radius:27px;background:var(--grad-hi);box-shadow:0 4px 16px var(--t-shadow2,rgba(120,100,200,.2));top:8px;left:0;transition:left .32s cubic-bezier(.34,1.38,.64,1),width .32s cubic-bezier(.34,1.38,.64,1);pointer-events:none;z-index:1;}
 .bingo-nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:transparent!important;border:none!important;cursor:pointer;padding:10px 0 6px;font-family:inherit;font-size:10px;font-weight:700;color:rgba(120,100,180,.6);letter-spacing:.2px;position:relative;z-index:2;transition:color .2s;border-radius:27px!important;min-width:0;-webkit-tap-highlight-color:transparent;outline:none;box-shadow:none!important;}
@@ -1913,7 +1814,7 @@ textarea.inp{resize:vertical;line-height:1.6}
 .bingo-nav-btn:active{opacity:.75;}
 #bingo-body{padding-bottom:90px;}
 </style>
-  <!-- ── PWA ── -->
+
   <link rel="manifest" href="./manifest.json">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -1938,7 +1839,7 @@ textarea.inp{resize:vertical;line-height:1.6}
       </div>
 <div class="clover-grid">
 
-      <!-- Y — Yearly -->
+
       <div class="petal y" onclick="showWip('Y','Yearly','연간 만다라트','📅 연간 만다라트로 올 한해의\n목표를 설계하고 달성률을 추적해요.')">
         <div class="petal-top">
           <div class="petal-icon">☀️</div>
@@ -1951,7 +1852,7 @@ textarea.inp{resize:vertical;line-height:1.6}
         </div>
       </div>
 
-      <!-- M — Monthly -->
+
       <div class="petal m" onclick="goMonthly()">
         <div class="petal-top">
           <div class="petal-icon">🌙</div>
@@ -1964,7 +1865,7 @@ textarea.inp{resize:vertical;line-height:1.6}
         </div>
       </div>
 
-      <!-- W/D — Weekly & Daily -->
+
       <div class="petal wd" onclick="goRoutine()">
         <div class="petal-top">
           <div class="petal-icon">⭐</div>
@@ -1977,7 +1878,7 @@ textarea.inp{resize:vertical;line-height:1.6}
         </div>
       </div>
 
-      <!-- T — Timely (ACTIVE) -->
+
       <div class="petal t" onclick="goTimely()">
         <div class="petal-top">
           <div class="petal-icon">🍅</div>
@@ -2009,10 +1910,9 @@ textarea.inp{resize:vertical;line-height:1.6}
     </div>
   </div>
 
-<!-- ══ TIMER VIEW ══ -->
 <div id="timer-view" class="view active">
 
-  <!-- Info banner — speech bubble ABOVE ring -->
+
   <div class="info-banner" id="info-banner">
     🎯집중 1번 = 🍅토마토 1개!
   </div>
@@ -2044,7 +1944,7 @@ textarea.inp{resize:vertical;line-height:1.6}
     </div>
   </div>
 
-  <!-- Buttons below ring -->
+
   <div class="btn-row">
     <button class="action-btn primary" id="action-btn" onclick="handlePlayPause()">▶ 집중 시작</button>
     <button class="action-btn secondary" id="secondary-btn" onclick="resetTimer()">↺</button>
@@ -2083,12 +1983,11 @@ textarea.inp{resize:vertical;line-height:1.6}
   </div>
 </div>
 
-<!-- ══ REPORT VIEW ══ -->
 <div id="report-view" class="view">
 
   <div class="report-body">
 
-    <!-- 1) 이번 달 stats -->
+
     <div class="stats-section">
       <div class="stats-section-header">
         <div class="stats-section-label">🗓️ 이번 달 통계</div>
@@ -2112,7 +2011,7 @@ textarea.inp{resize:vertical;line-height:1.6}
 
     <div class="section-divider"></div>
 
-    <!-- 2) Calendar — middle -->
+
     <div class="cal-section-header">
       <div class="cal-section-label">📆 월별 집중 현황</div>
     </div>
@@ -2133,7 +2032,7 @@ textarea.inp{resize:vertical;line-height:1.6}
 
     <div class="section-divider"></div>
 
-    <!-- 3) 전체 통계 — bottom -->
+
     <div class="stats-section">
       <div class="stats-section-header">
         <div class="stats-section-label">📈 전체 통계</div>
@@ -2158,11 +2057,10 @@ textarea.inp{resize:vertical;line-height:1.6}
   </div>
 </div>
 
-<!-- ══ SETTINGS VIEW ══ -->
 <div id="settings-view" class="view">
 
   <div class="settings-body">
-    <!-- 색깔 테마 -->
+
     <div class="sec-label" style="margin-bottom:10px;">🎨 색깔 테마</div>
     <div class="theme-section">
       <div class="theme-row">
@@ -2210,7 +2108,6 @@ textarea.inp{resize:vertical;line-height:1.6}
   </div>
 </div>
 
-<!-- ── BOTTOM NAV ── -->
 <nav id="nav">
   <div class="nav-pill" id="nav-pill"></div>
   <button class="nav-btn active" id="nav-report" onclick="switchView('report')">
@@ -2224,12 +2121,11 @@ textarea.inp{resize:vertical;line-height:1.6}
   </button>
 </nav>
 
-<!-- Task Add Modal -->
 <div class="modal-bd" id="task-modal">
   <div class="modal-sheet">
     <div class="modal-handle"></div>
     <div class="modal-title" id="modal-title-text">✨ 새 타이머 추가</div>
-    <!-- Emoji picker -->
+
     <div class="emoji-grid" id="emoji-grid"></div>
     <div class="form-group">
       <label class="form-lbl">타이머 이름</label>
@@ -2267,7 +2163,6 @@ textarea.inp{resize:vertical;line-height:1.6}
   </div>
 </div>
 
-<!-- Selector Modal -->
 <div class="modal-bd" id="selector-modal">
   <div class="modal-sheet">
     <div class="modal-handle"></div>
@@ -2297,7 +2192,7 @@ textarea.inp{resize:vertical;line-height:1.6}
 
 <div class="app-body" id="bingo-body">
 
-  <!-- ====== 보기 탭 ====== -->
+
   <div id="tab-view" class="tab-content active">
     <div class="stats-row" id="viewStats"></div>
     <div class="card card-pad">
@@ -2310,7 +2205,7 @@ textarea.inp{resize:vertical;line-height:1.6}
     </div>
   </div>
 
-  <!-- ====== 편집 탭 ====== -->
+
   <div id="tab-edit" class="tab-content">
     <div class="card card-pad edit-grid" id="editPanel"></div>
     <div class="card card-pad" style="margin-top:12px">
@@ -2318,7 +2213,7 @@ textarea.inp{resize:vertical;line-height:1.6}
     </div>
   </div>
 
-  <!-- ====== 월별 탭 ====== -->
+
   <div id="tab-monthly" class="tab-content">
     <div id="monthlyListView">
       <div class="monthly-hdr">
@@ -2338,7 +2233,7 @@ textarea.inp{resize:vertical;line-height:1.6}
     </div>
   </div>
 
-  <!-- ====== 설정 탭 ====== -->
+
   <div id="tab-settings" class="tab-content">
     <div id="bingoSettingsBody" style="padding:8px 0 100px"></div>
   </div>
@@ -2376,6 +2271,7 @@ textarea.inp{resize:vertical;line-height:1.6}
   <div id='routine-screen'>
     <div id='routine-app'></div>
     <div class='toast' id='routine-toast'></div>
+    <div class='toast' id='toast'></div>
   </div>
   <div class='routine-app-sw-fixed' id='routine-sw-fixed' style='display:none;'>
     <div class='routine-switcher'>
@@ -2405,7 +2301,7 @@ textarea.inp{resize:vertical;line-height:1.6}
 </div>
 <script>
 function goTimely(){closeWip();['home-screen','bingo-screen','routine-screen'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none';});var rsf=document.getElementById('routine-sw-fixed');if(rsf)rsf.style.display='none';var bsf=document.getElementById('bingo-sw-fixed');if(bsf)bsf.style.display='none';document.getElementById('lumi-screen').style.display='block';document.body.dataset.screen='lumi';var _th=document.body.dataset.theme;if(_th==='tomato'){document.body.style.background='linear-gradient(160deg,#ffe6e4 0%,#e8f8f0 50%,#ccf0e4 100%)';}else if(_th==='cat'){document.body.style.background='linear-gradient(160deg,#fff8d0 0%,#ffe8f0 50%,#ffd6e8 100%)';}else{document.body.style.background='linear-gradient(160deg,#ede0ff 0%,#d8e8ff 50%,#c8e0ff 100%)';}document.body.style.backgroundAttachment='fixed';if(!window._lumiInited){window._lumiInited=true;init();}else{var _lv=window._lumiLastView||'timer';renderTimerUI();switchView(_lv);}}
-function goMonthly(){closeWip();['home-screen','lumi-screen','routine-screen'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none';});var rsf=document.getElementById('routine-sw-fixed');if(rsf)rsf.style.display='none';var lasf=document.querySelector('.lumi-app-sw-fixed');if(lasf)lasf.style.display='none';var bsf=document.getElementById('bingo-sw-fixed');if(bsf)bsf.style.display='none';document.getElementById('bingo-screen').style.display='block';var bn=document.getElementById('bingo-nav');if(bn)bn.style.display='flex';var _bt=localStorage.getItem('lf_theme')||'default';if(typeof applyTheme==='function')applyTheme(_bt);document.body.dataset.screen='bingo';(function(){var t=localStorage.getItem('lf_theme');var bgV=t==='tomato'?'linear-gradient(160deg,#ffe6e4 0%,#e8f8f0 50%,#ccf0e4 100%)':t==='cat'?'linear-gradient(160deg,#fff8d0 0%,#ffe8f0 50%,#ffd6e8 100%)':'linear-gradient(160deg,#ede0ff 0%,#d8e8ff 50%,#c8e0ff 100%)';document.body.style.background=bgV;document.body.style.backgroundAttachment='fixed';/* bg-layer auto updates via CSS vars */})();document.querySelectorAll('#bingo-screen .tab-content').forEach(function(t){t.style.display='';});requestAnimationFrame(function(){var lastTab=window._bingoLastTab||'view';if(window._bingoSwitchTab){window._bingoSwitchTab(lastTab);}setTimeout(function(){if(window._bingoSyncNav)window._bingoSyncNav(lastTab);},80);});}
+function goMonthly(){closeWip();['home-screen','lumi-screen','routine-screen'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none';});var rsf=document.getElementById('routine-sw-fixed');if(rsf)rsf.style.display='none';var lasf=document.querySelector('.lumi-app-sw-fixed');if(lasf)lasf.style.display='none';var bsf=document.getElementById('bingo-sw-fixed');if(bsf)bsf.style.display='none';document.getElementById('bingo-screen').style.display='block';var bn=document.getElementById('bingo-nav');if(bn)bn.style.display='flex';var _bt=localStorage.getItem('lf_theme')||'default';if(typeof applyTheme==='function')applyTheme(_bt);document.body.dataset.screen='bingo';(function(){var t=localStorage.getItem('lf_theme');var bgV=t==='tomato'?'linear-gradient(160deg,#ffe6e4 0%,#e8f8f0 50%,#ccf0e4 100%)':t==='cat'?'linear-gradient(160deg,#fff8d0 0%,#ffe8f0 50%,#ffd6e8 100%)':'linear-gradient(160deg,#ede0ff 0%,#d8e8ff 50%,#c8e0ff 100%)';document.body.style.background=bgV;document.body.style.backgroundAttachment='fixed';})();document.querySelectorAll('#bingo-screen .tab-content').forEach(function(t){t.style.display='';});requestAnimationFrame(function(){var lastTab=window._bingoLastTab||'view';if(window._bingoSwitchTab){window._bingoSwitchTab(lastTab);}setTimeout(function(){if(window._bingoSyncNav)window._bingoSyncNav(lastTab);},80);});}
 function goRoutine(){closeWip();['home-screen','lumi-screen','bingo-screen'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none';});document.getElementById('routine-screen').style.display='block';document.body.dataset.screen='routine';document.body.style.background='linear-gradient(160deg,#f0ecff 0%,#e8e2f8 30%,#f5f0c8 70%,#eeea9a 100%)';document.body.style.backgroundAttachment='fixed';if(typeof window._routineRender==='function')window._routineRender();}
 function goHomeFromLumi(){closeWip();clearTick();document.getElementById('lumi-screen').style.display='none';goHome();}
 function goHomeFromBingo(){document.getElementById('bingo-nav').style.display='none';closeWip();document.getElementById('bingo-screen').style.display='none';var bsf=document.getElementById('bingo-sw-fixed');if(bsf)bsf.style.display='none';goHome();}
@@ -2419,9 +2315,8 @@ document.addEventListener('click',function(e){
 });
 function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))document.getElementById('wip-overlay').classList.remove('open');}
 
-
 (() => {
-  /* ====== Constants ====== */
+
   const MAX = 5;
   const KEYS = {
     BOARD:   'bingo-board-state-v2',
@@ -2443,14 +2338,12 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
   const ROW_PLACEHOLDERS = ['도전','공부','운동','집안일','경험'];
   const HEART_EMOJIS     = ['💖','💕','💗','💓','🩷','✨','🌸'];
 
-  /* ====== Storage helpers ====== */
   const lsGet     = (k,fb='')   => { try { return localStorage.getItem(k)??fb; } catch { return fb; } };
   const lsGetBool = (k,fb=false)=> { try { const v=localStorage.getItem(k); return v!==null?v==='true':fb; } catch { return fb; } };
   const lsGetNum  = (k,fb)      => { const n=Number(lsGet(k,fb)); return isFinite(n)?n:fb; };
   const lsSet     = (k,v)       => { try { localStorage.setItem(k,v); } catch {} };
   const lsRemove  = (k)         => { try { localStorage.removeItem(k); } catch {} };
 
-  /* ====== Color migration (old → new class names) ====== */
   function migrateColor(cls) {
     const map = {
       'bg-pastel-blue':'c-blue','bg-pastel-lavender':'c-lav',
@@ -2460,7 +2353,6 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
     return map[cls] || cls;
   }
 
-  /* ====== State ====== */
   function randomPastel() { return PASTEL[Math.floor(Math.random()*PASTEL.length)]; }
   function makeCell(diffMode) {
     return { text:'', completed:false, color:diffMode?DIFF_LEVELS[0].bg:randomPastel(), difficulty:0, progress:0, savedProgress:0 };
@@ -2472,7 +2364,7 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
       completed:     !!c?.completed,
       color:         (function(){
         var raw=migrateColor(typeof c?.color==='string'?c.color:fb.color);
-        /* diffMode가 꺼져있는데 difficulty 색상이면 랜덤으로 교체 */
+
         if(!diffMode&&(raw==='c-easy'||raw==='c-medium'||raw==='c-hard'))return randomPastel();
         return raw;
       })(),
@@ -2510,11 +2402,10 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
     cells:      [], rowConcepts: [],
     prevBingo:  0,
     activeTab:  'view',
-    currentMonthEntry: null, // for detail view
+    currentMonthEntry: null,
   };
   { const b=loadBoard(S.diffMode); S.cells=b.cells; S.rowConcepts=b.rowConcepts; }
 
-  /* ====== Bingo logic ====== */
   function visibleCells()  { return S.cells.slice(0, S.size*S.size); }
   function countBingo(cells, n) {
     let c=0;
@@ -2534,17 +2425,16 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
     S.prevBingo = n;
   }
 
-  /* ====== Tab switching ====== */
   function switchTab(tab) {
     S.activeTab = tab;
-    window._bingoLastTab = tab; /* 마지막 탭 저장 */
+    window._bingoLastTab = tab;
     document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));
     document.querySelectorAll('.tab-content').forEach(t=>t.classList.toggle('active',t.id==='tab-'+tab));
     if (tab==='view')         renderViewTab();
     else if (tab==='edit')    renderEditTab();
     else if (tab==='monthly') renderMonthlyTab();
     else if (tab==='settings') renderBingoSettings();
-    /* update bottom nav */
+
     document.querySelectorAll('.bingo-nav-btn').forEach(function(b){
       var active=b.dataset.btab===tab;
       b.classList.toggle('active', active);
@@ -2563,7 +2453,6 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
     });
   }
 
-  /* ====== Board rendering ====== */
   function renderBoard(container, cells, rowConcepts, size, title, detailMode, diffMode, editable) {
     const n    = size;
     const fs   = n<=3?'fs-3':n===4?'fs-4':'fs-5';
@@ -2579,12 +2468,11 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
     const layout = document.createElement('div');
     layout.className = 'board-layout';
 
-    // Row concepts
     const conceptsEl = document.createElement('div');
     conceptsEl.className = 'row-concepts';
     conceptsEl.style.cssText = `grid-template-rows:repeat(${n},1fr);width:${rowW}px`;
     rowConcepts.slice(0,n).forEach((c,ri)=>{
-      /* concept칸은 항상 편집 가능 */
+
       {
         const wrap=document.createElement('div');
         wrap.style.cssText='position:relative;display:flex;align-items:center;width:100%;overflow:hidden;';
@@ -2606,7 +2494,6 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
     });
     layout.appendChild(conceptsEl);
 
-    // Grid
     const grid = document.createElement('div');
     grid.className='board-grid';
     grid.style.gridTemplateColumns=`repeat(${n},1fr)`;
@@ -2615,21 +2502,18 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
       const cellEl = document.createElement('div');
       cellEl.className=`cell ${cell.color}`+(cell.completed?' completed':'');
 
-      // Check button
       const checkBtn = document.createElement('button');
       checkBtn.className='cell-check'; checkBtn.type='button';
       checkBtn.textContent=cell.completed?'✓':'';
       checkBtn.addEventListener('click',()=>toggleComplete(idx, cells, editable));
       cellEl.appendChild(checkBtn);
 
-      // Overlay
       if (cell.completed) {
         const ov=document.createElement('div');
         ov.className='cell-overlay'; ov.textContent='✅';
         cellEl.appendChild(ov);
       }
 
-      // Textarea
       const ta=document.createElement('textarea');
       ta.className=`cell-text ${fs}`; ta.value=cell.text;
       ta.placeholder=editable?'목표 입력...':'';
@@ -2641,7 +2525,6 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
       });
       cellEl.appendChild(ta);
 
-      // Progress dots
       if (detailMode) {
         const wrap=document.createElement('div'); wrap.className='progress-wrap';
         const lbl=document.createElement('div'); lbl.className='progress-label';
@@ -2656,7 +2539,6 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
         wrap.appendChild(lbl); wrap.appendChild(dots); cellEl.appendChild(wrap);
       }
 
-      // Difficulty button (edit only)
       if (editable && diffMode) {
         const db=document.createElement('button'); db.type='button';
         db.className='diff-btn'; db.textContent=DIFF_LEVELS[cell.difficulty].label;
@@ -2669,8 +2551,6 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
     container.appendChild(layout);
   }
 
-  /* ====== Cell actions ====== */
-  /* 커스텀 확인 모달 */
   function bingoConfirm(opts){
     return new Promise(function(resolve){
       var ov=document.createElement('div');
@@ -2690,7 +2570,7 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
     });
   }
   function toggleComplete(idx, cells, editable) {
-    // always allow check regardless of content or editable state
+
     const cell = S.cells[idx];
     if (cell.completed) { cell.completed=false; cell.progress=cell.savedProgress||0; }
     else { cell.savedProgress=cell.progress; cell.completed=true; if(S.detailMode) cell.progress=3; }
@@ -2720,7 +2600,6 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
       renderViewBoard(); renderViewStats();
   }
 
-  /* ====== View tab ====== */
   function renderViewTab() {
     renderViewStats();
     renderViewBoard();
@@ -2740,11 +2619,10 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
       '<div style="display:flex;align-items:center;gap:5px;">'+
         '<div class="badge badge-pct">✅ '+pct+'%</div>'+
         '<button onclick="toggleBingoLock()" class="btn-tmpl-open" style="font-size:11px;padding:4px 9px">'+(_lk?'🔒 잠금중':'🔓 내용 편집 잠금')+'</button>'+
-        
+
       '</div>';
   }
 
-  // Save month button
   document.getElementById('saveMonthBtn').addEventListener('click',function(){
     var label=monthLabel(currentMonthKey());
     bingoConfirm({
@@ -2773,7 +2651,6 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
     });
   });
 
-  /* 빙고 뷰 탭 액션 버튼 */
   var dlBtnView=document.getElementById('viewDlBtn');
   if(dlBtnView) dlBtnView.addEventListener('click',function(){
     bingoConfirm({
@@ -2786,7 +2663,7 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
     });
   });
   var shareBtnView=document.getElementById('viewShareBtn');
-  /* share button removed */
+
   var resetBtnView=document.getElementById('viewResetBtn');
   if(resetBtnView) resetBtnView.addEventListener('click',function(){
     bingoConfirm({
@@ -2806,7 +2683,6 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
     });
   });
 
-  /* ====== Edit tab ====== */
   function renderEditTab() {
     renderEditPanel();
     renderViewBoard(); renderViewStats();
@@ -2888,7 +2764,6 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
     gi('shareBtn').addEventListener('click',handleShare);
   }
 
-  /* ====== Reset modal ====== */
   document.getElementById('resetCancelBtn').addEventListener('click',()=>document.getElementById('resetModal').classList.remove('visible'));
   document.getElementById('resetModal').addEventListener('click',e=>{ if(e.target===document.getElementById('resetModal')) document.getElementById('resetModal').classList.remove('visible'); });
   document.getElementById('resetConfirmBtn').addEventListener('click',()=>{
@@ -2901,7 +2776,6 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
     else if (S.activeTab==='edit') renderEditTab();
   });
 
-  /* ====== Monthly ====== */
   function getMonthlyArr()    { try { return JSON.parse(lsGet(KEYS.MONTHLY,'[]'))||[]; } catch { return []; } }
   function saveMonthlyArr(arr){ lsSet(KEYS.MONTHLY, JSON.stringify(arr)); }
   function currentMonthKey()  { const d=new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`; }
@@ -2923,7 +2797,7 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
       const n   = entry.size;
       const card = document.createElement('div');
       card.className='month-card';
-      // Mini board
+
       const mini=document.createElement('div');
       mini.className='mini-board';
       const CS=10, G=3;
@@ -2934,7 +2808,7 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
         mini.appendChild(mc);
       });
       card.appendChild(mini);
-      // Info
+
       const info=document.createElement('div'); info.className='month-info';
       info.innerHTML=`
         <div class="month-label">${entry.label}${entry.title?` <span style="font-weight:600;font-size:13px;color:var(--muted)">— ${esc(entry.title)}</span>`:''}</div>
@@ -2953,7 +2827,7 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
     const dv=document.getElementById('monthlyDetailView');
     dv.classList.remove('hidden');
     document.getElementById('monthDetailLabel').textContent = entry.label + (entry.title?` — ${entry.title}`:'');
-    /* 저장 당시 테마 적용 */
+
     var _prevTheme=document.body.dataset.theme;
     if(entry.theme) document.body.dataset.theme=entry.theme;
     renderBoard(
@@ -2961,7 +2835,7 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
       entry.cells, entry.rowConcepts, entry.size, entry.title,
       entry.detailMode||false, entry.diffMode||false, false
     );
-    /* 테마 복원 */
+
     if(entry.theme) document.body.dataset.theme=_prevTheme||'';
   }
 
@@ -2982,7 +2856,6 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
     showToast('삭제되었습니다');
   });
 
-  /* ====== Hearts & Toasts ====== */
   function showHearts() {
     const root=document.getElementById('hearts');
     for(let i=0;i<18;i++){
@@ -3009,7 +2882,6 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
   window._bingoDownload=handleDownload;
   window._bingoShare=handleShare;
 
-  /* ====== Canvas capture ====== */
   async function captureBoard() {
     const n=S.size, vc=visibleCells();
     const CELL=120, GAP=8, PAD=20, RC_W=70;
@@ -3022,18 +2894,18 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
     canvas.width=W*DPR; canvas.height=H*DPR;
     const ctx=canvas.getContext('2d');
     ctx.scale(DPR,DPR);
-    // BG gradient
+
     const bg=ctx.createLinearGradient(0,0,W,H);
     bg.addColorStop(0,'#ede0ff'); bg.addColorStop(.5,'#d8e8ff'); bg.addColorStop(1,'#c8e0ff');
     ctx.fillStyle=bg; ctx.fillRect(0,0,W,H);
-    // Title
+
     if (S.title.trim()) {
       ctx.fillStyle='#1e3a5f'; ctx.font='800 26px system-ui,sans-serif';
       ctx.textAlign='center'; ctx.textBaseline='middle';
       ctx.fillText(S.title.trim(),W/2,PAD+titleH/2);
     }
     const topY=PAD+titleH;
-    // Row concepts
+
     S.rowConcepts.slice(0,n).forEach((rc,ri)=>{
       const y=topY+ri*(CELL+GAP);
       rRect(ctx,PAD,y,RC_W,CELL,10,'rgba(255,255,255,.7)','rgba(150,155,210,.5)');
@@ -3041,7 +2913,7 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
       ctx.textAlign='center'; ctx.textBaseline='middle';
       ctx.fillText(rc||ROW_PLACEHOLDERS[ri]||'',PAD+RC_W/2,y+CELL/2);
     });
-    // Cells
+
     vc.forEach((cell,idx)=>{
       const col=idx%n, row=Math.floor(idx/n);
       const x=PAD+RC_W+GAP+col*(CELL+GAP), y=topY+row*(CELL+GAP);
@@ -3086,7 +2958,7 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
     const sy=y+(maxH-total)/2;
     lines.slice(0,4).forEach((l,i)=>ctx.fillText(l,x+maxW/2,sy+i*lh));
   }
-  /* 테마별 색상 팔레트 */
+
   var THEME_PALETTES={
     'default':{'c-lav':'rgba(218,208,255,.78)','c-blue':'rgba(200,228,255,.78)','c-pink':'rgba(255,210,235,.78)','c-white':'rgba(245,245,255,.78)','c-mint':'rgba(210,235,255,.78)'},
     'tomato': {'c-lav':'rgba(255,200,195,.78)','c-blue':'rgba(195,240,220,.78)','c-pink':'rgba(255,180,175,.78)','c-white':'rgba(245,255,250,.78)','c-mint':'rgba(180,240,210,.78)'},
@@ -3110,16 +2982,16 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
       const blob=await captureBoard();
       if(!blob){showToast('이미지 생성 실패',true);return;}
       const fname=`lumi-bingo-${S.size}x${S.size}.png`;
-      /* Android: Web Share API로 공유 패널 (저장 포함) */
+
       const file=new File([blob],fname,{type:'image/png'});
       if(navigator.canShare&&navigator.canShare({files:[file]})){
         try{
           await navigator.share({files:[file],title:S.title||'Lumi✨빙고'});
           showToast('공유 완료 ✅');
           return;
-        }catch(e){/* 취소 or 실패 → 다운로드로 대체 */}
+        }catch(e){}
       }
-      /* fallback: <a download> */
+
       const url=URL.createObjectURL(blob);
       const a=document.createElement('a');
       a.href=url; a.download=fname;
@@ -3146,7 +3018,6 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
     } finally { ld.classList.remove('visible'); }
   }
 
-  /* ====== PNG metadata ====== */
   const PNG_SIG=[137,80,78,71,13,10,26,10], MKEY='bingo-state';
   function crc32(buf){let c=0xffffffff;for(let i=0;i<buf.length;i++){c^=buf[i];for(let j=0;j<8;j++)c=c&1?(c>>>1)^0xedb88320:c>>>1;}return(c^0xffffffff)>>>0;}
   function u32(v){return new Uint8Array([(v>>24)&255,(v>>16)&255,(v>>8)&255,v&255]);}
@@ -3192,10 +3063,8 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
     }catch{showToast('이미지 읽기 오류',true);}
   }
 
-  /* ====== Utils ====== */
   function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
-  /* ====== Init ====== */
   S.prevBingo = countBingo(visibleCells(), S.size);
   switchTab('view');
   window._bingoSwitchTab = switchTab;
@@ -3235,7 +3104,7 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
       '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">'+
       '<button class="btn" id="beDl">⬇️ 다운로드</button><button class="btn" id="beShare">📤 공유</button></div>';
     document.getElementById('beTitle').oninput=function(){S.title=this.value;save();renderViewBoard();};
-    document.getElementById('beSize').onchange=function(){var ns=parseInt(this.value);if(ns!==S.size){S.size=ns;/* 기존 셀 데이터 유지하며 MAX*MAX 크기로 확장/유지 */S.cells=Array.from({length:MAX*MAX},function(_,i){return S.cells[i]?S.cells[i]:makeCell(S.diffMode);});S.rowConcepts=Array.from({length:MAX},function(_,i){return typeof S.rowConcepts[i]==='string'?S.rowConcepts[i]:'';});save();renderViewBoard();}};
+    document.getElementById('beSize').onchange=function(){var ns=parseInt(this.value);if(ns!==S.size){S.size=ns;S.cells=Array.from({length:MAX*MAX},function(_,i){return S.cells[i]?S.cells[i]:makeCell(S.diffMode);});S.rowConcepts=Array.from({length:MAX},function(_,i){return typeof S.rowConcepts[i]==='string'?S.rowConcepts[i]:'';});save();renderViewBoard();}};
     document.getElementById('beDetail').onchange=function(){S.detailMode=this.checked;save();renderViewBoard();};
     document.getElementById('beDiff').onchange=function(){S.diffMode=this.checked;save();renderViewBoard();};
     document.getElementById('beReset').onchange=function(){if(this.checked){document.getElementById('resetModal').classList.add('open');this.checked=false;}};
@@ -3243,7 +3112,6 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
     var sh=document.getElementById('beShare');if(sh)sh.onclick=function(){shareBoard();};
   }
 
-  /* ── 설정 탭 렌더링 ── */
   function renderBingoSettings(){
     var body=document.getElementById('bingoSettingsBody');
     if(!body)return;
@@ -3300,14 +3168,13 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
       save();renderViewBoard();
     };
 
-    /* 테마 버튼 */
     body.querySelectorAll('.theme-btn[data-theme]').forEach(function(btn){
       btn.onclick=function(){
         var t=this.dataset.theme;
         var applyKey=this.dataset.applykey||t;
         S.theme=t; save();
         if(typeof applyTheme==='function') applyTheme(applyKey);
-        /* bingo active btn update */
+
         body.querySelectorAll('.theme-btn[data-theme]').forEach(function(b){
           b.classList.toggle('active', b.dataset.theme===t);
         });
@@ -3315,7 +3182,6 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
     });
   }
 
-  /* ── 빙고 테마 적용 ── */
   function applyBingoTheme(theme){
     var screen=document.getElementById('bingo-screen');
     screen.dataset.theme=theme;
@@ -3323,7 +3189,7 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
       document.getElementById('bingo-screen').style.setProperty && null;
       document.documentElement.style.setProperty && null;
       screen.style.background='';
-      /* 타이머와 동일한 토마토 배경 */
+
       if(typeof applyTheme==='function') applyTheme('tomato');
     } else if(theme==='cat'){
       if(typeof applyTheme==='function') applyTheme('cat');
@@ -3332,27 +3198,21 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
     }
   }
 
-  /* Bingo bottom nav binding */
   document.querySelectorAll('.bingo-nav-btn').forEach(function(btn){
     btn.onclick=function(){
       switchTab(this.dataset.btab);
     };
   });
-  /* Init pill position */
+
   setTimeout(function(){ updateBingoNavPill(S.activeTab||'view'); }, 100);
-  /* 빙고 탭 전환 시 pill sync를 window에 노출 */
+
   window._bingoSyncNav = function(tab){ updateBingoNavPill(tab||S.activeTab||'view'); };
 })();
 
-
 (function(){
-
 
 'use strict';
 
-/* ══════════════════════════════════
-   CONSTANTS
-══════════════════════════════════ */
 var CHECK_SVG = '<svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1.5 5L4.5 8L10.5 1.5" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
 function mkCircleSVG(pct, hasData) {
@@ -3372,17 +3232,12 @@ function mkCircleSVG(pct, hasData) {
   return svg;
 }
 
-/* ══════════════════════════════════
-   ROUTINE TEMPLATE
-══════════════════════════════════ */
-/* ── 초기화: URL에 ?reset 이면 localStorage 전체 지우고 리로드 ── */
 (function(){
   if(location.search.indexOf('reset')!==-1){
     localStorage.clear();
     location.href=location.pathname;
   }
 })();
-
 
 var ROUTINE_TEMPLATE = {
   morning:[
@@ -3467,23 +3322,20 @@ var SECTIONS=[
   {key:'night',    title:'Night Ritual',      emoji:'🌙',bg:'bg-ngt'},
 ];
 
-/* ══════════════════════════════════
-   STORAGE
-══════════════════════════════════ */
 var S={
   load:  function(k){try{var r=localStorage.getItem('drt:'+k);return r?JSON.parse(r):null;}catch(e){return null;}},
   save:  function(k,v){try{localStorage.setItem('drt:'+k,JSON.stringify(v));}catch(e){}},
   has:   function(k){try{return !!localStorage.getItem('drt:'+k);}catch(e){return false;}},
-  /* hasReal: true only if user actually interacted (checked item OR typed text) */
+
   hasReal: function(k){
     try{
       var r=localStorage.getItem('drt:'+k);if(!r)return false;
       var d=JSON.parse(r);
-      /* Check routines for any checked item */
+
       var rts=d.routines||{};
       var checked=Object.keys(rts).some(function(sk){return (rts[sk]||[]).some(function(i){return i.checked;});});
       if(checked)return true;
-      /* Check reflection for any non-empty text */
+
       var refl=d.reflection||{};
       if(refl.lesson&&refl.lesson.trim())return true;
       if((refl.good||[]).some(function(v){return v&&v.trim();}))return true;
@@ -3496,18 +3348,12 @@ var S={
   wHas:  function(k){try{return !!localStorage.getItem('week-'+k);}catch(e){return false;}},
 };
 
-/* ══════════════════════════════════
-   DATE UTILS
-══════════════════════════════════ */
 function pad(n){return ('0'+n).slice(-2);}
 function todayStr(){var d=new Date();return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());}
 function getWeekNum(ds){var d=new Date(ds+'T12:00:00'),day=d.getDay()||7;d.setDate(d.getDate()+4-day);var y1=new Date(d.getFullYear(),0,1);return Math.ceil((((d-y1)/86400000)+1)/7);}
 function getWeekStart(ds){var d=new Date(ds+'T12:00:00'),day=d.getDay();d.setDate(d.getDate()+(day===0?-6:1-day));return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());}
 function addDays(ds,n){var d=new Date(ds+'T12:00:00');d.setDate(d.getDate()+n);return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());}
 
-/* ══════════════════════════════════
-   DATA FACTORIES
-══════════════════════════════════ */
 var DEFAULT_REFL_CONFIG = {
   goodLabel:    '🌸 오늘 잘 해낸 일 / 감사한 일',
   goodCount:    3,
@@ -3524,9 +3370,9 @@ function getReflConfig(tmplData) {
 
 function mkDay(date){
   var routines={};
-  /* 항상 저장된 기본 템플릿 사용 (tpl_default도 포함) */
+
   var defId = getDefaultTmplId();
-  var defTmpl = getTmplById(defId); /* tpl_default도 getTmplById로 읽어야 편집 내용 반영 */
+  var defTmpl = getTmplById(defId);
   SECTIONS.forEach(function(s){
     var src = defTmpl ? (defTmpl.sections[s.key]||[]) : (ROUTINE_TEMPLATE[s.key]||[]);
     routines[s.key]=src.map(function(item){
@@ -3539,16 +3385,14 @@ function mkDay(date){
 }
 function getDay(date){var ex=S.load(date);if(ex)return ex;return mkDay(date);}
 
-/* Habit tracker row — days stored as 0=empty,1=circle,2=heart */
 function mkHabitRow(){return {habit:'',over:'',achieve:'',fail:'',days:{mon:0,tue:0,wed:0,thu:0,fri:0,sat:0,sun:0}};}
 
-/* Normalize legacy boolean or out-of-range values */
 function normDay(v){if(v===true)return 1;if(!v||v===false)return 0;var n=parseInt(v);return isNaN(n)?0:Math.min(3,Math.max(0,n));}
 
 function mkMission(){return {name:'',target:0,checks:[]};}
 
 function getPrevWeekStart(ws){
-  /* ws = 'YYYY-MM-DD' (Mon) → 7일 전 월요일 */
+
   var d=new Date(ws+'T12:00:00');
   d.setDate(d.getDate()-7);
   return d.toISOString().slice(0,10);
@@ -3569,8 +3413,6 @@ function getWeek(ws){
     if(!ex.missions.length)ex.missions.push(mkMission());
     if(!ex.reflection)ex.reflection={keep:'',drop:'',try_:''};
 
-
-    /* migrate old tracker field names */
     (ex.tracker||[]).forEach(function(r){
       if(!r.habit&&r.task)r.habit=r.task;
       if(!r.over&&r.condition)r.over=r.condition;
@@ -3578,12 +3420,9 @@ function getWeek(ws){
     });
     return ex;
   }
-  var w=mkWeek(ws); return w; /* do NOT auto-save — only save on actual user interaction */
+  var w=mkWeek(ws); return w;
 }
 
-/* ══════════════════════════════════
-   PROGRESS
-══════════════════════════════════ */
 function dayProg(data){
   if(!data)return 0;var all=[],done=0;
   Object.keys(data.routines).forEach(function(k){
@@ -3599,7 +3438,7 @@ function weekProg(wData){
     ht++;
     if(DAY_KEYS.every(function(d){var v=normDay(r.days?r.days[d]:0);return v===1||v===2;}))hc++;
   });
-  /* Mission: count all missions; done if target>0 and checks complete */
+
   (wData.missions||[]).forEach(function(m){
     mt++;
     var tgt=m.target||0;
@@ -3608,29 +3447,16 @@ function weekProg(wData){
   var total=gt+ht+mt;return total?Math.round((gc+hc+mc)/total*100):0;
 }
 
-/* ══════════════════════════════════
-   TOAST
-══════════════════════════════════ */
 var toastTimer=null;
-function showToast(msg){var el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(function(){el.classList.remove('show');},1800);}
+function showToast(msg){var el=document.getElementById('toast')||document.getElementById('routine-toast');if(!el)return;el.textContent=msg;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(function(){el.classList.remove('show');},1800);}
 
-/* ══════════════════════════════════
-   STATE
-══════════════════════════════════ */
 var ST={page:'calendar',navStack:[],calYear:new Date().getFullYear(),calMonth:new Date().getMonth(),currentDate:null,dayData:null,weekModalOpen:false,weekModalStart:null,weekData:null,tmplPanel:false,tmplEdit:false,tmplEditData:null,tmplLoadPopup:false,tmplEditSection:'morning',tmplActiveItem:null,tmplLastFocused:null,tmplHistory:[],tmplHistIdx:-1};
 
-/* ── Navigation stack v2 ─────────────────────────────────────────────
-   Rules (PRD v2):
-   - Stack max 3 entries: [calendar?, day/weekly?, day/weekly?]
-   - Push only if stack.length < 2 (so at most 2 entries before current page)
-   - Don't push if top of stack is already the page we're pushing
-   - popNav: pop one, if empty → calendar (no flicker: 1 render() only)
-──────────────────────────────────────────────────────────────────── */
 function navPush(){
-  /* Only push if stack has fewer than 2 entries AND top isn't same page */
+
   if(ST.navStack.length>=2) return;
   var top=ST.navStack.length>0?ST.navStack[ST.navStack.length-1]:null;
-  if(top&&top.page===ST.page) return; /* avoid duplicate */
+  if(top&&top.page===ST.page) return;
   ST.navStack.push({
     page:ST.page,
     currentDate:ST.currentDate,
@@ -3650,13 +3476,12 @@ function popNav(){
     ST.weekModalStart=prev.weekModalStart;
     ST.weekData=getWeek(prev.weekModalStart);
   }
-  /* Skip if we'd land on the same page+date we just came from → pop once more */
+
   if(ST.page===fromPage && ST.currentDate===fromDate){
     popNav(); return;
   }
-  render(); /* exactly 1 render() call — no flicker */
+  render();
 }
-
 
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
@@ -3815,9 +3640,6 @@ function renderCalendar(){
     '</div></div>';
 }
 
-/* ══════════════════════════════════
-   BACKUP / RESTORE  (Excel .xls SpreadsheetML)
-══════════════════════════════════ */
 function collectAllData(){
   var data={version:2,exportedAt:new Date().toISOString(),daily:{},weekly:{},templates:[]};
   for(var i=0;i<localStorage.length;i++){
@@ -4135,7 +3957,7 @@ function renderSection(key,title,emoji,bg,items){
 
     /* hd items */
     if(item.type==='hd'||item.type==='timeline'){
-  
+
       hdIdx++;
       var ratio=totalHd<=1?0:hdIdx/(totalHd-1);
       var bgRaw=lerpRgbaRaw(palette.bg[0],palette.bg[1],ratio);
@@ -4466,7 +4288,7 @@ function renderWeekModal(){
                    habit:'linear-gradient(135deg,rgba(200,245,225,.8),rgba(195,228,255,.8))',
                    mission:'linear-gradient(135deg,rgba(255,235,200,.8),rgba(255,215,175,.8))',
                    reflection:'linear-gradient(135deg,rgba(255,220,240,.8),rgba(240,210,255,.8))'};
-  
+
   /* ── Weekly Reflection data ── */
   var wkRefl=wData.reflection||{};
   /* migrate old multi-field or old array format */
@@ -5012,7 +4834,6 @@ function closeWeekModal(){ popNav(); }
 ══════════════════════════════════ */
 var TMPL_KEY='drt:templates';
 
-
 /* ── Default template system ── */
 var DEFAULT_TMPL_KEY = 'drt:defaultTmplId';
 function getDefaultTmplId(){
@@ -5219,7 +5040,6 @@ function renderTmplPanel(){
     '</div>'+
   '</div>';
 }
-
 
 function confirmAndApplyTemplate(tid, onConfirmed) {
   /* Skip confirm if: from calendar, same template already applied, or no real user data today */
@@ -6531,7 +6351,6 @@ function bindTmplEditor(){
     };
   });
 
-
   /* Reflection count buttons (3/4/5 selector) */
   document.querySelectorAll('.te-cnt-btn').forEach(function(btn){
     btn.onclick = function(){
@@ -6742,10 +6561,8 @@ function closeTmplLoadPopup(){
 getTmpls();
 render();
 
-
 window._routineRender=render;
 })();
-
 
 /* ── CONSTANTS ── */
 var CIRC   = 2 * Math.PI * 114;
@@ -6865,7 +6682,7 @@ function clearTick(){if(state.timer.intervalId){clearInterval(state.timer.interv
 function tick(){
   state.timer.timeLeft--;
   if(state.timer.timeLeft<=0){onEnd();return;}
-  document.getElementById('t-display').textContent=fmt(state.timer.timeLeft);
+  var _td=document.getElementById('t-display'); if(_td) _td.textContent=fmt(state.timer.timeLeft);
   document.getElementById('ring-prog').style.strokeDashoffset=CIRC*(1-state.timer.timeLeft/state.timer.totalTime);
 }
 function onEnd(){
@@ -6890,15 +6707,17 @@ function renderTimerUI(){
   const tm=state.timer;
   const isBreak=tm.mode==='break'||(tm.mode==='paused'&&tm.prevMode==='break');
   const isFocus=tm.mode==='focus'||(tm.mode==='paused'&&tm.prevMode==='focus');
-  document.getElementById('t-display').textContent=fmt(tm.timeLeft);
+  var _td2=document.getElementById('t-display'); if(!_td2) return; _td2.textContent=fmt(tm.timeLeft);
   const ring=document.getElementById('ring-prog');
   ring.classList.toggle('brk',isBreak);
   ring.style.strokeDashoffset=CIRC*(1-tm.timeLeft/tm.totalTime);
   const lbl=document.getElementById('t-mode-lbl');
+  if(!lbl) return;
   lbl.className='rmode'+(isBreak?' break':'');
   lbl.textContent=tm.mode==='idle'?'FOCUS':isFocus?(tm.isRunning?'FOCUS ●':'일시정지'):(tm.isRunning?'BREAK ●':'BREAK');
   // Action button below ring
   const ab=document.getElementById('action-btn');
+  if(!ab) return;
   ab.classList.toggle('break-btn', isBreak);
   if(tm.isRunning){
     ab.textContent='⏸ 일시정지';
@@ -7292,13 +7111,12 @@ function init(){
 </script>
 
 <script>
-/* ── PWA Service Worker 등록 (PRD 기준: window load 이벤트) ── */
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
     navigator.serviceWorker.register('./sw.js', { scope: './' })
       .then(function(reg) {
-        console.log('[PWA] Service Worker registered. Scope:', reg.scope);
-      })
+        })
       .catch(function(err) {
         console.warn('[PWA] Service Worker registration failed:', err);
       });
