@@ -1816,7 +1816,7 @@ textarea.inp{resize:vertical;line-height:1.6}
 #bingo-body{padding-bottom:90px;}
 </style>
 
-  <link rel="manifest" href="./manifest.json">
+  <link rel="manifest" href="/Starlight-Habit/manifest.json">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="별빛달빛해빗">
@@ -7115,12 +7115,21 @@ function init(){
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
-    navigator.serviceWorker.register('./sw.js', { scope: './' })
+    navigator.serviceWorker.register('/Starlight-Habit/sw.js', {scope: '/Starlight-Habit/'})
       .then(function(reg) {
-        })
-      .catch(function(err) {
-        console.warn('[PWA] Service Worker registration failed:', err);
-      });
+        reg.update();
+        reg.addEventListener('updatefound', function() {
+          var nw = reg.installing;
+          if (nw) nw.addEventListener('statechange', function() {
+            if (nw.state === 'installed' && navigator.serviceWorker.controller) window.location.reload();
+          });
+        });
+      })
+      .catch(function(err) { console.warn('[PWA] SW fail:', err); });
+    var refreshing = false;
+    navigator.serviceWorker.addEventListener('controllerchange', function() {
+      if (!refreshing) { refreshing = true; window.location.reload(); }
+    });
   });
 }
 </script>
