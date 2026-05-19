@@ -1626,7 +1626,7 @@ textarea.inp{resize:vertical;line-height:1.6}
 body[data-theme="default"]  { --rn-hdr-bg:rgba(238,230,255,.92); --rn-hdr-border:rgba(180,170,220,.18); }
 body[data-theme="tomato"]   { --rn-hdr-bg:rgba(255,235,225,.92); --rn-hdr-border:rgba(220,160,140,.2); }
 body[data-theme="cat"]      { --rn-hdr-bg:rgba(255,248,220,.92); --rn-hdr-border:rgba(220,190,130,.2); }
-body[data-theme="lemon"]    { --rn-hdr-bg:rgba(235,228,255,.92); --rn-hdr-border:rgba(200,185,240,.25); }
+body[data-theme="lemon"]    { --rn-hdr-bg:rgba(238,232,255,.93); --rn-hdr-border:rgba(200,185,235,.3); }
 
 /* ── 주간앱 top-bar ── */
 #routine-top-bar{display:none;align-items:center;justify-content:space-between;padding:8px 16px 10px;flex-shrink:0;border-bottom:1px solid var(--rn-hdr-border,rgba(180,170,220,.18));background:var(--rn-hdr-bg,rgba(238,230,255,.92));backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);position:sticky;top:0;z-index:60;width:100%;box-sizing:border-box;overflow:visible;}
@@ -2606,7 +2606,12 @@ function goRoutine(){
 function goHomeFromLumi(){closeWip();clearTick();document.getElementById('lumi-screen').style.display='none';goHome();}
 function goHomeFromBingo(){document.getElementById('bingo-nav').style.display='none';closeWip();document.getElementById('bingo-screen').style.display='none';var bsf=document.getElementById('bingo-sw-fixed');if(bsf)bsf.style.display='none';goHome();}
 function goHomeFromRoutine(){closeWip();document.getElementById('routine-screen').style.display='none';document.getElementById('routine-sw-fixed').style.display='none';goHome();}
-function goHome(){localStorage.setItem('ymwt_lastApp','home');closeWip();document.getElementById('home-screen').style.display='flex';document.getElementById('home-screen').style.flexDirection='column';document.body.dataset.screen='home';document.body.style.background='radial-gradient(ellipse at 15% 20%,rgba(200,185,255,.35) 0%,transparent 50%),radial-gradient(ellipse at 85% 80%,rgba(230,220,120,.28) 0%,transparent 50%),linear-gradient(155deg,#f0ecff 0%,#e8e2f8 30%,#f5f0c8 70%,#eeea9a 100%)';document.body.style.backgroundAttachment='fixed';}
+function goHome(){localStorage.setItem('ymwt_lastApp','home');closeWip();
+  /* 다른 앱 화면 전부 숨김 */
+  ['lumi-screen','bingo-screen','routine-screen'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none';});
+  var rnav=document.getElementById('routine-nav');if(rnav)rnav.style.display='none';
+  var rtb=document.getElementById('routine-top-bar');if(rtb)rtb.style.display='none';
+  document.getElementById('home-screen').style.display='flex';document.getElementById('home-screen').style.flexDirection='column';document.body.dataset.screen='home';document.body.style.background='radial-gradient(ellipse at 15% 20%,rgba(200,185,255,.35) 0%,transparent 50%),radial-gradient(ellipse at 85% 80%,rgba(230,220,120,.28) 0%,transparent 50%),linear-gradient(155deg,#f0ecff 0%,#e8e2f8 30%,#f5f0c8 70%,#eeea9a 100%)';document.body.style.backgroundAttachment='fixed';}
 function showWip(key,name,feature,desc){var emojis={Y:'☀️',M:'🌙','W/D':'⭐'};document.getElementById('wip-emoji').textContent=emojis[key]||'🔨';document.getElementById('wip-title').textContent=name+' — '+feature;document.getElementById('wip-sub').textContent=desc;document.getElementById('wip-overlay').classList.add('open');}
 document.addEventListener('click',function(e){
   var btn=e.target.closest('.app-sw-btn');
