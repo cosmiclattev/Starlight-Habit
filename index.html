@@ -25,7 +25,7 @@ html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif;overscroll-beh
 .app-sw-btn::after{content:attr(data-label);position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);font-size:8px;font-weight:800;color:var(--muted);white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s;z-index:100;}.app-sw-btn:hover::after,.app-sw-btn.show-label::after{opacity:1;}.app-sw-bar:not(:hover) .app-sw-btn::after{opacity:0;transition:opacity .1s;}
 .bsw-btn{width:24px;height:24px;border-radius:50%;border:none;cursor:pointer;font-size:12px;line-height:1;background:transparent;display:flex;align-items:center;justify-content:center;transition:background .13s,transform .13s;position:relative;touch-action:manipulation;}
 .bsw-btn:active{transform:scale(.88);}.bsw-btn.bsw-active{background:rgba(255,255,255,.9);box-shadow:0 1px 4px rgba(0,0,0,.12);}
-#bingo-screen .app-sub{font-size:12px;font-weight:600;color:#7a90b8;margin-top:1px;white-space:nowrap;}
+#bingo-screen .app-sub{font-size:11px;font-weight:600;color:rgba(120,100,180,.7);margin-top:1px;white-space:nowrap;}
 .routine-app-sw-fixed{position:fixed;top:8px;right:8px;z-index:1200;pointer-events:auto;}
 .routine-switcher{display:flex;align-items:center;gap:4px;background:rgba(255,255,255,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.7);border-radius:20px;padding:4px 6px;}
 .rsw-btn{width:26px;height:26px;border-radius:50%;border:none;cursor:pointer;font-size:13px;line-height:1;background:transparent;display:flex;align-items:center;justify-content:center;transition:background .13s,transform .13s;position:relative;touch-action:manipulation;}
@@ -463,6 +463,37 @@ html, body {
   --border: var(--t-border);
 }
 
+
+body[data-theme="lemon"] {
+  --t-bg-a: #f0ecff; --t-bg-b: #f5f0c8; --t-bg-c: #eeea9a;
+  --t-nav:    rgba(238,232,255,.94);
+  --t-header: rgba(238,232,255,.90);
+  --t-picker: rgba(240,236,255,.55);
+  --t-pfade:  rgba(240,236,255,.95);
+  --bc-lav:  rgba(220,210,255,.78);
+  --bc-blue:  rgba(240,236,200,.78);
+  --bc-pink:  rgba(235,228,255,.78);
+  --bc-white: rgba(250,248,255,.78);
+  --bc-mint:  rgba(235,232,200,.78);
+  --t-p1: rgba(140,120,210,.92); --t-p2: rgba(180,165,80,.88);
+  --t-s1: rgba(160,145,220,.90); --t-s2: rgba(190,178,240,.75);
+  --t-k1: rgba(180,165,80,.88); --t-k2: rgba(210,200,100,.8);
+  --t-ring1: #8c78d2; --t-ring2: #c8b840;
+  --t-rbrk1: #c8b840; --t-rbrk2: #e0d468;
+  --t-pale:   rgba(220,210,255,.55); --t-pale-b: rgba(180,168,220,.45);
+  --t-bmd:    rgba(180,168,220,.50); --t-border: rgba(190,180,230,.40);
+  --t-shadow: rgba(120,100,200,.30); --t-shadow2: rgba(120,100,200,.18);
+  --t-accent: #8c78d2; --t-accent-dk: #6050a8;
+  --t-icon1: rgba(220,210,255,.8); --t-icon2: rgba(240,235,190,.8);
+  --t-nudge: #8c78d2;
+  --text: #2a1f5a; --muted: #7060a8; --muted-lt: #9080c0;
+  --t-nav-muted: #9080c0;
+
+  --grad-hi: linear-gradient(135deg, #c8b8f0, #e0d468);
+  --grad-c1: rgba(200,184,240,.88);
+  --grad-c2: rgba(224,212,104,.88);
+  --t-hi-text: #2a1f5a;
+}
 body[data-theme="tomato"] {
   --t-bg-a: #ffe6e4; --t-bg-b: #e8f8f0; --t-bg-c: #ccf0e4;
   --t-nav:    rgba(255,230,225,.94);
@@ -602,7 +633,7 @@ body[data-theme="cat"] {
 
 .timer-top{width:100%;padding:52px 20px 12px;display:flex;justify-content:space-between;align-items:flex-start;}
 .t-title{font-size:15px;font-weight:800;color:var(--lav-dk);letter-spacing:-0.02em;white-space:nowrap;}
-.t-lbl{font-size:12px;font-weight:600;color:#7a90b8;margin-top:1px;}
+.t-lbl{font-size:11px;font-weight:600;color:rgba(120,100,180,.7);margin-top:1px;}
 .session-badge{background:var(--t-pale);border:1px solid var(--t-pale-b);color:var(--t-accent-dk);border-radius:10px;padding:5px 12px;font-size:11px;font-weight:700;white-space:nowrap;flex-shrink:0;}
 
 .ring-wrap{position:relative;width:262px;height:262px;margin:4px auto 16px;flex-shrink:0;cursor:pointer;user-select:none;}
@@ -1066,7 +1097,7 @@ body[data-theme="cat"] {
   border-radius: var(--r);
   box-shadow: 0 3px 12px rgba(120,100,200,.07);
 }
-.card-pad { padding: 14px 16px; }
+.card-pad { padding: 8px 10px; }
 
 .edit-grid { display: grid; gap: 14px; }
 .field { display: grid; gap: 6px; }
@@ -1123,12 +1154,12 @@ details.beta > summary::-webkit-details-marker { display: none; }
 .btn-full { width: 100%; }
 
 .board-title {
-  text-align: center; font-size: clamp(1.3rem,5vw,1.9rem);
+  text-align: center; font-size: clamp(1.1rem,4vw,1.6rem);
   font-weight: 800; letter-spacing: -0.03em;
   margin-bottom: 12px; color: var(--text);
 }
-.board-layout { display: flex; gap: 8px; width: 100%; }
-.row-concepts { display: grid; gap: 8px; flex: 0 0 auto; }
+.board-layout { display: flex; gap: 5px; width: 100%; }
+.row-concepts { display: grid; gap: 5px; flex: 0 0 auto; }
 .concept-input {
   height: 100%; min-height: 54px; padding: 4px 3px;
   font: inherit; font-size: 10px; text-align: center;
@@ -1150,10 +1181,10 @@ details.beta > summary::-webkit-details-marker { display: none; }
   border: 1px solid var(--border);
   border-radius: 10px;
 }
-.board-grid { flex: 1; display: grid; gap: 8px; aspect-ratio: 1/1; }
+.board-grid { flex: 1; display: grid; gap: 5px; aspect-ratio: 1/1; }
 .cell {
   position: relative; display: flex; flex-direction: column;
-  border: 1px solid var(--border-md); border-radius: 12px;
+  border: 1px solid var(--border-md); border-radius: 8px;
   overflow: hidden; min-height: 0;
   transition: box-shadow .18s ease, transform .18s ease, opacity .18s ease;
 }
@@ -1165,11 +1196,11 @@ details.beta > summary::-webkit-details-marker { display: none; }
 .cell.completed:hover { transform: none; }
 .cell-check {
   position: absolute; top: 4px; right: 4px; z-index: 3;
-  width: 22px; height: 22px; border-radius: 50%;
-  border: 2px solid rgba(120,100,180,.3);
+  width: 16px; height: 16px; border-radius: 50%;
+  border: 1.5px solid rgba(120,100,180,.3);
   background: rgba(255,255,255,.55);
   display: inline-flex; align-items: center; justify-content: center;
-  font-size: 11px; cursor: pointer;
+  font-size: 9px; cursor: pointer;
   transition: all .18s cubic-bezier(.34,1.56,.64,1);
 }
 .cell.completed .cell-check { background: var(--grn); border-color: var(--grn); color: #fff; }
@@ -1180,17 +1211,17 @@ details.beta > summary::-webkit-details-marker { display: none; }
 }
 .cell-text {
   flex: 1; width: 100%; min-height: 0;
-  padding: 8px 28px 6px 8px; border: none; resize: none;
+  padding: 5px 22px 22px 5px; border: none; resize: none;
   background: transparent; font: inherit; line-height: 1.3;
   color: var(--text); overflow-wrap: anywhere;
 }
 .cell-text::placeholder { color: rgba(120,100,180,.3); }
 .cell-text:focus { outline: none; }
-.progress-wrap { padding: 2px 8px 8px; z-index: 2; display: grid; gap: 3px; }
-.progress-label { font-size: 9px; color: var(--muted); }
-.progress-dots { display: flex; gap: 4px; }
+.progress-wrap { padding: 2px 6px 5px; z-index: 2; display: grid; gap: 2px; }
+.progress-label { font-size: 7px; color: var(--muted); }
+.progress-dots { display: flex; gap: 2px; }
 .progress-dot {
-  width: 14px; height: 14px; border-radius: 50%;
+  width: 9px; height: 9px; border-radius: 50%;
   border: 1px solid rgba(120,110,160,.3);
   background: rgba(180,180,220,.2);
   padding: 0; cursor: pointer;
@@ -1202,11 +1233,12 @@ details.beta > summary::-webkit-details-marker { display: none; }
 .progress-dot.dne { background: var(--grn);       border-color: var(--grn);       }
 .diff-btn {
   position: absolute; bottom: 4px; right: 4px; z-index: 3;
-  width: 22px; height: 22px; border-radius: 50%;
-  border: 1px solid var(--border-md);
-  background: rgba(255,255,255,.82);
+  width: 16px; height: 16px; border-radius: 50%;
+  border: 1px solid rgba(150,140,180,.3);
+  background: rgba(255,242,180,.85);
   display: inline-flex; align-items: center; justify-content: center;
-  font-size: 10px; font-weight: 800; cursor: pointer;
+  font-size: 8px; font-weight: 700; cursor: pointer;
+  color: rgba(120,110,140,.7);
 }
 
 .c-blue   { background: var(--bc-blue,  rgba(200,228,255,.78)); }
@@ -1226,8 +1258,8 @@ details.beta > summary::-webkit-details-marker { display: none; }
 .bg-difficulty-medium{ background: rgba(255,216,162,.85); }
 .bg-difficulty-hard  { background: rgba(255,190,175,.85); }
 
-.fs-3 { font-size: 12px; }
-.fs-4 { font-size: 10px; }
+.fs-3 { font-size: 11px; }
+.fs-4 { font-size: 11px; }
 .fs-5 { font-size: 9px; }
 
 .stats-row {
@@ -1546,7 +1578,7 @@ textarea.inp{resize:vertical;line-height:1.6}
 .btn-goal-check.off{background:rgba(180,180,220,.3)}
 .btn-goal-check.on{background:linear-gradient(135deg,var(--lav),var(--sky))}
 .tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:8px;letter-spacing:.3px}
-.wk-prog-bar{height:6px;background:rgba(180,180,220,.3);border-radius:3px;overflow:hidden}
+.wk-prog-bar{height:3px;background:rgba(180,170,220,.25);border-radius:2px;overflow:hidden;margin:2px 0 1px}
 .wk-prog-fill{height:100%;background:linear-gradient(to right,var(--lav-lt),var(--sky));border-radius:3px;transition:width .4s}
 .wk-prog-fill.done{background:var(--grn)}
 .weekly-card{background:var(--card-s);border-radius:var(--r);border:1px solid var(--border-md);overflow:hidden;box-shadow:0 2px 10px rgba(120,100,200,.07)}
@@ -1626,10 +1658,10 @@ textarea.inp{resize:vertical;line-height:1.6}
 body[data-theme="default"]  { --rn-hdr-bg:rgba(238,230,255,.92); --rn-hdr-border:rgba(180,170,220,.18); }
 body[data-theme="tomato"]   { --rn-hdr-bg:rgba(255,235,225,.92); --rn-hdr-border:rgba(220,160,140,.2); }
 body[data-theme="cat"]      { --rn-hdr-bg:rgba(255,248,220,.92); --rn-hdr-border:rgba(220,190,130,.2); }
-body[data-theme="lemon"]    { --rn-hdr-bg:rgba(238,232,255,.93); --rn-hdr-border:rgba(200,185,235,.3); }
+body[data-theme="lemon"]    { --rn-hdr-bg:rgba(238,230,254,1); --rn-hdr-border:rgba(180,170,220,.18); }
 
 /* ── 주간앱 top-bar ── */
-#routine-top-bar{display:none;align-items:center;justify-content:space-between;padding:8px 16px 10px;flex-shrink:0;border-bottom:1px solid var(--rn-hdr-border,rgba(180,170,220,.18));background:var(--rn-hdr-bg,rgba(238,230,255,.92));backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);position:sticky;top:0;z-index:60;width:100%;box-sizing:border-box;overflow:visible;}
+#routine-top-bar{display:none;align-items:center;justify-content:space-between;padding:8px 16px 10px;flex-shrink:0;border-bottom:1px solid var(--rn-hdr-border,rgba(180,170,220,.18));background:var(--rn-hdr-bg,rgba(238,230,254,1));position:sticky;top:0;z-index:60;width:100%;box-sizing:border-box;overflow:visible;}
 
 #routine-app{flex:1;flex-shrink:1;overflow-y:auto;min-height:0;padding-bottom:62px;}
 .rn-hdr-title{font-size:15px;font-weight:800;color:var(--lav-dk);letter-spacing:-0.02em;white-space:nowrap;}
@@ -2154,6 +2186,12 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(238,232,255,.93); --rn-hdr-border
             <span class="theme-btn-name">고양이</span>
           </div>
         </button>
+        <button class="theme-btn theme-btn-lemon" id="theme-lemon" onclick="applyTheme('lemon')">
+          <div class="theme-btn-inner">
+            <span class="theme-btn-icon">🍋</span>
+            <span class="theme-btn-name">레몬</span>
+          </div>
+        </button>
       </div>
     </div>
 
@@ -2246,7 +2284,7 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(238,232,255,.93); --rn-hdr-border
   <div id='bingo-screen'>
 <div class="bg-layer"></div>
 
-<header class="app-header" style="padding:8px 16px 10px;">
+<header class="app-header" style="padding:6px 16px 6px;">
   <div style="display:flex;align-items:center;justify-content:space-between;">
     <div>
       <span class="app-brand">🌙 월간 목표 빙고</span>
@@ -2280,7 +2318,7 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(238,232,255,.93); --rn-hdr-border
 
   <div id="tab-edit" class="tab-content">
     <div class="card card-pad edit-grid" id="editPanel"></div>
-    <div class="card card-pad" style="margin-top:12px">
+    <div class="card card-pad" style="margin-top:6px">
       <div id="editBoard"></div>
     </div>
   </div>
@@ -2391,8 +2429,16 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(238,232,255,.93); --rn-hdr-border
   </div>
 </div>
 <script>
-function goTimely(){localStorage.setItem('ymwt_lastApp','timely');closeWip();['home-screen','bingo-screen','routine-screen'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none';});var rsf=document.getElementById('routine-sw-fixed');if(rsf)rsf.style.display='none';var bsf=document.getElementById('bingo-sw-fixed');if(bsf)bsf.style.display='none';document.getElementById('lumi-screen').style.display='block';document.body.dataset.screen='lumi';var _th=document.body.dataset.theme;/* bg now handled by applyTheme bgMap - keep else branch */if(_th==='tomato'){document.body.style.background='linear-gradient(160deg,#ffe6e4 0%,#e8f8f0 50%,#ccf0e4 100%)';}else if(_th==='cat'){document.body.style.background='linear-gradient(160deg,#fff8d0 0%,#ffe8f0 50%,#ffd6e8 100%)';}else if(_th==='lemon'){document.body.style.background='radial-gradient(ellipse at 15% 20%,rgba(200,185,255,.35) 0%,transparent 50%),radial-gradient(ellipse at 85% 80%,rgba(230,220,120,.28) 0%,transparent 50%),linear-gradient(155deg,#f0ecff 0%,#e8e2f8 30%,#f5f0c8 70%,#eeea9a 100%)';}else{document.body.style.background='linear-gradient(160deg,#ede0ff 0%,#d8e8ff 50%,#c8e0ff 100%)';}document.body.style.backgroundAttachment='fixed';if(!window._lumiInited){window._lumiInited=true;init();}else{var _lv=window._lumiLastView||'timer';renderTimerUI();switchView(_lv);}}
-function goMonthly(){localStorage.setItem('ymwt_lastApp','monthly');closeWip();['home-screen','lumi-screen','routine-screen'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none';});var rsf=document.getElementById('routine-sw-fixed');if(rsf)rsf.style.display='none';var lasf=document.querySelector('.lumi-app-sw-fixed');if(lasf)lasf.style.display='none';var bsf=document.getElementById('bingo-sw-fixed');if(bsf)bsf.style.display='none';document.getElementById('bingo-screen').style.display='block';var bn=document.getElementById('bingo-nav');if(bn)bn.style.display='flex';var _bt=localStorage.getItem('lf_theme')||'default';if(typeof applyTheme==='function')applyTheme(_bt);document.body.dataset.screen='bingo';(function(){var t=localStorage.getItem('lf_theme');var bgV=t==='tomato'?'linear-gradient(160deg,#ffe6e4 0%,#e8f8f0 50%,#ccf0e4 100%)':t==='cat'?'linear-gradient(160deg,#fff8d0 0%,#ffe8f0 50%,#ffd6e8 100%)':'linear-gradient(160deg,#ede0ff 0%,#d8e8ff 50%,#c8e0ff 100%)';document.body.style.background=bgV;document.body.style.backgroundAttachment='fixed';})();document.querySelectorAll('#bingo-screen .tab-content').forEach(function(t){t.style.display='';});requestAnimationFrame(function(){var lastTab=window._bingoLastTab||'view';if(window._bingoSwitchTab){window._bingoSwitchTab(lastTab);}setTimeout(function(){if(window._bingoSyncNav)window._bingoSyncNav(lastTab);},80);});}
+function goTimely(){
+  window._curApp='lumi';
+  var _t=localStorage.getItem('lf_theme_lumi')||'tomato';
+  document.body.dataset.theme=_t; applyTheme(_t);
+  localStorage.setItem('ymwt_lastApp','timely');closeWip();['home-screen','bingo-screen','routine-screen'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none';});var rsf=document.getElementById('routine-sw-fixed');if(rsf)rsf.style.display='none';var bsf=document.getElementById('bingo-sw-fixed');if(bsf)bsf.style.display='none';document.getElementById('lumi-screen').style.display='block';document.body.dataset.screen='lumi';var _th=document.body.dataset.theme;/* bg now handled by applyTheme bgMap - keep else branch */if(_th==='tomato'){document.body.style.background='linear-gradient(160deg,#ffe6e4 0%,#e8f8f0 50%,#ccf0e4 100%)';}else if(_th==='cat'){document.body.style.background='linear-gradient(160deg,#fff8d0 0%,#ffe8f0 50%,#ffd6e8 100%)';}else if(_th==='lemon'){document.body.style.background='radial-gradient(ellipse at 15% 20%,rgba(200,185,255,.35) 0%,transparent 50%),radial-gradient(ellipse at 85% 80%,rgba(230,220,120,.28) 0%,transparent 50%),linear-gradient(155deg,#f0ecff 0%,#e8e2f8 30%,#f5f0c8 70%,#eeea9a 100%)';}else{document.body.style.background='linear-gradient(160deg,#ede0ff 0%,#d8e8ff 50%,#c8e0ff 100%)';}document.body.style.backgroundAttachment='fixed';if(!window._lumiInited){window._lumiInited=true;init();}else{var _lv=window._lumiLastView||'timer';renderTimerUI();switchView(_lv);}}
+function goMonthly(){
+  window._curApp='bingo';
+  var _t=localStorage.getItem('lf_theme_bingo')||'default'; /* 빙고 기본: 라벤더 */
+  document.body.dataset.theme=_t; applyTheme(_t);
+  localStorage.setItem('ymwt_lastApp','monthly');closeWip();['home-screen','lumi-screen','routine-screen'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none';});var rsf=document.getElementById('routine-sw-fixed');if(rsf)rsf.style.display='none';var lasf=document.querySelector('.lumi-app-sw-fixed');if(lasf)lasf.style.display='none';var bsf=document.getElementById('bingo-sw-fixed');if(bsf)bsf.style.display='none';document.getElementById('bingo-screen').style.display='block';var bn=document.getElementById('bingo-nav');if(bn)bn.style.display='flex';var _bt=localStorage.getItem('lf_theme')||'default';if(typeof applyTheme==='function')applyTheme(_bt);document.body.dataset.screen='bingo';(function(){var t=localStorage.getItem('lf_theme');var bgV=t==='tomato'?'linear-gradient(160deg,#ffe6e4 0%,#e8f8f0 50%,#ccf0e4 100%)':t==='cat'?'linear-gradient(160deg,#fff8d0 0%,#ffe8f0 50%,#ffd6e8 100%)':'linear-gradient(160deg,#ede0ff 0%,#d8e8ff 50%,#c8e0ff 100%)';document.body.style.background=bgV;document.body.style.backgroundAttachment='fixed';})();document.querySelectorAll('#bingo-screen .tab-content').forEach(function(t){t.style.display='';});requestAnimationFrame(function(){var lastTab=window._bingoLastTab||'view';if(window._bingoSwitchTab){window._bingoSwitchTab(lastTab);}setTimeout(function(){if(window._bingoSyncNav)window._bingoSyncNav(lastTab);},80);});}
 
 function applyLangSetting(lang){
   localStorage.setItem('ymwt_lang', lang);
@@ -2490,7 +2536,7 @@ function rnSyncPill(tab){
 }
 
 function rnSetTheme(){
-  var t = localStorage.getItem('lf_theme')||'default';
+  var t = localStorage.getItem('lf_theme_routine')||'lemon';
   /* 모든 테마 버튼 active 제거 */
   ['rn-theme-lav','rn-theme-tomato','rn-theme-cat','rn-theme-lemon'].forEach(function(id){
     var el=document.getElementById(id);
@@ -2550,7 +2596,7 @@ function rnTab(tab){
   /* ─ 설정: 테마 + 언어 ─ */
   if(tab==='settings'){
     var curLang = localStorage.getItem('ymwt_lang')||'en';
-    var curTheme = localStorage.getItem('lf_theme')||'default';
+    var curTheme = localStorage.getItem('lf_theme_routine')||'lemon';
     var lavA = curTheme==='default'?' active':'';
     var tomA = curTheme==='tomato'?' active':'';
     var catA = curTheme==='cat'?' active':'';
@@ -2596,8 +2642,9 @@ function rnTab(tab){
 }
 
 function goRoutine(){
-  /* 테마 재적용 보장 */
-  var _t=localStorage.getItem('lf_theme')||'lemon';
+  window._curApp='routine';
+  /* 주간앱 기본 테마: lemon */
+  var _t=localStorage.getItem('lf_theme_routine')||'lemon';
   document.body.dataset.theme=_t;
   applyTheme(_t);
   localStorage.setItem('ymwt_lastApp','routine');
@@ -2761,7 +2808,7 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
   function renderBoard(container, cells, rowConcepts, size, title, detailMode, diffMode, editable) {
     const n    = size;
     const fs   = n<=3?'fs-3':n===4?'fs-4':'fs-5';
-    const rowW = n<=3?58:46;
+    const rowW = n<=3?72:n===4?64:50;
     container.innerHTML = '';
 
     if (title && title.trim()) {
@@ -2833,7 +2880,7 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
       if (detailMode) {
         const wrap=document.createElement('div'); wrap.className='progress-wrap';
         const lbl=document.createElement('div'); lbl.className='progress-label';
-        lbl.textContent=`Progress: ${PROGRESS_LABELS[cell.progress]||'—'}`;
+        lbl.textContent=PROGRESS_LABELS[cell.progress]||'';
         const dots=document.createElement('div'); dots.className='progress-dots';
         [1,2,3].forEach(ci=>{
           const btn=document.createElement('button'); btn.type='button';
@@ -2844,10 +2891,19 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
         wrap.appendChild(lbl); wrap.appendChild(dots); cellEl.appendChild(wrap);
       }
 
-      if (editable && diffMode) {
+      if (diffMode) {
         const db=document.createElement('button'); db.type='button';
-        db.className='diff-btn'; db.textContent=DIFF_LEVELS[cell.difficulty].label;
-        db.addEventListener('click',()=>cycleDifficulty(idx));
+        db.className='diff-btn';
+        const dlvl=cell.difficulty||0;
+        db.textContent=DIFF_LEVELS[dlvl].label;
+        /* 난이도별 배경색 */
+        const diffColors=['rgba(255,242,180,.9)','rgba(255,216,162,.9)','rgba(255,190,175,.9)'];
+        db.style.background=diffColors[dlvl];
+        /* 편집/뷰 모두 클릭 가능 */
+        db.addEventListener('click',function(e){
+          e.stopPropagation();
+          cycleDifficulty(idx);
+        });
         cellEl.appendChild(db);
       }
       grid.appendChild(cellEl);
@@ -3012,9 +3068,9 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
       <hr class="section-div">
       <label class="check-row">
         <input type="checkbox" id="detailChk" ${S.detailMode?'checked':''}>
-        <span>🔵 디테일 모드</span>
+        <span>🔵 진행 모드</span>
       </label>
-      <div class="helper">각 칸에 진행 상태 점이 표시됩니다 (➡️GO → 🔁ING → ✅DNE)</div>
+      <div class="helper">➡️시작→🔁진행중→✅완료</div>
       <label class="check-row">
         <input type="checkbox" id="diffChk" ${S.diffMode?'checked':''}>
         <span>🎯 난이도 모드</span>
@@ -3398,8 +3454,8 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
       '<select class="input-base" id="beSize">'+sizeOpts+'</select></div>'+
       '<hr style="border:none;border-top:1px solid rgba(200,190,255,.4);margin:12px 0;">'+
       '<label style="display:flex;align-items:center;gap:8px;margin-bottom:4px;cursor:pointer;"><input type="checkbox" id="beDetail"'+(S.detailMode?' checked':'')+'>'+
-      '<span style="font-size:13px;font-weight:600;">🔵 디테일 모드</span></label>'+
-      '<div style="font-size:11px;color:#8878b8;margin-bottom:12px;">각 칸 진행상태점 (GO→ING→DNE)</div>'+
+      '<span style="font-size:13px;font-weight:600;">🔵 진행 모드</span></label>'+
+      '<div style="font-size:11px;color:#8878b8;margin-bottom:12px;">➡️시작→🔁진행중→✅완료</div>'+
       '<label style="display:flex;align-items:center;gap:8px;margin-bottom:4px;cursor:pointer;"><input type="checkbox" id="beDiff"'+(S.diffMode?' checked':'')+'>'+
       '<span style="font-size:13px;font-weight:600;">🎯 난이도 모드</span></label>'+
       '<div style="font-size:11px;color:#8878b8;margin-bottom:12px;">하🟡 / 중🟠 / 상🔴</div>'+
@@ -3421,11 +3477,12 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
     var body=document.getElementById('bingoSettingsBody');
     if(!body)return;
     var sizeOpts=[2,3,4].map(function(v){return '<option value="'+v+'"'+(S.size===v?' selected':'')+'>'+v+'x'+v+'</option>';}).join('');
-    var curTheme=S.theme||'lavender';
+    var curTheme=localStorage.getItem('lf_theme_bingo')||'default';
     var themeOptions=[
       {id:'lavender',btnCls:'theme-btn-lav',  icon:'🌙',name:'라벤더',applyKey:'default'},
       {id:'tomato',  btnCls:'theme-btn-tomato',icon:'🍅',name:'토마토',applyKey:'tomato'},
       {id:'cat',     btnCls:'theme-btn-cat',   icon:'🐱',name:'고양이',applyKey:'cat'},
+      {id:'lemon',   btnCls:'theme-btn-lemon', icon:'🍋',name:'레몬',  applyKey:'lemon'},
     ];
     var themeHTML=themeOptions.map(function(t){
       var sel=curTheme===t.id;
@@ -3443,8 +3500,8 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
       '<select class="input-base" id="bsSize">'+sizeOpts+'</select></div></div>'+
       '<div style="background:rgba(255,255,255,.7);border-radius:14px;border:1px solid rgba(200,190,255,.4);padding:14px 16px;margin-bottom:12px">'+
       '<label style="display:flex;align-items:center;gap:8px;margin-bottom:4px;cursor:pointer"><input type="checkbox" id="bsDetail"'+(S.detailMode?' checked':'')+'>'+
-      '<span style="font-size:13px;font-weight:600">🔵 디테일 모드</span></label>'+
-      '<div style="font-size:11px;color:#8878b8;margin-bottom:12px">각 칸 진행상태점 (GO→ING→DNE)</div>'+
+      '<span style="font-size:13px;font-weight:600">🔵 진행 모드</span></label>'+
+      '<div style="font-size:11px;color:#8878b8;margin-bottom:12px">➡️시작→🔁진행중→✅완료</div>'+
       '<label style="display:flex;align-items:center;gap:8px;margin-bottom:4px;cursor:pointer"><input type="checkbox" id="bsDiff"'+(S.diffMode?' checked':'')+'>'+
       '<span style="font-size:13px;font-weight:600">🎯 난이도 모드</span></label>'+
       '<div style="font-size:11px;color:#8878b8">하🟡 / 중🟠 / 상🔴</div></div>'+
@@ -3462,7 +3519,7 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
         save();renderViewBoard();
       }
     };
-    document.getElementById('bsDetail').onchange=function(){S.detailMode=this.checked;save();renderViewBoard();};
+    document.getElementById('bsDetail').onchange=function(){S.detailMode=this.checked;lsSet(KEYS.DETAIL,String(S.detailMode));save();renderViewBoard();};
     document.getElementById('bsDiff').onchange=function(){
       S.diffMode=this.checked;
       if(S.diffMode){
@@ -3470,7 +3527,7 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
       } else {
         S.cells=S.cells.map(function(c){return Object.assign({},c,{color:randomPastel()});});
       }
-      save();renderViewBoard();
+      lsSet(KEYS.DIFF,String(S.diffMode)); save();renderViewBoard();
     };
 
     body.querySelectorAll('.theme-btn[data-theme]').forEach(function(btn){
@@ -4235,7 +4292,7 @@ function renderDay(){
 
   return '<div class="page active" id="pg-day">'+
     '<div class="sticky-hdr">'+
-      '<div style="padding:8px 14px 4px">'+'<div style="display:flex;align-items:center;gap:7px;margin-bottom:10px">'+'<div style="flex-shrink:0;line-height:0;position:relative">'+'<svg width=\"44\" height=\"44\" viewBox=\"0 0 44 44\" xmlns=\"http://www.w3.org/2000/svg\"><defs><radialGradient id=\"bgG\" cx=\"50%\" cy=\"50%\" r=\"50%\"><stop offset=\"0%\" stop-color=\"#e2d8f8\"/><stop offset=\"100%\" stop-color=\"#c4b0e8\"/></radialGradient><radialGradient id=\"starG\" cx=\"50%\" cy=\"35%\" r=\"70%\"><stop offset=\"0%\" stop-color=\"#fffbe8\"/><stop offset=\"45%\" stop-color=\"#f8c07a\"/><stop offset=\"100%\" stop-color=\"#f09050\"/></radialGradient></defs><circle cx=\"22\" cy=\"22\" r=\"21\" fill=\"url(#bgG)\"/><path d=\"M22 5 C23 13 22 22 22 22 C22 22 31 21 39 22 C31 23 22 22 22 22 C22 22 23 31 22 39 C21 31 22 22 22 22 C22 22 13 23 5 22 C13 21 22 22 22 22 C22 22 21 13 22 5 Z\" fill=\"url(#starG)\" opacity=\"0.96\"/><path d=\"M11 9.5 C11 9.5 10.3 11 11 11.8 C11.7 11 11 9.5 11 9.5 Z\" fill=\"#fff\" opacity=\"0.85\"/><path d=\"M11 11.8 C11 11.8 9.5 11 8.5 11.8 C9.5 12.5 11 11.8 11 11.8 Z\" fill=\"#fff\" opacity=\"0.85\"/><path d=\"M11 11.8 C11 11.8 11.7 13 11 14 C10.3 13 11 11.8 11 11.8 Z\" fill=\"#fff\" opacity=\"0.85\"/><path d=\"M11 11.8 C11 11.8 12.5 11 13.5 11.8 C12.5 12.5 11 11.8 11 11.8 Z\" fill=\"#fff\" opacity=\"0.85\"/><path d=\"M33 9.5 C33 9.5 32.3 11 33 11.8 C33.7 11 33 9.5 33 9.5 Z\" fill=\"#fff\" opacity=\"0.8\"/><path d=\"M33 11.8 C33 11.8 31.5 11 30.5 11.8 C31.5 12.5 33 11.8 33 11.8 Z\" fill=\"#fff\" opacity=\"0.8\"/><path d=\"M33 11.8 C33 11.8 33.7 13 33 14 C32.3 13 33 11.8 33 11.8 Z\" fill=\"#fff\" opacity=\"0.8\"/><path d=\"M33 11.8 C33 11.8 34.5 11 35.5 11.8 C34.5 12.5 33 11.8 33 11.8 Z\" fill=\"#fff\" opacity=\"0.8\"/><circle cx=\"22\" cy=\"5\" r=\"1\" fill=\"#fff\" opacity=\"0.5\"/><circle cx=\"29\" cy=\"6.5\" r=\"0.7\" fill=\"#fff\" opacity=\"0.4\"/><circle cx=\"15\" cy=\"6.5\" r=\"0.7\" fill=\"#fff\" opacity=\"0.4\"/><circle cx=\"37.5\" cy=\"15\" r=\"0.7\" fill=\"#fff\" opacity=\"0.4\"/><circle cx=\"6.5\" cy=\"15\" r=\"0.7\" fill=\"#fff\" opacity=\"0.4\"/><circle cx=\"37.5\" cy=\"29\" r=\"0.7\" fill=\"#fff\" opacity=\"0.4\"/><circle cx=\"6.5\" cy=\"29\" r=\"0.7\" fill=\"#fff\" opacity=\"0.4\"/><circle cx=\"29\" cy=\"37.5\" r=\"0.7\" fill=\"#fff\" opacity=\"0.4\"/><circle cx=\"15\" cy=\"37.5\" r=\"0.7\" fill=\"#fff\" opacity=\"0.4\"/><circle cx=\"22\" cy=\"39\" r=\"1\" fill=\"#fff\" opacity=\"0.5\"/></svg>'+'<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">'+'<span id="day-prog-circle-text" style="font-size:10px;font-weight:900;color:#fff;text-shadow:0 1px 3px rgba(80,40,160,.6)">'+prog+'<span style="font-size:7px">%</span></span>'+'</div>'+'</div>'+'<div style="flex:1;min-width:0">'+'<div style="font-size:15px;font-weight:800;display:flex;align-items:center;gap:6px;flex-wrap:wrap">'+_DN[dateObj.getDay()]+(isToday?'<span style="font-size:10px;background:linear-gradient(135deg,#8b7fd4,#3b9fd6);color:#fff;padding:2px 8px;border-radius:10px;font-weight:700">Today</span>':'')+tmplBadge+'</div>'+'<div style="display:flex;align-items:center;gap:5px">'+'<button id="btn-day-prev" style="background:rgba(255,255,255,.7);border:1px solid rgba(180,170,220,.4);border-radius:50%;width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font-size:10px;color:#8878b8;padding:0;line-height:1;font-family:inherit;flex-shrink:0;box-shadow:0 1px 3px rgba(120,100,180,.1);">‹</button>'+'<span style="font-size:11px;color:#8878b8;font-weight:600">'+dateLabel+'</span>'+'<button id="btn-day-next" style="background:rgba(255,255,255,.7);border:1px solid rgba(180,170,220,.4);border-radius:50%;width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font-size:10px;color:#8878b8;padding:0;line-height:1;font-family:inherit;flex-shrink:0;box-shadow:0 1px 3px rgba(120,100,180,.1);">›</button>'+'</div>'+'</div>'+'<button class="btn-weekly-go" id="btn-go-weekly">🗓️ 이번주 목표</button>'+'<button class="btn-tmpl-open" id="btn-open-tmpl">📝 템플릿</button>'+'<button class="nav-btn" id="btn-back">&#8592;</button>'+'</div>'+
+      '<div style="padding:6px 14px 3px">'+'<div style="display:flex;align-items:center;gap:7px;margin-bottom:6px">'+'<div style="flex-shrink:0;line-height:0;position:relative">'+'<svg width=\"44\" height=\"44\" viewBox=\"0 0 44 44\" xmlns=\"http://www.w3.org/2000/svg\"><defs><radialGradient id=\"bgG\" cx=\"50%\" cy=\"50%\" r=\"50%\"><stop offset=\"0%\" stop-color=\"#e2d8f8\"/><stop offset=\"100%\" stop-color=\"#c4b0e8\"/></radialGradient><radialGradient id=\"starG\" cx=\"50%\" cy=\"35%\" r=\"70%\"><stop offset=\"0%\" stop-color=\"#fffbe8\"/><stop offset=\"45%\" stop-color=\"#f8c07a\"/><stop offset=\"100%\" stop-color=\"#f09050\"/></radialGradient></defs><circle cx=\"22\" cy=\"22\" r=\"21\" fill=\"url(#bgG)\"/><path d=\"M22 5 C23 13 22 22 22 22 C22 22 31 21 39 22 C31 23 22 22 22 22 C22 22 23 31 22 39 C21 31 22 22 22 22 C22 22 13 23 5 22 C13 21 22 22 22 22 C22 22 21 13 22 5 Z\" fill=\"url(#starG)\" opacity=\"0.96\"/><path d=\"M11 9.5 C11 9.5 10.3 11 11 11.8 C11.7 11 11 9.5 11 9.5 Z\" fill=\"#fff\" opacity=\"0.85\"/><path d=\"M11 11.8 C11 11.8 9.5 11 8.5 11.8 C9.5 12.5 11 11.8 11 11.8 Z\" fill=\"#fff\" opacity=\"0.85\"/><path d=\"M11 11.8 C11 11.8 11.7 13 11 14 C10.3 13 11 11.8 11 11.8 Z\" fill=\"#fff\" opacity=\"0.85\"/><path d=\"M11 11.8 C11 11.8 12.5 11 13.5 11.8 C12.5 12.5 11 11.8 11 11.8 Z\" fill=\"#fff\" opacity=\"0.85\"/><path d=\"M33 9.5 C33 9.5 32.3 11 33 11.8 C33.7 11 33 9.5 33 9.5 Z\" fill=\"#fff\" opacity=\"0.8\"/><path d=\"M33 11.8 C33 11.8 31.5 11 30.5 11.8 C31.5 12.5 33 11.8 33 11.8 Z\" fill=\"#fff\" opacity=\"0.8\"/><path d=\"M33 11.8 C33 11.8 33.7 13 33 14 C32.3 13 33 11.8 33 11.8 Z\" fill=\"#fff\" opacity=\"0.8\"/><path d=\"M33 11.8 C33 11.8 34.5 11 35.5 11.8 C34.5 12.5 33 11.8 33 11.8 Z\" fill=\"#fff\" opacity=\"0.8\"/><circle cx=\"22\" cy=\"5\" r=\"1\" fill=\"#fff\" opacity=\"0.5\"/><circle cx=\"29\" cy=\"6.5\" r=\"0.7\" fill=\"#fff\" opacity=\"0.4\"/><circle cx=\"15\" cy=\"6.5\" r=\"0.7\" fill=\"#fff\" opacity=\"0.4\"/><circle cx=\"37.5\" cy=\"15\" r=\"0.7\" fill=\"#fff\" opacity=\"0.4\"/><circle cx=\"6.5\" cy=\"15\" r=\"0.7\" fill=\"#fff\" opacity=\"0.4\"/><circle cx=\"37.5\" cy=\"29\" r=\"0.7\" fill=\"#fff\" opacity=\"0.4\"/><circle cx=\"6.5\" cy=\"29\" r=\"0.7\" fill=\"#fff\" opacity=\"0.4\"/><circle cx=\"29\" cy=\"37.5\" r=\"0.7\" fill=\"#fff\" opacity=\"0.4\"/><circle cx=\"15\" cy=\"37.5\" r=\"0.7\" fill=\"#fff\" opacity=\"0.4\"/><circle cx=\"22\" cy=\"39\" r=\"1\" fill=\"#fff\" opacity=\"0.5\"/></svg>'+'<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">'+'<span id="day-prog-circle-text" style="font-size:10px;font-weight:900;color:#fff;text-shadow:0 1px 3px rgba(80,40,160,.6)">'+prog+'<span style="font-size:7px">%</span></span>'+'</div>'+'</div>'+'<div style="flex:1;min-width:0">'+'<div style="font-size:15px;font-weight:800;display:flex;align-items:center;gap:6px;flex-wrap:wrap">'+_DN[dateObj.getDay()]+(isToday?'<span style="font-size:10px;background:linear-gradient(135deg,#8b7fd4,#3b9fd6);color:#fff;padding:2px 8px;border-radius:10px;font-weight:700">Today</span>':'')+tmplBadge+'</div>'+'<div style="display:flex;align-items:center;gap:5px;margin-top:2px">'+'<button id="btn-day-prev" style="background:rgba(255,255,255,.7);border:1px solid rgba(180,170,220,.4);border-radius:50%;width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font-size:10px;color:#8878b8;padding:0;line-height:1;font-family:inherit;flex-shrink:0;box-shadow:0 1px 3px rgba(120,100,180,.1);">‹</button>'+'<span style="font-size:11px;color:#8878b8;font-weight:600">'+dateLabel+'</span>'+'<button id="btn-day-next" style="background:rgba(255,255,255,.7);border:1px solid rgba(180,170,220,.4);border-radius:50%;width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font-size:10px;color:#8878b8;padding:0;line-height:1;font-family:inherit;flex-shrink:0;box-shadow:0 1px 3px rgba(120,100,180,.1);">›</button>'+'</div>'+'</div>'+'<button class="btn-weekly-go" id="btn-go-weekly">🗓️ 이번주</button>'+'<button class="btn-tmpl-open" id="btn-open-tmpl">📝 템플릿</button>'+'<button class="nav-btn" id="btn-back">&#8592;</button>'+'</div>'+
         '<div class="top-bar"><div class="top-bar-fill'+(prog===100?' high':'')+'" style="width:'+prog+'%"></div></div>'+
       '</div>'+
       '<div class="day-tabs-bar" id="day-tabs-bar">'+dayTabsH+'</div>'+
@@ -4693,8 +4750,8 @@ function renderWeekModal(){
     '</div>';
 
   var _wkKo=localStorage.getItem('ymwt_lang')==='ko';
-  var tabsH='<div class="day-tabs-bar" id="wk-tabs-bar" style="justify-content:space-between">'+
-    '<div style="display:flex;gap:4px">'+
+  var tabsH='<div class="day-tabs-bar" id="wk-tabs-bar">'+
+    '<div style="display:flex;gap:3px">'+
     '<button class="day-tab active" data-wksect="goals" style="background:'+wkTabColors.goals+'">🎯 '+(_wkKo?'목표':'Goals')+'</button>'+
     '<button class="day-tab" data-wksect="habit" style="background:'+wkTabColors.habit+'">💪 '+(_wkKo?'습관':'Habits')+'</button>'+
     '<button class="day-tab" data-wksect="mission" style="background:'+wkTabColors.mission+'">🚀 '+(_wkKo?'과제':'Missions')+'</button>'+
@@ -4704,13 +4761,13 @@ function renderWeekModal(){
 
   return '<div class="page active" id="pg-weekly">'+
     '<div class="sticky-hdr">'+
-      '<div style="padding:8px 14px 4px">'+
-        '<div style="display:flex;align-items:center;gap:7px;margin-bottom:10px">'+'<div style="flex-shrink:0;line-height:0;position:relative">'+'<svg width=\"44\" height=\"44\" viewBox=\"0 0 44 44\" xmlns=\"http://www.w3.org/2000/svg\"><defs><radialGradient id=\"bgG\" cx=\"50%\" cy=\"50%\" r=\"50%\"><stop offset=\"0%\" stop-color=\"#e2d8f8\"/><stop offset=\"100%\" stop-color=\"#c4b0e8\"/></radialGradient><radialGradient id=\"starG\" cx=\"50%\" cy=\"35%\" r=\"70%\"><stop offset=\"0%\" stop-color=\"#fffbe8\"/><stop offset=\"45%\" stop-color=\"#f8c07a\"/><stop offset=\"100%\" stop-color=\"#f09050\"/></radialGradient></defs><circle cx=\"22\" cy=\"22\" r=\"21\" fill=\"url(#bgG)\"/><path d=\"M22 5 C23 13 22 22 22 22 C22 22 31 21 39 22 C31 23 22 22 22 22 C22 22 23 31 22 39 C21 31 22 22 22 22 C22 22 13 23 5 22 C13 21 22 22 22 22 C22 22 21 13 22 5 Z\" fill=\"url(#starG)\" opacity=\"0.96\"/><path d=\"M11 9.5 C11 9.5 10.3 11 11 11.8 C11.7 11 11 9.5 11 9.5 Z\" fill=\"#fff\" opacity=\"0.85\"/><path d=\"M11 11.8 C11 11.8 9.5 11 8.5 11.8 C9.5 12.5 11 11.8 11 11.8 Z\" fill=\"#fff\" opacity=\"0.85\"/><path d=\"M11 11.8 C11 11.8 11.7 13 11 14 C10.3 13 11 11.8 11 11.8 Z\" fill=\"#fff\" opacity=\"0.85\"/><path d=\"M11 11.8 C11 11.8 12.5 11 13.5 11.8 C12.5 12.5 11 11.8 11 11.8 Z\" fill=\"#fff\" opacity=\"0.85\"/><path d=\"M33 9.5 C33 9.5 32.3 11 33 11.8 C33.7 11 33 9.5 33 9.5 Z\" fill=\"#fff\" opacity=\"0.8\"/><path d=\"M33 11.8 C33 11.8 31.5 11 30.5 11.8 C31.5 12.5 33 11.8 33 11.8 Z\" fill=\"#fff\" opacity=\"0.8\"/><path d=\"M33 11.8 C33 11.8 33.7 13 33 14 C32.3 13 33 11.8 33 11.8 Z\" fill=\"#fff\" opacity=\"0.8\"/><path d=\"M33 11.8 C33 11.8 34.5 11 35.5 11.8 C34.5 12.5 33 11.8 33 11.8 Z\" fill=\"#fff\" opacity=\"0.8\"/><circle cx=\"22\" cy=\"5\" r=\"1\" fill=\"#fff\" opacity=\"0.5\"/><circle cx=\"29\" cy=\"6.5\" r=\"0.7\" fill=\"#fff\" opacity=\"0.4\"/><circle cx=\"15\" cy=\"6.5\" r=\"0.7\" fill=\"#fff\" opacity=\"0.4\"/><circle cx=\"37.5\" cy=\"15\" r=\"0.7\" fill=\"#fff\" opacity=\"0.4\"/><circle cx=\"6.5\" cy=\"15\" r=\"0.7\" fill=\"#fff\" opacity=\"0.4\"/><circle cx=\"37.5\" cy=\"29\" r=\"0.7\" fill=\"#fff\" opacity=\"0.4\"/><circle cx=\"6.5\" cy=\"29\" r=\"0.7\" fill=\"#fff\" opacity=\"0.4\"/><circle cx=\"29\" cy=\"37.5\" r=\"0.7\" fill=\"#fff\" opacity=\"0.4\"/><circle cx=\"15\" cy=\"37.5\" r=\"0.7\" fill=\"#fff\" opacity=\"0.4\"/><circle cx=\"22\" cy=\"39\" r=\"1\" fill=\"#fff\" opacity=\"0.5\"/></svg>'+'<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">'+'<span id="wk-prog-circle-text" style="font-size:10px;font-weight:900;color:#fff;text-shadow:0 1px 3px rgba(80,40,160,.6)">'+prog+'<span style="font-size:7px">%</span></span>'+'</div>'+'</div>'+        '<div style="flex:1">'+
+      '<div style="padding:6px 14px 3px">'+
+        '<div style="display:flex;align-items:center;gap:7px;margin-bottom:6px">'+'<div style="flex-shrink:0;line-height:0;position:relative">'+'<svg width=\"44\" height=\"44\" viewBox=\"0 0 44 44\" xmlns=\"http://www.w3.org/2000/svg\"><defs><radialGradient id=\"bgG\" cx=\"50%\" cy=\"50%\" r=\"50%\"><stop offset=\"0%\" stop-color=\"#e2d8f8\"/><stop offset=\"100%\" stop-color=\"#c4b0e8\"/></radialGradient><radialGradient id=\"starG\" cx=\"50%\" cy=\"35%\" r=\"70%\"><stop offset=\"0%\" stop-color=\"#fffbe8\"/><stop offset=\"45%\" stop-color=\"#f8c07a\"/><stop offset=\"100%\" stop-color=\"#f09050\"/></radialGradient></defs><circle cx=\"22\" cy=\"22\" r=\"21\" fill=\"url(#bgG)\"/><path d=\"M22 5 C23 13 22 22 22 22 C22 22 31 21 39 22 C31 23 22 22 22 22 C22 22 23 31 22 39 C21 31 22 22 22 22 C22 22 13 23 5 22 C13 21 22 22 22 22 C22 22 21 13 22 5 Z\" fill=\"url(#starG)\" opacity=\"0.96\"/><path d=\"M11 9.5 C11 9.5 10.3 11 11 11.8 C11.7 11 11 9.5 11 9.5 Z\" fill=\"#fff\" opacity=\"0.85\"/><path d=\"M11 11.8 C11 11.8 9.5 11 8.5 11.8 C9.5 12.5 11 11.8 11 11.8 Z\" fill=\"#fff\" opacity=\"0.85\"/><path d=\"M11 11.8 C11 11.8 11.7 13 11 14 C10.3 13 11 11.8 11 11.8 Z\" fill=\"#fff\" opacity=\"0.85\"/><path d=\"M11 11.8 C11 11.8 12.5 11 13.5 11.8 C12.5 12.5 11 11.8 11 11.8 Z\" fill=\"#fff\" opacity=\"0.85\"/><path d=\"M33 9.5 C33 9.5 32.3 11 33 11.8 C33.7 11 33 9.5 33 9.5 Z\" fill=\"#fff\" opacity=\"0.8\"/><path d=\"M33 11.8 C33 11.8 31.5 11 30.5 11.8 C31.5 12.5 33 11.8 33 11.8 Z\" fill=\"#fff\" opacity=\"0.8\"/><path d=\"M33 11.8 C33 11.8 33.7 13 33 14 C32.3 13 33 11.8 33 11.8 Z\" fill=\"#fff\" opacity=\"0.8\"/><path d=\"M33 11.8 C33 11.8 34.5 11 35.5 11.8 C34.5 12.5 33 11.8 33 11.8 Z\" fill=\"#fff\" opacity=\"0.8\"/><circle cx=\"22\" cy=\"5\" r=\"1\" fill=\"#fff\" opacity=\"0.5\"/><circle cx=\"29\" cy=\"6.5\" r=\"0.7\" fill=\"#fff\" opacity=\"0.4\"/><circle cx=\"15\" cy=\"6.5\" r=\"0.7\" fill=\"#fff\" opacity=\"0.4\"/><circle cx=\"37.5\" cy=\"15\" r=\"0.7\" fill=\"#fff\" opacity=\"0.4\"/><circle cx=\"6.5\" cy=\"15\" r=\"0.7\" fill=\"#fff\" opacity=\"0.4\"/><circle cx=\"37.5\" cy=\"29\" r=\"0.7\" fill=\"#fff\" opacity=\"0.4\"/><circle cx=\"6.5\" cy=\"29\" r=\"0.7\" fill=\"#fff\" opacity=\"0.4\"/><circle cx=\"29\" cy=\"37.5\" r=\"0.7\" fill=\"#fff\" opacity=\"0.4\"/><circle cx=\"15\" cy=\"37.5\" r=\"0.7\" fill=\"#fff\" opacity=\"0.4\"/><circle cx=\"22\" cy=\"39\" r=\"1\" fill=\"#fff\" opacity=\"0.5\"/></svg>'+'<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">'+'<span id="wk-prog-circle-text" style="font-size:10px;font-weight:900;color:#fff;text-shadow:0 1px 3px rgba(80,40,160,.6)">'+prog+'<span style="font-size:7px">%</span></span>'+'</div>'+'</div>'+        '<div style="flex:1">'+
             '<div style="font-size:15px;font-weight:800;display:flex;align-items:center;gap:6px;flex-wrap:wrap">'+
               '<span style="color:#2a1f5a">'+(_wkKo?'이번 주 계획':'Weekly Plan')+'</span>'+
               '<span class="tag" style="font-size:10px;background:rgba(220,210,255,.6);color:#7060c8;border:1px solid rgba(180,170,220,.5);padding:2px 8px;border-radius:10px;font-weight:700">W'+wn+'</span>'+
             '</div>'+
-            '<div style="display:flex;align-items:center;gap:5px">'+'<button id="btn-wk-prev" style="background:rgba(255,255,255,.7);border:1px solid rgba(180,170,220,.4);border-radius:50%;width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font-size:10px;color:#8878b8;padding:0;line-height:1;font-family:inherit;flex-shrink:0;box-shadow:0 1px 3px rgba(120,100,180,.1);">‹</button>'+'<span style="font-size:11px;color:#8878b8;font-weight:600">'+wLabel+'</span>'+'<button id="btn-wk-next" style="background:rgba(255,255,255,.7);border:1px solid rgba(180,170,220,.4);border-radius:50%;width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font-size:10px;color:#8878b8;padding:0;line-height:1;font-family:inherit;flex-shrink:0;box-shadow:0 1px 3px rgba(120,100,180,.1);">›</button>'+'</div>'+
+            '<div style="display:flex;align-items:center;gap:5px;margin-top:2px">'+'<button id="btn-wk-prev" style="background:rgba(255,255,255,.7);border:1px solid rgba(180,170,220,.4);border-radius:50%;width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font-size:10px;color:#8878b8;padding:0;line-height:1;font-family:inherit;flex-shrink:0;box-shadow:0 1px 3px rgba(120,100,180,.1);">‹</button>'+'<span style="font-size:11px;color:#8878b8;font-weight:600">'+wLabel+'</span>'+'<button id="btn-wk-next" style="background:rgba(255,255,255,.7);border:1px solid rgba(180,170,220,.4);border-radius:50%;width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font-size:10px;color:#8878b8;padding:0;line-height:1;font-family:inherit;flex-shrink:0;box-shadow:0 1px 3px rgba(120,100,180,.1);">›</button>'+'</div>'+
           '</div>'+
           '<button class="btn-weekly-go" id="btn-wk-today">✨ 오늘 루틴</button>'+
           '<button class="btn-tmpl-open" id="btn-wk-tmpl">📝 템플릿</button>'+
@@ -5011,6 +5068,13 @@ function bindWeekModal(){
     ['goals','habit','mission'].forEach(function(sk){
       var el=document.getElementById('wk-sect-'+sk);if(el)io.observe(el);
     });
+    /* 초기 진입 시 goals 탭 강제 active */
+    setTimeout(function(){
+      var tabs=document.querySelectorAll('.day-tab[data-wksect]');
+      tabs.forEach(function(b){b.classList.remove('active');});
+      var gt=document.querySelector('.day-tab[data-wksect="goals"]');
+      if(gt) gt.classList.add('active');
+    }, 50);
   }
 
   /* Tooltip touch events */
@@ -7796,6 +7860,10 @@ document.getElementById('task-modal').addEventListener('click',e=>{if(e.target==
 /* ── THEME ── */
 function applyTheme(name) {
   document.body.dataset.theme = name || 'default';
+  /* 앱별 독립 테마 저장 */
+  var _appKey = window._curApp || 'lumi';
+  localStorage.setItem('lf_theme_'+_appKey, name);
+  /* 하위호환: 전역도 유지 */
   localStorage.setItem('lf_theme', name);
   // update mid-stops for ring gradient
   const mid1 = document.querySelector('.ring-mid1');
@@ -7810,7 +7878,7 @@ function applyTheme(name) {
     }
   }
   // update active button
-  ['lav','tomato','cat'].forEach(t => {
+  ['lav','tomato','cat','lemon'].forEach(t => {
     const btn = document.getElementById('theme-' + t);
     if (btn) btn.classList.toggle('active',
       (name==='default' && t==='lav') || name===t);
@@ -7827,12 +7895,14 @@ function applyTheme(name) {
   if(hdr){
     if(name==='tomato') hdr.style.background='rgba(255,230,225,.92)';
     else if(name==='cat') hdr.style.background='rgba(255,248,208,.92)';
+    else if(name==='lemon') hdr.style.background='rgba(238,232,255,.92)';
     else hdr.style.background='rgba(238,230,255,.92)';
   }
   var savBtn=document.querySelector('#bingo-screen .btn-primary');
   if(savBtn){
     if(name==='tomato') savBtn.style.background='linear-gradient(135deg,#ff9a8b,#66e0a2)';
     else if(name==='cat') savBtn.style.background='linear-gradient(135deg,#ffe066,#f0a0c0)';
+    else if(name==='lemon') savBtn.style.background='linear-gradient(135deg,#c8b8f0,#e0d468)';
     else savBtn.style.background='linear-gradient(135deg,rgba(139,127,212,.85),rgba(59,159,214,.8))';
   }
   // re-render task list after one paint frame so CSS vars are resolved
@@ -7844,7 +7914,11 @@ function init(){
   load();
   // load saved theme
   /* 주간앱 초기 테마: lemon (연보라+레몬 그라디언트) */
-  const savedTheme = localStorage.getItem('lf_theme') || 'lemon';
+  /* 초기 테마: 마지막 앱 기준 */
+  var _lastApp=localStorage.getItem('ymwt_lastApp')||'home';
+  var _appKey2=_lastApp==='timely'?'lumi':_lastApp==='monthly'?'bingo':_lastApp==='routine'?'routine':'lumi';
+  var _appDefaults={'lumi':'tomato','bingo':'default','routine':'lemon'};
+  const savedTheme = localStorage.getItem('lf_theme_'+_appKey2)||_appDefaults[_appKey2]||'default';
   document.body.dataset.theme = savedTheme || 'default';
   applyTheme(savedTheme);
   /* load()에서 이미 타이머 상태 복원됨 - idle 상태일 때만 기본값 설정 */
