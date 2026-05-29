@@ -14,7 +14,7 @@ html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif;overscroll-beh
 #bingo-screen{display:none;position:absolute;inset:0;overflow-y:auto;z-index:10;}
 #routine-screen{display:none;position:absolute;inset:0;overflow:hidden;z-index:10;flex-direction:column;min-height:0;}
 :root{--mint:#b8a8e8;--mint-dk:#8b7fd4;--mint-lt:#d8d0f8;--mint-pale:rgba(184,168,232,.18);--mint-glass:rgba(184,168,232,.12);--y-color:#c8b840;--m-color:#a08ad8;--wd-color:#6abadc;--t-color:#e85d4a;--text:#2a2240;--muted:#7a72a0;--card-bg:rgba(255,255,255,.82);--card-s:rgba(255,255,255,.96);--r:28px;}
-.brand-center{text-align:center;padding:0 4px 14px;flex-shrink:0;width:100%;}
+.brand-center{text-align:center;padding:2px 4px 14px;flex-shrink:0;width:100%;}
 .brand-title span{background:linear-gradient(135deg,#8b7fd4 0%,#c8b840 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 .clover-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:52px 20px 16px;position:relative;}
 .lumi-app-sw-fixed,.home-app-sw-fixed{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;padding:8px 8px 0;display:flex;justify-content:flex-end;pointer-events:none;z-index:300;}
@@ -23,6 +23,10 @@ html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif;overscroll-beh
 .app-sw-btn{width:26px;height:26px;border-radius:50%;border:none;cursor:pointer;font-size:13px;line-height:1;background:transparent;display:flex;align-items:center;justify-content:center;transition:background .13s,transform .13s;position:relative;touch-action:manipulation;}
 .app-sw-btn:active{transform:scale(.88);}.app-sw-btn.active-app{background:rgba(255,255,255,.9);box-shadow:0 1px 4px rgba(0,0,0,.1);}
 .app-sw-btn::after{content:attr(data-label);position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);font-size:8px;font-weight:800;color:var(--muted);white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s;z-index:100;}.app-sw-btn:hover::after,.app-sw-btn.show-label::after{opacity:1;}.app-sw-bar:not(:hover) .app-sw-btn::after{opacity:0;transition:opacity .1s;}
+.app-sw-collapse{width:14px;height:26px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;color:rgba(120,100,180,.5);line-height:1;padding:0;flex-shrink:0;transition:color .15s,transform .2s;font-weight:300;}
+.app-sw-collapse:hover{color:rgba(90,70,160,.8);}
+.app-sw-bar.collapsed .app-sw-btn:not(.active-app){display:none;}
+.app-sw-bar.collapsed .app-sw-collapse{transform:scaleX(-1);}
 .bsw-btn{width:24px;height:24px;border-radius:50%;border:none;cursor:pointer;font-size:12px;line-height:1;background:transparent;display:flex;align-items:center;justify-content:center;transition:background .13s,transform .13s;position:relative;touch-action:manipulation;}
 .bsw-btn:active{transform:scale(.88);}.bsw-btn.bsw-active{background:rgba(255,255,255,.9);box-shadow:0 1px 4px rgba(0,0,0,.12);}
 #bingo-screen .app-sub{font-size:11px;font-weight:600;color:rgba(120,100,180,.7);margin-top:1px;white-space:nowrap;}
@@ -474,11 +478,11 @@ body[data-theme="lemon"] {
   --t-header: rgba(238,232,255,.90);
   --t-picker: rgba(240,236,255,.55);
   --t-pfade:  rgba(240,236,255,.95);
-  --bc-lav:  rgba(220,210,255,.78);
-  --bc-blue:  rgba(240,236,200,.78);
+  --bc-lav:  rgba(218,210,255,.78);
+  --bc-blue:  rgba(245,248,180,.75);
   --bc-pink:  rgba(235,228,255,.78);
-  --bc-white: rgba(250,248,255,.78);
-  --bc-mint:  rgba(235,232,200,.78);
+  --bc-white: rgba(248,250,220,.72);
+  --bc-mint:  rgba(230,235,255,.78);
   --t-p1: rgba(175,155,235,.92); --t-p2: rgba(255,215,50,.88);
   --t-s1: rgba(160,145,220,.90); --t-s2: rgba(190,178,240,.75);
   --t-k1: rgba(249,240,42,.95); --t-k2: rgba(251,245,90,.9);
@@ -1575,6 +1579,12 @@ textarea.inp{resize:vertical;line-height:1.6}
 .btn-cta:hover{box-shadow:0 6px 22px rgba(120,100,200,.32)}
 .btn-add-row{width:100%;padding:11px;border:1.5px dashed var(--lav-lt);background:var(--lav-pale);border-radius:10px;color:var(--lav);font-size:13px;font-weight:700;transition:border-color .13s}
 .btn-add-row:hover{border-color:var(--lav);background:rgba(210,200,255,.4)}
+.btn-move{width:20px;height:20px;border-radius:50%;border:none;background:rgba(120,100,180,.10);color:rgba(120,100,180,.6);font-size:10px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;line-height:1;}
+.btn-move:active{background:rgba(120,100,180,.22);}
+.ud-nav{display:inline-flex;flex-direction:column;width:24px;height:28px;border-radius:12px;overflow:hidden;flex-shrink:0;border:1px solid rgba(180,170,220,.3);background:rgba(240,236,255,.5);vertical-align:middle;}
+.btn-move{background:none;border:none;cursor:pointer;flex:1;width:100%;display:flex;align-items:center;justify-content:center;color:rgba(140,120,180,.6);font-size:9px;line-height:1;padding:0;margin:0;transition:background .12s,color .12s;}
+.btn-move:hover{background:rgba(180,170,220,.3);color:rgba(90,70,160,.9);}
+.btn-move+.btn-move{border-top:1px solid rgba(180,170,220,.2);}
 .btn-del{width:22px;height:22px;border-radius:50%;border:none;background:rgba(255,100,80,.12);color:#e05544;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;line-height:1}
 .btn-del:hover{background:rgba(255,100,80,.22)}
 .btn-goal-check{width:30px;height:30px;border-radius:9px;border:none;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s cubic-bezier(.34,1.56,.64,1)}
@@ -1657,6 +1667,63 @@ textarea.inp{resize:vertical;line-height:1.6}
 .tmpl2-lang-wrap{margin-top:14px;border-top:1px solid rgba(180,170,220,.25);padding-top:12px;}
 .tmpl2-lang-label{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.5px;margin-bottom:8px;}
 
+
+
+
+/* ── 말풍선 점 ── */
+.speech-dots{
+  display:flex; flex-direction:column; align-items:center;
+  gap:7px; margin:0 auto; padding:3px 0;
+}
+.speech-dot{
+  border-radius:50%;
+  background:rgba(255,255,255,.88);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.75),
+    0 0 5px 1px rgba(220,210,255,.55),
+    0 0 12px 3px rgba(210,195,255,.28);
+  flex-shrink:0;
+}
+.speech-dot-1{ width:14px; height:10px; }
+.speech-dot-2{ width:9px; height:7px; }
+
+/* ── 데일리 인용구 ── */
+#daily-quote-wrap{
+  width:fit-content; max-width:300px; min-width:180px;
+  margin: 0 auto 10px;
+  display:flex; flex-direction:column; align-items:center;
+}
+.daily-quote-pill{
+  position:relative;
+  background:rgba(255,255,255,.85);
+  border-radius:999px;
+  padding:8px 36px 8px 36px;
+  text-align:center;
+  width:fit-content; max-width:300px;
+  box-shadow:
+    0 0 0 1.5px rgba(255,255,255,.80),
+    0 0 6px 1px rgba(255,255,255,.70),
+    0 0 16px 4px rgba(230,220,255,.45),
+    0 0 30px 8px rgba(210,195,255,.20);
+}
+.daily-quote-pill{display:flex;align-items:center;position:relative;padding:8px 28px 8px 28px !important;}
+.dq-nav-btn{position:absolute;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:11px;color:rgba(170,160,200,.55);line-height:1;transition:color .15s;padding:4px 6px;}
+.dq-nav-btn:first-child{left:4px;}
+.dq-nav-btn:last-child{right:4px;}
+.dq-nav-btn:hover{color:rgba(120,100,180,.9);}
+.daily-quote-inner{flex:1;text-align:center;min-width:0;}
+.daily-quote-text{
+  font-size:11.5px; line-height:1.55;
+  color:rgba(60,45,100,.75);
+  font-weight:600;
+  margin:0;
+  white-space:pre-line;
+}
+.daily-quote-source{
+  font-size:9.5px;
+  color:rgba(120,100,160,.5);
+  margin-top:2px;
+}
 
 /* ── 주간앱 헤더 테마 변수 ── */
 body[data-theme="default"]  { --rn-hdr-bg:rgba(238,230,255,.92); --rn-hdr-border:rgba(180,170,220,.18); }
@@ -1933,7 +2000,8 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:r
 <script>(function(){var _la=localStorage.getItem('ymwt_lastApp');if(_la&&_la!=='home'){/* 마지막 앱이 home이 아니면 home-screen 즉시 숨김 */document.addEventListener('DOMContentLoaded',function(){var _hs=document.getElementById('home-screen');if(_hs)_hs.style.display='none';});}}());</script>
 <div id='root'>
   <div id='home-screen'>
-    <div class='home-app-sw-fixed'><div class='app-switcher'>
+    <div class='home-app-sw-fixed'><div class='app-switcher app-sw-bar'>
+      <button class='app-sw-collapse' title='접기/펼치기'>&#8249;</button>
       <button class='app-sw-btn active-app' data-label='Home'>🏠</button>
       <button class='app-sw-btn' data-label='Yearly' onclick="showWip('Y','Yearly','연간 만다라트','☀️ 곧 오픈 예정이에요!')">☀️</button>
       <button class='app-sw-btn' data-label='Monthly' onclick='goMonthly()'>🌙</button>
@@ -1941,6 +2009,11 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:r
       <button class='app-sw-btn' data-label='Timely' onclick='goTimely()'>🍅</button>
     </div></div>
     <div class='clover-wrap'>
+      <div id='daily-quote-wrap' style='width:100%;max-width:340px;margin:0 auto 4px'></div>
+      <div class='speech-dots'>
+        <div class='speech-dot speech-dot-1'></div>
+        <div class='speech-dot speech-dot-2'></div>
+      </div>
       <div class='brand-center'>
         <div class='brand-title'>⭐ 별빛달빛<span>해빗</span></div>
         <div class='brand-sub'>일상과 일생을 함께 가꾸는 습관</div>
@@ -2009,7 +2082,7 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:r
       <div class="t-title" id="lumi-hdr-title">🍅 뽀모도로 타이머</div>
       <div class="t-lbl" id="lumi-hdr-sub">집중해서 토마토를 모아보자.</div>
     </div>
-    <div class="app-switcher app-sw-bar">
+    <div class="app-switcher app-sw-bar"><button class="app-sw-collapse" title="접기/펼치기">&#8249;</button>
       <button class='app-sw-btn' data-label='Home' onclick='goHomeFromLumi()'>🏠</button>
       <button class='app-sw-btn' data-label='Yearly' onclick="showWip('Y','Yearly','연간 만다라트','☀️ 곧 오픈 예정이에요!')">☀️</button>
       <button class='app-sw-btn' data-label='Monthly' onclick='goMonthly()'>🌙</button>
@@ -2288,13 +2361,13 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:r
   <div id='bingo-screen'>
 <div class="bg-layer"></div>
 
-<header class="app-header" style="padding:6px 16px 6px;">
+<header class="app-header" style="padding:8px 16px 8px;">
   <div style="display:flex;align-items:center;justify-content:space-between;">
     <div>
       <span class="app-brand">🌙 월간 목표 빙고</span>
       <div class="app-sub">이번 달 목표를 채우고 빙고를 완성하자!</div>
     </div>
-    <div class="app-switcher app-sw-bar">
+    <div class="app-switcher app-sw-bar"><button class="app-sw-collapse" title="접기/펼치기">&#8249;</button>
       <button class='app-sw-btn' data-label='Home' onclick='goHomeFromBingo()'>🏠</button>
       <button class='app-sw-btn' data-label='Yearly' onclick="showWip('Y','Yearly','연간 만다라트','☀️ 곧 오픈 예정이에요!')">☀️</button>
       <button class='app-sw-btn active-app' data-label='Monthly'>🌙</button>
@@ -2388,7 +2461,7 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:r
         <div class='rn-hdr-title' id='routine-hdr-title'>⭐ 주간&일간 트래커</div>
         <div class='rn-hdr-sub' id='routine-hdr-sub'>루틴을 기록하고 매일을 채워나가자!</div>
       </div>
-      <div class='app-switcher app-sw-bar'>
+      <div class='app-switcher app-sw-bar'><button class="app-sw-collapse" title="접기/펼치기">&#8249;</button>
         <button class='app-sw-btn' data-label='Home' onclick='goHome()'>🏠</button>
         <button class='app-sw-btn' data-label='Yearly' onclick="showWip('Y','Yearly','연간 만다라트','☀️ 곧 오픈 예정이에요!')">☀️</button>
         <button class='app-sw-btn' data-label='Monthly' onclick='goMonthly()'>🌙</button>
@@ -2662,6 +2735,79 @@ function goRoutine(){
 function goHomeFromLumi(){closeWip();clearTick();document.getElementById('lumi-screen').style.display='none';goHome();}
 function goHomeFromBingo(){document.getElementById('bingo-nav').style.display='none';closeWip();document.getElementById('bingo-screen').style.display='none';var bsf=document.getElementById('bingo-sw-fixed');if(bsf)bsf.style.display='none';goHome();}
 function goHomeFromRoutine(){closeWip();document.getElementById('routine-screen').style.display='none';document.getElementById('routine-sw-fixed').style.display='none';goHome();}
+var DAILY_QUOTES=[
+  {t:"작은 루틴의 반복이\n인생의 방향을 결정한다.",s:"제임스 클리어, 아주 작은 습관의 힘"},
+  {t:"감정은 정보다.\n억압하지 말고, 귀 기울여라.",s:"수전 데이비드, 하버드대 심리학자"},
+  {t:"오늘 한 선택이\n10년 후 당신을 만든다.",s:null},
+  {t:"뇌는 한 번에 하나의 일에만\n깊이 집중할 수 있다.\n멀티태스킹은 착각이다.",s:"신경과학 연구"},
+  {t:"완벽한 내일보다\n불완전한 오늘이 낫다.",s:null},
+  {t:"자기자신에게 친절한 것이\n가장 강력한 생산성 도구다.",s:"크리스틴 네프, 자기연민 연구자"},
+  {t:"수면 부족은 감정 조절 능력을\n최대 60% 떨어뜨린다.",s:"매튜 워커, Why We Sleep"},
+  {t:"비교는 기쁨을 훔치는 도둑이다.",s:"시어도어 루스벨트"},
+  {t:"불안은 과거나 미래에 살 때 찾아온다.\n지금 이 순간에 집중하라.",s:"에크하르트 톨레"},
+  {t:"운동 20분이\n항우울제와 동일한 효과를 낸다.",s:"하버드 의대 연구"},
+  {t:"나는 내가 반복하는 것들의 총합이다.",s:"아리스토텔레스"},
+  {t:"거절할 수 있는 사람이\n진정한 예스를 할 수 있다.",s:null},
+  {t:"뇌는 새로운 것을 배울 때\n신체적 쾌감을 느낀다.\n호기심이 곧 보상이다.",s:"신경과학"},
+  {t:"감사는 습관이다.\n느껴질 때까지 기다리지 말고\n먼저 행동하라.",s:null},
+  {t:"휴식은 게으름이 아니다.\n회복은 성장의 일부다.",s:null},
+  {t:"완료하지 않은 일들은\n뇌 속에서 계속 에너지를 쓴다.\n기록하고 마음을 비워라.",s:"차이가르닉 효과"},
+  {t:"두려움을 향해 한 걸음 나아갈 때\n뇌의 공포 반응은 줄어든다.",s:"신경가소성 연구"},
+  {t:"좋은 하루는 계획이 아니라\n작은 선택들로 만들어진다.",s:null},
+  {t:"당신의 에너지가 향하는 곳에\n삶이 흘러간다.",s:null},
+  {t:"습관을 바꾸려면 환경을 바꿔라.\n의지력보다 설계가 강하다.",s:"행동경제학"},
+  {t:"너무 많은 선택지는\n오히려 결정을 마비시킨다.",s:"배리 슈워츠, 선택의 역설"},
+  {t:"자신의 이야기를 바꾸는 사람이\n자신의 삶을 바꾼다.",s:"인지심리학"},
+  {t:"깊은 집중 없이는\n어떤 위대한 것도 만들어지지 않는다.",s:"칼 뉴포트, Deep Work"},
+  {t:"지금 이 순간,\n당신은 충분히 잘 하고 있다.",s:null},
+  {t:"실패는 데이터다.\n감정이 아니라 정보로 다뤄라.",s:null},
+  {t:"뇌는 사용할수록 커진다.\n배움은 문자 그대로 성장이다.",s:"뇌과학"},
+  {t:"아침 루틴은 하루의 운영체제다.",s:null},
+  {t:"변화는 행동이 먼저고\n동기는 그 다음에 온다.",s:"행동활성화 이론"},
+  {t:"남과 비교하지 말고\n어제의 나와 비교하라.",s:null},
+  {t:"진짜 자신감은 결과가 아니라\n과정에서 자신을 신뢰하는 것이다.",s:null},
+  {t:"스트레스를 성장의 신호로 보는 사람은\n그것을 위협으로 보는 사람보다\n오래 산다.",s:"켈리 맥고니걸, 스탠퍼드대"},
+  {t:"5분 뒤의 나에게\n더 쉬운 상황을 만들어줘라.",s:null},
+  {t:"용기란 두려움이 없는 게 아니라\n두려움보다 중요한 게 있다는 뜻이다.",s:"넬슨 만델라"},
+  {t:"당신의 정체성이 행동을 결정한다.\n원하는 사람처럼 행동하기 시작하라.",s:"제임스 클리어"},
+  {t:"타인의 기대가 아닌\n자신의 가치관으로 사는 것,\n그게 진짜 자유다.",s:null},
+  {t:"뇌는 부정적인 것을 더 잘 기억한다.\n좋은 일을 의도적으로 음미하라.",s:"신경과학 연구"},
+  {t:"깊게 쉬는 것도\n능력이다.",s:null},
+  {t:"완벽주의는 미루기의 또 다른 이름이다.",s:null},
+  {t:"관계의 질이\n행복의 가장 강력한 예측 변수다.",s:"하버드 성인 발달 연구 75년"},
+  {t:"한 번에 다 바꾸려 하지 마라.\n작은 것 하나만 오늘 바꿔라.",s:null},
+  {t:"감정은 영구적이지 않다.\n이 느낌도 지나간다.",s:null},
+  {t:"자신을 돌보는 것은\n이기적인 게 아니라 필수적이다.",s:null},
+  {t:"성장은 편안함의 끝에서\n시작된다.",s:null},
+  {t:"목표보다 시스템이 중요하다.\n과정을 사랑하는 사람이 이긴다.",s:"제임스 클리어"},
+  {t:"몸을 움직이는 것이\n생각을 움직인다.",s:null},
+  {t:"지금 느끼는 감정에 이름을 붙이는 것만으로도\n그 강도가 줄어든다.",s:"감정 라벨링, 신경과학"},
+  {t:"누군가의 인정을 기다리지 마라.\n당신이 먼저 당신을 인정하라.",s:null},
+  {t:"행복은 목적지가 아니라\n여행 방식이다.",s:"마가렛 리 런벡"},
+  {t:"오늘 하지 않아도 되는 걱정을\n오늘 하지 말자.",s:null},
+  {t:"당신이 주의를 기울이는 것이\n당신의 현실이 된다.",s:"윌리엄 제임스, 심리학의 아버지"}
+];
+/* ── 데일리 인용구 ── */
+var _quoteIdx=-1;
+function renderDailyQuote(forceIdx){
+  var d=new Date();
+  var baseIdx=(d.getFullYear()*365+d.getMonth()*31+d.getDate())%DAILY_QUOTES.length;
+  if(_quoteIdx<0) _quoteIdx=baseIdx;
+  if(forceIdx!==undefined) _quoteIdx=((forceIdx%DAILY_QUOTES.length)+DAILY_QUOTES.length)%DAILY_QUOTES.length;
+  var q=DAILY_QUOTES[_quoteIdx];
+  var el=document.getElementById('daily-quote-wrap');
+  if(!el)return;
+  el.innerHTML=
+    '<div class="daily-quote-pill">'+
+    '<button class="dq-nav-btn" onclick="renderDailyQuote('+((_quoteIdx-1+DAILY_QUOTES.length)%DAILY_QUOTES.length)+')" title="이전">◀</button>'+
+    '<div class="daily-quote-inner">'+
+      '<div class="daily-quote-text">'+q.t+'</div>'+
+      (q.s?'<div class="daily-quote-source">— '+q.s+'</div>':'')+
+    '</div>'+
+    '<button class="dq-nav-btn" onclick="renderDailyQuote('+((_quoteIdx+1)%DAILY_QUOTES.length)+')" title="다음">▶</button>'+
+    '</div>';
+}
+
 function goHome(){localStorage.setItem('ymwt_lastApp','home');closeWip();
   /* 다른 앱 화면 전부 숨김 */
   ['lumi-screen','bingo-screen','routine-screen'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none';});
@@ -2673,7 +2819,30 @@ document.addEventListener('click',function(e){
   var btn=e.target.closest('.app-sw-btn');
   document.querySelectorAll('.app-sw-btn.show-label').forEach(function(b){if(b!==btn){clearTimeout(b._lt);b.classList.remove('show-label');}});
   if(btn){btn.classList.add('show-label');clearTimeout(btn._lt);btn._lt=setTimeout(function(){btn.classList.remove('show-label');},2000);}
+  /* 앱스위처 외부 클릭 시 즉시 제거 */
+  if(!e.target.closest('.app-sw-bar')){document.querySelectorAll('.app-sw-btn.show-label').forEach(function(b){clearTimeout(b._lt);b.classList.remove('show-label');});}
 });
+/* 앱스위처 mouseleave 시 즉시 제거 */
+document.addEventListener('mouseleave',function(e){
+  if(e.target.classList&&e.target.classList.contains('app-sw-bar')){
+    document.querySelectorAll('.app-sw-btn.show-label').forEach(function(b){clearTimeout(b._lt);b.classList.remove('show-label');});
+  }
+},{capture:true});
+/* 터치: touchstart outside */
+document.addEventListener('touchstart',function(e){
+  if(!e.target.closest('.app-sw-bar')){document.querySelectorAll('.app-sw-btn.show-label').forEach(function(b){clearTimeout(b._lt);b.classList.remove('show-label');});}
+},true);
+/* 앱스위처 접기/펼치기 */
+document.addEventListener('click',function(e){
+  var cb=e.target.closest('.app-sw-collapse');
+  if(!cb)return;
+  var bar=cb.closest('.app-sw-bar');
+  if(!bar)return;
+  bar.classList.toggle('collapsed');
+  cb.innerHTML=bar.classList.contains('collapsed')?'&#8250;':'&#8249;';
+  e.stopPropagation();
+});
+
 function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))document.getElementById('wip-overlay').classList.remove('open');}
 
 (() => {
@@ -4505,19 +4674,18 @@ function renderReflection(r){
   while (r.tomorrow.length < cfg.tomorrowCount) r.tomorrow.push('');
   /* Render ALL items (user may have added extra via + button) */
   var goodH = r.good.map(function(v,i){
-    return '<div class="refl-row"><span class="refl-num">'+(i+1)+'.</span><input class="inp refl-good" data-idx="'+i+'" type="text" value="'+esc(v)+'" placeholder="'+(i+1)+'번째…"></div>';
-  }).join('') +
-  '<button class="refl-add-btn" data-type="good">&#43; 한 줄 추가</button>';
+    return '<div class="refl-row" data-type="good" data-idx="'+i+'">'+'<input class="inp refl-good" data-idx="'+i+'" type="text" value="'+esc(v)+'" placeholder="'+(i+1)+'번째…" style="flex:1">'+'<div class="ud-nav">'+'<button class="btn-move btn-refl-up" data-type="good" data-idx="'+i+'">▲</button>'+'<button class="btn-move btn-refl-dn" data-type="good" data-idx="'+i+'">▼</button>'+'</div>'+'<button class="btn-del btn-refl-del" data-type="good" data-idx="'+i+'">&#215;</button>'+'</div>';
+  }).join('');
 
   var tmrH = r.tomorrow.map(function(v,i){
-    return '<div class="refl-row"><span class="refl-num">'+(i+1)+'.</span><input class="inp refl-tmr" data-idx="'+i+'" type="text" value="'+esc(v)+'" placeholder="'+(i+1)+'번째…"></div>';
+    return '<div class="refl-row" data-type="tmr" data-idx="'+i+'">'+'<input class="inp refl-tmr" data-idx="'+i+'" type="text" value="'+esc(v)+'" placeholder="'+(i+1)+'번째…" style="flex:1">'+'<div class="ud-nav">'+'<button class="btn-move btn-refl-up" data-type="tmr" data-idx="'+i+'">▲</button>'+'<button class="btn-move btn-refl-dn" data-type="tmr" data-idx="'+i+'">▼</button>'+'</div>'+'<button class="btn-del btn-refl-del" data-type="tmr" data-idx="'+i+'">&#215;</button>'+'</div>';
   }).join('') +
   '<button class="refl-add-btn" data-type="tomorrow">&#43; 한 줄 추가</button>';
   return '<div class="sect-card" id="sect-reflection" style="margin-bottom:220px"><div class="sect-hdr bg-refl"><div class="sect-hdr-left"><span style="font-size:18px">🌕</span><span class="sect-title">'+(localStorage.getItem('ymwt_lang')==='ko'?'오늘의 회고':'Moonshine Reflection')+'</span></div></div>'+
     '<div style="padding:16px">'+
-    '<div class="refl-group"><div class="refl-label" style="color:#a855b5">'+esc(cfg.goodLabel)+'</div>'+goodH+'</div>'+
+    '<div class="refl-group"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px"><div class="refl-label" style="color:#a855b5;margin-bottom:0">'+esc(cfg.goodLabel)+'</div><button class="refl-add-btn" data-type="good" style="margin:0">&#43; 한 줄 추가</button></div>'+goodH+'</div>'+
     '<div class="refl-group"><div class="refl-label" style="color:#9060a0">'+esc(cfg.lessonLabel)+'</div><textarea class="inp refl-lesson" rows="3" placeholder="오늘 배운 것, 느낀 것, 기억하고 싶은 말…">'+esc(r.lesson)+'</textarea></div>'+
-    '<div class="refl-group" style="margin-bottom:0"><div class="refl-label" style="color:#2a7a46">'+esc(cfg.tomorrowLabel)+'</div>'+tmrH+'</div>'+
+    '<div class="refl-group" style="margin-bottom:0"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px"><div class="refl-label" style="color:#2a7a46;margin-bottom:0">'+esc(cfg.tomorrowLabel)+'</div><button class="refl-add-btn" data-type="tmr" style="margin:0">&#43; 한 줄 추가</button></div>'+tmrH+'</div>'+
     '</div></div>';
 }
 
@@ -4542,6 +4710,12 @@ function navigateWeek(delta){
     }
   },150);
 }
+function renderDayReflection(){
+  var reflEl=document.querySelector('.refl-section-inner');
+  if(!reflEl){render();return;}
+  render();
+}
+
 function navigateDay(delta){
   var d = new Date(ST.currentDate + 'T12:00:00');
   d.setDate(d.getDate() + delta);
@@ -4580,6 +4754,62 @@ function bindDay(){
     var ws=getWeekStart(ST.currentDate);
     openWeekModal(ws);
   };
+  /* 회고 항목 삭제 */
+  document.querySelectorAll('.btn-refl-del').forEach(function(btn){
+    btn.onclick=function(){
+      var type=this.dataset.type, idx=parseInt(this.dataset.idx);
+      if(type==='good') ST.dayData.reflection.good.splice(idx,1);
+      else ST.dayData.reflection.tomorrow.splice(idx,1);
+      S.save(ST.currentDate,ST.dayData); renderDayReflection();
+    };
+  });
+  /* 회고 항목 이동 (↑↓) */
+  document.querySelectorAll('.btn-refl-up').forEach(function(btn){
+    btn.onclick=function(){
+      var type=this.dataset.type, idx=parseInt(this.dataset.idx);
+      if(idx===0) return;
+      var arr=type==='good'?ST.dayData.reflection.good:ST.dayData.reflection.tomorrow;
+      var tmp=arr[idx]; arr[idx]=arr[idx-1]; arr[idx-1]=tmp;
+      S.save(ST.currentDate,ST.dayData); render();
+    };
+  });
+  document.querySelectorAll('.btn-refl-dn').forEach(function(btn){
+    btn.onclick=function(){
+      var type=this.dataset.type, idx=parseInt(this.dataset.idx);
+      var arr=type==='good'?ST.dayData.reflection.good:ST.dayData.reflection.tomorrow;
+      if(idx>=arr.length-1) return;
+      var tmp=arr[idx]; arr[idx]=arr[idx+1]; arr[idx+1]=tmp;
+      S.save(ST.currentDate,ST.dayData); render();
+    };
+  });
+      /* 회고 이동 (▲▼) */
+  document.querySelectorAll('.btn-refl-up').forEach(function(btn){
+    btn.onclick=function(){
+      var type=this.dataset.type, idx=parseInt(this.dataset.idx);
+      if(idx===0) return;
+      var arr=type==='good'?ST.dayData.reflection.good:ST.dayData.reflection.tomorrow;
+      var tmp=arr[idx]; arr[idx]=arr[idx-1]; arr[idx-1]=tmp;
+      S.save(ST.currentDate,ST.dayData); render();
+    };
+  });
+  document.querySelectorAll('.btn-refl-dn').forEach(function(btn){
+    btn.onclick=function(){
+      var type=this.dataset.type, idx=parseInt(this.dataset.idx);
+      var arr=type==='good'?ST.dayData.reflection.good:ST.dayData.reflection.tomorrow;
+      if(idx>=arr.length-1) return;
+      var tmp=arr[idx]; arr[idx]=arr[idx+1]; arr[idx+1]=tmp;
+      S.save(ST.currentDate,ST.dayData); render();
+    };
+  });
+    /* 회고 삭제 */
+  document.querySelectorAll('.btn-refl-del').forEach(function(btn){
+    btn.onclick=function(){
+      var type=this.dataset.type, idx=parseInt(this.dataset.idx);
+      if(type==='good') ST.dayData.reflection.good.splice(idx,1);
+      else ST.dayData.reflection.tomorrow.splice(idx,1);
+      S.save(ST.currentDate,ST.dayData); render();
+    };
+  });
   document.querySelectorAll('.refl-good').forEach(function(inp){inp.oninput=function(){ST.dayData.reflection.good[parseInt(this.dataset.idx)]=this.value;S.save(ST.currentDate,ST.dayData);};});
   var les=document.querySelector('.refl-lesson');if(les)les.oninput=function(){ST.dayData.reflection.lesson=this.value;S.save(ST.currentDate,ST.dayData);};
   document.querySelectorAll('.refl-tmr').forEach(function(inp){inp.oninput=function(){ST.dayData.reflection.tomorrow[parseInt(this.dataset.idx)]=this.value;S.save(ST.currentDate,ST.dayData);};});
@@ -4735,7 +4965,7 @@ function renderWeekModal(){
       '<div style="font-size:12px;color:#9080d8;font-weight:800;width:16px;text-align:center;flex-shrink:0">'+(i+1)+'</div>'+
       '<input class="inp goal-inp" data-idx="'+i+'" type="text" value="'+esc(g.text)+'" placeholder="입력 전…" style="flex:1;padding:7px 10px;font-size:13px;text-decoration:'+decor+';color:'+col+'">'+
       '<button class="'+btnCls+'" data-idx="'+i+'">'+CHECK_SVG+'</button>'+
-      '<button class="btn-del btn-goal-del" data-idx="'+i+'" style="flex-shrink:0;font-size:13px;margin-left:2px">&#215;</button>'+
+      '<div class="ud-nav" style="margin-left:4px">'+'<button class="btn-move btn-goal-up" data-idx="'+i+'">▲</button>'+'<button class="btn-move btn-goal-dn" data-idx="'+i+'">▼</button>'+'</div>'+'<button class="btn-del btn-goal-del" data-idx="'+i+'" style="flex-shrink:0;font-size:13px;margin-left:2px">&#215;</button>'+
     '</div>';
   }).join('');
 
@@ -5176,7 +5406,7 @@ function bindWeekModal(){
         +'<div style="font-size:12px;color:#9080d8;font-weight:800;width:16px;text-align:center;flex-shrink:0">'+(i+1)+'</div>'
         +'<input class="inp goal-inp" data-idx="'+i+'" type="text" value="'+esc2(g.text)+'" placeholder="입력 전…" style="flex:1;padding:7px 10px;font-size:13px;text-decoration:'+decor+';color:'+col+'">'
         +'<button class="'+btnCls+'" data-idx="'+i+'" style="flex-shrink:0">'+CHECK_SVG+'</button>'
-        +'<button class="btn-del btn-goal-del" data-idx="'+i+'" style="flex-shrink:0;font-size:13px;margin-left:2px">&#215;</button>'
+        +'<div class="ud-nav" style="margin-left:4px">'+'<button class="btn-move btn-goal-up" data-idx="'+i+'">▲</button>'+'<button class="btn-move btn-goal-dn" data-idx="'+i+'">▼</button>'+'</div>'+'<button class="btn-del btn-goal-del" data-idx="'+i+'" style="flex-shrink:0;font-size:13px;margin-left:2px">&#215;</button>'
         +'</div>';
     }).join('');
     var card=document.querySelector('.weekly-card');
@@ -5209,7 +5439,39 @@ function bindWeekModal(){
         updateModalProgress();
       };
     });
-    card.querySelectorAll('.btn-goal-del').forEach(function(btn){
+    card.querySelectorAll('.btn-goal-up').forEach(function(btn){
+      btn.onclick=function(){
+        var idx=parseInt(this.dataset.idx); if(idx===0)return;
+        var arr=ST.weekData.goals;
+        var tmp=arr[idx];arr[idx]=arr[idx-1];arr[idx-1]=tmp;
+        S.saveWeek&&S.saveWeek(ST.weekModalStart,ST.weekData);render();
+      };
+    });
+    document.querySelectorAll('.btn-goal-dn').forEach(function(btn){
+      btn.onclick=function(){
+        var idx=parseInt(this.dataset.idx);
+        var arr=ST.weekData.goals; if(idx>=arr.length-1)return;
+        var tmp=arr[idx];arr[idx]=arr[idx+1];arr[idx+1]=tmp;
+        S.saveWeek&&S.saveWeek(ST.weekModalStart,ST.weekData);render();
+      };
+    });
+        document.querySelectorAll('.btn-goal-up').forEach(function(btn){
+      btn.onclick=function(){
+        var idx=parseInt(this.dataset.idx); if(idx===0)return;
+        var arr=ST.weekData.goals;
+        var tmp=arr[idx];arr[idx]=arr[idx-1];arr[idx-1]=tmp;
+        S.saveWeek&&S.saveWeek(ST.weekModalStart,ST.weekData);render();
+      };
+    });
+    document.querySelectorAll('.btn-goal-dn').forEach(function(btn){
+      btn.onclick=function(){
+        var idx=parseInt(this.dataset.idx);
+        var arr=ST.weekData.goals; if(idx>=arr.length-1)return;
+        var tmp=arr[idx];arr[idx]=arr[idx+1];arr[idx+1]=tmp;
+        S.saveWeek&&S.saveWeek(ST.weekModalStart,ST.weekData);render();
+      };
+    });
+    document.querySelectorAll('.btn-goal-del').forEach(function(btn){
       btn.onclick=function(){
         var idx=parseInt(this.dataset.idx);
         ST.weekData.goals.splice(idx,1);
@@ -8007,6 +8269,7 @@ function applyTheme(name) {
 /* ── INIT ── */
 function init(){
   load();
+  renderDailyQuote();
   // load saved theme
   /* 주간앱 초기 테마: lemon (연보라+레몬 그라디언트) */
   /* 초기 테마: 마지막 앱 기준 */
@@ -8053,6 +8316,7 @@ if ('serviceWorker' in navigator) {
 <script>
 /* ── 마지막 접속 앱 & 페이지 복원 ── */
 window.addEventListener('load', function() {
+  if(typeof renderDailyQuote==='function') renderDailyQuote();
   setTimeout(function() {
     var last = localStorage.getItem('ymwt_lastApp');
     if (!last || last === 'home') return;
