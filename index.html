@@ -1695,9 +1695,10 @@ textarea.inp{resize:vertical;line-height:1.6}
 }
 .daily-quote-pill{
   position:relative;
+  display:block;
   background:rgba(255,255,255,.85);
   border-radius:999px;
-  padding:8px 36px 8px 36px;
+  padding:8px 44px 8px 44px;
   text-align:center;
   width:fit-content; max-width:300px;
   box-shadow:
@@ -1706,10 +1707,11 @@ textarea.inp{resize:vertical;line-height:1.6}
     0 0 16px 4px rgba(230,220,255,.45),
     0 0 30px 8px rgba(210,195,255,.20);
 }
-.daily-quote-pill{display:flex;align-items:center;position:relative;padding:8px 28px 8px 28px !important;}
-.dq-nav-btn{position:absolute;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:11px;color:rgba(170,160,200,.55);line-height:1;transition:color .15s;padding:4px 6px;}
-.dq-nav-btn:first-child{left:4px;}
-.dq-nav-btn:last-child{right:4px;}
+
+.dq-nav-btn{position:absolute;top:50%;transform:translateY(-50%) !important;background:none;border:none;cursor:pointer;font-size:11px;color:rgba(170,160,200,.55);line-height:1;transition:color .15s;padding:6px 8px;z-index:2;-webkit-appearance:none;appearance:none;outline:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation;}
+.dq-nav-btn:active{transform:translateY(-50%) !important;color:rgba(100,80,180,.85);}
+.dq-nav-btn:first-child{left:6px;}
+.dq-nav-btn:last-child{right:6px;}
 .dq-nav-btn:hover{color:rgba(120,100,180,.9);}
 .daily-quote-inner{flex:1;text-align:center;min-width:0;}
 .daily-quote-text{
