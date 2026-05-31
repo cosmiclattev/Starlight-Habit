@@ -6,9 +6,9 @@
 <meta name='theme-color' content='#c8bef5'>
 <title>별빛달빛해빗</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
-html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif;overscroll-behavior:none;overflow:hidden;}
-#root{max-width:480px;margin:0 auto;height:100%;position:relative;overflow:hidden;}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%;}
+html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif;overscroll-behavior:none;overflow:hidden;background:#e8e2f8;}
+#root{max-width:480px;margin:0 auto;height:100%;position:relative;overflow:hidden;box-shadow:0 0 40px rgba(80,60,160,.12);}
 #home-screen{display:flex;flex-direction:column;height:100%;overflow:hidden;}
 #lumi-screen{display:none;height:100%;}
 .lumi-inner{display:flex;flex-direction:column;height:100%;}
@@ -17,7 +17,7 @@ html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif;overscroll-beh
 :root{--mint:#b8a8e8;--mint-dk:#8b7fd4;--mint-lt:#d8d0f8;--mint-pale:rgba(184,168,232,.18);--mint-glass:rgba(184,168,232,.12);--y-color:#c8b840;--m-color:#a08ad8;--wd-color:#6abadc;--t-color:#e85d4a;--text:#2a2240;--muted:#7a72a0;--card-bg:rgba(255,255,255,.82);--card-s:rgba(255,255,255,.96);--r:28px;}
 .brand-center{display:flex;align-items:center;justify-content:space-between;padding:8px 16px 10px;flex-shrink:0;background:transparent;position:sticky;top:0;z-index:60;width:100%;box-sizing:border-box;}
 .brand-title span{background:linear-gradient(135deg,#8b7fd4 0%,#c8b840 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.clover-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 20px 16px;position:relative;}
+.clover-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:16px 20px 8px;position:relative;overflow-y:auto;}
 .lumi-app-sw-fixed,.home-app-sw-fixed{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;padding:8px 8px 0;display:flex;justify-content:flex-end;pointer-events:none;z-index:300;}
 .home-app-sw-fixed{display:none!important;}
 .lumi-app-sw-fixed .app-switcher,.home-app-sw-fixed .app-switcher{pointer-events:auto;}
@@ -3997,104 +3997,6 @@ function quoteCopy(btn){
   }
 }
 
-/* ══════════════════════════════════════════
-   과거 빙고 전용 렌더러 — renderBoard와 완전 독립
-   S.cells, saveBoard, toggleComplete 등 현재 빙고 코드 일절 사용 안 함
-══════════════════════════════════════════ */
-function renderRptBoard(container, rptCells, rowConcepts, size, title, onSave) {
-  var n = size || 3;
-  var fs = n<=3?'fs-3':n===4?'fs-4':'fs-5';
-  var rowW = n<=3?72:n===4?64:50;
-  container.innerHTML = '';
-
-  if (title && title.trim()) {
-    var h = document.createElement('h2');
-    h.className = 'board-title'; h.textContent = title.trim();
-    container.appendChild(h);
-  }
-
-  var layout = document.createElement('div');
-  layout.className = 'board-layout';
-
-  /* row concepts (읽기 전용) */
-  var conceptsEl = document.createElement('div');
-  conceptsEl.className = 'row-concepts';
-  conceptsEl.style.cssText = 'grid-template-rows:repeat('+n+',1fr);width:'+rowW+'px';
-  (rowConcepts||[]).slice(0,n).forEach(function(c) {
-    var wrap = document.createElement('div');
-    wrap.style.cssText = 'position:relative;display:flex;align-items:center;width:100%;overflow:hidden;';
-    var pfx = document.createElement('span');
-    pfx.textContent = '#';
-    pfx.style.cssText = 'position:absolute;left:6px;font-size:11px;font-weight:700;color:var(--t-accent,#8b7fd4);pointer-events:none;z-index:1;';
-    var inp = document.createElement('input');
-    inp.className = 'concept-input';
-    inp.value = c || '';
-    inp.readOnly = true;
-    inp.style.cssText = 'padding-left:18px;width:100%;min-width:0;box-sizing:border-box;opacity:.7;';
-    wrap.appendChild(pfx); wrap.appendChild(inp);
-    conceptsEl.appendChild(wrap);
-  });
-  layout.appendChild(conceptsEl);
-
-  /* 셀 그리드 */
-  var grid = document.createElement('div');
-  grid.className = 'board-grid';
-  grid.style.gridTemplateColumns = 'repeat('+n+',1fr)';
-
-  rptCells.slice(0, n*n).forEach(function(cell, idx) {
-    var cellEl = document.createElement('div');
-    cellEl.className = 'cell ' + (cell.color||'lav') + (cell.completed ? ' completed' : '');
-    cellEl.style.cursor = 'pointer';
-
-    function doToggle(e) {
-      e.stopPropagation();
-      var wasDone = rptCells[idx].completed;
-      rptCells[idx].completed = !rptCells[idx].completed;
-      renderRptBoard(container, rptCells, rowConcepts, size, title, onSave);
-      /* 즉시 자동저장 */
-      if (typeof onSave === 'function') onSave(rptCells);
-      /* 빙고 완성 감지 → 이펙트 */
-      if (!wasDone) {
-        var total = (size||3)*(size||3);
-        var done = rptCells.slice(0,total).filter(function(c){return c.completed;}).length;
-        if (done === total) {
-          /* 전체 완성: 이모지 폭죽 + 👏 토스트 */
-          if(typeof showHearts==='function') showHearts();
-          if(typeof showToast==='function') showToast('👏 빙고 완성! 수고했어요!');
-        }
-      }
-    }
-
-    /* cellEl 전체 클릭 처리 (overlay 포함) */
-    cellEl.addEventListener('click', doToggle);
-
-    var checkBtn = document.createElement('button');
-    checkBtn.className = 'cell-check'; checkBtn.type = 'button';
-    checkBtn.textContent = cell.completed ? '✓' : '';
-    checkBtn.style.pointerEvents = 'none'; /* cellEl이 처리 */
-    cellEl.appendChild(checkBtn);
-
-    if (cell.completed) {
-      var ov = document.createElement('div');
-      ov.className = 'cell-overlay'; ov.textContent = '✅';
-      ov.style.pointerEvents = 'none'; /* 클릭 투과 */
-      cellEl.appendChild(ov);
-    }
-
-    var ta = document.createElement('textarea');
-    ta.className = 'cell-text ' + fs;
-    ta.value = cell.text || '';
-    ta.readOnly = true;
-    ta.style.cursor = 'default';
-    cellEl.appendChild(ta);
-
-    grid.appendChild(cellEl);
-  });
-
-  layout.appendChild(grid);
-  container.appendChild(layout);
-}
-
 function showWip(key,name,feature,desc){var emojis={Y:'☀️',M:'🌙','W/D':'⭐'};document.getElementById('wip-emoji').textContent=emojis[key]||'🔨';document.getElementById('wip-title').textContent=name+' — '+feature;document.getElementById('wip-sub').textContent=desc;document.getElementById('wip-overlay').classList.add('open');}
 document.addEventListener('click',function(e){
   var btn=e.target.closest('.app-sw-btn');
@@ -4667,6 +4569,115 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
   }
 
 
+
+
+
+/* ══════════════════════════════════════════
+   과거 빙고 전용 렌더러 — renderBoard와 완전 독립
+   S.cells, saveBoard, toggleComplete 등 현재 빙고 코드 일절 사용 안 함
+══════════════════════════════════════════ */
+function renderRptBoard(container, rptCells, rowConcepts, size, title, onSave) {
+  /* container가 string id면 DOM에서 찾기 */
+  if (typeof container === 'string') container = document.getElementById(container);
+  if (!container) return;
+  var n = size || 3;
+  var fs = n<=3?'fs-3':n===4?'fs-4':'fs-5';
+  var rowW = n<=3?72:n===4?64:50;
+  container.innerHTML = '';
+
+  if (title && title.trim()) {
+    var h = document.createElement('h2');
+    h.className = 'board-title'; h.textContent = title.trim();
+    container.appendChild(h);
+  }
+
+  var layout = document.createElement('div');
+  layout.className = 'board-layout';
+
+  /* row concepts (읽기 전용) */
+  var conceptsEl = document.createElement('div');
+  conceptsEl.className = 'row-concepts';
+  conceptsEl.style.cssText = 'grid-template-rows:repeat('+n+',1fr);width:'+rowW+'px';
+  (rowConcepts||[]).slice(0,n).forEach(function(c) {
+    var wrap = document.createElement('div');
+    wrap.style.cssText = 'position:relative;display:flex;align-items:center;width:100%;overflow:hidden;';
+    var pfx = document.createElement('span');
+    pfx.textContent = '#';
+    pfx.style.cssText = 'position:absolute;left:6px;font-size:11px;font-weight:700;color:var(--t-accent,#8b7fd4);pointer-events:none;z-index:1;';
+    var inp = document.createElement('input');
+    inp.className = 'concept-input';
+    inp.value = c || '';
+    inp.readOnly = true;
+    inp.style.cssText = 'padding-left:18px;width:100%;min-width:0;box-sizing:border-box;opacity:.7;';
+    wrap.appendChild(pfx); wrap.appendChild(inp);
+    conceptsEl.appendChild(wrap);
+  });
+  layout.appendChild(conceptsEl);
+
+  /* 셀 그리드 */
+  var grid = document.createElement('div');
+  grid.className = 'board-grid';
+  grid.style.gridTemplateColumns = 'repeat('+n+',1fr)';
+
+  rptCells.slice(0, n*n).forEach(function(cell, idx) {
+    var cellEl = document.createElement('div');
+    cellEl.className = 'cell ' + (cell.color||'lav') + (cell.completed ? ' completed' : '');
+    cellEl.style.cursor = 'pointer';
+
+    function doToggle(e) {
+      e.stopPropagation();
+      var wasDone = rptCells[idx].completed;
+      rptCells[idx].completed = !rptCells[idx].completed;
+      /* 저장 먼저 (재렌더 전) */
+      if (typeof onSave === 'function') onSave(rptCells);
+      else console.log('onSave is NOT a function!');
+      /* 재렌더 */
+      var _cont = document.getElementById('monthDetailBoard') || container;
+      if (_cont) renderRptBoard(_cont, rptCells, rowConcepts, size, title, onSave);
+      /* 빙고 완성 감지 → 이펙트 */
+      if (!wasDone) {
+        var n = size||3;
+        var vc = rptCells.slice(0, n*n);
+        /* 빙고 라인 완성 감지 (전체 완성 아니어도) */
+        var prevBingo = window._bingoCountBingo ? window._bingoCountBingo(vc.map(function(c,i){ return i===idx ? {completed:false} : c; }), n) : 0;
+        var nowBingo  = window._bingoCountBingo ? window._bingoCountBingo(vc, n) : 0;
+        if (nowBingo > prevBingo) {
+          if(typeof window._bingoShowHearts==='function') window._bingoShowHearts();
+          if(typeof window._bingoShowToast==='function') window._bingoShowToast('👏 빙고! 수고했어요!');
+        }
+      }
+    }
+
+    /* cellEl 전체 클릭 처리 (overlay 포함) */
+    cellEl.addEventListener('click', doToggle);
+
+    var checkBtn = document.createElement('button');
+    checkBtn.className = 'cell-check'; checkBtn.type = 'button';
+    checkBtn.textContent = cell.completed ? '✓' : '';
+    checkBtn.style.pointerEvents = 'none'; /* cellEl이 처리 */
+    cellEl.appendChild(checkBtn);
+
+    if (cell.completed) {
+      var ov = document.createElement('div');
+      ov.className = 'cell-overlay'; ov.textContent = '✅';
+      ov.style.pointerEvents = 'none'; /* 클릭 투과 */
+      cellEl.appendChild(ov);
+    }
+
+    var ta = document.createElement('textarea');
+    ta.className = 'cell-text ' + fs;
+    ta.value = cell.text || '';
+    ta.readOnly = true;
+    ta.style.cursor = 'default';
+    cellEl.appendChild(ta);
+
+    grid.appendChild(cellEl);
+  });
+
+  layout.appendChild(grid);
+  container.appendChild(layout);
+}
+
   function buildWeekCard(entry) {
     var vc=entry.cells.slice(0,entry.size*entry.size);
     var pct=completionPct(vc);
@@ -4713,10 +4724,10 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
 
       /* 체크 변경 시 localStorage에 저장 */
       function onRptSave(updatedCells){
-        var arr=getMonthlyArr();
+        var arr=getWeeklyArr();
         var found=-1;
         for(var fi=0;fi<arr.length;fi++){ if(arr[fi].id===entry.id){found=fi;break;} }
-        if(found>=0){ arr[found].cells=JSON.parse(JSON.stringify(updatedCells)); saveMonthlyArr(arr); }
+        if(found>=0){ arr[found].cells=JSON.parse(JSON.stringify(updatedCells)); saveWeeklyArr(arr); }
         var pctEl=dv.querySelector('.month-detail-pct');
         if(pctEl) pctEl.textContent=Math.round(completionPct(updatedCells.slice(0,rptSize*rptSize)))+'%';
       }
@@ -4757,8 +4768,8 @@ function showMonthDetail(entry) {
   document.getElementById('monthDeleteBtn').addEventListener('click',()=>{
     if (!S.currentMonthEntry) return;
     if (!confirm(`${S.currentMonthEntry.label} 빙고를 삭제할까요?`)) return;
-    const arr=getMonthlyArr().filter(e=>e.id!==S.currentMonthEntry.id);
-    saveMonthlyArr(arr);
+    const arr=getWeeklyArr().filter(e=>e.id!==S.currentMonthEntry.id);
+    saveWeeklyArr(arr);
     S.currentMonthEntry=null;
     document.getElementById('monthlyListView').classList.remove('hidden');
     document.getElementById('monthlyDetailView').classList.add('hidden');
@@ -4791,6 +4802,7 @@ function showMonthDetail(entry) {
   window._bingoShowToast=showToast;
   window._bingoSwitchTab=switchTab;
   window._bingoShowHearts=showHearts;
+  window._bingoCountBingo=countBingo;
   window._bingoDownload=handleDownload;
   window._bingoShare=handleShare;
 
