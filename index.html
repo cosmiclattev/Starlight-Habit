@@ -4452,8 +4452,8 @@ function qlRender() {
   }
 
   var statBody = ''
-    + '<div class="ql-achv-item"><span class="ql-stat-label">HP</span><input type="range" id="ql-hp" min="0" max="100" value="'+hpPct+'" style="flex:1;min-width:0;width:100%;height:5px;accent-color:#f87171;cursor:pointer;margin:0 4px;max-width:calc(100% - 40px);"><span class="ql-stat-val" id="ql-hp-val">'+hpPct+'</span></div>'
-    + '<div class="ql-achv-item"><span class="ql-stat-label">MP</span><input type="range" id="ql-mp" min="0" max="100" value="'+mpPct+'" style="flex:1;min-width:0;width:100%;height:5px;accent-color:#60a5fa;cursor:pointer;margin:0 4px;max-width:calc(100% - 40px);"><span class="ql-stat-val" id="ql-mp-val">'+mpPct+'</span></div>'
+    + '<div class="ql-achv-item"><span class="ql-stat-label">HP</span><input type="range" id="ql-hp" min="0" max="100" step="5" value="'+hpPct+'" style="flex:1;min-width:0;width:100%;height:5px;accent-color:#f87171;cursor:pointer;margin:0 4px;max-width:calc(100% - 40px);"><span class="ql-stat-val" id="ql-hp-val">'+hpPct+'</span></div>'
+    + '<div class="ql-achv-item"><span class="ql-stat-label">MP</span><input type="range" id="ql-mp" min="0" max="100" step="5" value="'+mpPct+'" style="flex:1;min-width:0;width:100%;height:5px;accent-color:#60a5fa;cursor:pointer;margin:0 4px;max-width:calc(100% - 40px);"><span class="ql-stat-val" id="ql-mp-val">'+mpPct+'</span></div>'
     + '<div class="ql-achv-item" style="overflow:hidden;min-width:0;">'
       + '<span class="ql-stat-label">EXP</span>'
       + '<div class="ql-exp-bar-wrap" style="flex:1;min-width:0;margin:0 4px;"><div class="ql-exp-bar" id="ql-exp-bar" style="width:'+Math.min(100,exp)+'%"></div></div>'
@@ -4523,8 +4523,8 @@ function qlRender() {
   html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:0;margin-top:6px;">'
     + '<div class="dp-section"><div class="dp-section-hdr"><span class="dp-section-hdr-title">📜 오늘의 일정</span><div style="display:flex;gap:3px;"><button class="dp-prev-btn" id="ql-ev-prev" title="전날">⏮</button><button class="dp-hdr-add" id="ql-add-event-hdr">+</button></div></div><div style="padding:6px 4px;">'+evBody+'</div></div>'
     + '<div style="display:flex;flex-direction:column;gap:4px;">'
-      + '<div class="dp-section"><div class="dp-section-hdr"><span class="dp-section-hdr-title">⚔️ 메인 퀘스트</span><div style="display:flex;gap:3px;"><button class="dp-prev-btn" id="ql-mq-prev" title="전날">⏮</button><button class="dp-hdr-add" id="ql-add-main">+</button></div></div><div style="padding:6px 4px;"><div id="ql-main-quests">'+mqHtml+'</div></div></div>'
-      + '<div class="dp-section"><div class="dp-section-hdr"><span class="dp-section-hdr-title">🍄 서브 퀘스트</span><div style="display:flex;gap:3px;"><button class="dp-prev-btn" id="ql-sq-prev" title="전날">⏮</button><button class="dp-hdr-add" id="ql-add-sub">+</button></div></div><div style="padding:6px 4px;"><div id="ql-sub-quests">'+sqHtml+'</div></div></div>'
+      + '<div class="dp-section"><div class="dp-section-hdr"><span class="dp-section-hdr-title">⚔️ 메인 퀘스트</span><div style="display:flex;gap:3px;"><button class="dp-prev-btn" id="ql-mq-prev" title="전날">⏮</button><button class="dp-hdr-add" id="ql-add-main">+</button></div></div><div style="padding:2px 4px 4px;"><div id="ql-main-quests">'+mqHtml+'</div></div></div>'
+      + '<div class="dp-section"><div class="dp-section-hdr"><span class="dp-section-hdr-title">🍄 서브 퀘스트</span><div style="display:flex;gap:3px;"><button class="dp-prev-btn" id="ql-sq-prev" title="전날">⏮</button><button class="dp-hdr-add" id="ql-add-sub">+</button></div></div><div style="padding:2px 4px 4px;"><div id="ql-sub-quests">'+sqHtml+'</div></div></div>'
     + '</div>'
     + '</div>';
 
@@ -4552,7 +4552,7 @@ function qlRender() {
 
   var dmgBody = '<div id="ql-battle-list">'+battleHtml+'</div>'
     ;
-  html += '<div style="margin-top:6px;"><div class="dp-section">'    + '<div class="dp-section-hdr"><span class="dp-section-hdr-title">🗡 오늘의 전투 기록</span>'    + '<div style="display:flex;gap:3px;"><button class="dp-prev-btn" id="ql-battle-prev" title="전날">⏮</button><button class="dp-hdr-add" id="ql-add-battle-hdr">+</button></div>'    + '</div><div style="padding:6px 4px;">'+dmgBody+'</div></div></div>';
+  html += '<div style="margin-top:6px;"><div class="dp-section">'    + '<div class="dp-section-hdr"><span class="dp-section-hdr-title">🗡 오늘의 전투 기록</span>'    + '<div style="display:flex;gap:3px;"><button class="dp-prev-btn" id="ql-battle-prev" title="전날">⏮</button><button class="dp-hdr-add" id="ql-add-battle-hdr">+</button></div>'    + '</div><div style="padding:2px 4px 4px;">'+dmgBody+'</div></div></div>';
 
   html += '</div>'; // ql-wrap 끝
   app.innerHTML = html;
@@ -4575,12 +4575,15 @@ function qlRender() {
   });
 
   // 이벤트 추가
-  var _addEvEl=document.getElementById('ql-add-event'); if(_addEvEl) _addEvEl.onclick = function(){
+  function qlAddEventItem(){
+    qlAutoSave();
     var data2 = qlLoad(qlKey(qlCurrentDate())) || qlDefaultData();
     data2.events.push({time:'',text:'',done:false});
     qlSave(qlKey(qlCurrentDate()), data2);
     qlRender();
-  };
+  }
+  var _addEvEl=document.getElementById('ql-add-event'); if(_addEvEl) _addEvEl.onclick=qlAddEventItem;
+  var _addEvHdr=document.getElementById('ql-add-event-hdr'); if(_addEvHdr) _addEvHdr.onclick=qlAddEventItem;
 
   // 이벤트 삭제
   document.querySelectorAll('.ql-event-del').forEach(function(btn,i){
@@ -4647,12 +4650,33 @@ function qlRender() {
     qlSave(qlKey(qlCurrentDate()),d2); qlRender();
   };
 
-  // 시간 자동 포맷 (1234 → 12:34)
+  // 시간 자동 포맷 + 4자리 입력 시 텍스트칸 이동 + 백스페이스로 역이동
   document.querySelectorAll('.ql-event-time').forEach(function(inp){
     inp.addEventListener('input', function(){
       var v = inp.value.replace(/[^0-9]/g,'');
       if(v.length >= 3) v = v.slice(0,2) + ':' + v.slice(2,4);
       inp.value = v;
+      // 숫자 4자리(HH:MM) 완성되면 텍스트 칸으로 자동 이동
+      if(v.length === 5){
+        var row = inp.closest('.ql-event-row');
+        var txt = row && row.querySelector('.ql-event-text');
+        if(txt){ txt.focus(); txt.setSelectionRange(0,0); }
+      }
+    });
+  });
+  // 텍스트 칸에서 빈 상태로 백스페이스 → 시간칸으로 이동
+  document.querySelectorAll('.ql-event-text').forEach(function(inp){
+    inp.addEventListener('keydown', function(e){
+      if(e.key === 'Backspace' && inp.value === ''){
+        var row = inp.closest('.ql-event-row');
+        var time = row && row.querySelector('.ql-event-time');
+        if(time){
+          time.focus();
+          var len = time.value.length;
+          time.setSelectionRange(len, len);
+        }
+        e.preventDefault();
+      }
     });
   });
 
