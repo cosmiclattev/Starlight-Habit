@@ -2205,7 +2205,7 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:r
 ══════════════════════════════════════ */
 /* 테마 변수 */
 #daily-screen[data-form="questlog"] {
-  --ql-bg: #f7f1df;
+  --ql-bg: transparent;
   --ql-card: #fffdf5;
   --ql-border: #c8a882;
   --ql-border-thick: #8b6340;
@@ -2324,7 +2324,7 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
 
 /* EXP 바 */
 .ql-exp-bar-wrap { background:rgba(139,99,64,.15); border-radius:4px; height:6px; overflow:hidden; margin-top:4px; }
-.ql-exp-bar { height:100%; background:linear-gradient(90deg,var(--ql-accent),var(--ql-gold)); border-radius:4px; transition:width .3s; }
+.ql-exp-bar { height:100%; background:linear-gradient(90deg,#ffe033,#a8d84a,#4caf72); background-size:100% 100%; border-radius:4px; transition:width .3s; }
 .ql-exp-label { font-size:7px; color:var(--ql-muted); margin-top:2px; }
 
 .dp-settings-body{padding:20px;overflow-y:auto;height:calc(100vh - 62px - env(safe-area-inset-bottom,0px));}
@@ -4300,10 +4300,10 @@ function qlCurrentDate() {
 function qlFmtDate(d) { return dpFmtDate(d); }
 
 function qlCalcExp(data) {
-  var exp = 0;
-  (data.mainQuests||[]).forEach(function(q){ if(q.done) exp+=30; });
-  (data.subQuests||[]).forEach(function(q){ if(q.done) exp+=10; });
-  return exp;
+  var mq = (data.mainQuests||[]).filter(function(q){ return q.text; });
+  if(!mq.length) return 0;
+  var done = mq.filter(function(q){ return q.done; }).length;
+  return Math.round(done / mq.length * 100);
 }
 
 function qlAutoSave() {
@@ -4370,7 +4370,11 @@ function qlAutoSave() {
   var exp = qlCalcExp(data);
   var expBar = document.getElementById('ql-exp-bar');
   var expLbl = document.getElementById('ql-exp-label');
-  if(expBar) expBar.style.width = Math.min(100, exp) + '%';
+  if(expBar){
+    var pct = Math.min(100, exp);
+    expBar.style.width = pct + '%';
+    expBar.style.backgroundSize = (pct > 0 ? Math.round(10000/pct) : 100) + '% 100%';
+  }
   if(expLbl) expLbl.textContent = exp + '%';
 }
 
