@@ -2179,9 +2179,9 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:r
 .dp-drag-handle{width:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:grab;color:rgba(160,148,200,.5);touch-action:none;transition:color .12s;-webkit-user-select:none;user-select:none;padding:0;margin:0;}
 .dp-drag-handle:hover{color:rgba(120,100,180,.8);}
 .dp-drag-handle svg{pointer-events:none;}
-.dp-bd-row.dp-dragging{opacity:.4;background:rgba(220,210,255,.25);}
-.dp-bd-row.dp-drag-over{border-top:2.5px solid rgba(140,120,220,.7)!important;background:rgba(200,190,255,.08);}
-.dp-bd-row.dp-drop-after{border-bottom:2.5px solid rgba(140,120,220,.7)!important;}
+.dp-bd-row.dp-dragging,.dp-rm-row.dp-dragging,.dp-pr-row.dp-dragging,.ql-event-row.dp-dragging,.ql-main-quest-row.dp-dragging,.ql-sub-quest-row.dp-dragging{opacity:.4;background:rgba(220,210,255,.25);}
+.dp-bd-row.dp-drag-over,.dp-rm-row.dp-drag-over,.dp-pr-row.dp-drag-over,.ql-event-row.dp-drag-over,.ql-main-quest-row.dp-drag-over,.ql-sub-quest-row.dp-drag-over{border-top:2.5px solid rgba(140,120,220,.7)!important;background:rgba(200,190,255,.08);}
+.dp-bd-row.dp-drop-after,.dp-rm-row.dp-drop-after,.dp-pr-row.dp-drop-after,.ql-event-row.dp-drop-after,.ql-main-quest-row.dp-drop-after,.ql-sub-quest-row.dp-drop-after{border-bottom:2.5px solid rgba(140,120,220,.7)!important;}
 
 #daily-toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:rgba(80,60,140,.88);color:#fff;font-size:12px;font-weight:700;padding:8px 18px;border-radius:20px;white-space:nowrap;opacity:0;transition:opacity .25s;pointer-events:none;z-index:200;}
 #daily-toast.show{opacity:1;}
@@ -2282,7 +2282,7 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
 .ql-event-text::placeholder{color:rgba(160,148,210,.4);}
 .ql-event-text{flex:1;font-size:12px;color:var(--lav-dk);background:transparent;border:none;outline:none;font-family:inherit;min-width:0;}
 .ql-event-text.done{text-decoration:line-through;opacity:.45;}
-.ql-event-del { font-size:10px; color:var(--ql-muted); background:none; border:none; cursor:pointer; padding:0 2px; }
+.ql-event-del { font-size:11px; font-weight:700; color:rgba(160,148,210,.4); background:none; border:none; cursor:pointer; padding:0 2px; }
 
 /* 퀘스트 */
 .ql-quest-section { margin-bottom:8px; }
@@ -3635,11 +3635,22 @@ var _dpDrag = null;
 var _dpDragJustEnded = false;
 var DP_DRAG_THRESH = 5;
 
+/* 드래그 지원 rowClass 맵 */
+var DP_DRAG_MAP = [
+  {rowClass:'dp-bd-row',  listId:'dp-bd-list'},
+  {rowClass:'dp-rm-row',  listId:'dp-rm-list'},
+  {rowClass:'dp-pr-row',  listId:'dp-pr-list'},
+  {rowClass:'ql-event-row',      listId:'ql-events-list'},
+  {rowClass:'ql-main-quest-row', listId:'ql-main-quests'},
+  {rowClass:'ql-sub-quest-row',  listId:'ql-sub-quests'},
+];
 function dpStartDrag(e, handle, isTouch) {
-  var row = handle.closest('.dp-bd-row');
-  if (!row) return;
-  var list = row.closest('#dp-bd-list');
-  if (!list) return;
+  var row = null, list = null;
+  for(var mi=0;mi<DP_DRAG_MAP.length;mi++){
+    row = handle.closest('.'+DP_DRAG_MAP[mi].rowClass);
+    if(row){ list = document.getElementById(DP_DRAG_MAP[mi].listId); break; }
+  }
+  if (!row || !list) return;
   var clientY = isTouch ? e.touches[0].clientY : e.clientY;
   _dpDrag = {
     row: row, list: list,
@@ -3667,7 +3678,7 @@ function dpOnDragMove(e) {
   }
   if (e.preventDefault) e.preventDefault();
 
-  var rows = _dpDrag.list.querySelectorAll('.dp-bd-row');
+  var rows = _dpDrag.list.querySelectorAll('.dp-bd-row,.dp-rm-row,.dp-pr-row,.ql-event-row,.ql-main-quest-row,.ql-sub-quest-row');
   /* 삽입 위치: 마우스 위치 기준 midpoint */
   var ins = rows.length;
   for (var j = 0; j < rows.length; j++) {
@@ -3701,7 +3712,7 @@ function dpOnDragEnd(e) {
   var toIdx  = _dpDrag.curOverIdx;
   var wasDrag= _dpDrag.started;
   row.classList.remove('dp-dragging');
-  list.querySelectorAll('.dp-bd-row').forEach(function(r){
+  list.querySelectorAll('.dp-bd-row,.dp-rm-row,.dp-pr-row,.ql-event-row,.ql-main-quest-row,.ql-sub-quest-row').forEach(function(r){
     r.classList.remove('dp-drag-over','dp-drop-after');
   });
   _dpDrag = null;
@@ -3711,16 +3722,36 @@ function dpOnDragEnd(e) {
   /* 데이터 이동 */
   var fromIdx = parseInt(row.dataset.idx);
   if (toIdx === fromIdx || toIdx === fromIdx+1) return; /* 제자리 */
-  var key = dpKey(dpCurrentDate());
-  var data = dpLoad(key) || dpDefaultData();
-  var arr  = data.brainDump || [];
-  var item = arr.splice(fromIdx, 1)[0];
-  /* splice 후 toIdx 보정 */
-  var ni = toIdx > fromIdx ? toIdx-1 : toIdx;
-  arr.splice(ni, 0, item);
-  data.brainDump = arr;
-  dpSave(key, data);
-  dpRenderPlanner();
+  /* 리스트 ID로 field/save 결정 */
+  var listId = list.id;
+  var fieldMap = {
+    'dp-bd-list':'brainDump', 'dp-rm-list':'remember', 'dp-pr-list':'priorities'
+  };
+  var qlFieldMap = {
+    'ql-events-list':'events', 'ql-main-quests':'mainQuests', 'ql-sub-quests':'subQuests'
+  };
+  if(fieldMap[listId]){
+    var key = dpKey(dpCurrentDate());
+    var data = dpLoad(key) || dpDefaultData();
+    var arr = data[fieldMap[listId]] || [];
+    var item = arr.splice(fromIdx, 1)[0];
+    var ni = toIdx > fromIdx ? toIdx-1 : toIdx;
+    arr.splice(ni, 0, item);
+    data[fieldMap[listId]] = arr;
+    dpSave(key, data);
+    dpRenderPlanner();
+  } else if(qlFieldMap[listId]){
+    qlAutoSave();
+    var qlKey2 = qlKey(qlCurrentDate());
+    var qlData = qlLoad(qlKey2) || qlDefaultData();
+    var arr = qlData[qlFieldMap[listId]] || [];
+    var item = arr.splice(fromIdx, 1)[0];
+    var ni = toIdx > fromIdx ? toIdx-1 : toIdx;
+    arr.splice(ni, 0, item);
+    qlData[qlFieldMap[listId]] = arr;
+    qlSave(qlKey2, qlData);
+    qlRender();
+  }
 }
 
 /* ── 날짜 기록 모달 ── */
@@ -3887,9 +3918,9 @@ function dpRenderPlanner(){
   function priRow(item,idx){
     return '<div class="dp-pr-row dp-pri-row" data-idx="'+idx+'">'
       +'<div class="dp-drag-handle">'+DP_DRAG_SVG+'</div>'
+      +'<input type="checkbox" class="dp-pri-cb"'+(item.done?' checked':'')+'>'
       +'<div class="dp-pri-num">'+(idx+1)+'</div>'
-      +'<input type="text" class="dp-pri-inp'+(item.done?' done':'')+'" placeholder="'+(ko?'우선순위 입력...':'Enter priority...')+'" value="'+esc(item.text)+'" style="padding-right:34px;">'
-      +'<input type="checkbox" class="dp-pri-cb" style="position:absolute;right:22px;top:50%;transform:translateY(-50%);"'+(item.done?' checked':'')+'>'
+      +'<input type="text" class="dp-pri-inp'+(item.done?' done':'')+'" placeholder="'+(ko?'우선순위 입력...':'Enter priority...')+'" value="'+esc(item.text)+'">'
       +'<button class="dp-row-del-inline" title="삭제" style="margin-left:auto;width:14px;height:14px;border:1px solid rgba(180,168,220,.45);border-radius:50%;background:rgba(240,236,255,.65);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;font-size:9px;color:rgba(150,130,200,.65);line-height:1;">&#215;</button>'
       +'</div>';
   }
@@ -3948,7 +3979,7 @@ function dpRenderPlanner(){
     +'</div></div>'
     +'<div style="flex:1;min-width:0;">'
     +'<div class="dp-section">'
-    +'<div class="dp-section-hdr"><span class="dp-section-hdr-title">'+(ko?'우선순위 세 가지':'Top 3 Priorities')+'</span><button class="dp-hdr-add" id="dp-add-pr">+</button></div>'
+    +'<div class="dp-section-hdr"><span class="dp-section-hdr-title">'+(ko?'우선순위':'Top 3 Priorities')+'</span><button class="dp-hdr-add" id="dp-add-pr">+</button></div>'
     +'<div id="dp-pr-list">'+prRows+'</div>'
     
     +'</div>'
@@ -4328,6 +4359,11 @@ function qlAutoSave() {
   document.querySelectorAll('.ql-achv-inp').forEach(function(el,i){ data.achievements[i]=el.value; });
   // 이벤트
   document.querySelectorAll('.ql-event-row').forEach(function(row,i){
+    var dh=row.querySelector('.dp-drag-handle');
+    if(dh){
+      dh.addEventListener('mousedown',  function(e){ dpStartDrag(e,dh,false); },{passive:false});
+      dh.addEventListener('touchstart', function(e){ dpStartDrag(e,dh,true);  },{passive:false});
+    }
     var t=row.querySelector('.ql-event-time'); var tx=row.querySelector('.ql-event-text'); var cb=row.querySelector('.ql-event-check');
     if(!data.events[i]) data.events[i]={time:'',text:'',done:false};
     if(t) data.events[i].time=t.value; if(tx) data.events[i].text=tx.value; if(cb) data.events[i].done=cb.checked;
@@ -4506,12 +4542,14 @@ function qlRender() {
     return '<div class="ql-quest-row ql-main-quest-row">' + '<div class=\"dp-drag-handle\" style=\"width:10px;flex-shrink:0;\"><svg width=\"10\" height=\"10\" viewBox=\"0 0 10 10\" fill=\"none\" style=\"pointer-events:none\"><circle cx=\"3\" cy=\"3\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/><circle cx=\"7\" cy=\"3\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/><circle cx=\"3\" cy=\"7\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/><circle cx=\"7\" cy=\"7\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/></svg></div>'
       + '<input type="checkbox" class="ql-quest-check main"'+chk(q.done)+'>'
       + '<input class="ql-quest-text'+(q.done?' done':'')+'" value="'+e(q.text)+'" placeholder="메인 퀘스트..">'
+      + '<button class="ql-quest-del" data-type="main" style="margin-left:auto;width:14px;height:14px;border:1px solid rgba(180,168,220,.45);border-radius:50%;background:rgba(240,236,255,.65);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;font-size:9px;color:rgba(150,130,200,.65);line-height:1;">&#215;</button>'
       + '</div>';
   }).join('');
   var sqHtml = (data.subQuests||[]).map(function(q){
     return '<div class="ql-quest-row ql-sub-quest-row">' + '<div class=\"dp-drag-handle\" style=\"width:10px;flex-shrink:0;\"><svg width=\"10\" height=\"10\" viewBox=\"0 0 10 10\" fill=\"none\" style=\"pointer-events:none\"><circle cx=\"3\" cy=\"3\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/><circle cx=\"7\" cy=\"3\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/><circle cx=\"3\" cy=\"7\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/><circle cx=\"7\" cy=\"7\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/></svg></div>'
       + '<input type="checkbox" class="ql-quest-check sub"'+chk(q.done)+'>'
       + '<input class="ql-quest-text'+(q.done?' done':'')+'" value="'+e(q.text)+'" placeholder="서브 퀘스트..">'
+      + '<button class="ql-quest-del" data-type="sub" style="margin-left:auto;width:14px;height:14px;border:1px solid rgba(180,168,220,.45);border-radius:50%;background:rgba(240,236,255,.65);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;font-size:9px;color:rgba(150,130,200,.65);line-height:1;">&#215;</button>'
       + '</div>';
   }).join('');
   var mainDone=(data.mainQuests||[]).filter(function(q){return q.done;}).length;
@@ -4595,6 +4633,28 @@ function qlRender() {
     };
   });
 
+  // 퀘스트 X버튼 삭제
+  document.querySelectorAll('.ql-quest-del').forEach(function(btn){
+    btn.onclick = function(e){
+      e.stopPropagation();
+      qlAutoSave();
+      var type = btn.getAttribute('data-type');
+      var d2 = qlLoad(qlKey(qlCurrentDate()))||qlDefaultData();
+      var row = btn.closest('.ql-quest-row');
+      var rows = row.parentElement.querySelectorAll('.ql-quest-row');
+      var idx = Array.from(rows).indexOf(row);
+      if(type==='main') d2.mainQuests.splice(idx,1);
+      else d2.subQuests.splice(idx,1);
+      qlSave(qlKey(qlCurrentDate()),d2); qlRender();
+    };
+  });
+
+  // 퀘스트/이벤트 드래그 핸들 바인딩
+  document.querySelectorAll('.ql-quest-row .dp-drag-handle, .ql-event-row .dp-drag-handle').forEach(function(dh){
+    dh.addEventListener('mousedown',  function(e){ dpStartDrag(e,dh,false); },{passive:false});
+    dh.addEventListener('touchstart', function(e){ dpStartDrag(e,dh,true);  },{passive:false});
+  });
+
   // 체크박스 → done 클래스 + 자동저장
 
   document.querySelectorAll('.ql-quest-check').forEach(function(cb){
@@ -4650,32 +4710,46 @@ function qlRender() {
     qlSave(qlKey(qlCurrentDate()),d2); qlRender();
   };
 
-  // 시간 자동 포맷 + 4자리 입력 시 텍스트칸 이동 + 백스페이스로 역이동
+  // 시간 입력: 커서 위치 보존 + 자동 포맷 + 이동
   document.querySelectorAll('.ql-event-time').forEach(function(inp){
+    inp.addEventListener('keydown', function(e){
+      // 백스페이스: 텍스트칸에서 시간칸 맨 끝으로 이동 처리는 텍스트칸에서
+      if(e.key === 'Backspace' || e.key === 'Delete' || e.key === 'ArrowLeft' || e.key === 'ArrowRight' || e.key === 'Tab') return;
+      if(!/^[0-9]$/.test(e.key)) return;
+    });
     inp.addEventListener('input', function(){
-      var v = inp.value.replace(/[^0-9]/g,'');
-      if(v.length >= 3) v = v.slice(0,2) + ':' + v.slice(2,4);
-      inp.value = v;
-      // 숫자 4자리(HH:MM) 완성되면 텍스트 칸으로 자동 이동
-      if(v.length === 5){
+      var pos = inp.selectionStart;
+      var raw = inp.value.replace(/[^0-9]/g,'');
+      var formatted = raw.length >= 3 ? raw.slice(0,2)+':'+raw.slice(2,4) : raw;
+      // 커서가 콜론 뒤에 있었으면 +1 보정
+      var newPos = pos;
+      if(raw.length >= 3 && pos >= 3) newPos = pos + 1;
+      if(formatted !== inp.value){
+        inp.value = formatted;
+        // 커서 위치 복원
+        var setPos = Math.min(newPos, formatted.length);
+        inp.setSelectionRange(setPos, setPos);
+      }
+      // 4자리 완성 시 텍스트칸으로 이동
+      if(formatted.length === 5){
         var row = inp.closest('.ql-event-row');
         var txt = row && row.querySelector('.ql-event-text');
         if(txt){ txt.focus(); txt.setSelectionRange(0,0); }
       }
     });
   });
-  // 텍스트 칸에서 빈 상태로 백스페이스 → 시간칸으로 이동
+  // 텍스트 칸 빈 상태 백스페이스 → 시간칸 맨 끝으로
   document.querySelectorAll('.ql-event-text').forEach(function(inp){
     inp.addEventListener('keydown', function(e){
-      if(e.key === 'Backspace' && inp.value === ''){
+      if(e.key === 'Backspace' && inp.selectionStart === 0 && inp.selectionEnd === 0){
         var row = inp.closest('.ql-event-row');
         var time = row && row.querySelector('.ql-event-time');
         if(time){
+          e.preventDefault();
           time.focus();
           var len = time.value.length;
           time.setSelectionRange(len, len);
         }
-        e.preventDefault();
       }
     });
   });
