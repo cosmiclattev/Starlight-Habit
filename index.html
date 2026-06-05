@@ -148,7 +148,7 @@ html, body {
   grid-template-columns: 1fr 1fr;
   gap: 10px;
   width: 100%;
-  max-width: 290px;
+  max-width: 320px;
   position: relative;
 }
 .petal { aspect-ratio: 1 / 1; }
@@ -195,7 +195,7 @@ html, body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 8px 10px 8px;
+  padding: 9px 11px 9px;
 }
 .petal:active { transform: scale(.95); }
 
@@ -238,8 +238,8 @@ html, body {
 }
 
 .petal-icon {
-  width: 38px; height: 38px;
-  border-radius: 12px;
+  width: 42px; height: 42px;
+  border-radius: 13px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -265,7 +265,7 @@ html, body {
 
 .petal-body { position: relative; z-index: 1; }
 .petal-name {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 800;
   color: #1a1a1a;
   letter-spacing: -.2px;
@@ -478,7 +478,6 @@ html, body {
   --border: var(--t-border);
 }
 
-
 body[data-theme="lemon"] {
   --t-bg-a: #f0ecff; --t-bg-b: #f5f0c8; --t-bg-c: #eeea9a;
   --t-nav:    rgba(238,232,255,.94);
@@ -660,7 +659,7 @@ body[data-theme="cat"] {
 .ring-prog.brk{stroke:url(#grnGrad);}
 .ring-face{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;}
 .rtime{font-size:52px;font-weight:300;color:var(--text);letter-spacing:-3px;font-variant-numeric:tabular-nums;line-height:1;}
-.rmode{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--t-accent);margin-top:8px;}
+.rmode{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--t-accent);margin-top:6px;}
 .rmode.break{color:var(--grn);}
 
 .btn-row{
@@ -959,7 +958,7 @@ body[data-theme="cat"] {
   border-top:1px solid rgba(180,170,220,.2);
   flex-shrink:0;
 }
-.sel-options-list{display:flex;flex-direction:column;gap:8px;max-height:55vh;overflow-y:auto;}
+.sel-options-list{display:flex;flex-direction:column;gap:4px;max-height:55vh;overflow-y:auto;}
 .sel-option{display:flex;align-items:center;gap:13px;padding:13px 14px;border-radius:var(--r);cursor:pointer;transition:transform .12s,background .15s;border:1.5px solid var(--t-border);}
 .sel-option:active{transform:scale(.98);}
 .sel-option.chosen{background:var(--t-pale);border-color:var(--t-pale-b);}
@@ -1145,7 +1144,7 @@ body[data-theme="cat"] {
 details.beta { border-top: 1px dashed var(--border-md); padding-top: 10px; }
 details.beta > summary {
   list-style: none; cursor: pointer;
-  font-size: 11px; font-weight: 800; color: var(--muted);
+  font-size: 9px; font-weight: 800; color: var(--muted);
 }
 details.beta > summary::-webkit-details-marker { display: none; }
 
@@ -1675,9 +1674,6 @@ textarea.inp{resize:vertical;line-height:1.6}
 .tmpl2-lang-wrap{margin-top:14px;border-top:1px solid rgba(180,170,220,.25);padding-top:12px;}
 .tmpl2-lang-label{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.5px;margin-bottom:8px;}
 
-
-
-
 /* ── 말풍선 점 ── */
 .speech-dots{
   display:flex; flex-direction:column; align-items:center;
@@ -1695,11 +1691,10 @@ textarea.inp{resize:vertical;line-height:1.6}
 .speech-dot-1{ width:14px; height:10px; }
 .speech-dot-2{ width:9px; height:7px; }
 
-
 /* ── 삼각형 타이머 버튼 (SVG 둥근 삼각형) ── */
 .timer-triangle-wrap{
   display:flex; justify-content:center;
-  margin-top:-16px; width:100%;
+  margin-top:-8px; width:100%;
 }
 .timer-triangle{
   position:relative;
@@ -1709,6 +1704,7 @@ textarea.inp{resize:vertical;line-height:1.6}
   filter:drop-shadow(0 6px 20px rgba(232,93,74,.22)) drop-shadow(0 2px 8px rgba(0,0,0,.07));
 }
 .timer-triangle:active{ transform:scale(.96); }
+
 .tri-svg{ position:absolute; inset:0; width:100%; height:100%; }
 .timer-triangle-inner{
   position:absolute; inset:0;
@@ -1725,13 +1721,13 @@ textarea.inp{resize:vertical;line-height:1.6}
 .timer-tri-icon-wrap .tri-icon-bg{
   position:absolute; inset:0; width:100%; height:100%;
 }
-.timer-tri-name{ font-size:13px; font-weight:800; color:#2a1f5a; letter-spacing:-.01em; margin-top:2px; }
-.timer-tri-desc{ font-size:10px; color:rgba(80,60,120,.65); line-height:1.4; }
+.timer-tri-name{ font-size:13px; font-weight:800; color:#1a1a1a; letter-spacing:-.2px; margin-bottom:0; line-height:1.2; }
+.timer-tri-desc{ font-size:10px; color:var(--muted); font-weight:700; line-height:1.4; }
 .timer-tri-btn{
-  display:inline-flex; align-items:center; gap:5px;
-  margin-top:6px;
+  display:inline-flex; align-items:center; gap:4px;
+  margin-top:5px;
   background:rgba(232,93,74,.15); border-radius:8px;
-  padding:5px 10px; font-size:11px; font-weight:800;
+  padding:3px 8px; font-size:10px; font-weight:800;
   color:var(--t-color,#e85d4a); letter-spacing:.3px;
   border:none; cursor:pointer;
 }
@@ -1946,7 +1942,7 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:r
 .chip-ck.te-add-link{background:rgba(200,228,255,.7);border-color:rgba(120,175,230,.5);color:#1a5fa0}
 .chip-ds.te-add-link{background:rgba(255,238,200,.7);border-color:rgba(220,175,80,.5);color:#7a5010}
 .chip-tb.te-add-link{background:rgba(200,245,225,.7);border-color:rgba(90,185,145,.5);color:#1a6a50}
-.te-end-add{display:flex;flex-wrap:wrap;gap:6px;padding:8px 10px;margin-top:8px;border-radius:10px;background:rgba(240,236,255,.55);border:1.5px dashed rgba(180,165,225,.4)}
+.te-end-add{display:flex;flex-wrap:wrap;gap:6px;padding:8px 10px;margin-top:6px;border-radius:10px;background:rgba(240,236,255,.55);border:1.5px dashed rgba(180,165,225,.4)}
 .te-inline-sep{display:none}
 
 .te-chip{padding:5px 11px;border-radius:20px;border:1.5px solid;font-size:11px;font-weight:700;cursor:pointer;transition:background .1s,transform .1s;white-space:nowrap;line-height:1.2}
@@ -2062,7 +2058,7 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:r
 
 /* 플래너 본문 */
 .dp-planner{padding:10px 10px 90px;}
-.dp-header-card{background:rgba(255,255,255,.7);border-radius:12px;padding:9px 14px;margin-bottom:8px;box-shadow:0 2px 8px rgba(120,100,180,.07);}
+.dp-header-card{background:rgba(255,255,255,.7);border-radius:12px;padding:5px 12px;margin-bottom:8px;box-shadow:0 2px 8px rgba(120,100,180,.07);}
 .dp-date-row{display:flex;align-items:center;gap:6px;margin-bottom:6px;}
 .dp-date-label{font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;min-width:32px;}
 .dp-date-nav{display:flex;align-items:center;gap:6px;}
@@ -2070,21 +2066,24 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:r
 .dp-date-text{font-size:12px;font-weight:600;color:var(--lav-dk);}
 .dp-field-row{display:flex;align-items:center;gap:6px;margin-top:5px;}
 .dp-field-label{font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;min-width:72px;flex-shrink:0;}
+.dp-field-input::placeholder{color:rgba(160,148,210,.4);}
 .dp-field-input{flex:1;border:none;border-bottom:1px solid rgba(180,170,220,.4);background:transparent;font-size:12px;font-weight:600;color:var(--lav-dk);padding:2px 2px;font-family:inherit;outline:none;}
 .dp-field-input:focus{border-bottom-color:rgba(120,100,200,.6);}
-.dp-section{background:rgba(255,255,255,.7);border-radius:16px;margin-bottom:10px;box-shadow:0 2px 12px rgba(120,100,180,.08);overflow:hidden;}
-.dp-section-hdr{background:var(--grad-hi,linear-gradient(135deg,#b9a5f8,#78c6fa));padding:6px 10px 6px 12px;display:flex;align-items:center;gap:6px;overflow:hidden;justify-content:space-between;}
+.dp-section{background:rgba(255,255,255,.7);border-radius:16px;margin-bottom:6px;box-shadow:0 2px 12px rgba(120,100,180,.08);overflow:hidden;}
+.ql-wrap > .dp-section{margin-bottom:6px;}
+.ql-wrap .dp-section{margin-bottom:0;}
+.dp-section-hdr{background:var(--grad-hi,linear-gradient(135deg,#b9a5f8,#78c6fa));padding:4px 8px 4px 10px;display:flex;align-items:center;gap:6px;overflow:hidden;justify-content:space-between;}
 .dp-section-hdr-title{font-size:12px;font-weight:800;color:#fff;letter-spacing:-0.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.dp-hdr-add{width:22px;height:22px;border-radius:50%;border:none;background:rgba(255,255,255,.3);color:#fff;font-size:16px;font-weight:300;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;line-height:1;transition:background .15s;-webkit-tap-highlight-color:transparent;padding:0;}
+.dp-hdr-add{width:16px;height:16px;border-radius:50%;border:none;background:rgba(255,255,255,.3);color:#fff;font-size:13px;font-weight:300;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;line-height:1;transition:background .15s;-webkit-tap-highlight-color:transparent;padding:0;}
 .dp-hdr-add:active{background:rgba(255,255,255,.5);}
 .dp-row{display:flex;align-items:center;gap:2px;padding:6px 6px 6px 4px;border-bottom:1px solid rgba(180,170,220,.1);position:relative;}
 .dp-row:last-child{border-bottom:none;}
 .dp-row-cb{width:15px;height:15px;border-radius:4px;border:1.5px solid rgba(160,148,210,.5);appearance:none;-webkit-appearance:none;cursor:pointer;flex-shrink:0;background:transparent;position:relative;margin:0;}
 .dp-row-cb:checked{background:var(--grad-hi,linear-gradient(135deg,#b9a5f8,#78c6fa));border-color:transparent;}
 .dp-row-cb:checked::after{content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:900;}
-.dp-row-inp{flex:1;min-width:0;border:none;background:transparent;font-size:13px;color:var(--lav-dk);font-family:inherit;outline:none;padding:2px 0;}
+.dp-row-inp{flex:1;min-width:0;border:none;background:transparent;font-size:12px;color:var(--lav-dk);font-family:inherit;outline:none;padding:2px 0;}
 .dp-row-inp.done{text-decoration:line-through;opacity:.45;}
-.dp-row-inp::placeholder{color:rgba(160,148,210,.5);}
+.dp-row-inp::placeholder{color:rgba(160,148,210,.4);}
 
 /* dp-move-btn: ud-nav 스타일 재사용 */
 
@@ -2100,12 +2099,12 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:r
 .dp-add-btn{display:none;}
 
 /* priorities */
-.dp-pri-row{display:flex;align-items:center;gap:3px;padding:6px 6px 6px 6px;border-bottom:1px solid rgba(180,170,220,.1);position:relative;}
+.dp-pri-row{display:flex;align-items:center;gap:3px;padding:6px 6px 6px 2px;border-bottom:1px solid rgba(180,170,220,.1);position:relative;}
 .dp-pri-row:last-child{border-bottom:none;}
 .dp-pri-num{width:18px;height:18px;border-radius:50%;background:var(--grad-hi,linear-gradient(135deg,#b9a5f8,#78c6fa));display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:900;color:#fff;flex-shrink:0;}
-.dp-pri-inp{flex:1;min-width:0;border:none;background:transparent;font-size:13px;color:var(--lav-dk);font-family:inherit;outline:none;padding:2px 0;}
+.dp-pri-inp{flex:1;min-width:0;border:none;background:transparent;font-size:12px;color:var(--lav-dk);font-family:inherit;outline:none;padding:2px 0;}
 .dp-pri-inp.done{text-decoration:line-through;opacity:.45;}
-.dp-pri-inp::placeholder{color:rgba(160,148,210,.45);}
+.dp-pri-inp::placeholder{color:rgba(160,148,210,.4);}
 .dp-pri-cb{width:16px;height:16px;border-radius:50%;border:2px solid rgba(160,148,210,.5);appearance:none;-webkit-appearance:none;cursor:pointer;flex-shrink:0;background:transparent;position:relative;}
 .dp-pri-cb:checked{background:var(--grad-hi);border-color:transparent;}
 .dp-pri-cb:checked::after{content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:900;}
@@ -2128,14 +2127,12 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:r
 .dp-prog-bar{height:100%;background:var(--grad-hi);border-radius:4px;transition:width .4s;}
 /* settings body */
 
-
 /* 전날 불러오기 버튼 */
-.dp-prev-btn{width:22px;height:22px;border-radius:50%;border:none;background:rgba(255,255,255,.3);color:#fff;font-size:11px;font-weight:400;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;line-height:1;transition:background .15s;-webkit-tap-highlight-color:transparent;padding:0;}
+.dp-prev-btn{width:16px;height:16px;border-radius:50%;border:none;background:rgba(255,255,255,.3);color:#fff;font-size:10px;font-weight:400;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;line-height:1;transition:background .15s;-webkit-tap-highlight-color:transparent;padding:0;}
 .dp-prev-btn:active{background:rgba(255,255,255,.5);}
 /* 공유 버튼 */
 .dp-share-btn{background:none;border:none;cursor:pointer;padding:2px 4px;color:rgba(140,120,190,.7);font-size:14px;display:flex;align-items:center;-webkit-tap-highlight-color:transparent;flex-shrink:0;}
 .dp-share-btn:active{color:rgba(100,80,170,.9);}
-
 
 /* ── 플래너 리포트 ── */
 #dp-report-view{padding-top:0;padding-left:0;padding-right:0;}
@@ -2188,6 +2185,148 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:r
 
 #daily-toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:rgba(80,60,140,.88);color:#fff;font-size:12px;font-weight:700;padding:8px 18px;border-radius:20px;white-space:nowrap;opacity:0;transition:opacity .25s;pointer-events:none;z-index:200;}
 #daily-toast.show{opacity:1;}
+
+/* ── 플래너 양식 설정 ── */
+.dp-form-section{margin-bottom:24px;}
+.dp-form-cards{display:flex;flex-direction:column;gap:10px;}
+.dp-form-card{background:var(--card,#fff);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;border:2px solid transparent;cursor:pointer;transition:border-color .15s,box-shadow .15s;box-shadow:0 2px 8px rgba(120,100,180,.07);}
+.dp-form-card.active{border-color:var(--t-accent,#8878b8);box-shadow:0 2px 12px rgba(120,100,180,.18);}
+.dp-form-card.wip{opacity:.6;cursor:default;}
+.dp-form-card-icon{width:40px;height:40px;border-radius:10px;background:var(--t-pale,rgba(180,168,255,.18));display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.dp-form-card-info{flex:1;min-width:0;}
+.dp-form-card-name{font-size:13px;font-weight:800;color:var(--text);margin-bottom:2px;}
+.dp-form-card-desc{font-size:10px;color:var(--muted);font-weight:600;line-height:1.4;}
+.dp-form-card-badge{font-size:9px;font-weight:800;padding:2px 7px;border-radius:8px;flex-shrink:0;}
+.dp-form-card-badge.active{background:var(--t-accent,#8878b8);color:#fff;}
+.dp-form-card-badge.wip{background:rgba(180,170,220,.2);color:var(--muted);}
+
+/* ══════════════════════════════════════
+   Quest Log 플래너 CSS
+══════════════════════════════════════ */
+/* 테마 변수 */
+#daily-screen[data-form="questlog"] {
+  --ql-bg: #f7f1df;
+  --ql-card: #fffdf5;
+  --ql-border: #c8a882;
+  --ql-border-thick: #8b6340;
+  --ql-text: #3d2b1f;
+  --ql-muted: #8b7355;
+  --ql-accent: #e8636a;
+  --ql-accent2: #6ba3d6;
+  --ql-hp: #f87171;
+  --ql-mp: #60a5fa;
+  --ql-gold: #f59e0b;
+  --ql-check: #e8636a;
+  --ql-sub: #c9a0dc;
+  --ql-pixel: 'Courier New', monospace;
+}
+/* 테마별 하이라이트 */
+body[data-theme="tomato"] #daily-screen[data-form="questlog"] { --ql-accent:#e85d4a; --ql-check:#e85d4a; }
+body[data-theme="cat"] #daily-screen[data-form="questlog"] { --ql-accent:#d4a017; --ql-check:#d4a017; }
+body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6fc9; --ql-check:#7c6fc9; }
+
+.ql-wrap { background:var(--ql-bg); min-height:100%; padding:4px 8px 90px; font-family:inherit; }
+
+/* 날짜 헤더 */
+.ql-date-hdr { margin-bottom:10px; }
+.ql-date-today { font-size:9px; color:var(--ql-accent); font-weight:700; letter-spacing:1px; text-transform:uppercase; margin-bottom:2px; }
+.ql-date-main { font-size:18px; font-weight:900; color:var(--ql-text); letter-spacing:-0.5px; line-height:1.1; }
+.ql-date-nav { display:flex; align-items:center; gap:8px; margin-top:4px; }
+.ql-date-nav-btn { width:22px; height:22px; border-radius:6px; border:2px solid var(--ql-border); background:var(--ql-card); color:var(--ql-text); font-size:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+
+/* 카드 공통 */
+.ql-card { background:var(--ql-card); border:2px solid var(--ql-border); border-radius:12px; padding:10px 12px; margin-bottom:8px; position:relative; }
+.ql-card-hdr { display:flex; align-items:center; gap:6px; margin-bottom:8px; padding-bottom:6px; border-bottom:1px dashed var(--ql-border); }
+.ql-card-icon { font-size:14px; }
+.ql-card-title { font-size:10px; font-weight:900; color:var(--ql-text); letter-spacing:.5px; }
+.ql-card-count { font-size:9px; color:var(--ql-muted); margin-left:auto; }
+
+/* 헤더 카드 그리드 */
+.ql-header-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:8px; }
+.ql-field-label { font-size:8px; color:var(--ql-muted); font-weight:700; margin-bottom:3px; letter-spacing:.5px; text-transform:uppercase; }
+.ql-field-input{width:100%;background:transparent;border:none;outline:none;font-family:inherit;font-size:12px;color:var(--lav-dk);resize:none;line-height:1.5;}
+.ql-field-input::placeholder { color:var(--ql-muted); opacity:.7; }
+
+/* 3단 그리드 (상태/장비/업적) */
+.ql-triple-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; margin-bottom:5px; }
+.ql-triple-grid .ql-card { margin-bottom:0; padding:8px 10px; }
+
+/* 상태창 */
+.ql-stat-row{display:flex;align-items:center;gap:4px;margin-bottom:4px;font-size:8px;color:var(--text);}
+.ql-stat-label{color:var(--muted);font-size:10px;width:16px;flex-shrink:0;text-align:center;}
+.ql-stat-bar-wrap { flex:1; height:5px; background:rgba(139,99,64,.15); border-radius:3px; overflow:hidden; }
+.ql-stat-bar { height:100%; border-radius:3px; }
+.ql-stat-bar.hp { background:var(--ql-hp); }
+.ql-stat-bar.mp { background:var(--ql-mp); }
+.ql-stat-val{font-size:10px;color:var(--muted);white-space:nowrap;}
+.ql-stat-input{flex:1;background:transparent;border:none;border-bottom:1px solid rgba(180,170,220,.4);outline:none;font-family:inherit;font-size:13px;color:var(--lav-dk);text-align:right;padding:2px 2px;}
+
+/* 장비 */
+.ql-equip-row{display:flex;align-items:center;gap:2px;margin-bottom:2px;}
+.ql-equip-label{font-size:13px;color:var(--muted);width:14px;flex-shrink:0;text-align:center;}
+.ql-equip-input{flex:1;min-width:0;background:transparent;border:none;border-bottom:1px solid rgba(180,170,220,.3);outline:none;font-family:inherit;font-size:12px;color:var(--lav-dk);padding:1px 2px;}
+.ql-equip-input::placeholder{color:rgba(160,148,210,.4);}
+
+/* 업적 */
+.ql-achv-item{display:flex;align-items:center;gap:2px;margin-bottom:1px;overflow:hidden;min-width:0;}
+.ql-achv-star{color:var(--t-accent,#8878b8);font-size:11px;flex-shrink:0;width:14px;text-align:center;}
+.ql-achv-inp{font-size:12px;color:var(--lav-dk);padding:1px 2px;}
+.ql-achv-inp::placeholder{color:rgba(160,148,210,.4);}
+
+/* 이벤트 */
+.ql-event-row{display:flex;align-items:center;gap:3px;margin-bottom:3px;padding:2px 0;}
+.ql-event-check{width:13px;height:13px;border:1.5px solid rgba(160,148,210,.5);border-radius:3px;flex-shrink:0;appearance:none;-webkit-appearance:none;cursor:pointer;background:transparent;}
+.ql-event-check:checked{background:var(--grad-hi,linear-gradient(135deg,#b9a5f8,#78c6fa));border-color:transparent;}
+.ql-event-time::placeholder{color:rgba(160,148,210,.4);}
+.ql-event-time{font-size:11px;color:var(--muted);width:32px;flex-shrink:0;background:transparent;border:none;outline:none;font-family:inherit;}
+.ql-event-text::placeholder{color:rgba(160,148,210,.4);}
+.ql-event-text{flex:1;font-size:12px;color:var(--lav-dk);background:transparent;border:none;outline:none;font-family:inherit;min-width:0;}
+.ql-event-text.done{text-decoration:line-through;opacity:.45;}
+.ql-event-del { font-size:10px; color:var(--ql-muted); background:none; border:none; cursor:pointer; padding:0 2px; }
+
+/* 퀘스트 */
+.ql-quest-section { margin-bottom:8px; }
+.ql-quest-section-label { font-size:8px; color:var(--ql-accent); font-weight:700; margin-bottom:4px; letter-spacing:.3px; }
+.ql-quest-row{display:flex;align-items:center;gap:2px;padding:4px 4px 4px 2px;margin-bottom:0;border-bottom:1px solid rgba(180,170,220,.08);}
+.ql-quest-check{width:15px;height:15px;border:1.5px solid rgba(160,148,210,.5);border-radius:4px;flex-shrink:0;appearance:none;-webkit-appearance:none;cursor:pointer;background:transparent;}
+.ql-quest-check.main:checked{background:var(--grad-hi,linear-gradient(135deg,#b9a5f8,#78c6fa));border-color:transparent;}
+.ql-quest-check.sub:checked{background:var(--grad-hi,linear-gradient(135deg,#b9a5f8,#78c6fa));border-color:transparent;}
+.ql-quest-text::placeholder{color:rgba(160,148,210,.4);}
+.ql-quest-text{flex:1;font-size:12px;color:var(--lav-dk);background:transparent;border:none;outline:none;font-family:inherit;padding:2px 0;}
+.ql-quest-text.done{text-decoration:line-through;opacity:.45;}
+.ql-quest-progress { font-size:7px; color:var(--ql-muted); }
+
+/* 데미지/회복 로그 */
+.ql-2col { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.ql-log-row { display:flex; align-items:center; gap:4px; margin-bottom:3px; }
+.ql-log-val { font-size:8px; font-weight:700; width:24px; flex-shrink:0; }
+.ql-log-val.dmg { color:var(--ql-hp); }
+.ql-log-val.heal { color:#4ade80; }
+.ql-log-text{flex:1;font-size:12px;color:var(--lav-dk);background:transparent;border:none;border-bottom:1px solid rgba(180,170,220,.4);outline:none;font-family:inherit;padding:2px 0;}
+.ql-log-text::placeholder{color:rgba(160,148,210,.4);}
+.ql-log-retro::placeholder{color:rgba(160,148,210,.4);}
+.ql-fatal-row { background:rgba(232,99,106,.08); border:1px dashed var(--ql-hp); border-radius:6px; padding:5px 8px; display:flex; align-items:center; gap:6px; margin-top:4px; }
+.ql-fatal-label{font-size:11px;color:#f87171;font-weight:700;flex-shrink:0;}
+.ql-fatal-input{flex:1;background:transparent;border:none;outline:none;font-family:inherit;font-size:12px;color:var(--lav-dk);}
+
+/* 회고 3열 */
+.ql-retro-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; margin-top:4px; }
+.ql-retro-col { background:rgba(139,99,64,.05); border-radius:8px; padding:6px 8px; }
+.ql-retro-label{font-size:10px;color:var(--muted);font-weight:700;margin-bottom:4px;letter-spacing:.3px;}
+.ql-retro-textarea{width:100%;background:transparent;border:none;outline:none;font-family:inherit;font-size:12px;color:var(--lav-dk);resize:none;min-height:50px;line-height:1.5;}
+
+/* 엔딩 로그 */
+.ql-ending-textarea{width:100%;background:transparent;border:none;outline:none;font-family:inherit;font-size:12px;color:var(--lav-dk);resize:none;min-height:60px;line-height:1.6;}
+
+/* 추가 버튼 */
+.ql-add-btn{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--muted);background:none;border:none;cursor:pointer;padding:2px 0;font-family:inherit;}
+.ql-add-btn:active{color:var(--t-accent,#8878b8);}
+
+/* EXP 바 */
+.ql-exp-bar-wrap { background:rgba(139,99,64,.15); border-radius:4px; height:6px; overflow:hidden; margin-top:4px; }
+.ql-exp-bar { height:100%; background:linear-gradient(90deg,var(--ql-accent),var(--ql-gold)); border-radius:4px; transition:width .3s; }
+.ql-exp-label { font-size:7px; color:var(--ql-muted); margin-top:2px; }
+
 .dp-settings-body{padding:20px;overflow-y:auto;height:calc(100vh - 62px - env(safe-area-inset-bottom,0px));}
 </style>
 
@@ -2197,6 +2336,7 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:r
   <meta name="apple-mobile-web-app-title" content="별빛달빛해빗">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="theme-color" content="#8b7fd4">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body style='background:radial-gradient(ellipse at 15% 20%,rgba(200,185,255,.35) 0%,transparent 50%),radial-gradient(ellipse at 85% 80%,rgba(230,220,120,.28) 0%,transparent 50%),linear-gradient(155deg,#f0ecff 0%,#e8e2f8 30%,#f5f0c8 70%,#eeea9a 100%);background-attachment:fixed;'>
 <script>(function(){
@@ -2234,7 +2374,6 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:r
       </div>
 <div class="clover-grid">
 
-
       <div class="petal y" onclick="showWip('Y','Yearly','연간 만다라트','📅 연간 만다라트로 올 한해의\n목표를 설계하고 달성률을 추적해요.')">
         <div class="petal-top">
           <div class="petal-icon">☀️</div>
@@ -2245,7 +2384,6 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:r
           <span class="wip-badge">🔨 공사중</span>
         </div>
       </div>
-
 
       <div class="petal m" onclick="goMonthly()">
         <div class="petal-top">
@@ -2258,7 +2396,6 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:r
         </div>
       </div>
 
-
       <div class="petal wd" onclick="goRoutine()">
         <div class="petal-top">
           <div class="petal-icon">⭐</div>
@@ -2269,7 +2406,6 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:r
           <span class="go-arrow">▶ 시작하기</span>
         </div>
       </div>
-
 
       <div class="petal t" onclick="goDaily()">
         <div class="petal-top">
@@ -2283,8 +2419,28 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:r
       </div>
 
     </div>
+    <div class='timer-triangle-wrap'>
+      <div class='timer-triangle' onclick='goTimely()'>
+        <svg class='tri-svg' viewBox='0 0 200 178' xmlns='http://www.w3.org/2000/svg'>
+          <path d='M100,14 C104,14 108,16 110,20 L188,158 C192,165 187,174 179,174 L21,174 C13,174 8,165 12,158 L90,20 C92,16 96,14 100,14 Z' fill='rgba(255,255,255,.82)'/>
+          <clipPath id='triClip'><path d='M100,14 C104,14 108,16 110,20 L188,158 C192,165 187,174 179,174 L21,174 C13,174 8,165 12,158 L90,20 C92,16 96,14 100,14 Z'/></clipPath>
+          <rect x='0' y='170' width='200' height='8' fill='#e85d4a' clip-path='url(#triClip)' rx='2'/>
+          <circle cx='100' cy='52' r='52' fill='rgba(232,93,74,.13)' clip-path='url(#triClip)'/>
+        </svg>
+        <div class='timer-triangle-inner'>
+          <div class='timer-tri-icon-wrap'>
+            <svg class='tri-icon-bg' viewBox='0 0 72 66' xmlns='http://www.w3.org/2000/svg'>
+              <path d='M36,4 C39,4 41,6 43,9 L68,58 C70,62 67,66 63,66 L9,66 C5,66 2,62 4,58 L29,9 C31,6 33,4 36,4 Z' fill='rgba(232,93,74,.25)'/>
+            </svg>
+            🍅
+          </div>
+          <div class='timer-tri-name'>Timely</div>
+          <div class='timer-tri-desc'>집중하고<br>토마토를 모아요</div>
+          <div class='timer-tri-btn'>▶ 시작하기</div>
+        </div>
+      </div>
+    </div>
 
-    <!-- SVG 필터 -->
     <svg width='0' height='0' style='position:absolute'>
       <defs>
         <filter id='round-tri' x='-10%' y='-10%' width='120%' height='120%'>
@@ -2294,33 +2450,7 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:r
         </filter>
       </defs>
     </svg>
-    <!-- 삼각형 타이머 버튼 -->
-    <div class='timer-triangle-wrap'>
-      <div class='timer-triangle' onclick='goTimely()'>
-        <!-- 둥근 삼각형 SVG 배경 -->
-        <svg class='tri-svg' viewBox='0 0 200 178' xmlns='http://www.w3.org/2000/svg'>
-          <path d='M100,14 C104,14 108,16 110,20 L188,158 C192,165 187,174 179,174 L21,174 C13,174 8,165 12,158 L90,20 C92,16 96,14 100,14 Z'
-            fill='rgba(255,255,255,.82)'/>
-          <!-- 하단 컬러 라인 -->
-          <clipPath id='triClip'>
-            <path d='M100,14 C104,14 108,16 110,20 L188,158 C192,165 187,174 179,174 L21,174 C13,174 8,165 12,158 L90,20 C92,16 96,14 100,14 Z'/>
-          </clipPath>
-          <rect x='0' y='170' width='200' height='8' fill='#e85d4a' clip-path='url(#triClip)' rx='2'/>
-        </svg>
-        <div class='timer-triangle-inner'>
-          <div class='timer-tri-icon-wrap'>
-            <svg class='tri-icon-bg' viewBox='0 0 72 66' xmlns='http://www.w3.org/2000/svg'>
-              <path d='M36,4 C39,4 41,6 43,9 L68,58 C70,62 67,66 63,66 L9,66 C5,66 2,62 4,58 L29,9 C31,6 33,4 36,4 Z'
-                fill='rgba(232,93,74,.13)'/>
-            </svg>
-            🍅
-          </div>
-          <div class='timer-tri-name'>Timely</div>
-          <div class='timer-tri-desc'>뽀모도로로 집중하고<br>토마토를 모아요</div>
-          <div class='timer-tri-btn'>▶ 시작하기</div>
-        </div>
-      </div>
-    </div>
+    
     </div>
   </div>
   <div id='lumi-screen'>
@@ -2341,7 +2471,6 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:r
   </div>
 
 <div id="timer-view" class="view active">
-
 
   <div class="info-banner" id="info-banner">
     🎯집중 1번 = 🍅토마토 1개!
@@ -2373,7 +2502,6 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:r
       </div>
     </div>
   </div>
-
 
   <div class="btn-row">
     <button class="action-btn primary" id="action-btn" onclick="handlePlayPause()">▶ 집중 시작</button>
@@ -2417,8 +2545,6 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:r
 
   <div class="report-body">
 
-
-    <!-- 이번주 통계 (고정) -->
     <div class="stats-section">
       <div class="stats-section-header">
         <div class="stats-section-label" id="w-section-label">📅 이번 주 통계</div>
@@ -2611,7 +2737,7 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:r
   <div style="display:flex;align-items:center;justify-content:space-between;">
     <div>
       <span class="app-brand">🌙 월간 목표 빙고</span>
-      <div class="app-sub">이번 달 목표를 채우고 빙고를 완성하자!</div>
+      <div class="app-sub">이번 달 목표 빙고를 완성하자!</div>
     </div>
     <div class="app-switcher app-sw-bar"><button class="app-sw-collapse" title="접기/펼치기">&#8250;</button>
       <button class='app-sw-btn' data-label='Home' onclick='goHomeFromBingo()'>🏠</button>
@@ -2626,7 +2752,6 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:r
 
 <div class="app-body" id="bingo-body">
 
-
   <div id="tab-view" class="tab-content active">
     <div class="stats-row" id="viewStats"></div>
     <div class="card card-pad">
@@ -2639,14 +2764,12 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:r
     </div>
   </div>
 
-
   <div id="tab-edit" class="tab-content">
     <div class="card card-pad edit-grid" id="editPanel"></div>
     <div class="card card-pad" style="margin-top:6px">
       <div id="editBoard"></div>
     </div>
   </div>
-
 
   <div id="tab-monthly" class="tab-content">
     <div id="monthlyListView">
@@ -2666,7 +2789,6 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:r
       </div>
     </div>
   </div>
-
 
   <div id="tab-settings" class="tab-content">
     <div id="bingoSettingsBody" style="padding:8px 0 100px"></div>
@@ -2706,7 +2828,7 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:r
     <div id='routine-top-bar'>
       <div>
         <div class='rn-hdr-title' id='routine-hdr-title'>⭐ 주간&일간 트래커</div>
-        <div class='rn-hdr-sub' id='routine-hdr-sub'>루틴을 기록하고 매일을 채워나가자!</div>
+        <div class='rn-hdr-sub' id='routine-hdr-sub'>매일 루틴을 채워나가자!</div>
       </div>
       <div class='app-switcher app-sw-bar'><button class="app-sw-collapse" title="접기/펼치기">&#8250;</button>
         <button class='app-sw-btn' data-label='Home' onclick='goHome()'>🏠</button>
@@ -2745,12 +2867,12 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:r
       <button class='app-sw-btn' data-label='Timely' onclick='goTimely()'>🍅</button>
     </div>
   </div>
-  <!-- ══════════ DAILY PLANNER SCREEN ══════════ -->
+  
   <div id='daily-screen' style='display:none;flex-direction:column;width:100%;height:100vh;overflow:hidden;'>
     <div id='daily-top-bar' style='display:none;'>
       <div>
         <div class='dp-hdr-title' id='dp-hdr-title'>✨ 데일리 플래너</div>
-        <div class='dp-hdr-sub' id='dp-hdr-sub'>오늘 하루를 계획하고 완료해나가요!</div>
+        <div class='dp-hdr-sub' id='dp-hdr-sub'>오늘 하루를 클리어해요!!</div>
       </div>
       <div class='app-switcher app-sw-bar'><button class='app-sw-collapse' title='접기/펼치기'>&#8250;</button>
         <button class='app-sw-btn' data-label='Home' onclick='goHomeFromDaily()'>🏠</button>
@@ -2763,7 +2885,7 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:r
     </div>
     <div id='daily-app' style='flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:0;min-height:0;'></div>
     <div class='toast' id='daily-toast'></div>
-    <!-- 날짜 기록 모달 -->
+    
     <div class='dp-day-modal-overlay' id='dp-day-modal-overlay' onclick='dpCloseDayModal(event)'>
       <div class='dp-day-modal' id='dp-day-modal'>
         <div class='dp-day-modal-hdr'>
@@ -2854,7 +2976,7 @@ function applyLangSetting(lang){
   var rTitle = document.getElementById('routine-app-title');
   var rSub   = document.getElementById('routine-app-sub');
   if(rTitle) rTitle.textContent = ko ? '⭐ 주간&일간 트래커' : '⭐ Weekly & Daily Tracker';
-  if(rSub)   rSub.textContent   = ko ? '루틴을 기록하고 매일을 채워나가자!' : 'Track Routines, Build Habits!';
+  if(rSub)   rSub.textContent   = ko ? '매일 루틴을 채워나가자!' : 'Track Routines, Build Habits!';
 
   /* ── 6. 주간 모달 열려있으면 리렌더 ── */
   var wST = window._ST;
@@ -2913,7 +3035,7 @@ function rnTab(tab){
   localStorage.setItem('ymwt_rnLastTab', tab);
   /* 헤더 제목/서브 업데이트 */
   var RN_TITLES = {
-    calendar: ['⭐ 주간&일간 트래커','루틴을 기록하고 매일을 채워나가자!'],
+    calendar: ['⭐ 주간&일간 트래커','매일 루틴을 채워나가자!'],
     report:   ['📊 리포트','나의 루틴 기록을 한눈에 확인해보세요.'],
     settings: ['⚙️ 설정','테마, 언어 설정을 바꾸어 보아요.']
   };
@@ -3201,32 +3323,48 @@ function dpUpdateProgress(data){
 var _dpRptCal = (function(){ var d=new Date(); return {y:d.getFullYear(),m:d.getMonth()}; })();
 
 function dpCalcStats(keys){
-  /* keys: 'YYYY-MM-DD' 배열 */
   var recordDays=0, priDone=0, priTotal=0;
   keys.forEach(function(k){
-    var data=dpLoad(k); if(!data) return;
     var hasSomething=false;
-    var fields=['brainDump','remember','priorities'];
-    fields.forEach(function(f){
-      (data[f]||[]).forEach(function(r){ if(r.text) hasSomething=true; });
-    });
+    /* 베이직 노트 */
+    var data=dpLoad(k);
+    if(data){
+      ['brainDump','remember','priorities'].forEach(function(f){
+        (data[f]||[]).forEach(function(r){ if(r.text) hasSomething=true; });
+      });
+      (data.priorities||[]).forEach(function(p){
+        if(p.text){ priTotal++; if(p.done) priDone++; }
+      });
+    }
+    /* 퀘스트 로그 */
+    var ql=qlLoad('ymwt_ql_'+k);
+    if(ql){
+      if(ql.monthlyQuest||ql.intention) hasSomething=true;
+      (ql.mainQuests||[]).forEach(function(q){ if(q.text) hasSomething=true; });
+      (ql.subQuests||[]).forEach(function(q){ if(q.text) hasSomething=true; });
+      (ql.events||[]).forEach(function(e){ if(e.text) hasSomething=true; });
+      /* 퀘스트 완료를 우선순위 완료율에 반영 */
+      (ql.mainQuests||[]).forEach(function(q){
+        if(q.text){ priTotal++; if(q.done) priDone++; }
+      });
+    }
     if(hasSomething) recordDays++;
-    (data.priorities||[]).forEach(function(p){
-      if(p.text){ priTotal++; if(p.done) priDone++; }
-    });
   });
   return {recordDays:recordDays, priDone:priDone, priTotal:priTotal};
 }
 
 function dpGetAllKeys(){
-  var keys=[];
+  var keySet={};
   for(var i=0;i<localStorage.length;i++){
     var k=localStorage.key(i);
     if(k&&k.startsWith('ymwt_dp_')&&/ymwt_dp_\d{4}-\d{2}-\d{2}$/.test(k)){
-      keys.push(k.replace('ymwt_dp_',''));
+      keySet[k.replace('ymwt_dp_','')]=1;
+    }
+    if(k&&k.startsWith('ymwt_ql_')&&/ymwt_ql_\d{4}-\d{2}-\d{2}$/.test(k)){
+      keySet[k.replace('ymwt_ql_','')]=1;
     }
   }
-  return keys;
+  return Object.keys(keySet).sort();
 }
 
 function dpCalcStreak(allKeys){
@@ -3234,6 +3372,12 @@ function dpCalcStreak(allKeys){
   var set={};
   allKeys.forEach(function(k){ var d=dpLoad(k); if(!d) return;
     var has=['brainDump','remember','priorities'].some(function(f){return (d[f]||[]).some(function(r){return r.text;});});
+    if(!has){
+      var ql=qlLoad('ymwt_ql_'+k);
+      if(ql&&((ql.mainQuests||[]).some(function(q){return q.text;})||(ql.events||[]).some(function(e){return e.text;}))){
+        has=true;
+      }
+    }
     if(has) set[k]=1;
   });
   var cur=0, longest=0, streak=0;
@@ -3389,10 +3533,18 @@ function dpRenderRptCal(allKeys, ko){
   allKeys.forEach(function(k){
     var pfx=y+'-'+(m+1<10?'0':'')+(m+1);
     if(!k.startsWith(pfx)) return;
-    var data=dpLoad(k); if(!data) return;
-    var has=['brainDump','remember','priorities'].some(function(f){
+    var has=false;
+    var data=dpLoad(k);
+    if(data) has=['brainDump','remember','priorities'].some(function(f){
       return (data[f]||[]).some(function(r){ return r.text; });
     });
+    if(!has){
+      var ql=qlLoad('ymwt_ql_'+k);
+      if(ql) has=(ql.mainQuests||[]).some(function(q){return q.text;})
+            ||(ql.subQuests||[]).some(function(q){return q.text;})
+            ||(ql.events||[]).some(function(e){return e.text;})
+            ||!!(ql.monthlyQuest||ql.intention);
+    }
     if(has) recSet[k]=1;
   });
 
@@ -3581,7 +3733,8 @@ function dpOpenDayModal(ds){
     ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()]+' '+d.getDate()+' ('+dnames[d.getDay()]+')');
   document.getElementById('dp-day-modal-title').textContent=title;
 
-  if(!data){
+  var qlData=qlLoad('ymwt_ql_'+ds);
+  if(!data && !qlData){
     document.getElementById('dp-day-modal-body').innerHTML=
       '<div class="dp-day-empty">'+(ko?'기록이 없어요.':'No record for this day.')+'</div>';
     document.getElementById('dp-day-modal-overlay').classList.add('open');
@@ -3592,7 +3745,7 @@ function dpOpenDayModal(ds){
   var html='';
 
   /* 헤더 필드 */
-  if(data.monthlyFocus||data.intention){
+  if(data&&(data.monthlyFocus||data.intention)){
     html+='<div class="dp-day-sec">';
     if(data.monthlyFocus) html+='<div class="dp-day-item"><span style="font-size:10px;font-weight:700;color:var(--muted)">'+(ko?'이번달목표':'Focus')+':</span> '+esc(data.monthlyFocus)+'</div>';
     if(data.intention)    html+='<div class="dp-day-item"><span style="font-size:10px;font-weight:700;color:var(--muted)">'+(ko?'마음가짐':'Intention')+':</span> '+esc(data.intention)+'</div>';
@@ -3600,7 +3753,7 @@ function dpOpenDayModal(ds){
   }
 
   /* 우선순위 */
-  var pris=(data.priorities||[]).filter(function(r){return r.text;});
+  var pris=(data&&data.priorities||[]).filter(function(r){return r.text;});
   html+='<div class="dp-day-sec"><div class="dp-day-sec-title">⭐ '+(ko?'우선순위':'Priorities')+'</div>';
   if(pris.length){
     pris.forEach(function(p,i){
@@ -3610,7 +3763,7 @@ function dpOpenDayModal(ds){
   html+='</div>';
 
   /* 브레인 덤프 */
-  var bds=(data.brainDump||[]).filter(function(r){return r.text;});
+  var bds=(data&&data.brainDump||[]).filter(function(r){return r.text;});
   html+='<div class="dp-day-sec"><div class="dp-day-sec-title">🧠 '+(ko?'원하는 것 & 생각나는 것':'Brain Dump')+'</div>';
   if(bds.length){
     bds.forEach(function(r){
@@ -3620,7 +3773,7 @@ function dpOpenDayModal(ds){
   html+='</div>';
 
   /* 기억할 것 */
-  var rms=(data.remember||[]).filter(function(r){return r.text;});
+  var rms=(data&&data.remember||[]).filter(function(r){return r.text;});
   if(rms.length){
     html+='<div class="dp-day-sec"><div class="dp-day-sec-title">📝 '+(ko?'기억할 것':'Remember')+'</div>';
     rms.forEach(function(r){
@@ -3631,7 +3784,7 @@ function dpOpenDayModal(ds){
 
   /* 시간블록 */
   var bkPh=ko?['아침','오전','낮','저녁','밤','추가']:['Morning','Forenoon','Noon','Evening','Night','Extra'];
-  var hasBlocks=(data.blocks||[]).some(function(b){return b.content;});
+  var hasBlocks=(data&&data.blocks||[]).some(function(b){return b.content;});
   if(hasBlocks){
     html+='<div class="dp-day-sec"><div class="dp-day-sec-title">⏱ '+(ko?'시간 블록':'Time Blocks')+'</div>';
     (data.blocks||[]).forEach(function(b,i){
@@ -3639,6 +3792,49 @@ function dpOpenDayModal(ds){
       html+='<div class="dp-day-block-row"><span class="dp-day-block-label">'+bkPh[i]+'</span>'+esc(b.content)+'</div>';
     });
     html+='</div>';
+  }
+
+  /* 퀘스트 로그 섹션 */
+  if(qlData){
+    if(qlData.monthlyQuest||qlData.intention){
+      html+='<div class="dp-day-sec">';
+      if(qlData.monthlyQuest) html+='<div class="dp-day-item"><span style="font-size:10px;font-weight:700;color:var(--muted)">👑 도전과제:</span> '+esc(qlData.monthlyQuest)+'</div>';
+      if(qlData.intention)    html+='<div class="dp-day-item"><span style="font-size:10px;font-weight:700;color:var(--muted)">✨ 오늘의 주문:</span> '+esc(qlData.intention)+'</div>';
+      html+='</div>';
+    }
+    var mqDone=(qlData.mainQuests||[]).filter(function(q){return q.text;});
+    if(mqDone.length){
+      html+='<div class="dp-day-sec"><div class="dp-day-sec-title">⚔️ 메인 퀘스트</div>';
+      mqDone.forEach(function(q){
+        html+='<div class="dp-day-item'+(q.done?' done':'')+'"><span class="dp-day-item-cb">'+(q.done?'☑':'☐')+'</span>'+esc(q.text)+'</div>';
+      });
+      html+='</div>';
+    }
+    var sqDone=(qlData.subQuests||[]).filter(function(q){return q.text;});
+    if(sqDone.length){
+      html+='<div class="dp-day-sec"><div class="dp-day-sec-title">🍄 서브 퀘스트</div>';
+      sqDone.forEach(function(q){
+        html+='<div class="dp-day-item'+(q.done?' done':'')+'"><span class="dp-day-item-cb">'+(q.done?'☑':'☐')+'</span>'+esc(q.text)+'</div>';
+      });
+      html+='</div>';
+    }
+    var evDone=(qlData.events||[]).filter(function(e){return e.text;});
+    if(evDone.length){
+      html+='<div class="dp-day-sec"><div class="dp-day-sec-title">📜 오늘의 일정</div>';
+      evDone.forEach(function(e){
+        html+='<div class="dp-day-item">'+(e.time?'<span style="font-size:10px;color:var(--muted);margin-right:4px;">'+esc(e.time)+'</span>':'')+esc(e.text)+'</div>';
+      });
+      html+='</div>';
+    }
+    var battles=(qlData.battleLog||[]).filter(function(b){return b.text;});
+    if(battles.length){
+      var typeLabel={achv:'🏆 업적', heal:'💚 성장', dmg:'💥 위기', new:'⬜'};
+      html+='<div class="dp-day-sec"><div class="dp-day-sec-title">🗡 전투 기록</div>';
+      battles.forEach(function(b){
+        html+='<div class="dp-day-item"><span style="font-size:10px;color:var(--muted);margin-right:4px;">'+(typeLabel[b.type]||'')+'</span>'+esc(b.text)+(b.retro?'<span style="opacity:.6;"> → '+esc(b.retro)+'</span>':'')+'</div>';
+      });
+      html+='</div>';
+    }
   }
 
   document.getElementById('dp-day-modal-body').innerHTML=html;
@@ -3649,7 +3845,6 @@ function dpCloseDayModal(e){
   if(e&&e.target!==document.getElementById('dp-day-modal-overlay')) return;
   document.getElementById('dp-day-modal-overlay').classList.remove('open');
 }
-
 
 /* 현재 열린 플로팅바 추적 */
 var _dpOpenRow = null;
@@ -3682,35 +3877,31 @@ function dpRenderPlanner(){
   function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
   var DP_DRAG_SVG='<svg width="10" height="10" viewBox="0 0 10 10" fill="none" style="pointer-events:none"><circle cx="3" cy="3" r="1.3" fill="currentColor"/><circle cx="7" cy="3" r="1.3" fill="currentColor"/><circle cx="3" cy="7" r="1.3" fill="currentColor"/><circle cx="7" cy="7" r="1.3" fill="currentColor"/></svg>';
   function rowHtml(item,rc,idx,ph){
-    var dragHandle=(rc==='dp-bd-row')?'<div class="dp-drag-handle">'+DP_DRAG_SVG+'</div>':'';
     return '<div class="'+rc+' dp-row" data-idx="'+idx+'">'
-      +dragHandle
+      +'<div class="dp-drag-handle">'+DP_DRAG_SVG+'</div>'
       +'<input type="checkbox" class="dp-row-cb"'+(item.done?' checked':'')+'>'
-      +'<input type="text" class="dp-row-inp'+(item.done?' done':'')+'" placeholder="'+ph+'" value="'+esc(item.text)+'" style="padding-right:16px;">'
-      +'<button class="dp-row-toggle" title="편집" style="position:absolute;right:4px;top:50%;transform:translateY(-50%);">&#8249;</button>'
-      +'<div class="dp-row-btns">'
-      +'<div class="ud-nav"><button class="btn-move dp-move-up">▲</button><button class="btn-move dp-move-dn">▼</button></div>'
-      +'<button class="dp-del-btn dp-del">&#215;</button>'
-      +'<button class="dp-close-btn dp-tog-close">&#8250;</button>'
-      +'</div>'
+      +'<input type="text" class="dp-row-inp'+(item.done?' done':'')+'" placeholder="'+ph+'" value="'+esc(item.text)+'">'
+      +'<button class="dp-row-del-inline" title="삭제" style="margin-left:auto;width:14px;height:14px;border:1px solid rgba(180,168,220,.45);border-radius:50%;background:rgba(240,236,255,.65);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;font-size:9px;color:rgba(150,130,200,.65);line-height:1;">&#215;</button>'
       +'</div>';
   }
   function priRow(item,idx){
     return '<div class="dp-pr-row dp-pri-row" data-idx="'+idx+'">'
+      +'<div class="dp-drag-handle">'+DP_DRAG_SVG+'</div>'
       +'<div class="dp-pri-num">'+(idx+1)+'</div>'
       +'<input type="text" class="dp-pri-inp'+(item.done?' done':'')+'" placeholder="'+(ko?'우선순위 입력...':'Enter priority...')+'" value="'+esc(item.text)+'" style="padding-right:34px;">'
       +'<input type="checkbox" class="dp-pri-cb" style="position:absolute;right:22px;top:50%;transform:translateY(-50%);"'+(item.done?' checked':'')+'>'
-      +'<button class="dp-row-toggle" title="편집" style="position:absolute;right:4px;top:50%;transform:translateY(-50%);">&#8249;</button>'
-      +'<div class="dp-row-btns">'
-      +'<div class="ud-nav"><button class="btn-move dp-move-up">▲</button><button class="btn-move dp-move-dn">▼</button></div>'
-      +'<button class="dp-del-btn dp-del">&#215;</button>'
-      +'<button class="dp-close-btn dp-tog-close">&#8250;</button>'
-      +'</div>'
+      +'<button class="dp-row-del-inline" title="삭제" style="margin-left:auto;width:14px;height:14px;border:1px solid rgba(180,168,220,.45);border-radius:50%;background:rgba(240,236,255,.65);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;font-size:9px;color:rgba(150,130,200,.65);line-height:1;">&#215;</button>'
       +'</div>';
   }
-  var bdRows=data.brainDump.map(function(r,i){ return rowHtml(r,'dp-bd-row',i,ko?'생각, 할 일, 아이디어...':'Thoughts, tasks, ideas...'); }).join('');
-  var rmRows=data.remember.map(function(r,i){ return rowHtml(r,'dp-rm-row',i,ko?'기억할 것...':'Things to remember...'); }).join('');
-  var prRows=data.priorities.map(function(r,i){ return priRow(r,i); }).join('');
+  var bdRows=data.brainDump.length===0
+    ?'<div style="border:1.5px dashed rgba(180,168,220,.5);border-radius:8px;padding:8px 10px;color:rgba(160,148,210,.6);font-size:11px;text-align:center;">'+(ko?'항목을 추가해주세요 ✦':'Add items ✦')+'</div>'
+    :data.brainDump.map(function(r,i){ return rowHtml(r,'dp-bd-row',i,ko?'생각, 할 일, 아이디어...':'Thoughts, tasks, ideas...'); }).join('');
+  var rmRows=data.remember.length===0
+    ?'<div style="border:1.5px dashed rgba(180,168,220,.5);border-radius:8px;padding:8px 10px;color:rgba(160,148,210,.6);font-size:11px;text-align:center;">'+(ko?'항목을 추가해주세요 ✦':'Add items ✦')+'</div>'
+    :data.remember.map(function(r,i){ return rowHtml(r,'dp-rm-row',i,ko?'기억할 것...':'Things to remember...'); }).join('');
+  var prRows=data.priorities.length===0
+    ?'<div style="border:1.5px dashed rgba(180,168,220,.5);border-radius:8px;padding:8px 10px;color:rgba(160,148,210,.6);font-size:11px;text-align:center;">'+(ko?'항목을 추가해주세요 ✦':'Add items ✦')+'</div>'
+    :data.priorities.map(function(r,i){ return priRow(r,i); }).join('');
   var _bkPh_ko=['아침','오전','낮','저녁','밤','추가'];
   var _bkPh_en=['Morning','Forenoon','Noon','Evening','Night','Extra'];
   var blocksHtml='';
@@ -3810,14 +4001,13 @@ function dpBindList(listId,rowClass,field,data,key){
       dh.addEventListener('mousedown',  function(e){ dpStartDrag(e,dh,false); },{passive:false});
       dh.addEventListener('touchstart', function(e){ dpStartDrag(e,dh,true);  },{passive:false});
     }
-    /* 토글/닫기 버튼 */
-    var tog=row.querySelector('.dp-row-toggle');
-    var cls=row.querySelector('.dp-tog-close');
-    if(tog) tog.onclick=function(e){ e.stopPropagation(); dpOpenRow(row); };
-    if(cls) cls.onclick=function(e){ e.stopPropagation(); dpCloseAllRows(); };
-    /* 입력 포커스 시 다른 열린 플로팅바 닫기 */
-    if(inp) inp.onfocus=function(){ if(_dpOpenRow&&_dpOpenRow!==row) dpCloseAllRows(); };
-    if(cb)  cb.onfocus=function(){  if(_dpOpenRow&&_dpOpenRow!==row) dpCloseAllRows(); };
+    /* 인라인 X버튼 (직접 삭제) */
+    var delInline=row.querySelector('.dp-row-del-inline');
+    if(delInline) delInline.onclick=function(e){
+      e.stopPropagation();
+      var d2=dpLoad(key)||data; var arr=d2[field]||[];
+      arr.splice(i,1); dpSave(key,d2); dpRenderPlanner();
+    };
     var up=row.querySelector('.dp-move-up'); var dn=row.querySelector('.dp-move-dn'); var del=row.querySelector('.dp-del');
     if(up) up.onclick=function(){
       var d2=dpLoad(key)||data; var arr=d2[field]||[];
@@ -3841,14 +4031,19 @@ function dpBindPriList(listId,data,key){
     var inp=row.querySelector('.dp-pri-inp'); var cb=row.querySelector('.dp-pri-cb');
     if(inp) inp.oninput=function(){ inp.classList.remove('done'); dpAutoSave(); };
     if(cb) cb.onchange=function(){ inp.classList.toggle('done',cb.checked); dpAutoSave(); };
-    /* 토글/닫기 버튼 */
-    var tog=row.querySelector('.dp-row-toggle');
-    var cls=row.querySelector('.dp-tog-close');
-    if(tog) tog.onclick=function(e){ e.stopPropagation(); dpOpenRow(row); };
-    if(cls) cls.onclick=function(e){ e.stopPropagation(); dpCloseAllRows(); };
-    /* 입력 포커스 시 다른 열린 플로팅바 닫기 */
-    if(inp) inp.onfocus=function(){ if(_dpOpenRow&&_dpOpenRow!==row) dpCloseAllRows(); };
-    if(cb)  cb.onfocus=function(){  if(_dpOpenRow&&_dpOpenRow!==row) dpCloseAllRows(); };
+    /* 인라인 X버튼 */
+    var delInline=row.querySelector('.dp-row-del-inline');
+    if(delInline) delInline.onclick=function(e){
+      e.stopPropagation();
+      var d2=dpLoad(key)||data; var arr=d2.priorities||[];
+      arr.splice(i,1); dpSave(key,d2); dpRenderPlanner();
+    };
+    /* 드래그 핸들 */
+    var dh=row.querySelector('.dp-drag-handle');
+    if(dh){
+      dh.addEventListener('mousedown',  function(e){ dpStartDrag(e,dh,false); },{passive:false});
+      dh.addEventListener('touchstart', function(e){ dpStartDrag(e,dh,true);  },{passive:false});
+    }
     var up=row.querySelector('.dp-move-up'); var dn=row.querySelector('.dp-move-dn'); var del=row.querySelector('.dp-del');
     if(up) up.onclick=function(){
       var d2=dpLoad(key)||data; var arr=d2.priorities||[];
@@ -3889,7 +4084,11 @@ function dpTab(tab){
   ['report','planner','settings'].forEach(function(s){ var btn=document.getElementById('dp-'+s); if(btn) btn.classList.toggle('active',s===tab); });
   requestAnimationFrame(function(){ dpSyncPill(tab); });
   var app=document.getElementById('daily-app'); if(!app) return;
-  if(tab==='planner'){ dpRenderPlanner(); return; }
+  if(tab==='planner'){
+    var curForm=localStorage.getItem('ymwt_dp_form')||'basic';
+    if(curForm==='questlog'){ qlRender(); return; }
+    dpRenderPlanner(); return;
+  }
   if(tab==='report'){
     dpRenderReport();
     return;
@@ -3898,8 +4097,8 @@ function dpTab(tab){
     var curLang=dpLang(); var curTheme=localStorage.getItem('lf_theme_daily')||'default';
     var lavA=curTheme==='default'?' active':'', tomA=curTheme==='tomato'?' active':'', catA=curTheme==='cat'?' active':'', lemonA=curTheme==='lemon'?' active':'';
     var enA=curLang==='en'?' lang-btn-on':'', koA=curLang==='ko'?' lang-btn-on':'';
-    app.innerHTML='<div class="dp-settings-body">'
-      +'<div class="section-title-sm" style="margin-bottom:10px">🎨 '+(ko?'색깔 테마':'Color Theme')+'</div>'
+    var curForm=localStorage.getItem('ymwt_dp_form')||'basic';
+    app.innerHTML='<div class="dp-settings-body">'      +'<div class="section-title-sm" style="margin-bottom:10px">📋 '+(ko?'플래너 양식':'Planner Template')+'</div>'      +'<div class="dp-form-section"><div class="dp-form-cards">'      +'<div class="dp-form-card'+(curForm==='basic'?' active':'')+' " id="dp-form-basic">'        +'<div class="dp-form-card-icon">📝</div>'        +'<div class="dp-form-card-info">'          +'<div class="dp-form-card-name">Basic Note</div>'          +'<div class="dp-form-card-desc">'+(ko?'기본 데일리 플래너 양식\n브레인덤프 · 우선순위 · 시간블록':'Basic daily planner\nBrain dump · Priorities · Time blocks')+'</div>'        +'</div>'        +'<div class="dp-form-card-badge'+(curForm==='basic'?' active':'')+'">'          +(curForm==='basic'?'✓ 사용중':'선택')+'</div>'      +'</div>'      +'<div class="dp-form-card'+(curForm==="questlog"?" active":"")+'" id="dp-form-questlog">'        +'<div class="dp-form-card-icon">⚔</div>'        +'<div class="dp-form-card-info">'          +'<div class="dp-form-card-name">Quest Log</div>'          +'<div class="dp-form-card-desc">'+(ko?'RPG 스타일 데일리 플래너\n퀘스트 · 상태창 · 전투 로그':'RPG daily planner\nQuests · Status · Battle log')+'</div>'        +'</div>'        +'<div class="dp-form-card-badge'+(curForm==="questlog"?" active":"")+'">'          +(curForm==="questlog"?"✓ 사용중":"선택")+'</div>'      +'</div>'      +'<div class="dp-form-card wip">'        +'<div class="dp-form-card-icon">🔨</div>'        +'<div class="dp-form-card-info">'          +'<div class="dp-form-card-name">'+(ko?'준비중':'Coming Soon')+'</div>'          +'<div class="dp-form-card-desc">'+(ko?'새로운 양식을 준비중이에요':'New template coming soon')+'</div>'        +'</div>'        +'<div class="dp-form-card-badge wip">🔨 공사중</div>'      +'</div>'      +'</div></div>'      +'<div class="section-title-sm" style="margin-bottom:10px">🎨 '+(ko?'색깔 테마':'Color Theme')+'</div>'
       +'<div class="theme-section"><div class="theme-row">'
       +'<button class="theme-btn theme-btn-lav'+lavA+'" id="dp-theme-lav"><div class="theme-btn-inner"><span class="theme-btn-icon">🌙</span><span class="theme-btn-name">'+('라벤더')+'</span></div></button>'
       +'<button class="theme-btn theme-btn-tomato'+tomA+'" id="dp-theme-tomato"><div class="theme-btn-inner"><span class="theme-btn-icon">🍅</span><span class="theme-btn-name">'+('토마토')+'</span></div></button>'
@@ -3911,6 +4110,16 @@ function dpTab(tab){
       +'<button class="lang-btn'+enA+'" id="dp-lang-en">🇺🇸 English</button>'
       +'<button class="lang-btn'+koA+'" id="dp-lang-ko">🇰🇷 한국어</button>'
       +'</div></div>';
+    var formBasic=document.getElementById('dp-form-basic');
+    if(formBasic) formBasic.onclick=function(){
+      localStorage.setItem('ymwt_dp_form','basic');
+      dpTab('settings');
+    };
+    var formQl=document.getElementById('dp-form-questlog');
+    if(formQl) formQl.onclick=function(){
+      localStorage.setItem('ymwt_dp_form','questlog');
+      dpTab('settings');
+    };
     [['dp-theme-lav','default'],['dp-theme-tomato','tomato'],['dp-theme-cat','cat'],['dp-theme-lemon','lemon']].forEach(function(p){
       var el=document.getElementById(p[0]); if(el) el.onclick=function(){ applyTheme(p[1]); localStorage.setItem('lf_theme_daily',p[1]); dpTab('settings'); };
     });
@@ -3955,7 +4164,6 @@ function goHomeFromDaily(){
   goHome();
 }
 
-
 /* ── 리포트 공통: 주차 계산 헬퍼 ── */
 function rptWeekRange(){
   /* 일~토 기준 이번주 start/end */
@@ -3995,6 +4203,516 @@ function quoteCopy(btn){
     try{ document.execCommand('copy'); }catch(e){}
     document.body.removeChild(ta); done();
   }
+}
+
+/* ══════════════════════════════════════
+   Quest Log 플래너 렌더러
+══════════════════════════════════════ */
+var QL_SPELLS=["시작했으면 끝낸다. 완성되지 않은 것은 존재하지 않은 것이다 🗡","열정이 식어도 손은 움직인다. 나는 감정에 기대지 않는다 ⚔","지겨워지는 순간이 진짜 시작이다. 나는 그 선을 넘는다 🏹","완벽하지 않아도 완료다. 오늘 나는 하나를 끝낸다 ✅","시작한 일이 쌓이지 않도록, 나는 오늘 하나를 닫는다 🔐","끝내지 못한 일은 에너지를 갉아먹는다. 나는 오늘 하나를 해방시킨다 ⚡","작은 완수가 모여 큰 사람이 된다. 오늘도 하나 더 🏆","마무리하는 습관이 인생을 바꾼다. 나는 오늘도 닫는다 🚪","시작의 설렘보다 완료의 뿌듯함이 더 오래간다 🌅","반쯤 한 것은 안 한 것이다. 나는 끝까지 간다 🎯","완주하지 않으면 시작한 의미가 없다. 오늘도 끝까지 🏁","마지막 10%가 가장 중요하다. 나는 거기서 포기하지 않는다 💎","오늘 완료한 하나가 내일의 자신감이 된다 ⚡","미완성 목록을 줄이는 것이 나의 임무다 📋","끝내는 사람이 결국 이긴다. 나는 그런 사람이다 🏆","완성의 힘을 나는 안다. 오늘도 하나를 완성한다 🔮","작은 것부터 끝내다 보면 큰 것도 끝낼 수 있다 🌱","오늘 하나를 완료하면 내일이 더 가벼워진다 🌤","나는 시작한 것에 책임을 진다 ⚓","완료가 쌓이면 자존감이 쌓인다. 오늘도 하나 🛡","끝냄이 시작됨보다 귀하다. 나는 오늘 귀한 일을 한다 💫","내가 끝낸 일들이 나를 증명한다 📜","오늘 닫지 않으면 내일 더 무겁다. 지금 끝낸다 🔐","결과를 내는 사람은 끝까지 가는 사람이다 🎯","완료 하나가 모든 핑계를 이긴다 ✅","나는 완성을 두려워하지 않는다. 오늘도 끝낸다 🌟","시작이 반이라면 완료가 나머지 반이다 ⚔","끝을 맺는 습관이 나를 다른 차원으로 데려간다 🚀","오늘 완료한 작업이 내 이력서의 한 줄이 된다 📖","나는 마무리를 잘하는 사람이다. 오늘도 증명한다 💪","반쯤 피운 불꽃은 꺼진다. 나는 끝까지 태운다 🔥","오늘 끝낸 것들이 내일 나를 더 크게 만든다 🌱","완료의 감각이 나를 다음으로 이끈다 ➡","나는 끝맺음의 달인이 되어가고 있다 🏆","오늘도 하나를 완성하며 내 이야기를 써간다 📜","끝낼 수 있는 일만 시작한다. 그리고 끝낸다 🗡","완료는 연습이다. 오늘도 연습한다 🎯","내가 닫은 문들이 새 문을 열어준다 🚪","오늘 완성한 것이 내일의 발판이다 🪜","나는 끝까지 해내는 사람으로 기억될 것이다 👑","작은 완료들이 큰 성공의 벽돌이다 🧱","오늘도 나는 시작한 것의 끝을 본다 ✅","완료 없이는 성장도 없다. 오늘 하나를 완성한다 🌿","나는 미루지 않고 끝낸다. 그게 내 방식이다 ⚔","오늘 끝낸 일이 나를 더 자유롭게 한다 🌊","완성의 기쁨을 오늘도 느낀다 🌟","나는 끝까지 해내는 에너지를 가지고 있다 ⚡","마지막 한 걸음이 가장 중요하다. 오늘 그 한 걸음을 뗀다 🦶","완료가 쌓인 사람은 결국 목적지에 도달한다 🏔","오늘 내가 끝낸 것이 나의 진짜 실력이다 💎","나는 오늘도 완성의 연속 속에 있다 🔮","끝내는 힘이 나를 특별하게 만든다 🌟","1%의 전진도 전진이다. 나는 오늘도 조금 앞으로 간다 🌱","작은 성공이 자신감의 재료다. 오늘 하나를 수집한다 💎","거창하지 않아도 된다. 오늘 한 단계만 오르면 충분하다 🪜","나는 조급해하지 않는다. 매일 쌓이면 결국 산이 된다 🏔","오늘의 나는 어제의 나보다 딱 한 걸음 앞에 있다 🦶","루틴이 나를 대신 달려준다. 나는 시스템을 믿는다 ⚙","성과는 단숨에 오지 않는다. 나는 매일의 복리를 믿는다 📈","작은 것을 잘하는 사람이 큰 것도 잘한다 🌿","오늘의 1도 어제의 0보다 낫다 ➕","나는 매일 조금씩 더 나은 버전이 된다 🔄","티끌 같은 노력이 모여 태산이 된다. 나는 오늘도 쌓는다 🏔","작은 습관이 큰 인생을 만든다. 오늘도 하나 🔑","나는 느려도 멈추지 않는 사람이다 🐢","오늘 심은 씨앗이 내년의 수확이 된다 🌻","누적의 힘을 나는 믿는다. 오늘도 쌓는다 📚","작은 승리를 소중히 여기는 사람이 큰 승리도 얻는다 🏅","나는 매일 조금씩 더 강해지고 있다 💪","오늘의 작은 행동이 내일의 큰 결과를 만든다 🎯","나는 과정을 신뢰하며 꾸준히 쌓아간다 🏗","작은 성공들이 자신감의 근육을 키운다 💪","나는 매일의 작은 진전에 감사한다 🌸","오늘도 한 걸음. 그게 전부고 그게 충분하다 🦶","나는 복리의 법칙을 몸으로 실천한다 📊","작게 시작해도 크게 끝날 수 있다. 오늘 시작한다 🌱","나는 성장의 스냅샷을 매일 찍고 있다 📸","오늘의 노력은 내일의 나에게 선물이다 🎁","작은 것들이 쌓여 나를 만든다. 오늘도 쌓는다 🧱","나는 꾸준함으로 뛰어남을 만든다 ⚡","오늘 하나를 더 알게 된 나는 어제보다 더 큰 사람이다 📖","매일의 작은 결정들이 인생의 방향을 결정한다 🧭","나는 성장의 복리를 믿으며 오늘을 산다 📈","작은 성공의 감각을 잃지 않는다. 오늘도 하나 ✅","나는 매일매일 내 가능성을 증명하고 있다 🌟","오늘 쌓은 것이 내년의 나를 결정한다 🔮","작은 것을 소홀히 하지 않는 사람이 결국 크다 💎","나는 완성보다 진행을 기뻐한다 🎉","오늘도 어제보다 조금 더 나아진 나를 만난다 🌅","나는 점진적 성장의 힘을 믿는다 🌿","작은 승리가 모여 나의 전설이 된다 📜","오늘의 한 줄이 내일의 한 페이지가 된다 📖","나는 멈추지 않는 것으로 남들을 이긴다 🏃","작게 이겨본 사람이 크게도 이긴다 🏆","오늘 조금 더 나아간 나를 인정한다 👏","나는 매일 성장의 증거를 수집한다 💼","작은 일에 최선을 다하는 것이 큰 일의 준비다 🎯","오늘도 나는 나만의 속도로 전진한다 🚶","나는 오늘 가능한 최선을 다한다. 그것으로 충분하다 🌟","작은 도전들이 나를 단단하게 만든다 🛡","나는 오늘 하나를 더 알고 하나를 더 해낸다 ⚡","매일의 작은 성공이 모여 인생이 된다 🌈","나는 조금씩 더 나은 사람이 되어가고 있다 🌱","오늘의 노력은 반드시 열매를 맺는다. 나는 믿는다 🌻","지겨운 것을 계속할 수 있는 사람이 결국 이긴다. 나는 그런 사람이다 🌊","슬럼프는 성장통이다. 나는 이것도 지나가게 둔다 🌀","재미없어도 계속한다. 그게 프로의 방식이고 내 방식이다 🛡","포기 충동이 오면 10분만 더 한다. 나는 그 10분의 사람이다 ⏱","나는 끈질기다. 이것이 나의 가장 강력한 무기다 🗡","오늘 하기 싫어도 한다. 미래의 내가 고마워할 것이다 💫","나는 열정이 없어도 행동하는 사람이다 ⚔","감정이 흔들려도 루틴은 흔들리지 않는다 ⚓","나는 오늘도 그냥 한다. 이유가 충분하다 🎯","끈기는 재능을 이긴다. 나는 끈기로 승부한다 💪","오늘 하기 싫은 것을 한 사람이 내일 원하는 것을 얻는다 🔑","나는 불편함을 견디는 능력을 키우고 있다 🌊","지루함을 견디는 것이 성공의 비밀이다. 나는 그 비밀을 안다 🔮","나는 포기하고 싶은 순간을 성장의 기회로 쓴다 💎","꾸준함은 천재성을 이긴다. 나는 꾸준하다 📈","오늘도 버텼다. 그것만으로도 충분히 대단하다 🏆","나는 힘든 날을 견디는 근육을 키우고 있다 💪","결과가 보이지 않아도 계속한다. 씨앗은 보이지 않는 곳에서 자란다 🌱","나는 오래 가는 사람이다. 속도보다 지속이 중요하다 🐢","지금 힘든 것은 내가 성장하고 있다는 신호다 ⚡","나는 어제도 버텼고 오늘도 버틴다 🛡","끈기 있는 사람 앞에 불가능은 없다. 나는 끈기 있다 🔥","오늘의 고통이 내일의 능력이 된다 💪","나는 멈추고 싶을 때 딱 하나만 더 한다 ➕","반복이 실력을 만든다. 나는 오늘도 반복한다 🔄","나는 지루한 연습을 사랑하는 법을 배우고 있다 🎯","끝이 보이지 않아도 방향만 맞으면 된다. 나는 계속 간다 🧭","나는 어떤 상황에서도 하루치의 일을 해낸다 📋","힘들수록 더 단단해진다. 지금 나는 단단해지는 중이다 💎","나는 포기라는 단어를 오늘 사전에서 지운다 📖","꾸준한 사람이 화려한 사람을 이긴다. 나는 꾸준하다 🌿","나는 오늘도 그냥 해야 하는 것을 그냥 한다 ⚔","힘든 날이 있어야 쉬운 날의 가치를 안다 🌅","나는 포기 직전에 가장 강해진다 🔥","오늘 버틴 것이 내일 자신감이 된다 💪","나는 긴 게임을 하는 사람이다. 단기 결과에 흔들리지 않는다 🎯","지금 힘든 것은 약해지는 것이 아니라 강해지는 것이다 💎","나는 불편함을 성장의 통화로 쓴다 📈","오늘도 해냈다. 내일도 해낼 것이다 ✅","나는 느리더라도 멈추지 않는다 🐢","끈기 있는 평범함이 재능 있는 변덕을 이긴다 ⚡","나는 오늘의 고비를 내일의 무기로 만든다 🗡","버티는 것도 실력이다. 나는 그 실력을 키우고 있다 🌱","나는 포기 충동이 왔다가 가는 것을 지켜본다 🌊","오늘 힘들었지만 해냈다. 그것이 전부다 🏆","나는 마라톤 선수다. 속도보다 완주가 중요하다 🏃","힘든 시간이 나를 특별하게 만든다 💎","나는 오늘도 한 걸음 더 내딛는다. 그게 끈기다 🦶","결과가 없어 보여도 과정이 나를 만든다 🌿","나는 작심삼일을 열 번 반복하는 사람이다. 그것도 노력이다 🔄","오늘도 버티면 내일은 어제보다 강한 내가 된다 💪","끈기는 근육이다. 오늘도 키운다 🏋","막히면 돌아가도 된다. 방향만 잃지 않으면 된다 🧭","슬럼프는 내가 쉬어야 한다는 신호가 아니라 버텨야 한다는 신호다 🔥","실패는 데이터다. 나는 오늘의 실패를 내일의 전략으로 쓴다 🗺","흔들리는 것과 무너지는 것은 다르다. 나는 흔들려도 서 있다 🌾","가장 힘든 구간이 가장 성장하는 구간이다. 지금이 그 순간이다 💪","어제 실패했어도 오늘 다시 시작하면 된다. 매일이 새 판이다 🌅","슬럼프를 이겨낸 사람이 진짜 강한 사람이다 🛡","나는 실패에서 배우고 더 강하게 돌아온다 💎","힘든 시간도 내 이야기의 중요한 챕터다 📖","나는 어려운 상황에서도 다음 단계를 찾는다 🔮","슬럼프는 영원하지 않는다. 나는 이것도 지나간다는 것을 안다 🌈","나는 역경을 연료로 쓰는 엔진을 가지고 있다 ⚡","지금 힘든 것은 내가 성장 중이라는 증거다 🌱","나는 무너져도 다시 일어나는 것을 반복해왔다 💪","실수는 나를 더 현명하게 만드는 선생님이다 📚","어려움 앞에서 나는 포기 대신 방법을 찾는다 🔑","나는 위기 속에서도 기회를 본다 👁","힘든 날이 없으면 좋은 날의 가치도 모른다 🌅","나는 실패를 두려워하지 않는다. 시도하지 않는 것을 두려워한다 🎯","지금 겪는 어려움이 나를 다음 레벨로 데려간다 🪜","나는 최악의 상황에서도 최선을 찾는다 🔮","슬럼프는 정체가 아니라 재충전이다 🔋","나는 상처를 갑옷으로 만드는 사람이다 🛡","오늘의 고통이 내일의 자산이다 💎","나는 힘든 상황에서 내 진짜 모습을 발견한다 🌟","실패한 것이 아니다. 아직 방법을 찾고 있는 것이다 🔍","나는 어둠 속에서도 다음 빛을 찾는다 🌙","힘든 길을 걷는 나를 인정하고 응원한다 🌸","나는 포기보다 피벗을 선택한다 🔄","어려울수록 창의적인 해결책이 나온다. 나는 그것을 믿는다 💡","나는 모든 역경을 내 성장의 재료로 쓴다 🌱","지금 힘들다는 것은 내가 도전하고 있다는 뜻이다 ⚔","나는 슬럼프에서도 기본을 지킨다 ⚓","실패는 끝이 아니라 새로운 시작점이다 🌅","나는 어떤 상황에서도 다시 일어선다 💪","힘든 시간이 나를 깊고 단단하게 만든다 🌊","나는 오늘의 어려움을 내일의 이야기로 바꾼다 📜","슬럼프가 왔을 때 나는 기본으로 돌아간다 🔑","나는 역경을 피하지 않고 통과한다 🚪","지금 겪는 어려움이 나를 특별하게 만든다 💎","나는 실패를 경험으로 소화하는 힘이 있다 🌿","힘든 날에도 한 발은 앞으로 나아간다 🦶","나는 상황이 아닌 반응을 통제한다 🧠","어려움 속에서도 나는 성장하고 있다 🌱","나는 오늘의 위기를 내일의 전환점으로 만든다 🔮","실패는 나를 더 날카롭게 만드는 숫돌이다 🗡","나는 힘든 시간도 내 자산으로 바꾼다 💰","지금 겪는 것들이 나를 더 깊은 사람으로 만든다 📚","나는 어떤 역경 앞에서도 이유를 잃지 않는다 🎯","슬럼프는 나를 멈추게 할 수 없다 🔥","힘든 시간을 통과한 나는 더 단단해진다 💎","나는 오늘도 어려움을 딛고 한 걸음 앞으로 간다 🌟","지금 하는 일이 내 목표와 연결되어 있는가. 그렇다면 전력을 다한다 🎯","산만함은 내 꿈의 적이다. 나는 오늘 중요한 것 하나에 집중한다 🔮","SNS보다 내 목표가 더 흥미롭다. 나는 그것을 선택한다 📵","시간은 한정적이다. 나는 성과와 직결되는 일을 먼저 한다 ⚡","방해를 차단하는 것도 실력이다. 나는 오늘 환경을 설계한다 🏰","덜 중요한 것을 줄이면 중요한 것이 빛난다. 나는 오늘 비운다 🌊","완벽한 계획보다 불완전한 실행이 낫다. 지금 시작한다 🚀","나는 오늘 가장 중요한 한 가지를 먼저 한다 🏆","집중은 선택이다. 나는 오늘 올바르게 선택한다 🎯","나는 쉬운 일보다 중요한 일을 먼저 한다 ⚔","오늘 내 에너지를 가장 가치 있는 곳에 쓴다 💎","나는 방해 요소를 제거하고 본질에 집중한다 🔮","중요하지 않은 것에 바쁜 것은 바쁜 것이 아니다 🔑","나는 오늘 딥워크의 시간을 확보한다 🧠","집중력이 나의 슈퍼파워다. 오늘도 발휘한다 ⚡","나는 멀티태스킹 대신 한 가지를 완벽히 한다 🎯","오늘 가장 두려운 일을 가장 먼저 한다 🗡","나는 긴급하지 않지만 중요한 일에 시간을 쓴다 📊","집중하는 한 시간이 산만한 하루를 이긴다 ⏱","나는 내 주의를 내 목표에 투자한다 📈","오늘 노이즈를 차단하고 시그널에만 집중한다 📡","나는 우선순위를 지키는 사람이다 📋","중요한 일을 미루는 것은 미래의 나를 배신하는 것이다 ⚔","나는 오늘 80%의 결과를 만드는 20%의 일에 집중한다 🎯","방해받지 않는 시간이 나의 가장 귀한 자원이다 💎","나는 목표를 향해 직선으로 간다 🏹","오늘 집중한 한 시간이 내 미래를 바꾼다 ⚡","나는 중요하지 않은 회의에 내 시간을 주지 않는다 🚫","집중은 선물이다. 나는 오늘 나에게 그 선물을 준다 🎁","나는 핵심에만 에너지를 쓰는 법을 배우고 있다 🔑","오늘 하나를 제대로 하는 것이 열 개를 대충 하는 것보다 낫다 ✅","나는 내 시간의 주인이다. 오늘도 주도적으로 산다 👑","집중력은 훈련이다. 나는 오늘도 훈련한다 🏋","나는 중요한 것을 위해 좋은 것을 포기한다 💎","오늘 핵심 업무에 나의 최선을 쏟는다 🔥","나는 결과에 영향을 주는 일만 한다 📊","집중할 때 나는 무적이다 ⚡","나는 오늘 방해 없는 두 시간을 만든다 🏰","중요한 일을 먼저 하는 것이 성공의 기본이다 🌟","나는 주의를 분산시키는 것들을 제거한다 🧹","오늘 나의 집중이 내일의 결과를 만든다 🎯","나는 깊게 일하는 사람이다. 얕은 바쁨은 거부한다 🌊","집중한 상태의 나는 누구보다 강하다 💪","나는 내 에너지를 전략적으로 배분한다 ⚡","오늘 가장 어려운 일에 가장 좋은 시간을 쓴다 🗡","나는 집중을 통해 시간을 만들어낸다 ⏱","중요한 것에 집중하는 오늘이 내일을 바꾼다 🌅","나는 오늘 내 두뇌를 가장 가치 있는 곳에 쓴다 🧠","집중은 나의 선택이고 오늘도 선택한다 🎯","나는 핵심을 꿰뚫는 눈을 가지고 있다 👁","오늘 가장 중요한 일 하나를 반드시 해낸다 ✅","집중력이 나를 다른 차원으로 데려간다 🚀","몸이 자본이다. 오늘 하나의 건강한 선택을 한다 🌿","명상 5분, 운동 10분. 나는 오늘 나를 돌본다 🌸","수면, 식사, 운동. 이 세 가지가 내 퍼포먼스의 기반이다 💤","긍정적인 마음은 유지하는 것이 아니라 계속 만들어가는 것이다 🔋","스트레스를 없애려 하지 않는다. 대신 이겨낼 힘을 기른다 🛡","오늘 내 몸에 투자한 것이 내일 내 성과로 돌아온다 🏋","나는 몸과 마음을 동시에 돌보는 사람이다 🌈","건강한 습관이 건강한 인생을 만든다. 오늘도 하나 🌱","나는 내 몸에게 좋은 것을 먹이고 좋은 말을 한다 🌸","오늘 한 번의 운동이 내일의 에너지를 만든다 💪","나는 잠을 소중히 여긴다. 회복도 실력이다 💤","스트레스도 관리하면 자산이 된다. 나는 관리한다 🧠","나는 매일 내 마음의 정원을 가꾼다 🌻","건강을 잃으면 모든 것을 잃는다. 나는 오늘 건강을 선택한다 💎","나는 몸과 마음이 균형 잡힌 사람이다 ⚖","오늘 내 몸을 움직이는 것이 뇌도 움직인다 🧠","나는 활력 있는 사람으로 오늘도 하루를 산다 ⚡","건강한 루틴이 나를 지켜준다. 오늘도 지킨다 🛡","나는 내 몸의 신호를 듣고 적절히 반응한다 👂","오늘 먹은 것, 움직인 것이 내일의 나를 만든다 🌿","나는 자기 돌봄이 이기적이지 않다는 것을 안다 🌸","건강한 몸에서 위대한 생각이 나온다 💡","나는 오늘도 내 에너지를 충전한다 🔋","마음의 평화를 유지하는 것도 실력이다. 나는 그 실력을 키운다 🧘","나는 스트레스를 풀 건강한 방법을 알고 있다 🌊","오늘 몸을 위한 투자가 10년 후를 바꾼다 📈","나는 완벽한 건강보다 꾸준한 건강 습관을 선택한다 🌱","내 몸은 내 성과의 도구다. 잘 관리한다 🔧","오늘 충분히 쉰 나는 내일 더 강하게 일한다 💪","나는 부정적인 생각을 알아채고 전환한다 🔄","건강이 있어야 꿈도 있다. 나는 오늘 건강을 지킨다 🌟","나는 매일 내 마음에 긍정의 씨앗을 심는다 🌻","오늘 한 번의 깊은 호흡이 하루를 바꾼다 🌬","나는 내 몸과 마음을 사랑하는 방식으로 산다 💕","건강한 나를 선택하는 것이 가장 중요한 선택이다 💎","나는 활기차게 하루를 시작하고 편안하게 마무리한다 🌅","오늘도 나는 건강한 선택을 하나 더 한다 ✅","나는 내 정신 건강을 외면하지 않는다 🧠","움직이는 몸에서 창의적인 아이디어가 나온다 💡","나는 오늘 내 에너지 레벨을 관리한다 ⚡","건강한 루틴이 불안을 줄여준다. 나는 루틴을 지킨다 🛡","나는 오늘 내 몸에게 감사한다 🙏","좋은 수면이 최고의 성과 향상제다. 오늘 잘 잔다 💤","나는 몸이 보내는 신호를 무시하지 않는다 👂","건강한 나로 사는 것이 가족에 대한 사랑이다 💕","나는 오늘도 내 몸을 위한 최선의 선택을 한다 🌿","마음이 건강해야 관계도 건강하다. 나는 마음을 돌본다 🌸","나는 건강을 삶의 중심에 놓는다 🎯","오늘 내 몸을 움직인 것이 자신감을 만든다 💪","나는 내 안의 긍정을 키우는 것이 습관이다 🌱","건강한 오늘이 위대한 내일을 만든다 🌟","나는 몸과 마음 모두를 챙기며 최고의 상태를 유지한다 💎","나는 큰 꿈을 갖고 있고 그것을 이뤄낼 이유가 충분하다 👑","내 꿈이 구체적일수록 현실이 될 가능성이 높아진다. 나는 선명하게 본다 🔭","남의 속도와 비교하지 않는다. 나는 내 레이스를 달린다 🏁","나는 내가 상상하는 그 사람이 될 수 있다. 오늘도 그 방향으로 간다 🌟","돈 걱정보다 가치 창출에 집중한다. 결과는 반드시 따라온다 💰","나는 이 길을 갈 자격이 있고 이 꿈을 이룰 당위성이 있다 🌙","어떤 방해가 와도 시도를 멈추지 않는다. 나는 그런 사람이다 🏹","내가 먼저 나를 믿어야 세상도 나를 믿는다. 오늘도 나를 믿는다 💎","지금 이 노력이 언젠가 전설이 될 이야기의 한 페이지다 📜","나는 매분매초를 성장을 위해 쓰는 사람이다 ⚔","나는 내 꿈을 이룰 능력이 있다. 오늘도 그것을 증명한다 🌟","나는 내가 원하는 삶을 살기 위해 오늘을 산다 🎯","큰 꿈을 가진 사람은 작은 불편을 견딘다. 나는 견딘다 💪","나는 내 이야기의 주인공이다. 오늘도 최선을 다한다 👑","내가 원하는 미래는 오늘 내가 만드는 것이다 🔮","나는 가능성을 먼저 보는 사람이다 👁","꿈이 클수록 더 큰 사람이 되어야 한다. 나는 성장한다 🌱","나는 내 잠재력의 1%도 아직 쓰지 않았다 ⚡","오늘의 나는 내 꿈에 한 걸음 더 가까이 있다 🦶","나는 내 꿈을 위해 오늘 무엇을 했는가. 그것을 한다 🎯","내 꿈은 사치가 아니라 사명이다 🌟","나는 성공할 자격이 있다. 오늘도 그것을 향해 간다 👑","남들이 포기할 때 나는 계속한다. 그것이 내 차별점이다 🗡","나는 내 가능성을 의심하지 않는다 💎","꿈을 이루는 사람은 특별한 게 아니라 포기하지 않은 사람이다 🏆","나는 나를 과소평가하지 않는다. 나는 충분히 대단하다 🌟","오늘 한 걸음이 내 꿈을 현실로 만들고 있다 🌅","나는 내 꿈을 향해 가는 과정 자체를 즐긴다 🌈","나는 큰 사람이다. 매일 그것을 확인한다 👑","내가 꿈꾸는 삶은 반드시 가능하다. 나는 믿는다 🔮","나는 내 미래를 만드는 유일한 사람이다 🎨","꿈이 나를 이끌고 행동이 나를 데려다 준다 🏹","나는 내 안의 가능성을 매일 발굴한다 💎","오늘의 노력이 쌓여 내 꿈이 된다 📈","나는 내 꿈을 위해 불편함을 기꺼이 선택한다 ⚔","내가 믿는 만큼 세상이 나에게 열린다 🌟","나는 내 잠재력을 매일 조금씩 더 꺼낸다 💡","꿈을 향한 오늘의 한 걸음이 가장 중요하다 🦶","나는 내 이야기가 어떻게 끝날지 안다. 그래서 오늘도 한다 📜","나는 내가 원하는 것을 얻을 자격이 있다 💎","오늘 내가 한 것들이 내 꿈의 재료가 된다 🧱","나는 내 꿈을 현실로 만드는 과정 위에 있다 🗺","내 꿈의 크기만큼 오늘도 노력한다 💪","나는 내 인생을 내 손으로 조각한다 🎨","꿈을 향해 가는 오늘이 이미 성공이다 🌟","나는 내 꿈을 매일 조금씩 현실로 끌어당긴다 🔮","내 꿈은 나만이 이룰 수 있다. 그래서 나만이 해야 한다 ⚔","나는 내 가능성의 울타리를 매일 넓힌다 🌊","오늘 나는 내 꿈에 한 번 더 손을 뻗는다 🙌","나는 내 꿈을 위해 오늘도 살아있다 🌅","내가 상상하는 그 삶은 내가 오늘 만들고 있다 🎨","나는 꿈꾸는 것에 그치지 않고 행동하는 사람이다 🚀","오늘도 나는 내 꿈을 향해 나아간다. 그것으로 충분하다 🌟"];
+var QL_KEY_PREFIX = 'ymwt_ql_';
+
+/* 오늘의 주문 AI 갱신 (월 1회 + 아주 가끔 개인화) */
+(function(){
+  try{
+    var today = new Date();
+    var monthKey = 'ymwt_spell_month_'+today.getFullYear()+'-'+String(today.getMonth()+1).padStart(2,'0');
+    var alreadyUpdated = localStorage.getItem(monthKey);
+    if(alreadyUpdated) return; /* 이번 달 이미 갱신 */
+
+    /* 어제 Keep/Try 읽기 (7% 확률로 개인화) */
+    var personalCtx = '';
+    if(Math.random() < 0.07){
+      var yd = new Date(today); yd.setDate(yd.getDate()-1);
+      var ydKey = 'ymwt_ql_'+yd.getFullYear()+'-'+String(yd.getMonth()+1).padStart(2,'0')+'-'+String(yd.getDate()).padStart(2,'0');
+      var ydData = JSON.parse(localStorage.getItem(ydKey)||'{}');
+      if(ydData.keep||ydData.tryNext){
+        personalCtx = ' 사용자가 최근에 이런 것을 실천하고 있어요: "'+((ydData.keep||'')+' '+(ydData.tryNext||'')).trim()+'"';
+      }
+    }
+
+    fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:3000,
+        messages:[{role:'user',content:'자기계발, 성장, 끈기, 실행력, 집중, 건강, 꿈에 관한 강력한 긍정 선언문을 한국어로 100개 생성해주세요.'+personalCtx+' 조건: 1인칭("나는..."), 구체적이고 실행 가능, 뻔하지 않게, 비유나 은유 포함. 반드시 JSON 배열만: ["선언문1","선언문2",...]'}]
+      })
+    }).then(function(r){return r.json();}).then(function(data){
+      var text=data.content&&data.content[0]&&data.content[0].text||'';
+      var clean=text.replace(/```json|```/g,'').trim();
+      var arr=JSON.parse(clean);
+      if(Array.isArray(arr)&&arr.length>=50){
+        localStorage.setItem('ymwt_spells_custom', JSON.stringify(arr));
+        localStorage.setItem(monthKey, '1');
+      }
+    }).catch(function(){});
+  }catch(e){}
+})();
+
+/* 커스텀 배열 있으면 QL_SPELLS 교체 */
+(function(){
+  try{
+    var custom=localStorage.getItem('ymwt_spells_custom');
+    if(custom){
+      var arr=JSON.parse(custom);
+      if(Array.isArray(arr)&&arr.length>=50) QL_SPELLS=arr;
+    }
+  }catch(e){}
+})();
+
+function qlKey(d) {
+  var dt = d || new Date();
+  return QL_KEY_PREFIX + dt.getFullYear() + '-' + ('0'+(dt.getMonth()+1)).slice(-2) + '-' + ('0'+dt.getDate()).slice(-2);
+}
+
+function qlLoad(key) {
+  try { return JSON.parse(localStorage.getItem(key)); } catch { return null; }
+}
+
+function qlSave(key, data) {
+  localStorage.setItem(key, JSON.stringify(data));
+}
+
+function qlDefaultData() {
+  return {
+    monthlyQuest: '', intention: '',
+    lv: '1', hp: 50, mp: 50, gold: '', status: '',
+    weapon: '', armor: '', heal: '', buff: '',
+    achievements: ['', '', ''],
+    events: [{time:'',text:'',done:false},{time:'',text:'',done:false},{time:'',text:'',done:false},{time:'',text:'',done:false},{time:'',text:'',done:false}],
+    memo: '',
+    mainQuests: [{text:'',done:false},{text:'',done:false},{text:'',done:false}],
+    subQuests: [{text:'',done:false},{text:'',done:false},{text:'',done:false}],
+    battleLog: [{type:'achv',text:'',retro:''},{type:'heal',text:'',retro:''},{type:'dmg',text:'',retro:''}],
+    fatal: '',
+    keep: '', problem: '', tryNext: '',
+    ending: ''
+  };
+}
+
+var _qlOffset = 0;
+
+function qlCurrentDate() {
+  var d = new Date(); d.setDate(d.getDate() + _qlOffset); d.setHours(0,0,0,0); return d;
+}
+
+function qlFmtDate(d) { return dpFmtDate(d); }
+
+function qlCalcExp(data) {
+  var exp = 0;
+  (data.mainQuests||[]).forEach(function(q){ if(q.done) exp+=30; });
+  (data.subQuests||[]).forEach(function(q){ if(q.done) exp+=10; });
+  return exp;
+}
+
+function qlAutoSave() {
+  var key = qlKey(qlCurrentDate());
+  var data = qlLoad(key) || qlDefaultData();
+  // 각 필드에서 값 수집
+  var fields = [
+    ['ql-monthly-quest','monthlyQuest'],['ql-intention','intention'],
+    /* gold는 luck으로 대체됨 */
+    ['ql-weapon','weapon'],['ql-armor','armor'],['ql-heal-item','heal'],['ql-buff','buff'],
+    ['ql-memo','memo'],['ql-fatal','fatal'],
+    ['ql-keep','keep'],['ql-problem','problem'],['ql-try','tryNext'],
+    ['ql-ending','ending']
+  ];
+  fields.forEach(function(f){
+    var el=document.getElementById(f[0]); if(el) data[f[1]]=el.value;
+  });
+  // hp/mp 슬라이더
+  var hp=document.getElementById('ql-hp'); if(hp) data.hp=parseInt(hp.value)||0;
+  var mp=document.getElementById('ql-mp'); if(mp) data.mp=parseInt(mp.value)||0;
+  // 업적
+  document.querySelectorAll('.ql-achv-inp').forEach(function(el,i){ data.achievements[i]=el.value; });
+  // 이벤트
+  document.querySelectorAll('.ql-event-row').forEach(function(row,i){
+    var t=row.querySelector('.ql-event-time'); var tx=row.querySelector('.ql-event-text'); var cb=row.querySelector('.ql-event-check');
+    if(!data.events[i]) data.events[i]={time:'',text:'',done:false};
+    if(t) data.events[i].time=t.value; if(tx) data.events[i].text=tx.value; if(cb) data.events[i].done=cb.checked;
+  });
+  // 퀘스트
+  document.querySelectorAll('.ql-main-quest-row').forEach(function(row,i){
+    var tx=row.querySelector('.ql-quest-text'); var cb=row.querySelector('.ql-quest-check');
+    if(!data.mainQuests[i]) data.mainQuests[i]={text:'',done:false};
+    if(tx) data.mainQuests[i].text=tx.value; if(cb) data.mainQuests[i].done=cb.checked;
+  });
+  document.querySelectorAll('.ql-sub-quest-row').forEach(function(row,i){
+    var tx=row.querySelector('.ql-quest-text'); var cb=row.querySelector('.ql-quest-check');
+    if(!data.subQuests[i]) data.subQuests[i]={text:'',done:false};
+    if(tx) data.subQuests[i].text=tx.value; if(cb) data.subQuests[i].done=cb.checked;
+  });
+  // 전투 로그
+  data.battleLog = [];
+  document.querySelectorAll('.ql-battle-row').forEach(function(row){
+    var idx = parseInt(row.getAttribute('data-idx'));
+    var tx = row.querySelector('.ql-log-text');
+    var rt = row.querySelector('.ql-log-retro');
+    var typeBtn = row.querySelector('.ql-battle-type');
+    /* 이모지 텍스트 대신 data-type 속성으로 타입 읽기 */
+    data.battleLog[idx] = {
+      type: typeBtn ? typeBtn.getAttribute('data-type') : 'new',
+      text: tx ? tx.value : '',
+      retro: rt ? rt.value : ''
+    };
+  });
+  /* luck 저장 */
+  var luckWrap=document.getElementById('ql-luck-wrap');
+  if(luckWrap){
+    var filled=luckWrap.querySelectorAll('.ql-luck-btn');
+    var cnt=0;
+    filled.forEach(function(b){ if(b.textContent==='🍀') cnt++; });
+    data.luck=cnt;
+  }
+  qlSave(key, data);
+  // EXP 바 업데이트
+  var exp = qlCalcExp(data);
+  var expBar = document.getElementById('ql-exp-bar');
+  var expLbl = document.getElementById('ql-exp-label');
+  if(expBar) expBar.style.width = Math.min(100, exp) + '%';
+  if(expLbl) expLbl.textContent = exp + '%';
+}
+
+function qlRender() {
+  var app = document.getElementById('daily-app');
+  if(!app) return;
+  var ds = document.getElementById('daily-screen');
+  if(ds) ds.setAttribute('data-form','questlog');
+
+  var d = qlCurrentDate();
+  var key = qlKey(d);
+  var data = qlLoad(key) || qlDefaultData();
+
+  function e(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }
+  /* 연도+일수 시드로 매년 다른 순서 → 365일 겹침 없음, 연도 달라지면 순서도 달라짐 */
+  (function(){
+    /* 2025-01-01 기준 총 일수 → 연도 시드로 셔플 → 매일+매년 다른 문장 */
+    var _epoch = new Date(2025,0,1);
+    var _today = new Date(d.getFullYear(),d.getMonth(),d.getDate());
+    var _totalDays = Math.floor((_today - _epoch) / 86400000);
+    var _seed = (d.getFullYear() * 7919 + 31337) >>> 0;
+    var _idx = Array.from({length: QL_SPELLS.length}, function(_,i){ return i; });
+    for(var _i = _idx.length - 1; _i > 0; _i--){
+      _seed = (_seed * 1664525 + 1013904223) & 0xffffffff;
+      var _j = (_seed >>> 0) % (_i + 1);
+      var _tmp = _idx[_i]; _idx[_i] = _idx[_j]; _idx[_j] = _tmp;
+    }
+    todaySpell = QL_SPELLS[_idx[_totalDays % _idx.length]];
+  })();
+  var todaySpell = todaySpell;
+  function chk(v){ return v?' checked':''; }
+
+  var mainDone = (data.mainQuests||[]).filter(function(q){return q.done;}).length;
+  var mainTotal = (data.mainQuests||[]).filter(function(q){return q.text;}).length || 3;
+  var subDone = (data.subQuests||[]).filter(function(q){return q.done;}).length;
+  var subTotal = (data.subQuests||[]).filter(function(q){return q.text;}).length || 5;
+  var exp = qlCalcExp(data);
+
+  var html = '<div class="ql-wrap">';
+  function qlSection(title, body){
+    return '<div class="dp-section">'
+      +'<div class="dp-section-hdr"><span class="dp-section-hdr-title">'+title+'</span></div>'
+      +'<div style="padding:6px 4px;">'+body+'</div>'
+      +'</div>';
+  }
+
+  // ── 헤더 카드 (베이직 노트와 동일 구조) ──
+  html += '<div class="dp-header-card">'
+    + '<div class="dp-date-row" style="justify-content:space-between;">'
+    + '<div style="display:flex;align-items:center;gap:6px;">'
+    + '<span class="dp-date-label">날짜</span>'
+    + '<div class="dp-date-nav">'
+    + '<button id="ql-prev">‹</button>'
+    + '<span class="dp-date-text" id="ql-date-text">'+qlFmtDate(d)+'</span>'
+    + '<button id="ql-next">›</button>'
+    + '</div></div>'
+    + '<button class="dp-share-btn" id="ql-share-btn" onclick="qlShare()" title="공유">&#128257;</button>'
+    + '</div>'
+    + '<div class="dp-field-row"><span class="dp-field-label" style="font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;">👑 이번 달 도전과제</span>'
+    + '<input id="ql-monthly-quest" class="dp-field-input" type="text" placeholder="이번 달 반드시 달성할 목표는?" value="'+e(data.monthlyQuest)+'">'
+    + '</div>'
+    + '<div class="dp-field-row"><span class="dp-field-label">✨ 오늘의 주문</span>'
+    + '<input id="ql-intention" class="dp-field-input" type="text" placeholder="'+todaySpell+'" value="'+e(data.intention)+'">'
+    + '</div>'
+    + '</div>';
+
+  // ── 3단: 상태/장비/업적 (dp-section 구조) ──
+  var hpPct = data.hp !== undefined ? Math.min(100, data.hp) : 0;
+  var mpPct = data.mp !== undefined ? Math.min(100, data.mp) : 0;
+
+  var luckVal = data.luck||0;
+  var luckHtml = '';
+  for(var li=0;li<5;li++){
+    luckHtml += '<span class="ql-luck-btn" data-idx="'+li+'" style="font-size:9px;cursor:pointer;user-select:none;display:inline-block;margin-top:3px;opacity:'+(li<luckVal?'1':'.25')+';transition:opacity .15s;">🍀</span>';
+  }
+
+  var statBody = ''
+    + '<div class="ql-achv-item"><span class="ql-stat-label">HP</span><input type="range" id="ql-hp" min="0" max="100" value="'+hpPct+'" style="flex:1;min-width:0;width:100%;height:5px;accent-color:#f87171;cursor:pointer;margin:0 4px;max-width:calc(100% - 40px);"><span class="ql-stat-val" id="ql-hp-val">'+hpPct+'</span></div>'
+    + '<div class="ql-achv-item"><span class="ql-stat-label">MP</span><input type="range" id="ql-mp" min="0" max="100" value="'+mpPct+'" style="flex:1;min-width:0;width:100%;height:5px;accent-color:#60a5fa;cursor:pointer;margin:0 4px;max-width:calc(100% - 40px);"><span class="ql-stat-val" id="ql-mp-val">'+mpPct+'</span></div>'
+    + '<div class="ql-achv-item" style="overflow:hidden;min-width:0;">'
+      + '<span class="ql-stat-label">EXP</span>'
+      + '<div class="ql-exp-bar-wrap" style="flex:1;min-width:0;margin:0 4px;"><div class="ql-exp-bar" id="ql-exp-bar" style="width:'+Math.min(100,exp)+'%"></div></div>'
+      + '<span class="ql-stat-val" id="ql-exp-label">'+exp+'%</span>'
+    + '</div>'
+    + '<div style="display:flex;align-items:baseline;padding:0 0 2px 0;">'
+      + '<span style="font-size:10px;color:var(--muted);width:22px;flex-shrink:0;line-height:1.4;">LUCK</span>'
+      + '<div id="ql-luck-wrap" style="display:flex;gap:3px;align-items:baseline;padding-left:8px;">'+luckHtml+'</div>'
+    + '</div>';
+
+  var equipBody = ''
+    + '<div class="ql-achv-item"><span class="ql-equip-label">⚔</span><input class="ql-achv-inp" style="flex:1;background:transparent;border:none;border-bottom:1px solid rgba(180,170,220,.3);outline:none;font-family:inherit;font-size:11px;color:var(--text);" id="ql-weapon" value="'+e(data.weapon)+'" placeholder="무기.."></div>'
+    + '<div class="ql-achv-item"><span class="ql-equip-label">🛡</span><input class="ql-achv-inp" style="flex:1;background:transparent;border:none;border-bottom:1px solid rgba(180,170,220,.3);outline:none;font-family:inherit;font-size:11px;color:var(--text);" id="ql-armor" value="'+e(data.armor)+'" placeholder="방어구.."></div>'
+    + '<div class="ql-achv-item"><span class="ql-equip-label">✨</span><input class="ql-achv-inp" style="flex:1;background:transparent;border:none;border-bottom:1px solid rgba(180,170,220,.3);outline:none;font-family:inherit;font-size:11px;color:var(--text);" id="ql-buff" value="'+e(data.buff)+'" placeholder="버프.."></div>';
+
+  var achvBody = (data.achievements||['','','']).slice(0,3).map(function(a){
+    return '<div class="ql-achv-item"><span class="ql-achv-star" style="width:12px;">✦</span><input class="ql-achv-inp" style="flex:1;background:transparent;border:none;border-bottom:1px solid rgba(180,170,220,.3);outline:none;font-family:inherit;font-size:11px;color:var(--text);" value="'+e(a)+'" placeholder="잘한 일.."></div>';
+  }).join('');
+
+  function qlSectionSm(title, body){
+    return '<div class="dp-section">'
+      +'<div class="dp-section-hdr"><span class="dp-section-hdr-title">'+title+'</span></div>'
+      +'<div style="padding:4px 4px 2px;">'+body+'</div>'
+      +'</div>';
+  }
+  html += '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:6px;margin-top:0;">'
+    + '<div class="dp-section"><div class="dp-section-hdr"><span class="dp-section-hdr-title">❤️ 오늘의 상태</span></div><div style="padding:4px 8px 2px 6px;">'+statBody+'</div></div>'
+    + qlSectionSm('🛡 오늘의 장비', equipBody)
+    + qlSectionSm('🧭 기억해 둘 것', achvBody)
+    + '</div>';
+
+  // ── 이벤트 + 퀘스트 2열 ── (evBody/questBody는 아래서 정의됨, 여기선 placeholder)
+  // 실제 삽입은 아래 evBody/questBody 정의 후 수행
+
+  // 이벤트
+  var evHtml = (data.events||[]).map(function(ev,i){
+    return '<div class="ql-event-row">' + '<div class=\"dp-drag-handle\" style=\"width:10px;flex-shrink:0;\"><svg width=\"10\" height=\"10\" viewBox=\"0 0 10 10\" fill=\"none\" style=\"pointer-events:none\"><circle cx=\"3\" cy=\"3\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/><circle cx=\"7\" cy=\"3\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/><circle cx=\"3\" cy=\"7\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/><circle cx=\"7\" cy=\"7\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/></svg></div>'
+
+      + '<input class="ql-event-time" value="'+e(ev.time)+'" placeholder="00:00">'
+      + '<input class="ql-event-text'+(ev.done?' done':'')+'" value="'+e(ev.text)+'" placeholder="이벤트..">'
+      + '<button class="ql-event-del">✕</button>'
+      + '</div>';
+  }).join('');
+  var evBody = '<div id="ql-events-list">'+evHtml+'</div>'
+
+    + '<textarea style="width:100%;background:transparent;border:none;border-top:1px dashed rgba(180,170,220,.3);outline:none;font-family:inherit;font-size:11px;color:var(--text);resize:none;margin-top:6px;padding-top:6px;" id="ql-memo" rows="2" placeholder="자유 메모..">'+e(data.memo)+'</textarea>';
+
+  // 퀘스트
+  var mqHtml = (data.mainQuests||[]).map(function(q){
+    return '<div class="ql-quest-row ql-main-quest-row">' + '<div class=\"dp-drag-handle\" style=\"width:10px;flex-shrink:0;\"><svg width=\"10\" height=\"10\" viewBox=\"0 0 10 10\" fill=\"none\" style=\"pointer-events:none\"><circle cx=\"3\" cy=\"3\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/><circle cx=\"7\" cy=\"3\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/><circle cx=\"3\" cy=\"7\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/><circle cx=\"7\" cy=\"7\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/></svg></div>'
+      + '<input type="checkbox" class="ql-quest-check main"'+chk(q.done)+'>'
+      + '<input class="ql-quest-text'+(q.done?' done':'')+'" value="'+e(q.text)+'" placeholder="메인 퀘스트..">'
+      + '</div>';
+  }).join('');
+  var sqHtml = (data.subQuests||[]).map(function(q){
+    return '<div class="ql-quest-row ql-sub-quest-row">' + '<div class=\"dp-drag-handle\" style=\"width:10px;flex-shrink:0;\"><svg width=\"10\" height=\"10\" viewBox=\"0 0 10 10\" fill=\"none\" style=\"pointer-events:none\"><circle cx=\"3\" cy=\"3\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/><circle cx=\"7\" cy=\"3\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/><circle cx=\"3\" cy=\"7\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/><circle cx=\"7\" cy=\"7\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/></svg></div>'
+      + '<input type="checkbox" class="ql-quest-check sub"'+chk(q.done)+'>'
+      + '<input class="ql-quest-text'+(q.done?' done':'')+'" value="'+e(q.text)+'" placeholder="서브 퀘스트..">'
+      + '</div>';
+  }).join('');
+  var mainDone=(data.mainQuests||[]).filter(function(q){return q.done;}).length;
+  var mainTotal=(data.mainQuests||[]).length||3;
+  var subDone=(data.subQuests||[]).filter(function(q){return q.done;}).length;
+  var subTotal=(data.subQuests||[]).length||3;
+
+  // 2단: 이벤트(좌) | 메인퀘스트(우상) + 서브퀘스트(우하)
+  html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:0;margin-top:6px;">'
+    + '<div class="dp-section"><div class="dp-section-hdr"><span class="dp-section-hdr-title">📜 오늘의 일정</span><div style="display:flex;gap:3px;"><button class="dp-prev-btn" id="ql-ev-prev" title="전날">⏮</button><button class="dp-hdr-add" id="ql-add-event-hdr">+</button></div></div><div style="padding:6px 4px;">'+evBody+'</div></div>'
+    + '<div style="display:flex;flex-direction:column;gap:4px;">'
+      + '<div class="dp-section"><div class="dp-section-hdr"><span class="dp-section-hdr-title">⚔️ 메인 퀘스트</span><div style="display:flex;gap:3px;"><button class="dp-prev-btn" id="ql-mq-prev" title="전날">⏮</button><button class="dp-hdr-add" id="ql-add-main">+</button></div></div><div style="padding:6px 4px;"><div id="ql-main-quests">'+mqHtml+'</div></div></div>'
+      + '<div class="dp-section"><div class="dp-section-hdr"><span class="dp-section-hdr-title">🍄 서브 퀘스트</span><div style="display:flex;gap:3px;"><button class="dp-prev-btn" id="ql-sq-prev" title="전날">⏮</button><button class="dp-hdr-add" id="ql-add-sub">+</button></div></div><div style="padding:6px 4px;"><div id="ql-sub-quests">'+sqHtml+'</div></div></div>'
+    + '</div>'
+    + '</div>';
+
+  // ── 데미지 로그 ──
+  var battleLogArr = data.battleLog || [{type:'achv',text:'',retro:''},{type:'heal',text:'',retro:''},{type:'dmg',text:'',retro:''}];
+  var BATTLE_TYPES = {
+    achv: {bg:'rgba(251,191,36,.18)', icon:'🏆', txtPh:'오늘의 업적 / 획득한 아이템', retBg:'rgba(251,191,36,.18)', retIcon:'🎖', retPh:'WIN) 획득한 칭호'},
+    heal: {bg:'rgba(74,222,128,.18)',  icon:'💚', txtPh:'오늘의 성장 / 효과적이었던 스킬', retBg:'rgba(74,222,128,.18)',  retIcon:'💎', retPh:'KEEP) 계속 장착할 스킬'},
+    dmg:  {bg:'rgba(248,113,113,.18)', icon:'💥', txtPh:'오늘의 위기 / 실패한 패턴',  retBg:'rgba(248,113,113,.18)', retIcon:'🔥', retPh:'TRY) 다음 공략법'},
+    new:  {bg:'transparent', icon:'⬜', txtPh:'이모지를 눌러 유형을 선택하세요', retBg:'transparent', retIcon:'💭', retPh:'내용을 입력하세요'},
+  };
+  var INP = 'background:transparent;border:none;border-bottom:1px solid rgba(180,170,220,.3);outline:none;font-family:inherit;font-size:12px;color:var(--lav-dk);';
+  var battleHtml = battleLogArr.map(function(l,i){
+    var t = BATTLE_TYPES[l.type] || BATTLE_TYPES.new;
+    var typeBtnStyle = l.type==='new'
+      ? 'width:22px;height:22px;border-radius:50%;border:1.5px dashed rgba(160,148,210,.4);cursor:pointer;font-size:11px;flex-shrink:0;background:transparent;'
+      : 'width:22px;height:22px;border-radius:50%;border:none;cursor:pointer;font-size:11px;flex-shrink:0;background:'+t.bg+';';
+    var typeBtn = '<button class="ql-battle-type" data-idx="'+i+'" data-type="'+(l.type||'new')+'" style="'+typeBtnStyle+'">'+t.icon+'</button>';
+    var txtInp = '<input class="ql-log-text" data-idx="'+i+'" value="'+e(l.text)+'" placeholder="'+t.txtPh+'" style="flex:1;min-width:0;'+INP+'">';
+    var arrow = '<span style="font-size:10px;color:rgba(160,148,210,.5);flex-shrink:0;padding:0 2px;">→</span>';
+    var retIcon = '<span style="width:22px;height:22px;border-radius:50%;background:'+t.retBg+';display:inline-flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;">'+t.retIcon+'</span>';
+    var retInp = '<input class="ql-log-retro" data-idx="'+i+'" value="'+e(l.retro||'')+'" placeholder="'+t.retPh+'" style="flex:1;min-width:0;'+INP+'">';
+    return '<div class="ql-battle-row" data-idx="'+i+'" style="display:flex;align-items:center;gap:2px;padding:4px 0;border-bottom:1px solid rgba(180,170,220,.08);">'+typeBtn+txtInp+arrow+retIcon+retInp+'</div>';
+  }).join('');
+
+  var dmgBody = '<div id="ql-battle-list">'+battleHtml+'</div>'
+    ;
+  html += '<div style="margin-top:6px;"><div class="dp-section">'    + '<div class="dp-section-hdr"><span class="dp-section-hdr-title">🗡 오늘의 전투 기록</span>'    + '<div style="display:flex;gap:3px;"><button class="dp-prev-btn" id="ql-battle-prev" title="전날">⏮</button><button class="dp-hdr-add" id="ql-add-battle-hdr">+</button></div>'    + '</div><div style="padding:6px 4px;">'+dmgBody+'</div></div></div>';
+
+  html += '</div>'; // ql-wrap 끝
+  app.innerHTML = html;
+
+  // ── 이벤트 바인딩 ──
+  document.getElementById('ql-prev').onclick = function(){ _qlOffset--; qlRender(); };
+  document.getElementById('ql-next').onclick = function(){ _qlOffset++; qlRender(); };
+  var shareBtn = document.getElementById('ql-share-btn');
+  if(shareBtn) shareBtn.onclick = function(){ qlShare(); };
+
+  // HP/MP 슬라이더 실시간
+  ['ql-hp','ql-mp'].forEach(function(id){
+    var el = document.getElementById(id);
+    if(!el) return;
+    el.oninput = function(){
+      var next = el.nextElementSibling;
+      if(next) next.textContent = el.value;
+      qlAutoSave();
+    };
+  });
+
+  // 이벤트 추가
+  var _addEvEl=document.getElementById('ql-add-event'); if(_addEvEl) _addEvEl.onclick = function(){
+    var data2 = qlLoad(qlKey(qlCurrentDate())) || qlDefaultData();
+    data2.events.push({time:'',text:'',done:false});
+    qlSave(qlKey(qlCurrentDate()), data2);
+    qlRender();
+  };
+
+  // 이벤트 삭제
+  document.querySelectorAll('.ql-event-del').forEach(function(btn,i){
+    btn.onclick = function(){
+      var data2 = qlLoad(qlKey(qlCurrentDate())) || qlDefaultData();
+      data2.events.splice(i,1);
+      qlSave(qlKey(qlCurrentDate()), data2);
+      qlRender();
+    };
+  });
+
+  // 체크박스 → done 클래스 + 자동저장
+
+  document.querySelectorAll('.ql-quest-check').forEach(function(cb){
+    cb.onchange = function(){
+      var textEl = cb.parentElement.querySelector('.ql-quest-text');
+      if(textEl) textEl.classList.toggle('done', cb.checked);
+      qlAutoSave();
+    };
+  });
+
+  // 이벤트 전날
+  var evPrev=document.getElementById('ql-ev-prev');
+  if(evPrev) evPrev.onclick=function(){
+    var prevD=new Date(qlCurrentDate()); prevD.setDate(prevD.getDate()-1);
+    var pd=qlLoad(qlKey(prevD));
+    if(!pd||!pd.events||!pd.events.length) return;
+    var d2=qlLoad(qlKey(qlCurrentDate()))||qlDefaultData();
+    d2.events=JSON.parse(JSON.stringify(pd.events));
+    qlSave(qlKey(qlCurrentDate()),d2); qlRender();
+  };
+  // 메인퀘스트 전날
+  var mqPrev=document.getElementById('ql-mq-prev');
+  if(mqPrev) mqPrev.onclick=function(){
+    var prevD=new Date(qlCurrentDate()); prevD.setDate(prevD.getDate()-1);
+    var pd=qlLoad(qlKey(prevD));
+    if(!pd||!pd.mainQuests) return;
+    var d2=qlLoad(qlKey(qlCurrentDate()))||qlDefaultData();
+    d2.mainQuests=JSON.parse(JSON.stringify(pd.mainQuests));
+    qlSave(qlKey(qlCurrentDate()),d2); qlRender();
+  };
+  // 서브퀘스트 전날
+  var sqPrev=document.getElementById('ql-sq-prev');
+  if(sqPrev) sqPrev.onclick=function(){
+    var prevD=new Date(qlCurrentDate()); prevD.setDate(prevD.getDate()-1);
+    var pd=qlLoad(qlKey(prevD));
+    if(!pd||!pd.subQuests) return;
+    var d2=qlLoad(qlKey(qlCurrentDate()))||qlDefaultData();
+    d2.subQuests=JSON.parse(JSON.stringify(pd.subQuests));
+    qlSave(qlKey(qlCurrentDate()),d2); qlRender();
+  };
+
+  // 메인/서브 퀘스트 추가
+  var addMain=document.getElementById('ql-add-main');
+  if(addMain) addMain.onclick=function(){
+    var d2=qlLoad(qlKey(qlCurrentDate()))||qlDefaultData();
+    d2.mainQuests.push({text:'',done:false});
+    qlSave(qlKey(qlCurrentDate()),d2); qlRender();
+  };
+  var addSub=document.getElementById('ql-add-sub');
+  if(addSub) addSub.onclick=function(){
+    var d2=qlLoad(qlKey(qlCurrentDate()))||qlDefaultData();
+    d2.subQuests.push({text:'',done:false});
+    qlSave(qlKey(qlCurrentDate()),d2); qlRender();
+  };
+
+  // 시간 자동 포맷 (1234 → 12:34)
+  document.querySelectorAll('.ql-event-time').forEach(function(inp){
+    inp.addEventListener('input', function(){
+      var v = inp.value.replace(/[^0-9]/g,'');
+      if(v.length >= 3) v = v.slice(0,2) + ':' + v.slice(2,4);
+      inp.value = v;
+    });
+  });
+
+  // 전투로그 타입 토글
+  document.querySelectorAll('.ql-battle-type').forEach(function(btn){
+    btn.onclick = function(e){
+      e.stopPropagation();
+      var idx = parseInt(btn.getAttribute('data-idx'));
+      var d2 = qlLoad(qlKey(qlCurrentDate()))||qlDefaultData();
+      if(!d2.battleLog) d2.battleLog = [];
+      if(!d2.battleLog[idx]) d2.battleLog[idx] = {type:'new',text:'',retro:''};
+      var txEl = btn.parentElement.querySelector('.ql-log-text');
+      var rtEl = btn.parentElement.querySelector('.ql-log-retro');
+      if(txEl) d2.battleLog[idx].text = txEl.value;
+      if(rtEl) d2.battleLog[idx].retro = rtEl.value;
+      var cur = btn.getAttribute('data-type') || d2.battleLog[idx].type || 'new';
+      if(cur === 'new') {
+        d2.battleLog[idx].type = 'achv';
+      } else {
+        var loop = ['achv','heal','dmg'];
+        d2.battleLog[idx].type = loop[(loop.indexOf(cur)+1) % loop.length];
+      }
+      qlSave(qlKey(qlCurrentDate()), d2); qlRender();
+    };
+  });
+  var addBattleHdr = document.getElementById('ql-add-battle-hdr');
+  if(addBattleHdr) addBattleHdr.onclick = function(){
+    qlAutoSave();
+    var d2 = qlLoad(qlKey(qlCurrentDate()))||qlDefaultData();
+    if(!d2.battleLog) d2.battleLog = [];
+    d2.battleLog.push({type:'new',text:'',retro:''});
+    qlSave(qlKey(qlCurrentDate()), d2); qlRender();
+  };
+  var battlePrevBtn = document.getElementById('ql-battle-prev');
+  if(battlePrevBtn) battlePrevBtn.onclick = function(){
+    var prevD=new Date(qlCurrentDate()); prevD.setDate(prevD.getDate()-1);
+    var pd=qlLoad(qlKey(prevD));
+    if(!pd||!pd.battleLog) return;
+    var d2=qlLoad(qlKey(qlCurrentDate()))||qlDefaultData();
+    d2.battleLog=JSON.parse(JSON.stringify(pd.battleLog));
+    qlSave(qlKey(qlCurrentDate()),d2); qlRender();
+  };
+  // LUCK 클릭
+  var luckWrapEl = document.getElementById('ql-luck-wrap');
+  if(luckWrapEl){
+    luckWrapEl.querySelectorAll('.ql-luck-btn').forEach(function(btn){
+      btn.onclick = function(){
+        var idx = parseInt(btn.getAttribute('data-idx'));
+        var data2 = qlLoad(qlKey(qlCurrentDate()))||qlDefaultData();
+        /* 같은 인덱스 클릭 시 토글 */
+        data2.luck = (data2.luck===idx+1) ? idx : idx+1;
+        qlSave(qlKey(qlCurrentDate()), data2);
+        /* 즉시 UI 업데이트 */
+        luckWrapEl.querySelectorAll('.ql-luck-btn').forEach(function(b,i){
+          b.style.opacity = i < data2.luck ? '1' : '.25';
+        });
+      };
+    });
+  }
+
+  // 모든 input/textarea 자동저장
+  document.querySelectorAll('.ql-wrap input:not([type=checkbox]):not([type=range]), .ql-wrap textarea').forEach(function(el){
+    el.oninput = function(){ qlAutoSave(); };
+  });
 }
 
 function showWip(key,name,feature,desc){var emojis={Y:'☀️',M:'🌙','W/D':'⭐'};document.getElementById('wip-emoji').textContent=emojis[key]||'🔨';document.getElementById('wip-title').textContent=name+' — '+feature;document.getElementById('wip-sub').textContent=desc;document.getElementById('wip-overlay').classList.add('open');}
@@ -4567,10 +5285,6 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
       listEl.appendChild(grp);
     });
   }
-
-
-
-
 
 /* ══════════════════════════════════════════
    과거 빙고 전용 렌더러 — renderBoard와 완전 독립
@@ -6013,8 +6727,6 @@ function renderReflection(r){
     '</div></div>';
 }
 
-
-
 function navigateWeek(delta){
   var d=new Date(ST.weekModalStart+'T12:00:00');
   d.setDate(d.getDate()+delta*7);
@@ -7000,7 +7712,6 @@ function assignDayToTmpl(tid, dow, assign){
   saveTmplDays(map);
 }
 
-
 /* ── Default template system ── */
 var DEFAULT_TMPL_KEY = 'drt:defaultTmplId';
 var TMPL_DAYS_KEY = 'drt:tmplDays'; /* {tmplId:[0,1,2,...]} day-of-week assignments */
@@ -7133,7 +7844,6 @@ function closeTmplPanel(){
   ST.tmplPanel=false;
   ST.tmplFromCalendar=false;
 }
-
 
 /* ══ TEMPLATE CSS ══ */
 /* injected here for locality – deduped by browser */
@@ -7636,7 +8346,6 @@ function bindTmplPanel(){
     };
   });
 }
-
 
 function pushTmplHistory() {
   /* Trim any redo future */
@@ -9687,6 +10396,60 @@ window.addEventListener('load', function() {
     } catch(e) {}
   }, 200);
 });
+</script>
+
+<style>
+.share-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;display:flex;align-items:flex-end;justify-content:center;}
+.share-sheet{background:#fff;border-radius:20px 20px 0 0;padding:24px 20px 40px;width:100%;max-width:430px;animation:slideUp .25s;}
+.share-sheet-title{font-size:13px;font-weight:700;color:#7060c0;text-align:center;margin-bottom:16px;}
+.share-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.share-btn{display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 8px;border-radius:14px;border:1.5px solid rgba(180,168,220,.3);background:rgba(248,246,255,.8);cursor:pointer;font-size:11px;font-weight:600;color:#7060c0;}
+.share-btn-icon{font-size:28px;}
+.share-cancel{width:100%;margin-top:10px;padding:12px;border-radius:12px;border:none;background:rgba(200,190,230,.2);font-size:13px;font-weight:600;color:#7060c0;cursor:pointer;}
+@keyframes slideUp{from{transform:translateY(100%);}to{transform:translateY(0);}}
+</style>
+<script>
+function qlShare(){
+  var overlay=document.createElement('div');
+  overlay.className='share-overlay';
+  var sheet=document.createElement('div');
+  sheet.className='share-sheet';
+  sheet.innerHTML='<div class="share-sheet-title">오늘의 퀘스트 로그 공유</div>'
+    +'<div class="share-btns">'
+    +'<button class="share-btn" id="ssave"><span class="share-btn-icon">&#128190;</span>이미지 저장</button>'
+    +'<button class="share-btn" id="sshare"><span class="share-btn-icon">&#128279;</span>이미지 공유</button>'
+    +'</div>'
+    +'<button class="share-cancel" id="scancel">취소</button>';
+  overlay.appendChild(sheet);
+  document.body.appendChild(overlay);
+  function close(){ document.body.removeChild(overlay); }
+  overlay.onclick=function(e){ if(e.target===overlay) close(); };
+  sheet.querySelector('#scancel').onclick=close;
+  function doCapture(action){
+    close();
+    var target=document.querySelector('.ql-wrap');
+    if(!target){ alert('퀘스트 로그를 열어주세요.'); return; }
+    var d=new Date();
+    var ds=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+    var fname='별빛달빛해빗_'+ds+'.png';
+    html2canvas(target,{scale:2,useCORS:true,backgroundColor:'#e8e2f8'}).then(function(cv){
+      if(action==='save'){
+        var a=document.createElement('a'); a.href=cv.toDataURL('image/png'); a.download=fname; a.click();
+      } else {
+        cv.toBlob(function(blob){
+          var file=new File([blob],fname,{type:'image/png'});
+          if(navigator.canShare&&navigator.canShare({files:[file]})){
+            navigator.share({files:[file],title:'퀘스트 로그',text:ds});
+          } else {
+            var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=fname; a.click();
+          }
+        },'image/png');
+      }
+    }).catch(function(e){ alert('오류: '+e.message); });
+  }
+  sheet.querySelector('#ssave').onclick=function(){ doCapture('save'); };
+  sheet.querySelector('#sshare').onclick=function(){ doCapture('share'); };
+}
 </script>
 </body>
 </html>
