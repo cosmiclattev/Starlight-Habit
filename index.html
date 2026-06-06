@@ -4006,6 +4006,25 @@ function dpRenderPlanner(){
     setTimeout(function(){ var r=document.querySelectorAll('.dp-rm-row'); if(r.length) r[r.length-1].querySelector('.dp-row-inp').focus(); },60);
   };
   dpBindPriList('dp-pr-list',data,key);
+  // 마지막 항목 엔터 → 새 항목 추가
+  (function(){
+    var _ec=[['dp-bd-list','brainDump','dp-bd-row'],['dp-rm-list','remember','dp-rm-row'],['dp-pr-list','priorities','dp-pr-row']];
+    _ec.forEach(function(c){
+      var list=document.getElementById(c[0]); if(!list) return;
+      var rows=list.querySelectorAll('.'+c[2]); if(!rows.length) return;
+      var inp=rows[rows.length-1].querySelector('.dp-row-inp,.dp-pri-inp'); if(!inp) return;
+      inp.addEventListener('keydown',function(e){
+        if(e.key!=='Enter') return; e.preventDefault();
+        var d2=dpLoad(key)||dpDefaultData(); d2[c[1]]=d2[c[1]]||[];
+        d2[c[1]].push({text:'',done:false}); dpSave(key,d2); dpRenderPlanner();
+        setTimeout(function(){
+          var nl=document.getElementById(c[0]); if(!nl) return;
+          var nr=nl.querySelectorAll('.'+c[2]); if(!nr.length) return;
+          var ni=nr[nr.length-1].querySelector('.dp-row-inp,.dp-pri-inp'); if(ni) ni.focus();
+        },60);
+      });
+    });
+  })();
   var addPr=document.getElementById('dp-add-pr');
   if(addPr) addPr.onclick=function(){
     var d2=dpLoad(key)||data; d2.priorities=d2.priorities||[]; d2.priorities.push({text:'',done:false}); dpSave(key,d2); dpRenderPlanner();
@@ -4647,6 +4666,51 @@ function qlRender() {
       else d2.subQuests.splice(idx,1);
       qlSave(qlKey(qlCurrentDate()),d2); qlRender();
     };
+  });
+
+  // 엔터로 새 항목 추가 (QL)
+  function qlEnterAdd(field, defaultItem){
+    return function(e){
+      if(e.key !== 'Enter') return;
+      var rows = e.target.closest('[id]');
+      var allInps = rows ? rows.querySelectorAll('input[class*="ql-quest-text"], input[class*="ql-event-text"]') : null;
+      var allArr = allInps ? Array.from(allInps) : [];
+      if(allArr.length && allArr[allArr.length-1] !== e.target) return; // 마지막 항목만
+      e.preventDefault();
+      qlAutoSave();
+      var d2 = qlLoad(qlKey(qlCurrentDate()))||qlDefaultData();
+      d2[field] = d2[field]||[];
+      d2[field].push(defaultItem);
+      qlSave(qlKey(qlCurrentDate()),d2);
+      qlRender();
+      // 포커스 새 항목으로
+      setTimeout(function(){
+        var newInps = document.querySelectorAll('input[class*="'+( field==='events'?'ql-event-text':'ql-quest-text')+'"]');
+        if(newInps.length) newInps[newInps.length-1].focus();
+      }, 60);
+    };
+  }
+  document.querySelectorAll('.ql-main-quest-row .ql-quest-text').forEach(function(inp){
+    inp.addEventListener('keydown', qlEnterAdd('mainQuests',{text:'',done:false}));
+  });
+  document.querySelectorAll('.ql-sub-quest-row .ql-quest-text').forEach(function(inp){
+    inp.addEventListener('keydown', qlEnterAdd('subQuests',{text:'',done:false}));
+  });
+  document.querySelectorAll('.ql-event-row .ql-event-text').forEach(function(inp){
+    inp.addEventListener('keydown', qlEnterAdd('events',{time:'',text:'',done:false}));
+  });
+  // 전투 기록 엔터
+  document.querySelectorAll('.ql-battle-row .ql-log-retro').forEach(function(inp,i,all){
+    inp.addEventListener('keydown', function(e){
+      if(e.key !== 'Enter') return;
+      if(i !== all.length-1) return;
+      e.preventDefault();
+      qlAutoSave();
+      var d2=qlLoad(qlKey(qlCurrentDate()))||qlDefaultData();
+      d2.battleLog=d2.battleLog||[];
+      d2.battleLog.push({type:'new',text:'',retro:''});
+      qlSave(qlKey(qlCurrentDate()),d2); qlRender();
+    });
   });
 
   // 퀘스트/이벤트 드래그 핸들 바인딩
@@ -6820,7 +6884,7 @@ function renderReflection(r){
   var tmrH = r.tomorrow.map(function(v,i){
     return '<div class="refl-row" data-type="tmr" data-idx="'+i+'">'+'<input class="inp refl-tmr" data-idx="'+i+'" type="text" value="'+esc(v)+'" placeholder="'+(i+1)+'번째…" style="flex:1">'+'<div class="ud-nav">'+'<button class="btn-move btn-refl-up" data-type="tmr" data-idx="'+i+'">▲</button>'+'<button class="btn-move btn-refl-dn" data-type="tmr" data-idx="'+i+'">▼</button>'+'</div>'+'<button class="btn-del btn-refl-del" data-type="tmr" data-idx="'+i+'">&#215;</button>'+'</div>';
   }).join('') +
-  '<button class="refl-add-btn" data-type="tomorrow">&#43; 한 줄 추가</button>';
+  '';
   return '<div class="sect-card" id="sect-reflection" style="margin-bottom:220px"><div class="sect-hdr bg-refl"><div class="sect-hdr-left"><span style="font-size:18px">🌕</span><span class="sect-title">'+(localStorage.getItem('ymwt_lang')==='ko'?'오늘의 회고':'Moonshine Reflection')+'</span></div></div>'+
     '<div style="padding:16px">'+
     '<div class="refl-group"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px"><div class="refl-label" style="color:#a855b5;margin-bottom:0">'+esc(cfg.goodLabel)+'</div><button class="refl-add-btn" data-type="good" style="margin:0">&#43; 한 줄 추가</button></div>'+goodH+'</div>'+
