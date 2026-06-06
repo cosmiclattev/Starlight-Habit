@@ -3652,9 +3652,10 @@ function dpStartDrag(e, handle, isTouch) {
   }
   if (!row || !list) return;
   var clientY = isTouch ? e.touches[0].clientY : e.clientY;
+  var initIdx = Array.prototype.indexOf.call(list.children, row);
   _dpDrag = {
     row: row, list: list,
-    startY: clientY, curOverIdx: -1,
+    startY: clientY, curOverIdx: initIdx,
     curStateKey: '', started: false
   };
   if (isTouch) {
@@ -3685,6 +3686,8 @@ function dpOnDragMove(e) {
     var r = rows[j].getBoundingClientRect();
     if (clientY < r.top + r.height / 2) { ins = j; break; }
   }
+  /* 첫 번째 항목 위로 드래그: 첫 번째 row top보다 위면 ins=0 강제 */
+  if (rows.length > 0 && clientY < rows[0].getBoundingClientRect().top) { ins = 0; }
   var key = String(ins);
   if (key === _dpDrag.curStateKey) return;
   _dpDrag.curStateKey = key;
@@ -3721,6 +3724,7 @@ function dpOnDragEnd(e) {
 
   /* 데이터 이동 */
   var fromIdx = parseInt(row.dataset.idx);
+  if (toIdx < 0) return; /* 위치 미확정 */
   if (toIdx === fromIdx || toIdx === fromIdx+1) return; /* 제자리 */
   /* 리스트 ID로 field/save 결정 */
   var listId = list.id;
@@ -3741,7 +3745,6 @@ function dpOnDragEnd(e) {
     dpSave(key, data);
     dpRenderPlanner();
   } else if(qlFieldMap[listId]){
-    qlAutoSave();
     var qlKey2 = qlKey(qlCurrentDate());
     var qlData = qlLoad(qlKey2) || qlDefaultData();
     var arr = qlData[qlFieldMap[listId]] || [];
@@ -4015,13 +4018,21 @@ function dpRenderPlanner(){
       var inp=rows[rows.length-1].querySelector('.dp-row-inp,.dp-pri-inp'); if(!inp) return;
       inp.addEventListener('keydown',function(e){
         if(e.key!=='Enter') return; e.preventDefault();
-        var d2=dpLoad(key)||dpDefaultData(); d2[c[1]]=d2[c[1]]||[];
-        d2[c[1]].push({text:'',done:false}); dpSave(key,d2); dpRenderPlanner();
-        setTimeout(function(){
-          var nl=document.getElementById(c[0]); if(!nl) return;
-          var nr=nl.querySelectorAll('.'+c[2]); if(!nr.length) return;
-          var ni=nr[nr.length-1].querySelector('.dp-row-inp,.dp-pri-inp'); if(ni) ni.focus();
-        },60);
+        var listEl=document.getElementById(c[0]); if(!listEl) return;
+        var allInps=Array.from(listEl.querySelectorAll('.dp-row-inp,.dp-pri-inp'));
+        var idx=allInps.indexOf(e.target);
+        if(idx<0) return;
+        if(idx<allInps.length-1){
+          allInps[idx+1].focus();
+        } else {
+          var d2=dpLoad(key)||dpDefaultData(); d2[c[1]]=d2[c[1]]||[];
+          d2[c[1]].push({text:'',done:false}); dpSave(key,d2); dpRenderPlanner();
+          setTimeout(function(){
+            var nl=document.getElementById(c[0]); if(!nl) return;
+            var nr=nl.querySelectorAll('.'+c[2]); if(!nr.length) return;
+            var ni=nr[nr.length-1].querySelector('.dp-row-inp,.dp-pri-inp'); if(ni) ni.focus();
+          },60);
+        }
       });
     });
   })();
@@ -4031,6 +4042,15 @@ function dpRenderPlanner(){
     setTimeout(function(){ var r=document.querySelectorAll('.dp-pr-row'); if(r.length) r[r.length-1].querySelector('.dp-pri-inp').focus(); },60);
   };
   document.querySelectorAll('.dp-block-content,.dp-gap-area').forEach(function(el){ el.oninput=dpAutoSave; });
+  /* 블록 엔터: 다음 블록으로 이동 (6개 고정, 추가 없음) */
+  var blockContents = Array.from(document.querySelectorAll('.dp-block-content'));
+  blockContents.forEach(function(el, i){
+    el.addEventListener('keydown', function(e){
+      if(e.key !== 'Enter') return;
+      e.preventDefault();
+      if(i < blockContents.length - 1) blockContents[i+1].focus();
+    });
+  });
   /* block-content, gap-area: 고정 단일 라인 */
   /* ── 전날 버튼 바인딩 ── */
   var prevBd=document.getElementById('dp-prev-bd'); if(prevBd) prevBd.onclick=function(){dpLoadPrev('brainDump');};
@@ -4378,6 +4398,7 @@ function qlAutoSave() {
   document.querySelectorAll('.ql-achv-inp').forEach(function(el,i){ data.achievements[i]=el.value; });
   // 이벤트
   document.querySelectorAll('.ql-event-row').forEach(function(row,i){
+    row.setAttribute('data-idx', i);
     var dh=row.querySelector('.dp-drag-handle');
     if(dh){
       dh.addEventListener('mousedown',  function(e){ dpStartDrag(e,dh,false); },{passive:false});
@@ -4389,11 +4410,13 @@ function qlAutoSave() {
   });
   // 퀘스트
   document.querySelectorAll('.ql-main-quest-row').forEach(function(row,i){
+    row.setAttribute('data-idx', i);
     var tx=row.querySelector('.ql-quest-text'); var cb=row.querySelector('.ql-quest-check');
     if(!data.mainQuests[i]) data.mainQuests[i]={text:'',done:false};
     if(tx) data.mainQuests[i].text=tx.value; if(cb) data.mainQuests[i].done=cb.checked;
   });
   document.querySelectorAll('.ql-sub-quest-row').forEach(function(row,i){
+    row.setAttribute('data-idx', i);
     var tx=row.querySelector('.ql-quest-text'); var cb=row.querySelector('.ql-quest-check');
     if(!data.subQuests[i]) data.subQuests[i]={text:'',done:false};
     if(tx) data.subQuests[i].text=tx.value; if(cb) data.subQuests[i].done=cb.checked;
@@ -4545,7 +4568,7 @@ function qlRender() {
 
   // 이벤트
   var evHtml = (data.events||[]).map(function(ev,i){
-    return '<div class="ql-event-row">' + '<div class=\"dp-drag-handle\" style=\"width:10px;flex-shrink:0;\"><svg width=\"10\" height=\"10\" viewBox=\"0 0 10 10\" fill=\"none\" style=\"pointer-events:none\"><circle cx=\"3\" cy=\"3\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/><circle cx=\"7\" cy=\"3\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/><circle cx=\"3\" cy=\"7\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/><circle cx=\"7\" cy=\"7\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/></svg></div>'
+    return '<div class="ql-event-row" data-idx="'+i+'">' + '<div class=\"dp-drag-handle\" style=\"width:10px;flex-shrink:0;\"><svg width=\"10\" height=\"10\" viewBox=\"0 0 10 10\" fill=\"none\" style=\"pointer-events:none\"><circle cx=\"3\" cy=\"3\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/><circle cx=\"7\" cy=\"3\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/><circle cx=\"3\" cy=\"7\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/><circle cx=\"7\" cy=\"7\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/></svg></div>'
 
       + '<input class="ql-event-time" value="'+e(ev.time)+'" placeholder="00:00">'
       + '<input class="ql-event-text'+(ev.done?' done':'')+'" value="'+e(ev.text)+'" placeholder="이벤트..">'
@@ -4557,15 +4580,15 @@ function qlRender() {
     + '<textarea style="width:100%;background:transparent;border:none;border-top:1px dashed rgba(180,170,220,.3);outline:none;font-family:inherit;font-size:11px;color:var(--text);resize:none;margin-top:6px;padding-top:6px;" id="ql-memo" rows="2" placeholder="자유 메모..">'+e(data.memo)+'</textarea>';
 
   // 퀘스트
-  var mqHtml = (data.mainQuests||[]).map(function(q){
-    return '<div class="ql-quest-row ql-main-quest-row">' + '<div class=\"dp-drag-handle\" style=\"width:10px;flex-shrink:0;\"><svg width=\"10\" height=\"10\" viewBox=\"0 0 10 10\" fill=\"none\" style=\"pointer-events:none\"><circle cx=\"3\" cy=\"3\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/><circle cx=\"7\" cy=\"3\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/><circle cx=\"3\" cy=\"7\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/><circle cx=\"7\" cy=\"7\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/></svg></div>'
+  var mqHtml = (data.mainQuests||[]).map(function(q,i){
+    return '<div class="ql-quest-row ql-main-quest-row" data-idx="'+i+'">'  + '<div class=\"dp-drag-handle\" style=\"width:10px;flex-shrink:0;\"><svg width=\"10\" height=\"10\" viewBox=\"0 0 10 10\" fill=\"none\" style=\"pointer-events:none\"><circle cx=\"3\" cy=\"3\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/><circle cx=\"7\" cy=\"3\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/><circle cx=\"3\" cy=\"7\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/><circle cx=\"7\" cy=\"7\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/></svg></div>'
       + '<input type="checkbox" class="ql-quest-check main"'+chk(q.done)+'>'
       + '<input class="ql-quest-text'+(q.done?' done':'')+'" value="'+e(q.text)+'" placeholder="메인 퀘스트..">'
       + '<button class="ql-quest-del" data-type="main" style="margin-left:auto;width:14px;height:14px;border:1px solid rgba(180,168,220,.45);border-radius:50%;background:rgba(240,236,255,.65);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;font-size:9px;color:rgba(150,130,200,.65);line-height:1;">&#215;</button>'
       + '</div>';
   }).join('');
-  var sqHtml = (data.subQuests||[]).map(function(q){
-    return '<div class="ql-quest-row ql-sub-quest-row">' + '<div class=\"dp-drag-handle\" style=\"width:10px;flex-shrink:0;\"><svg width=\"10\" height=\"10\" viewBox=\"0 0 10 10\" fill=\"none\" style=\"pointer-events:none\"><circle cx=\"3\" cy=\"3\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/><circle cx=\"7\" cy=\"3\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/><circle cx=\"3\" cy=\"7\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/><circle cx=\"7\" cy=\"7\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/></svg></div>'
+  var sqHtml = (data.subQuests||[]).map(function(q,i){
+    return '<div class="ql-quest-row ql-sub-quest-row" data-idx="'+i+'">'  + '<div class=\"dp-drag-handle\" style=\"width:10px;flex-shrink:0;\"><svg width=\"10\" height=\"10\" viewBox=\"0 0 10 10\" fill=\"none\" style=\"pointer-events:none\"><circle cx=\"3\" cy=\"3\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/><circle cx=\"7\" cy=\"3\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/><circle cx=\"3\" cy=\"7\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/><circle cx=\"7\" cy=\"7\" r=\"1.3\" fill=\"rgba(140,120,200,.7)\"/></svg></div>'
       + '<input type="checkbox" class="ql-quest-check sub"'+chk(q.done)+'>'
       + '<input class="ql-quest-text'+(q.done?' done':'')+'" value="'+e(q.text)+'" placeholder="서브 퀘스트..">'
       + '<button class="ql-quest-del" data-type="sub" style="margin-left:auto;width:14px;height:14px;border:1px solid rgba(180,168,220,.45);border-radius:50%;background:rgba(240,236,255,.65);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;font-size:9px;color:rgba(150,130,200,.65);line-height:1;">&#215;</button>'
@@ -4672,22 +4695,25 @@ function qlRender() {
   function qlEnterAdd(field, defaultItem){
     return function(e){
       if(e.key !== 'Enter') return;
-      var rows = e.target.closest('[id]');
-      var allInps = rows ? rows.querySelectorAll('input[class*="ql-quest-text"], input[class*="ql-event-text"]') : null;
-      var allArr = allInps ? Array.from(allInps) : [];
-      if(allArr.length && allArr[allArr.length-1] !== e.target) return; // 마지막 항목만
       e.preventDefault();
-      qlAutoSave();
-      var d2 = qlLoad(qlKey(qlCurrentDate()))||qlDefaultData();
-      d2[field] = d2[field]||[];
-      d2[field].push(defaultItem);
-      qlSave(qlKey(qlCurrentDate()),d2);
-      qlRender();
-      // 포커스 새 항목으로
-      setTimeout(function(){
-        var newInps = document.querySelectorAll('input[class*="'+( field==='events'?'ql-event-text':'ql-quest-text')+'"]');
-        if(newInps.length) newInps[newInps.length-1].focus();
-      }, 60);
+      var sel = field==='events' ? '.ql-event-text' : field==='mainQuests' ? '.ql-main-quest-row .ql-quest-text' : '.ql-sub-quest-row .ql-quest-text';
+      var allInps = Array.from(document.querySelectorAll(sel));
+      var idx = allInps.indexOf(e.target);
+      if(idx < 0) return;
+      if(idx < allInps.length - 1){
+        allInps[idx+1].focus();
+      } else {
+        qlAutoSave();
+        var d2 = qlLoad(qlKey(qlCurrentDate()))||qlDefaultData();
+        d2[field] = d2[field]||[];
+        d2[field].push(defaultItem);
+        qlSave(qlKey(qlCurrentDate()),d2);
+        qlRender();
+        setTimeout(function(){
+          var newInps = Array.from(document.querySelectorAll(sel));
+          if(newInps.length) newInps[newInps.length-1].focus();
+        }, 60);
+      }
     };
   }
   document.querySelectorAll('.ql-main-quest-row .ql-quest-text').forEach(function(inp){
