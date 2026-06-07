@@ -4014,25 +4014,24 @@ function dpRenderPlanner(){
     var _ec=[['dp-bd-list','brainDump','dp-bd-row'],['dp-rm-list','remember','dp-rm-row'],['dp-pr-list','priorities','dp-pr-row']];
     _ec.forEach(function(c){
       var list=document.getElementById(c[0]); if(!list) return;
-      var rows=list.querySelectorAll('.'+c[2]); if(!rows.length) return;
-      var inp=rows[rows.length-1].querySelector('.dp-row-inp,.dp-pri-inp'); if(!inp) return;
-      inp.addEventListener('keydown',function(e){
-        if(e.key!=='Enter') return; e.preventDefault();
-        var listEl=document.getElementById(c[0]); if(!listEl) return;
-        var allInps=Array.from(listEl.querySelectorAll('.dp-row-inp,.dp-pri-inp'));
-        var idx=allInps.indexOf(e.target);
-        if(idx<0) return;
-        if(idx<allInps.length-1){
-          allInps[idx+1].focus();
-        } else {
-          var d2=dpLoad(key)||dpDefaultData(); d2[c[1]]=d2[c[1]]||[];
-          d2[c[1]].push({text:'',done:false}); dpSave(key,d2); dpRenderPlanner();
-          setTimeout(function(){
-            var nl=document.getElementById(c[0]); if(!nl) return;
-            var nr=nl.querySelectorAll('.'+c[2]); if(!nr.length) return;
-            var ni=nr[nr.length-1].querySelector('.dp-row-inp,.dp-pri-inp'); if(ni) ni.focus();
-          },60);
-        }
+      var allInps=Array.from(list.querySelectorAll('.dp-row-inp,.dp-pri-inp'));
+      allInps.forEach(function(inp, curIdx){
+        inp.addEventListener('keydown',function(e){
+          if(e.key!=='Enter') return; e.preventDefault();
+          if(curIdx<allInps.length-1){
+            var nxt=allInps[curIdx+1];
+            nxt.focus();
+            nxt.setSelectionRange(nxt.value.length, nxt.value.length);
+          } else {
+            var d2=dpLoad(key)||dpDefaultData(); d2[c[1]]=d2[c[1]]||[];
+            d2[c[1]].push({text:'',done:false}); dpSave(key,d2); dpRenderPlanner();
+            setTimeout(function(){
+              var nl=document.getElementById(c[0]); if(!nl) return;
+              var nr=Array.from(nl.querySelectorAll('.dp-row-inp,.dp-pri-inp'));
+              if(nr.length){ var last=nr[nr.length-1]; last.focus(); last.setSelectionRange(0,0); }
+            },60);
+          }
+        });
       });
     });
   })();
@@ -4042,6 +4041,15 @@ function dpRenderPlanner(){
     setTimeout(function(){ var r=document.querySelectorAll('.dp-pr-row'); if(r.length) r[r.length-1].querySelector('.dp-pri-inp').focus(); },60);
   };
   document.querySelectorAll('.dp-block-content,.dp-gap-area').forEach(function(el){ el.oninput=dpAutoSave; });
+  (function(){
+    var bcs=Array.from(document.querySelectorAll('.dp-block-content'));
+    bcs.forEach(function(el,i){
+      el.addEventListener('keydown',function(e){
+        if(e.key!=='Enter') return; e.preventDefault();
+        if(i<bcs.length-1){ var nxt=bcs[i+1]; nxt.focus(); nxt.setSelectionRange(nxt.value.length,nxt.value.length); }
+      });
+    });
+  })();
   /* 블록 엔터: 다음 블록으로 이동 (6개 고정, 추가 없음) */
   var blockContents = Array.from(document.querySelectorAll('.dp-block-content'));
   blockContents.forEach(function(el, i){
@@ -4691,41 +4699,72 @@ function qlRender() {
     };
   });
 
-  // 엔터로 새 항목 추가 (QL)
-  function qlEnterAdd(field, defaultItem){
-    return function(e){
-      if(e.key !== 'Enter') return;
-      e.preventDefault();
-      var sel = field==='events' ? '.ql-event-text' : field==='mainQuests' ? '.ql-main-quest-row .ql-quest-text' : '.ql-sub-quest-row .ql-quest-text';
-      var allInps = Array.from(document.querySelectorAll(sel));
-      var idx = allInps.indexOf(e.target);
-      if(idx < 0) return;
-      if(idx < allInps.length - 1){
-        allInps[idx+1].focus();
-      } else {
-        qlAutoSave();
-        var d2 = qlLoad(qlKey(qlCurrentDate()))||qlDefaultData();
-        d2[field] = d2[field]||[];
-        d2[field].push(defaultItem);
-        qlSave(qlKey(qlCurrentDate()),d2);
-        qlRender();
-        setTimeout(function(){
-          var newInps = Array.from(document.querySelectorAll(sel));
-          if(newInps.length) newInps[newInps.length-1].focus();
-        }, 60);
-      }
-    };
+  // 엔터: 같은 섹션 내 다음 항목으로 이동, 마지막이면 추가
+  function qlEnterNav(containerId, inputSel, field, defaultItem){
+    var container = document.getElementById(containerId);
+    if(!container) return;
+    var inps = Array.from(container.querySelectorAll(inputSel));
+    inps.forEach(function(inp, idx){
+      inp.addEventListener('keydown', function(e){
+        if(e.key !== 'Enter') return;
+        e.preventDefault();
+        if(idx < inps.length - 1){
+          var nxt = inps[idx+1];
+          nxt.focus();
+          nxt.setSelectionRange(nxt.value.length, nxt.value.length);
+        } else {
+          qlAutoSave();
+          var d2 = qlLoad(qlKey(qlCurrentDate()))||qlDefaultData();
+          d2[field] = d2[field]||[];
+          d2[field].push(defaultItem);
+          qlSave(qlKey(qlCurrentDate()), d2);
+          qlRender();
+          setTimeout(function(){
+            var cont2 = document.getElementById(containerId);
+            if(!cont2) return;
+            var newInps = Array.from(cont2.querySelectorAll(inputSel));
+            if(newInps.length){ var last=newInps[newInps.length-1]; last.focus(); last.setSelectionRange(0,0); }
+          }, 60);
+        }
+      });
+    });
   }
-  document.querySelectorAll('.ql-main-quest-row .ql-quest-text').forEach(function(inp){
-    inp.addEventListener('keydown', qlEnterAdd('mainQuests',{text:'',done:false}));
-  });
-  document.querySelectorAll('.ql-sub-quest-row .ql-quest-text').forEach(function(inp){
-    inp.addEventListener('keydown', qlEnterAdd('subQuests',{text:'',done:false}));
-  });
-  document.querySelectorAll('.ql-event-row .ql-event-text').forEach(function(inp){
-    inp.addEventListener('keydown', qlEnterAdd('events',{time:'',text:'',done:false}));
-  });
-  // 전투 기록 엔터
+  /* 이벤트: 텍스트칸 엔터 → 다음 행 시간칸으로, 마지막이면 새 행 추가 후 시간칸으로 */
+  (function(){
+    var cont = document.getElementById('ql-events-list');
+    if(!cont) return;
+    var rows = Array.from(cont.querySelectorAll('.ql-event-row'));
+    rows.forEach(function(row, idx){
+      var txtInp = row.querySelector('.ql-event-text');
+      if(!txtInp) return;
+      txtInp.addEventListener('keydown', function(e){
+        if(e.key !== 'Enter') return;
+        e.preventDefault();
+        if(idx < rows.length - 1){
+          var nextTime = rows[idx+1].querySelector('.ql-event-time');
+          if(nextTime){ nextTime.focus(); nextTime.setSelectionRange(nextTime.value.length, nextTime.value.length); }
+        } else {
+          qlAutoSave();
+          var d2 = qlLoad(qlKey(qlCurrentDate()))||qlDefaultData();
+          d2.events = d2.events||[];
+          d2.events.push({time:'',text:'',done:false});
+          qlSave(qlKey(qlCurrentDate()), d2);
+          qlRender();
+          setTimeout(function(){
+            var cont2 = document.getElementById('ql-events-list');
+            if(!cont2) return;
+            var newRows = cont2.querySelectorAll('.ql-event-row');
+            var lastTime = newRows[newRows.length-1] && newRows[newRows.length-1].querySelector('.ql-event-time');
+            if(lastTime){ lastTime.focus(); lastTime.setSelectionRange(0,0); }
+          }, 60);
+        }
+      });
+    });
+  })();
+  qlEnterNav('ql-main-quests', '.ql-quest-text', 'mainQuests', {text:'',done:false});
+  qlEnterNav('ql-sub-quests', '.ql-quest-text', 'subQuests', {text:'',done:false});
+
+    // 전투 기록 엔터
   document.querySelectorAll('.ql-battle-row .ql-log-retro').forEach(function(inp,i,all){
     inp.addEventListener('keydown', function(e){
       if(e.key !== 'Enter') return;
