@@ -4487,8 +4487,8 @@ function dpRenderCert(){
   if(saveBtn){
     saveBtn.onclick=function(){
       var planner=document.querySelector('.dp-planner.dp-cert-mode');
-      if(!planner||typeof html2canvas!=='function') return;
-      /* 팝업 생성 */
+      if(!planner) return;
+      /* 팝업 */
       var existing=document.getElementById('dp-cert-popup');
       if(existing) existing.remove();
       var popup=document.createElement('div');
@@ -4506,64 +4506,75 @@ function dpRenderCert(){
       document.body.appendChild(popup);
       document.getElementById('dp-cert-do-cancel').onclick=function(){ popup.remove(); };
       popup.onclick=function(e){ if(e.target===popup) popup.remove(); };
+
       function doCapture(mode){
         popup.remove();
-        var mBtn=document.getElementById('dp-cert-mosaic-btn');
-        var sBtn=document.getElementById('dp-cert-save-btn');
-        var app=document.getElementById('daily-app');
-        /* 숨길 요소들 */
-        var hiddenEls=[];
-        function hideEl(el){ if(el){ hiddenEls.push({el:el,vis:el.style.visibility}); el.style.visibility='hidden'; } }
-        hideEl(mBtn); hideEl(sBtn);
-        planner.querySelectorAll('#dp-cert-date-prev,#dp-cert-date-next,.dp-prev-btn,.dp-hdr-add,.dp-row-del-inline').forEach(function(el){
-          hiddenEls.push({el:el,vis:el.style.visibility}); el.style.visibility='hidden';
+        /* 숨길 요소: 날짜이동, 불러오기, +, X 버튼 */
+        var hideTargets=[];
+        planner.querySelectorAll(
+          '#dp-cert-date-prev,#dp-cert-date-next,#dp-cert-mosaic-btn,#dp-cert-save-btn,.dp-prev-btn,.dp-hdr-add,.dp-row-del-inline'
+        ).forEach(function(el){
+          hideTargets.push({el:el,disp:el.style.display});
+          el.style.display='none';
         });
-        /* daily-app 스크롤 맨 위로 */
+
+        /* 모자이크: filter:blur를 인라인으로 직접 적용 */
+        var blurredEls=[];
+        if(_mosaicOn){
+          planner.querySelectorAll('.dp-row-inp,.dp-pri-inp,.dp-block-content,.dp-gap-area,.dp-field-input').forEach(function(el){
+            blurredEls.push({el:el,filter:el.style.filter,color:el.style.color});
+            el.style.filter='blur(5px)';
+            el.style.color='#1e2d6b';
+          });
+        }
+
+        function restore(){
+          hideTargets.forEach(function(o){ o.el.style.display=o.disp; });
+          blurredEls.forEach(function(o){ o.el.style.filter=o.filter; o.el.style.color=o.color; });
+        }
+
+        if(typeof html2canvas!=='function'){ restore(); return; }
+
+        /* daily-app 스크롤 top */
+        var app=document.getElementById('daily-app');
         var prevScroll=app?app.scrollTop:0;
         if(app) app.scrollTop=0;
-        /* 앱 배경 흰색으로 임시 변경 */
+
+        /* 배경 흰색 임시 */
         var prevBg=planner.style.background;
         planner.style.background='#fff';
-        /* html2canvas로 planner 전체 캡처 */
-        if(typeof html2canvas!=='function'){
-          hiddenEls.forEach(function(o){ o.el.style.visibility=o.vis; });
-          if(app) app.scrollTop=prevScroll;
-          return;
-        }
-        html2canvas(planner,{
-          backgroundColor:'#ffffff',
-          scale:2,
-          useCORS:true,
-          allowTaint:true,
-          width:planner.offsetWidth,
-          height:planner.scrollHeight,
-          windowWidth:planner.offsetWidth,
-          windowHeight:planner.scrollHeight,
-          x:0, y:0, scrollX:0, scrollY:0,
-          ignoreElements:function(el){
-            return el.id==='dp-cert-mosaic-btn'||el.id==='dp-cert-save-btn'
-              ||el.id==='dp-cert-date-prev'||el.id==='dp-cert-date-next'
-              ||el.classList.contains('dp-prev-btn')||el.classList.contains('dp-hdr-add')
-              ||el.classList.contains('dp-row-del-inline');
-          }
-        }).then(function(canvas){
-          planner.style.background=prevBg;
-          hiddenEls.forEach(function(o){ o.el.style.visibility=o.vis; });
-          if(app) app.scrollTop=prevScroll;
-          canvas.toBlob(function(blob){
-            if(mode==='share'&&navigator.share&&blob){
-              navigator.share({files:[new File([blob],'daily-note.png',{type:'image/png'})]}).catch(function(){
+
+        /* 짧은 지연 후 캡처 (display:none 반영 대기) */
+        setTimeout(function(){
+          html2canvas(planner,{
+            backgroundColor:'#ffffff',
+            scale:2,
+            useCORS:true,
+            allowTaint:true,
+            logging:false,
+            width:planner.offsetWidth,
+            height:planner.scrollHeight,
+            windowWidth:document.documentElement.scrollWidth,
+            windowHeight:planner.scrollHeight
+          }).then(function(canvas){
+            planner.style.background=prevBg;
+            if(app) app.scrollTop=prevScroll;
+            restore();
+            canvas.toBlob(function(blob){
+              if(mode==='share'&&navigator.share&&blob){
+                navigator.share({files:[new File([blob],dpCertFilename(),{type:'image/png'})]}).catch(function(){
+                  var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=dpCertFilename(); a.click();
+                });
+              } else {
                 var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=dpCertFilename(); a.click();
-              });
-            } else {
-              var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=dpCertFilename(); a.click();
-            }
-          },'image/png');
-        }).catch(function(){
-          planner.style.background=prevBg;
-          hiddenEls.forEach(function(o){ o.el.style.visibility=o.vis; });
-          if(app) app.scrollTop=prevScroll;
-        });
+              }
+            },'image/png');
+          }).catch(function(){
+            planner.style.background=prevBg;
+            if(app) app.scrollTop=prevScroll;
+            restore();
+          });
+        },80);
       }
       document.getElementById('dp-cert-do-save').onclick=function(){ doCapture('save'); };
       document.getElementById('dp-cert-do-share').onclick=function(){ doCapture('share'); };
