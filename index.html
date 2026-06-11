@@ -2897,9 +2897,9 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
     </div>
     <nav id='daily-nav' style='display:none;'>
       <div id='daily-nav-pill'></div>
-      <button class='dp-btn' id='dp-report' onclick='dpTab("report")'><span class='dp-icon'>📊</span><span class='dp-label' id='dp-lbl-report'>리포트</span></button>
-      <button class='dp-btn active' id='dp-planner' onclick='dpTab("planner")'><span class='dp-icon'>✨</span><span class='dp-label' id='dp-lbl-planner'>플래너</span></button>
-      <button class='dp-btn' id='dp-settings' onclick='dpTab("settings")'><span class='dp-icon'>⚙️</span><span class='dp-label' id='dp-lbl-settings'>설정</span></button>
+      <button class='dp-btn' id='dp-report' tabindex='-1' onclick='dpTab("report")'><span class='dp-icon'>📊</span><span class='dp-label' id='dp-lbl-report'>리포트</span></button>
+      <button class='dp-btn active' id='dp-planner' tabindex='-1' onclick='dpTab("planner")'><span class='dp-icon'>✨</span><span class='dp-label' id='dp-lbl-planner'>플래너</span></button>
+      <button class='dp-btn' id='dp-settings' tabindex='-1' onclick='dpTab("settings")'><span class='dp-icon'>⚙️</span><span class='dp-label' id='dp-lbl-settings'>설정</span></button>
     </nav>
   </div>
 
@@ -4063,7 +4063,7 @@ function dpRenderCert(){
   var next=document.getElementById('dp-cert-date-next');
   if(prev) prev.onclick=function(){ dpAutoSave(); _dpOffset--; dpRenderCert(); };
   if(next) next.onclick=function(){ dpAutoSave(); _dpOffset++; dpRenderCert(); };
-  ['dp-cert-monthly-focus','dp-cert-intention'].forEach(function(id){ var el=document.getElementById(id); if(el) el.oninput=dpAutoSave; });
+  ['dp-cert-monthly-focus','dp-cert-intention'].forEach(function(id){ var el=document.getElementById(id); if(el) el.oninput=dpCertAutoSave; });
   dpBindList('dp-bd-list','dp-bd-row','brainDump',data,key);
   var addBd=document.getElementById('dp-add-bd');
   if(addBd) addBd.onclick=function(){
@@ -4108,7 +4108,7 @@ function dpRenderCert(){
     var d2=dpLoad(key)||data; d2.priorities=d2.priorities||[]; d2.priorities.push({text:'',done:false}); dpSave(key,d2); dpRenderCert();
     setTimeout(function(){ var r=document.querySelectorAll('.dp-pr-row'); if(r.length) r[r.length-1].querySelector('.dp-pri-inp').focus(); },60);
   };
-    document.querySelectorAll('.dp-block-content,.dp-gap-area').forEach(function(el){ el.oninput=dpAutoSave; });
+    document.querySelectorAll('.dp-block-content,.dp-gap-area').forEach(function(el){ el.oninput=dpCertAutoSave; });
   (function(){
     var bcs=Array.from(document.querySelectorAll('.dp-block-content'));
     bcs.forEach(function(el,i){
@@ -4197,6 +4197,46 @@ function dpRenderCert(){
   }
 }
 
+function dpCertAutoSave(){
+  clearTimeout(_dpSaveTimer);
+  _dpSaveTimer=setTimeout(function(){
+    var key=dpKey(dpCurrentDate());
+    var data=dpLoad(key)||dpDefaultData();
+    var mf=document.getElementById('dp-cert-monthly-focus'); if(mf) data.monthlyFocus=mf.value;
+    var it=document.getElementById('dp-cert-intention'); if(it) data.intention=it.value;
+    data.brainDump=data.brainDump||[];
+    document.querySelectorAll('.dp-bd-row').forEach(function(row,i){
+      var inp=row.querySelector('.dp-row-inp'); var cb=row.querySelector('.dp-row-cb');
+      if(!data.brainDump[i]) data.brainDump[i]={text:'',done:false};
+      if(inp) data.brainDump[i].text=inp.value;
+      if(cb)  data.brainDump[i].done=cb.checked;
+    });
+    data.remember=data.remember||[];
+    document.querySelectorAll('.dp-rm-row').forEach(function(row,i){
+      var inp=row.querySelector('.dp-row-inp'); var cb=row.querySelector('.dp-row-cb');
+      if(!data.remember[i]) data.remember[i]={text:'',done:false};
+      if(inp) data.remember[i].text=inp.value;
+      if(cb)  data.remember[i].done=cb.checked;
+    });
+    data.priorities=data.priorities||[];
+    document.querySelectorAll('.dp-pr-row').forEach(function(row,i){
+      var inp=row.querySelector('.dp-pri-inp');
+      if(!data.priorities[i]) data.priorities[i]={text:'',done:false};
+      if(inp) data.priorities[i].text=inp.value;
+    });
+    data.blocks=data.blocks||[];
+    document.querySelectorAll('.dp-block-content').forEach(function(ta,i){
+      while(data.blocks.length<=i) data.blocks.push({title:'',content:''});
+      data.blocks[i].content=ta.value;
+    });
+    data.gaps=data.gaps||[];
+    document.querySelectorAll('.dp-gap-area').forEach(function(el,i){
+      while(data.gaps.length<=i) data.gaps.push({text:''});
+      data.gaps[i].text=el.value;
+    });
+    dpSave(key,data);
+  },400);
+}
 function dpRenderCurrent(){
   var curForm=localStorage.getItem('ymwt_dp_form')||'basic';
   if(curForm==='questlog'){ qlRender(); return; }
