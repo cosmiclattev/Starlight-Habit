@@ -3900,6 +3900,303 @@ function dpOpenRow(row){
   if(isOpen){ dpCloseAllRows(); }
   else{ b.classList.add('open'); if(t) t.classList.add('open'); _dpOpenRow=row; }
 }
+function dpRenderCert(){
+
+  /* ── 인증용 네이비 CSS 오버라이드 ── */
+  (function(){
+    var sid='dp-cert-style';
+    if(!document.getElementById(sid)){
+      var s=document.createElement('style');
+      s.id=sid;
+      s.textContent=[
+        '.dp-cert-mode{background:#fff!important;}',
+        '.dp-cert-mode .dp-progress-card{display:none!important;}',
+        '.dp-cert-mode .dp-prog-label{color:#fff!important;}',
+        '.dp-cert-mode .dp-prog-bar-wrap{background:rgba(255,255,255,.25)!important;}',
+        '.dp-cert-mode .dp-prog-bar{background:#fff!important;}',
+        '.dp-cert-mode .dp-prog-pct{color:#fff!important;}',
+        '.dp-cert-mode .dp-header-card{background:#fff!important;border:none!important;border-radius:0!important;padding:0!important;}',
+        '.dp-cert-mode .dp-date-label{color:#1e2d6b!important;font-weight:800!important;}',
+        '.dp-cert-mode .dp-date-text{color:#1e2d6b!important;font-weight:800!important;}',
+        '.dp-cert-mode .dp-date-nav button{color:#1e2d6b!important;background:rgba(30,45,107,.1)!important;border-color:rgba(30,45,107,.2)!important;}',
+        '.dp-cert-mode .dp-field-label{color:#1e2d6b!important;font-weight:800!important;}',
+        '.dp-cert-mode .dp-field-input{color:#1e2d6b!important;border-bottom-color:#1e2d6b!important;background:transparent!important;}',
+        '.dp-cert-mode .dp-section{background:#fff!important;border:none!important;box-shadow:none!important;border-radius:0!important;}',
+        /* Wants/Remember: 좌우하단 border 제거 */
+        '.dp-cert-mode .dp-cert-sec-solid{border:none!important;}',
+        /* Priority/Blocks: 섹션 border 전체 제거 */
+        '.dp-cert-mode .dp-cert-sec-line{border:none!important;background:transparent!important;}',
+        /* Priority/Blocks 헤더: 네이비 배경 제거, 폰트 네이비, 하단선만 */
+        '.dp-cert-mode .dp-cert-hdr-line .dp-hdr-add,.dp-cert-mode .dp-cert-hdr-line .dp-prev-btn{background:transparent!important;border:1px solid rgba(30,45,107,.3)!important;color:#1e2d6b!important;margin-left:auto!important;}',
+        '.dp-cert-mode .dp-section-hdr{background:#1e2d6b!important;border-radius:0!important;justify-content:flex-end!important;position:relative!important;}',
+        '.dp-cert-mode .dp-section-hdr-title{color:#fff!important;position:absolute!important;left:calc(50% - 22px)!important;transform:translateX(-50%)!important;pointer-events:none!important;}',
+        '.dp-cert-mode .dp-cert-hdr-line{background:transparent!important;border-bottom:2px solid #1e2d6b!important;padding:4px 2px!important;justify-content:flex-end!important;position:relative!important;}',
+        '.dp-cert-mode .dp-cert-hdr-line .dp-section-hdr-title{color:#1e2d6b!important;font-size:12px!important;font-weight:800!important;position:absolute!important;left:50%!important;transform:translateX(-50%)!important;pointer-events:none!important;}',
+        '.dp-cert-mode .dp-cert-hdr-line .dp-hdr-add,.dp-cert-mode .dp-cert-hdr-line .dp-prev-btn{background:transparent!important;border:1px solid rgba(30,45,107,.3)!important;color:#1e2d6b!important;}',
+        '.dp-cert-mode .dp-hdr-add{background:#fff!important;color:#1e2d6b!important;border-color:rgba(30,45,107,.3)!important;}',
+        '.dp-cert-mode .dp-prev-btn{background:#fff!important;color:#1e2d6b!important;border-color:rgba(30,45,107,.3)!important;}',
+        '.dp-cert-mode .dp-row-cb{accent-color:#1e2d6b!important;}',
+        '.dp-cert-mode .dp-row-inp{color:#1e2d6b!important;border-bottom-color:rgba(30,45,107,.2)!important;}',
+        '.dp-cert-mode .dp-row-inp::placeholder{color:rgba(30,45,107,.3)!important;}',
+        '.dp-cert-mode .dp-pri-cb{accent-color:#1e2d6b!important;}',
+        '.dp-cert-mode .dp-pri-num{background:#1e2d6b!important;color:#fff!important;}',
+        '.dp-cert-mode .dp-pri-inp{color:#1e2d6b!important;border-bottom-color:#1e2d6b!important;}',
+        '.dp-cert-mode .dp-pri-inp::placeholder{color:rgba(30,45,107,.3)!important;}',
+        '.dp-cert-mode .dp-row-del-inline{background:#fff!important;border-color:rgba(30,45,107,.25)!important;color:rgba(30,45,107,.4)!important;}',
+        '.dp-cert-mode .dp-block-item{border:2px solid #1e2d6b!important;border-radius:6px!important;background:#fff!important;margin-bottom:4px!important;overflow:visible!important;}',
+        '.dp-cert-mode .dp-gap-area{box-sizing:border-box!important;height:20px!important;margin:0!important;font-size:10px!important;line-height:1.2!important;text-align:center!important;padding:3px 4px 0!important;overflow:hidden!important;display:block!important;}',
+        '.dp-cert-mode .dp-block-content{color:#1e2d6b!important;border:none!important;background:transparent!important;box-sizing:border-box!important;width:100%!important;height:40px!important;font-size:12px!important;line-height:1.2!important;text-align:center!important;display:block!important;overflow:hidden!important;resize:none!important;padding:13px 6px 0!important;}',
+        '.dp-cert-mode .dp-block-content::placeholder{color:rgba(30,45,107,.3)!important;}',
+        '.dp-cert-mode .dp-gap-area{color:#1e2d6b!important;border-bottom-color:rgba(30,45,107,.2)!important;}',
+        '.dp-cert-mode .dp-share-btn{display:none!important;}',
+        '.dp-cert-mode .dp-pri-row .dp-drag-handle{display:none!important;}',
+        '.dp-cert-mode .dp-pri-row .dp-pri-cb{display:none!important;}',
+        '.dp-cert-mode .dp-pri-row .dp-pri-num{width:22px;height:22px;border-radius:50%;background:#1e2d6b!important;color:#fff!important;font-size:11px;font-weight:800;display:flex!important;align-items:center;justify-content:center;flex-shrink:0;}',
+        /* 모자이크 버튼 */
+        '.dp-cert-mode .dp-cert-toolbar{display:flex;gap:8px;align-items:center;justify-content:flex-end;margin-top:12px;}',
+        '.dp-cert-btn{width:28px;height:28px;border:1.5px solid #1e2d6b;border-radius:7px;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;}',
+        '.dp-cert-btn-mosaic{background:#fff;color:#1e2d6b;}',
+        '.dp-cert-btn-mosaic.on{background:#1e2d6b;color:#fff;}',
+        '.dp-cert-btn-save{background:#fff;color:#1e2d6b;}',
+        '.dp-cert-mosaic-on .dp-row-inp,.dp-cert-mosaic-on .dp-pri-inp,.dp-cert-mosaic-on .dp-block-content,.dp-cert-mosaic-on .dp-gap-area,.dp-cert-mosaic-on .dp-field-input{filter:blur(4px)!important;user-select:none!important;}',
+        '.dp-cert-mode .dp-planner{background:#fff!important;}',
+      ].join('');
+      document.head.appendChild(s);
+    }
+  })();
+  var app=document.getElementById('daily-app'); if(!app) return;
+  var d=dpCurrentDate(); var key=dpKey(d);
+  var data=dpLoad(key)||dpDefaultData();
+  var ko=(dpLang()==='ko'); var pct=dpProgress(data);
+  // blocks/gaps만 최소 보장 — brainDump/remember/priorities는 사용자 입력대로
+  while(data.blocks.length<6)     data.blocks.push({title:'Block '+(data.blocks.length+1),content:''});
+  while(data.brainDump.length<10)  data.brainDump.push({text:'',done:false});
+  while(data.gaps.length<5)       data.gaps.push({text:''});
+  function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+  var DP_DRAG_SVG='<svg width="10" height="10" viewBox="0 0 10 10" fill="none" style="pointer-events:none"><circle cx="3" cy="3" r="1.3" fill="currentColor"/><circle cx="7" cy="3" r="1.3" fill="currentColor"/><circle cx="3" cy="7" r="1.3" fill="currentColor"/><circle cx="7" cy="7" r="1.3" fill="currentColor"/></svg>';
+  function rowHtml(item,rc,idx,ph){
+    return '<div class="'+rc+' dp-row" data-idx="'+idx+'">'
+      +'<div class="dp-drag-handle">'+DP_DRAG_SVG+'</div>'
+      +'<input type="checkbox" class="dp-row-cb"'+(item.done?' checked':'')+'>'
+      +'<input type="text" class="dp-row-inp'+(item.done?' done':'')+'" placeholder="'+ph+'" value="'+esc(item.text)+'">'
+      +'<button class="dp-row-del-inline" title="삭제" style="margin-left:auto;width:14px;height:14px;border:1px solid rgba(180,168,220,.45);border-radius:50%;background:rgba(240,236,255,.65);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;font-size:9px;color:rgba(150,130,200,.65);line-height:1;">&#215;</button>'
+      +'</div>';
+  }
+  function priRow(item,idx){
+    return '<div class="dp-pr-row dp-pri-row" data-idx="'+idx+'">'
+      +'<div class="dp-drag-handle">'+DP_DRAG_SVG+'</div>'
+      +'<input type="checkbox" class="dp-pri-cb"'+(item.done?' checked':'')+'>'
+      +'<div class="dp-pri-num">'+(idx+1)+'</div>'
+      +'<input type="text" class="dp-pri-inp'+(item.done?' done':'')+'" placeholder="'+(ko?'우선순위 입력...':'Enter priority...')+'" value="'+esc(item.text)+'">'
+      +'<button class="dp-row-del-inline" title="삭제" style="margin-left:auto;width:14px;height:14px;border:1px solid rgba(180,168,220,.45);border-radius:50%;background:rgba(240,236,255,.65);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;font-size:9px;color:rgba(150,130,200,.65);line-height:1;">&#215;</button>'
+      +'</div>';
+  }
+  var bdRows=data.brainDump.length===0
+    ?'<div style="border:1.5px dashed rgba(180,168,220,.5);border-radius:8px;padding:8px 10px;color:rgba(160,148,210,.6);font-size:11px;text-align:center;">'+(ko?'항목을 추가해주세요 ✦':'Add items ✦')+'</div>'
+    :data.brainDump.map(function(r,i){ return rowHtml(r,'dp-bd-row',i,ko?'생각, 할 일, 아이디어...':'Thoughts, tasks, ideas...'); }).join('');
+  var rmRows=data.remember.length===0
+    ?'<div style="border:1.5px dashed rgba(180,168,220,.5);border-radius:8px;padding:8px 10px;color:rgba(160,148,210,.6);font-size:11px;text-align:center;">'+(ko?'항목을 추가해주세요 ✦':'Add items ✦')+'</div>'
+    :data.remember.map(function(r,i){ return rowHtml(r,'dp-rm-row',i,ko?'기억할 것...':'Things to remember...'); }).join('');
+  var prRows=data.priorities.length===0
+    ?'<div style="border:1.5px dashed rgba(180,168,220,.5);border-radius:8px;padding:8px 10px;color:rgba(160,148,210,.6);font-size:11px;text-align:center;">'+(ko?'항목을 추가해주세요 ✦':'Add items ✦')+'</div>'
+    :data.priorities.map(function(r,i){ return priRow(r,i); }).join('');
+  var _bkPh_ko=['아침','오전','낮','저녁','밤','추가'];
+  var _bkPh_en=['Morning','Forenoon','Noon','Evening','Night','Extra'];
+  var blocksHtml='';
+  for(var bi=0;bi<6;bi++){
+    var bl=data.blocks[bi]||{title:'Block '+(bi+1),content:''};
+    var gp=data.gaps[bi]||{text:''};
+    var bph=ko?_bkPh_ko[bi]:_bkPh_en[bi];
+    blocksHtml+='<div class="dp-block-item">'
+      +'<textarea class="dp-block-content" placeholder="'+bph+'">'+esc(bl.content)+'</textarea>'
+      +'</div>'
+      +(bi<5?'<textarea class="dp-gap-area" placeholder="'+(ko?'예: 점심, 이동, 휴식...':'e.g. Lunch, Travel, Break...')+'">'+esc(gp.text)+'</textarea>':'');
+  }
+  app.innerHTML=
+    '<div class="dp-planner dp-cert-mode">'
+    +'<div class="dp-progress-card">'
+    +'<div class="dp-prog-label">'+(ko?"오늘의 진행률":"Today's Progress")+'</div>'
+    +'<div class="dp-prog-bar-wrap"><div class="dp-prog-bar" id="dp-prog-bar" style="width:'+pct+'%"></div></div>'
+    +'<div class="dp-prog-pct" id="dp-prog-pct">'+pct+'%</div>'
+    +'</div>'
+    +'<div class="dp-header-card">'
+    +'<div class="dp-date-row" style="justify-content:space-between;align-items:center;"><div style="display:flex;align-items:center;gap:6px;"><span class="dp-date-label">'+(ko?'날짜':'DATE')+'</span>'
+    +'<div class="dp-date-nav">'
+    +'<button id="dp-cert-date-prev">‹</button>'
+    +'<span class="dp-date-text" id="dp-date-text">'+dpFmtDate(d)+'</span>'
+    +'<button id="dp-cert-date-next">›</button>'
+    +'</div></div>'
+    +'<div style="display:flex;gap:6px;align-items:center;">'
+    +'<button class="dp-cert-btn dp-cert-btn-mosaic" id="dp-cert-mosaic-btn" title="모자이크">🫥</button>'
+    +'<button class="dp-cert-btn dp-cert-btn-save" id="dp-cert-save-btn" title="이미지 저장">🖼</button>'
+    +'</div>'
+    +'</div>'
+    +'<div class="dp-field-row"><span class="dp-field-label">'+(ko?'이번 달 목표':'Monthly Focus')+'</span>'
+    +'<input id="dp-cert-monthly-focus" class="dp-field-input" type="text" placeholder="'+(ko?'목표를 적으며 몸에 새겨보자':'Write your monthly focus')+' " value="'+esc(data.monthlyFocus)+'"></div>'
+    +'<div class="dp-field-row" style="margin-bottom:14px;"><span class="dp-field-label">'+(ko?'나의 마음가짐':'My Intention')+'</span>'
+    +'<input id="dp-cert-intention" class="dp-field-input" type="text" placeholder="'+(ko?'오늘은 어떤 마음/태도/상태로 살지 긍정어로':'How will you approach today? Write positively')+' " value="'+esc(data.intention)+'"></div>'
+    +'</div>'
+    +'<div style="display:flex;gap:10px;align-items:flex-start;">'
+    +'<div style="flex:1.1;min-width:0;">'
+    +'<div class="dp-section">'
+    +'<div class="dp-section-hdr"><span class="dp-section-hdr-title">'+(ko?'원하는 것 & 생각나는 것':'My Wants & Brain Dump')+'</span><div style="display:flex;align-items:center;gap:4px;"><button class="dp-prev-btn" id="dp-prev-bd">⏮</button><button class="dp-hdr-add" id="dp-add-bd">+</button></div></div>'
+    +'<div id="dp-bd-list">'+bdRows+'</div>'
+    
+    +'</div>'
+    +'<div class="dp-section" style="margin-top:10px;">'
+    +'<div class="dp-section-hdr"><span class="dp-section-hdr-title">'+(ko?'기억할 것':'Things to Remember')+'</span><div style="display:flex;align-items:center;gap:4px;"><button class="dp-prev-btn" id="dp-prev-rm">⏮</button><button class="dp-hdr-add" id="dp-add-rm">+</button></div></div>'
+    +'<div id="dp-rm-list">'+rmRows+'</div>'
+    
+    +'</div></div>'
+    +'<div style="flex:1;min-width:0;">'
+    +'<div class="dp-section dp-cert-sec-line">'
+    +'<div class="dp-section-hdr dp-cert-hdr-line"><span class="dp-section-hdr-title">'+(ko?'우선순위':'Top 3 Priorities')+'</span><button class="dp-hdr-add" id="dp-add-pr">+</button></div>'
+    +'<div id="dp-pr-list">'+prRows+'</div>'
+    
+    +'</div>'
+    +'<div class="dp-section dp-cert-sec-line" style="margin-top:10px;">'
+    +'<div class="dp-section-hdr dp-cert-hdr-line"><span class="dp-section-hdr-title">'+(ko?'오늘의 시간 블록':'Six Blocks')+'</span><button class="dp-prev-btn" id="dp-prev-blk">⏮</button></div>'
+    +'<div class="dp-blocks">'+blocksHtml+'</div>'
+    +'</div></div></div></div>';
+  // 날짜 네비
+  var prev=document.getElementById('dp-cert-date-prev');
+  var next=document.getElementById('dp-cert-date-next');
+  if(prev) prev.onclick=function(){ dpAutoSave(); _dpOffset--; dpRenderCert(); };
+  if(next) next.onclick=function(){ dpAutoSave(); _dpOffset++; dpRenderCert(); };
+  ['dp-cert-monthly-focus','dp-cert-intention'].forEach(function(id){ var el=document.getElementById(id); if(el) el.oninput=dpAutoSave; });
+  dpBindList('dp-bd-list','dp-bd-row','brainDump',data,key);
+  var addBd=document.getElementById('dp-add-bd');
+  if(addBd) addBd.onclick=function(){
+    var d2=dpLoad(key)||data; d2.brainDump=d2.brainDump||[]; d2.brainDump.push({text:'',done:false}); dpSave(key,d2); dpRenderCert();
+    setTimeout(function(){ var r=document.querySelectorAll('.dp-bd-row'); if(r.length) r[r.length-1].querySelector('.dp-row-inp').focus(); },60);
+  };
+  dpBindList('dp-rm-list','dp-rm-row','remember',data,key);
+  var addRm=document.getElementById('dp-add-rm');
+  if(addRm) addRm.onclick=function(){
+    var d2=dpLoad(key)||data; d2.remember=d2.remember||[]; d2.remember.push({text:'',done:false}); dpSave(key,d2); dpRenderCert();
+    setTimeout(function(){ var r=document.querySelectorAll('.dp-rm-row'); if(r.length) r[r.length-1].querySelector('.dp-row-inp').focus(); },60);
+  };
+  dpBindPriList('dp-pr-list',data,key);
+  // 마지막 항목 엔터 → 새 항목 추가
+  (function(){
+    var _ec=[['dp-bd-list','brainDump','dp-bd-row'],['dp-rm-list','remember','dp-rm-row'],['dp-pr-list','priorities','dp-pr-row']];
+    _ec.forEach(function(c){
+      var list=document.getElementById(c[0]); if(!list) return;
+      var allInps=Array.from(list.querySelectorAll('.dp-row-inp,.dp-pri-inp'));
+      allInps.forEach(function(inp, curIdx){
+        inp.addEventListener('keydown',function(e){
+          if(e.key!=='Enter') return; e.preventDefault();
+          if(curIdx<allInps.length-1){
+            var nxt=allInps[curIdx+1];
+            nxt.focus();
+            nxt.setSelectionRange(nxt.value.length, nxt.value.length);
+          } else {
+            var d2=dpLoad(key)||dpDefaultData(); d2[c[1]]=d2[c[1]]||[];
+            d2[c[1]].push({text:'',done:false}); dpSave(key,d2); dpRenderCert();
+            setTimeout(function(){
+              var nl=document.getElementById(c[0]); if(!nl) return;
+              var nr=Array.from(nl.querySelectorAll('.dp-row-inp,.dp-pri-inp'));
+              if(nr.length){ var last=nr[nr.length-1]; last.focus(); last.setSelectionRange(0,0); }
+            },60);
+          }
+        });
+      });
+    });
+  })();
+  var addPr=document.getElementById('dp-add-pr');
+  if(addPr) addPr.onclick=function(){
+    var d2=dpLoad(key)||data; d2.priorities=d2.priorities||[]; d2.priorities.push({text:'',done:false}); dpSave(key,d2); dpRenderCert();
+    setTimeout(function(){ var r=document.querySelectorAll('.dp-pr-row'); if(r.length) r[r.length-1].querySelector('.dp-pri-inp').focus(); },60);
+  };
+    document.querySelectorAll('.dp-block-content,.dp-gap-area').forEach(function(el){ el.oninput=dpAutoSave; });
+  (function(){
+    var bcs=Array.from(document.querySelectorAll('.dp-block-content'));
+    bcs.forEach(function(el,i){
+      el.addEventListener('keydown',function(e){
+        if(e.key!=='Enter') return; e.preventDefault();
+        if(i<bcs.length-1){ var nxt=bcs[i+1]; nxt.focus(); nxt.setSelectionRange(nxt.value.length,nxt.value.length); }
+      });
+    });
+  })();
+  /* 블록 엔터: 다음 블록으로 이동 (6개 고정, 추가 없음) */
+  var blockContents = Array.from(document.querySelectorAll('.dp-block-content'));
+  blockContents.forEach(function(el, i){
+    el.addEventListener('keydown', function(e){
+      if(e.key !== 'Enter') return;
+      e.preventDefault();
+      if(i < blockContents.length - 1) blockContents[i+1].focus();
+    });
+  });
+  /* block-content, gap-area: 고정 단일 라인 */
+  /* ── 전날 버튼 바인딩 ── */
+  var prevBd=document.getElementById('dp-prev-bd'); if(prevBd) prevBd.onclick=function(){dpLoadPrev('brainDump');};
+  var prevRm=document.getElementById('dp-prev-rm'); if(prevRm) prevRm.onclick=function(){dpLoadPrev('remember');};
+  var prevBk=document.getElementById('dp-prev-blk'); if(prevBk) prevBk.onclick=function(){dpLoadPrev('blocks');};
+  /* ── 모자이크 토글 ── */
+  var mosaicBtn=document.getElementById('dp-cert-mosaic-btn');
+  var certWrap=document.querySelector('.dp-cert-mode');
+  var _mosaicOn=false;
+  if(mosaicBtn){
+    mosaicBtn.onclick=function(){
+      _mosaicOn=!_mosaicOn;
+      mosaicBtn.classList.toggle('on',_mosaicOn);
+      var planner=document.querySelector('.dp-planner.dp-cert-mode');
+      if(planner) planner.classList.toggle('dp-cert-mosaic-on',_mosaicOn);
+    };
+  }
+  /* ── 이미지 저장 ── */
+  var saveBtn=document.getElementById('dp-cert-save-btn');
+  if(saveBtn){
+    saveBtn.onclick=function(){
+      var planner=document.querySelector('.dp-planner.dp-cert-mode');
+      if(!planner||typeof html2canvas!=='function') return;
+      /* 팝업 생성 */
+      var existing=document.getElementById('dp-cert-popup');
+      if(existing) existing.remove();
+      var popup=document.createElement('div');
+      popup.id='dp-cert-popup';
+      popup.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:9999;display:flex;align-items:center;justify-content:center;';
+      popup.innerHTML='\
+        <div style="background:#fff;border-radius:16px;padding:24px 20px;min-width:240px;box-shadow:0 8px 32px rgba(0,0,0,.18);">\
+          <div style="font-size:14px;font-weight:800;color:#1e2d6b;margin-bottom:16px;text-align:center;">이미지 내보내기</div>\
+          <div style="display:flex;flex-direction:column;gap:10px;">\
+            <button id="dp-cert-do-save" style="padding:10px;background:#1e2d6b;color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;">💾 이미지 저장</button>\
+            <button id="dp-cert-do-share" style="padding:10px;background:#fff;color:#1e2d6b;border:2px solid #1e2d6b;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;">📤 공유하기</button>\
+            <button id="dp-cert-do-cancel" style="padding:8px;background:transparent;color:#888;border:none;font-size:12px;cursor:pointer;">취소</button>\
+          </div>\
+        </div>';
+      document.body.appendChild(popup);
+      document.getElementById('dp-cert-do-cancel').onclick=function(){ popup.remove(); };
+      popup.onclick=function(e){ if(e.target===popup) popup.remove(); };
+      function doCapture(mode){
+        popup.remove();
+        /* 캡처 전 버튼 숨기기 */
+        var mBtn=document.getElementById('dp-cert-mosaic-btn');
+        var sBtn=document.getElementById('dp-cert-save-btn');
+        var dateNav=document.querySelector('.dp-cert-mode .dp-date-nav-row, .dp-cert-mode .dp-date-row .dp-cert-btn');
+        if(mBtn) mBtn.style.display='none';
+        if(sBtn) sBtn.style.display='none';
+        html2canvas(planner,{backgroundColor:'#ffffff',scale:2,useCORS:true}).then(function(canvas){
+          canvas.toBlob(function(blob){
+            if(mode==='share'&&navigator.share&&blob){
+              navigator.share({files:[new File([blob],'daily-note.png',{type:'image/png'})]}).catch(function(){
+                var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='daily-note.png'; a.click();
+              });
+            } else {
+              var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='daily-note.png'; a.click();
+            }
+          },'image/png');
+        }).finally(function(){
+          if(mBtn) mBtn.style.display='';
+          if(sBtn) sBtn.style.display='';
+        });
+      }
+      document.getElementById('dp-cert-do-save').onclick=function(){ doCapture('save'); };
+      document.getElementById('dp-cert-do-share').onclick=function(){ doCapture('share'); };
+    };
+  }
+}
+
 function dpRenderPlanner(){
   var app=document.getElementById('daily-app'); if(!app) return;
   var d=dpCurrentDate(); var key=dpKey(d);
@@ -4165,6 +4462,7 @@ function dpTab(tab){
   if(tab==='planner'){
     var curForm=localStorage.getItem('ymwt_dp_form')||'basic';
     if(curForm==='questlog'){ qlRender(); return; }
+    if(curForm==='cert'){ dpRenderCert(); return; }
     dpRenderPlanner(); return;
   }
   if(tab==='report'){
@@ -4176,7 +4474,7 @@ function dpTab(tab){
     var lavA=curTheme==='default'?' active':'', tomA=curTheme==='tomato'?' active':'', catA=curTheme==='cat'?' active':'', lemonA=curTheme==='lemon'?' active':'';
     var enA=curLang==='en'?' lang-btn-on':'', koA=curLang==='ko'?' lang-btn-on':'';
     var curForm=localStorage.getItem('ymwt_dp_form')||'basic';
-    app.innerHTML='<div class="dp-settings-body">'      +'<div class="section-title-sm" style="margin-bottom:10px">📋 '+(ko?'플래너 양식':'Planner Template')+'</div>'      +'<div class="dp-form-section"><div class="dp-form-cards">'      +'<div class="dp-form-card'+(curForm==='basic'?' active':'')+' " id="dp-form-basic">'        +'<div class="dp-form-card-icon">📝</div>'        +'<div class="dp-form-card-info">'          +'<div class="dp-form-card-name">Basic Note</div>'          +'<div class="dp-form-card-desc">'+(ko?'기본 데일리 플래너 양식\n브레인덤프 · 우선순위 · 시간블록':'Basic daily planner\nBrain dump · Priorities · Time blocks')+'</div>'        +'</div>'        +'<div class="dp-form-card-badge'+(curForm==='basic'?' active':'')+'">'          +(curForm==='basic'?'✓ 사용중':'선택')+'</div>'      +'</div>'      +'<div class="dp-form-card'+(curForm==="questlog"?" active":"")+'" id="dp-form-questlog">'        +'<div class="dp-form-card-icon">⚔</div>'        +'<div class="dp-form-card-info">'          +'<div class="dp-form-card-name">Quest Log</div>'          +'<div class="dp-form-card-desc">'+(ko?'RPG 스타일 데일리 플래너\n퀘스트 · 상태창 · 전투 로그':'RPG daily planner\nQuests · Status · Battle log')+'</div>'        +'</div>'        +'<div class="dp-form-card-badge'+(curForm==="questlog"?" active":"")+'">'          +(curForm==="questlog"?"✓ 사용중":"선택")+'</div>'      +'</div>'      +'<div class="dp-form-card wip">'        +'<div class="dp-form-card-icon">🔨</div>'        +'<div class="dp-form-card-info">'          +'<div class="dp-form-card-name">'+(ko?'준비중':'Coming Soon')+'</div>'          +'<div class="dp-form-card-desc">'+(ko?'새로운 양식을 준비중이에요':'New template coming soon')+'</div>'        +'</div>'        +'<div class="dp-form-card-badge wip">🔨 공사중</div>'      +'</div>'      +'</div></div>'      +'<div class="section-title-sm" style="margin-bottom:10px">🎨 '+(ko?'색깔 테마':'Color Theme')+'</div>'
+    app.innerHTML='<div class="dp-settings-body">'      +'<div class="section-title-sm" style="margin-bottom:10px">📋 '+(ko?'플래너 양식':'Planner Template')+'</div>'      +'<div class="dp-form-section"><div class="dp-form-cards">'      +'<div class="dp-form-card'+(curForm==='basic'?' active':'')+' " id="dp-form-basic">'        +'<div class="dp-form-card-icon">📝</div>'        +'<div class="dp-form-card-info">'          +'<div class="dp-form-card-name">Basic Note</div>'          +'<div class="dp-form-card-desc">'+(ko?'기본 데일리 플래너 양식\n브레인덤프 · 우선순위 · 시간블록':'Basic daily planner\nBrain dump · Priorities · Time blocks')+'</div>'        +'</div>'        +'<div class="dp-form-card-badge'+(curForm==='basic'?' active':'')+'">'          +(curForm==='basic'?'✓ 사용중':'선택')+'</div>'      +'</div>'      +'<div class="dp-form-card'+(curForm==="questlog"?" active":"")+'" id="dp-form-questlog">'        +'<div class="dp-form-card-icon">⚔</div>'        +'<div class="dp-form-card-info">'          +'<div class="dp-form-card-name">Quest Log</div>'          +'<div class="dp-form-card-desc">'+(ko?'RPG 스타일 데일리 플래너\n퀘스트 · 상태창 · 전투 로그':'RPG daily planner\nQuests · Status · Battle log')+'</div>'        +'</div>'        +'<div class="dp-form-card-badge'+(curForm==="questlog"?" active":"")+'">'          +(curForm==="questlog"?"✓ 사용중":"선택")+'</div>'      +'</div>'      +'<div class="dp-form-card'+(curForm==="cert"?" active":"")+'" id="dp-form-cert">'        +'<div class="dp-form-card-icon">📋</div>'        +'<div class="dp-form-card-info">'          +'<div class="dp-form-card-name">'+(ko?'인증용':'Certification')+'</div>'          +'<div class="dp-form-card-desc">'+(ko?'네이비&화이트 인증 양식\n테마 무관 · 캡처 최적화':'Navy & white cert form\nTheme-free · Optimized for share')+'</div>'        +'</div>'        +'<div class="dp-form-card-badge'+(curForm==="cert"?" active":"")+'">'          +(curForm==="cert"?"✓ 사용중":"선택")+'</div>'      +'</div>'      +'</div></div>'      +'<div class="section-title-sm" style="margin-bottom:10px">🎨 '+(ko?'색깔 테마':'Color Theme')+'</div>'
       +'<div class="theme-section"><div class="theme-row">'
       +'<button class="theme-btn theme-btn-lav'+lavA+'" id="dp-theme-lav"><div class="theme-btn-inner"><span class="theme-btn-icon">🌙</span><span class="theme-btn-name">'+('라벤더')+'</span></div></button>'
       +'<button class="theme-btn theme-btn-tomato'+tomA+'" id="dp-theme-tomato"><div class="theme-btn-inner"><span class="theme-btn-icon">🍅</span><span class="theme-btn-name">'+('토마토')+'</span></div></button>'
@@ -4196,6 +4494,11 @@ function dpTab(tab){
     var formQl=document.getElementById('dp-form-questlog');
     if(formQl) formQl.onclick=function(){
       localStorage.setItem('ymwt_dp_form','questlog');
+      dpTab('settings');
+    };
+    var formCert=document.getElementById('dp-form-cert');
+    if(formCert) formCert.onclick=function(){
+      localStorage.setItem('ymwt_dp_form','cert');
       dpTab('settings');
     };
     [['dp-theme-lav','default'],['dp-theme-tomato','tomato'],['dp-theme-cat','cat'],['dp-theme-lemon','lemon']].forEach(function(p){
