@@ -3587,7 +3587,7 @@ function dpLoadPrev(field){
     cur.gaps=(prev.gaps||[]).map(function(g){return {text:g.text};});
   }
   dpSave(dpKey(dpCurrentDate()),cur);
-  dpRenderPlanner();
+  dpRenderCurrent();
   dpToast('전날 기록을 불러왔어요 ✓');
 }
 function dpToast(msg){
@@ -3743,7 +3743,7 @@ function dpOnDragEnd(e) {
     arr.splice(ni, 0, item);
     data[fieldMap[listId]] = arr;
     dpSave(key, data);
-    dpRenderPlanner();
+    dpRenderCurrent();
   } else if(qlFieldMap[listId]){
     var qlKey2 = qlKey(qlCurrentDate());
     var qlData = qlLoad(qlKey2) || qlDefaultData();
@@ -4195,6 +4195,13 @@ function dpRenderCert(){
       document.getElementById('dp-cert-do-share').onclick=function(){ doCapture('share'); };
     };
   }
+}
+
+function dpRenderCurrent(){
+  var curForm=localStorage.getItem('ymwt_dp_form')||'basic';
+  if(curForm==='questlog'){ qlRender(); return; }
+  if(curForm==='cert'){ dpRenderCert(); return; }
+  dpRenderPlanner();
 }
 
 function dpRenderPlanner(){
