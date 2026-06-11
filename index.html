@@ -3587,6 +3587,15 @@ function dpShowEmojiTable(){
   document.getElementById('dp-emoji-close').onclick=function(){ overlay.remove(); };
   overlay.onclick=function(e){ if(e.target===overlay) overlay.remove(); };
 }
+function dpCertFilename(){
+  var n=new Date();
+  var yy=String(n.getFullYear()).slice(2);
+  var mm=String(n.getMonth()+1).padStart(2,'0');
+  var dd=String(n.getDate()).padStart(2,'0');
+  var hh=String(n.getHours()).padStart(2,'0');
+  var mi=String(n.getMinutes()).padStart(2,'0');
+  return 'daily-note_'+yy+mm+dd+'_'+hh+mi+'.png';
+}
 function dpAutoSave(){
   clearTimeout(_dpSaveTimer);
   _dpSaveTimer=setTimeout(function(){
@@ -4254,9 +4263,9 @@ function dpRenderCert(){
         /* Priority/Blocks 헤더: 네이비 배경 제거, 폰트 네이비, 하단선만 */
         '.dp-cert-mode .dp-cert-hdr-line .dp-hdr-add,.dp-cert-mode .dp-cert-hdr-line .dp-prev-btn{background:transparent!important;border:1px solid rgba(30,45,107,.3)!important;color:#1e2d6b!important;margin-left:auto!important;}',
         '.dp-cert-mode .dp-section-hdr{background:#1e2d6b!important;border-radius:0!important;justify-content:flex-end!important;position:relative!important;overflow:visible!important;}',
-        '.dp-cert-mode .dp-section-hdr-title{color:#fff!important;position:absolute!important;left:calc(50% - 22px)!important;transform:translateX(-50%)!important;pointer-events:none!important;}',
+        '.dp-cert-mode .dp-section-hdr-title{color:#fff!important;position:absolute!important;left:calc(50% - 22px)!important;transform:translateX(-50%)!important;pointer-events:none!important;white-space:nowrap!important;overflow:visible!important;}',
         '.dp-cert-mode .dp-cert-hdr-line{background:transparent!important;border-bottom:2px solid #1e2d6b!important;padding:4px 2px!important;justify-content:flex-end!important;position:relative!important;}',
-        '.dp-cert-mode .dp-cert-hdr-line .dp-section-hdr-title{color:#1e2d6b!important;font-size:12px!important;font-weight:800!important;position:absolute!important;left:50%!important;transform:translateX(-50%)!important;pointer-events:none!important;}',
+        '.dp-cert-mode .dp-cert-hdr-line .dp-section-hdr-title{color:#1e2d6b!important;font-size:12px!important;font-weight:800!important;position:absolute!important;left:50%!important;transform:translateX(-50%)!important;pointer-events:none!important;white-space:nowrap!important;overflow:visible!important;}',
         '.dp-cert-mode .dp-cert-hdr-line .dp-hdr-add,.dp-cert-mode .dp-cert-hdr-line .dp-prev-btn{background:transparent!important;border:1px solid rgba(30,45,107,.3)!important;color:#1e2d6b!important;}',
         '.dp-cert-mode .dp-hdr-add{background:#fff!important;color:#1e2d6b!important;border-color:rgba(30,45,107,.3)!important;}',
         '.dp-cert-mode .dp-prev-btn{background:#fff!important;color:#1e2d6b!important;border-color:rgba(30,45,107,.3)!important;}',
@@ -4501,58 +4510,59 @@ function dpRenderCert(){
         popup.remove();
         var mBtn=document.getElementById('dp-cert-mosaic-btn');
         var sBtn=document.getElementById('dp-cert-save-btn');
-        /* 버튼 숨기기 */
-        if(mBtn) mBtn.style.visibility='hidden';
-        if(sBtn) sBtn.style.visibility='hidden';
-        /* 날짜 이동 버튼 숨기기 */
+        var app=document.getElementById('daily-app');
+        /* 숨길 요소들 */
         var hiddenEls=[];
-        planner.querySelectorAll('#dp-cert-date-prev,#dp-cert-date-next,.dp-prev-btn,.dp-hdr-add').forEach(function(el){
-          hiddenEls.push({el:el,vis:el.style.visibility});
-          el.style.visibility='hidden';
+        function hideEl(el){ if(el){ hiddenEls.push({el:el,vis:el.style.visibility}); el.style.visibility='hidden'; } }
+        hideEl(mBtn); hideEl(sBtn);
+        planner.querySelectorAll('#dp-cert-date-prev,#dp-cert-date-next,.dp-prev-btn,.dp-hdr-add,.dp-row-del-inline').forEach(function(el){
+          hiddenEls.push({el:el,vis:el.style.visibility}); el.style.visibility='hidden';
         });
-        /* 모자이크 ON이면 텍스트 실제로 치환 (filter:blur는 html2canvas 미지원) */
-        var origVals=[];
-        if(_mosaicOn){
-          planner.querySelectorAll('.dp-row-inp,.dp-pri-inp,.dp-block-content,.dp-gap-area,.dp-field-input').forEach(function(el){
-            origVals.push({el:el,val:el.value});
-            if(el.value) el.value=el.value.replace(/./g,'●');
-          });
+        /* daily-app 스크롤 맨 위로 */
+        var prevScroll=app?app.scrollTop:0;
+        if(app) app.scrollTop=0;
+        /* 앱 배경 흰색으로 임시 변경 */
+        var prevBg=planner.style.background;
+        planner.style.background='#fff';
+        /* html2canvas로 planner 전체 캡처 */
+        if(typeof html2canvas!=='function'){
+          hiddenEls.forEach(function(o){ o.el.style.visibility=o.vis; });
+          if(app) app.scrollTop=prevScroll;
+          return;
         }
-        /* 전체 높이 캡처 */
-        var fullH=planner.scrollHeight;
-        var fullW=planner.scrollWidth;
         html2canvas(planner,{
           backgroundColor:'#ffffff',
           scale:2,
           useCORS:true,
-          width:fullW,
-          height:fullH,
-          windowWidth:fullW,
-          windowHeight:fullH,
-          scrollX:0,
-          scrollY:0,
-          y:0,
-          x:0
+          allowTaint:true,
+          width:planner.offsetWidth,
+          height:planner.scrollHeight,
+          windowWidth:planner.offsetWidth,
+          windowHeight:planner.scrollHeight,
+          x:0, y:0, scrollX:0, scrollY:0,
+          ignoreElements:function(el){
+            return el.id==='dp-cert-mosaic-btn'||el.id==='dp-cert-save-btn'
+              ||el.id==='dp-cert-date-prev'||el.id==='dp-cert-date-next'
+              ||el.classList.contains('dp-prev-btn')||el.classList.contains('dp-hdr-add')
+              ||el.classList.contains('dp-row-del-inline');
+          }
         }).then(function(canvas){
-          /* 원래 값 복원 */
-          origVals.forEach(function(o){ o.el.value=o.val; });
-          if(mBtn) mBtn.style.visibility='';
-          if(sBtn) sBtn.style.visibility='';
+          planner.style.background=prevBg;
           hiddenEls.forEach(function(o){ o.el.style.visibility=o.vis; });
+          if(app) app.scrollTop=prevScroll;
           canvas.toBlob(function(blob){
             if(mode==='share'&&navigator.share&&blob){
               navigator.share({files:[new File([blob],'daily-note.png',{type:'image/png'})]}).catch(function(){
-                var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='daily-note.png'; a.click();
+                var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=dpCertFilename(); a.click();
               });
             } else {
-              var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='daily-note.png'; a.click();
+              var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=dpCertFilename(); a.click();
             }
           },'image/png');
         }).catch(function(){
-          origVals.forEach(function(o){ o.el.value=o.val; });
-          if(mBtn) mBtn.style.visibility='';
-          if(sBtn) sBtn.style.visibility='';
+          planner.style.background=prevBg;
           hiddenEls.forEach(function(o){ o.el.style.visibility=o.vis; });
+          if(app) app.scrollTop=prevScroll;
         });
       }
       document.getElementById('dp-cert-do-save').onclick=function(){ doCapture('save'); };
