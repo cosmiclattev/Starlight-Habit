@@ -3262,6 +3262,331 @@ function dpProgress(data){
   return total===0?0:Math.round(done/total*100);
 }
 var _dpSaveTimer=null;
+
+/* ══════════════════════════════════════════
+   이모지 자동변환 :code: → 이모지
+══════════════════════════════════════════ */
+var EMOJI_MAP={
+  /* 표정/감정 */
+  'smile':'😊','grin':'😁','laugh':'😂','lol':'😂','joy':'😂',
+  'wink':'😉','blush':'☺️','heart_eyes':'😍','kissing':'😘',
+  'cool':'😎','thinking':'🤔','smirk':'😏','neutral':'😐',
+  'expressionless':'😑','unamused':'😒','disappointed':'😞',
+  'worried':'😟','cry':'😢','sob':'😭','rage':'😡','angry':'😠',
+  'confused':'😕','hushed':'😯','surprised':'😲','astonished':'😱',
+  'tired':'😩','weary':'😩','sweat':'😓','pensive':'😔',
+  'relieved':'😌','sleepy':'😪','sleeping':'😴','mask':'😷',
+  'sunglasses':'😎','nerd':'🤓','monocle':'🧐','clown':'🤡',
+  'skull':'💀','ghost':'👻','alien':'👽','robot':'🤖',
+  'poop':'💩','fire':'🔥','100':'💯','ok':'👌','yes':'✅',
+  /* 손/제스처 */
+  'thumbsup':'👍','thumbsdown':'👎','clap':'👏','wave':'👋',
+  'pray':'🙏','muscle':'💪','point_up':'☝️','point_right':'👉',
+  'point_left':'👈','point_down':'👇','raised_hands':'🙌',
+  'handshake':'🤝','peace':'✌️','crossed_fingers':'🤞',
+  'pinch':'🤌','fist':'✊','punch':'👊','vulcan':'🖖',
+  /* 하트/사랑 */
+  'heart':'❤️','orange_heart':'🧡','yellow_heart':'💛',
+  'green_heart':'💚','blue_heart':'💙','purple_heart':'💜',
+  'black_heart':'🖤','white_heart':'🤍','broken_heart':'💔',
+  'sparkling_heart':'💖','heartbeat':'💓','two_hearts':'💕',
+  'revolving_hearts':'💞','love':'😍','kiss':'💋',
+  /* 별/빛 */
+  'star':'⭐','star2':'🌟','dizzy':'💫','sparkles':'✨',
+  'boom':'💥','zap':'⚡','sun':'☀️','moon':'🌙','crescent':'🌛',
+  'rainbow':'🌈','cloud':'☁️','snowflake':'❄️','umbrella':'☂️',
+  /* 동물 */
+  'dog':'🐶','cat':'🐱','bear':'🐻','panda':'🐼','fox':'🦊',
+  'wolf':'🐺','lion':'🦁','tiger':'🐯','horse':'🐴','cow':'🐮',
+  'pig':'🐷','frog':'🐸','monkey':'🐵','bird':'🐦','penguin':'🐧',
+  'chick':'🐤','duck':'🦆','owl':'🦉','eagle':'🦅','shark':'🦈',
+  'whale':'🐳','dolphin':'🐬','fish':'🐟','octopus':'🐙',
+  'butterfly':'🦋','bee':'🐝','snail':'🐌','turtle':'🐢',
+  'dragon':'🐲','unicorn':'🦄','rabbit':'🐰','hamster':'🐹',
+  /* 음식/음료 */
+  'pizza':'🍕','burger':'🍔','fries':'🍟','hotdog':'🌭',
+  'taco':'🌮','sushi':'🍣','ramen':'🍜','rice':'🍚',
+  'bread':'🍞','cake':'🎂','cookie':'🍪','chocolate':'🍫',
+  'icecream':'🍦','donut':'🍩','coffee':'☕','tea':'🍵',
+  'beer':'🍺','wine':'🍷','cocktail':'🍸','milk':'🥛',
+  'apple':'🍎','banana':'🍌','grape':'🍇','strawberry':'🍓',
+  'watermelon':'🍉','lemon':'🍋','cherry':'🍒','peach':'🍑',
+  'avocado':'🥑','broccoli':'🥦','carrot':'🥕','corn':'🌽','tomato':'🍅',
+  /* 활동/스포츠 */
+  'soccer':'⚽','basketball':'🏀','football':'🏈','baseball':'⚾',
+  'tennis':'🎾','golf':'⛳','swimming':'🏊','running':'🏃',
+  'cycling':'🚴','workout':'🏋️','yoga':'🧘','dance':'💃',
+  'trophy':'🏆','medal':'🥇','dart':'🎯','game':'🎮',
+  /* 여행/장소 */
+  'car':'🚗','bus':'🚌','train':'🚂','plane':'✈️','rocket':'🚀',
+  'boat':'⛵','bike':'🚲','house':'🏠','office':'🏢','school':'🏫',
+  'hospital':'🏥','bank':'🏦','hotel':'🏨','castle':'🏰',
+  'mountain':'⛰️','beach':'🏖️','desert':'🏜️','city':'🌆',
+  'map':'🗺️','globe':'🌍','flag':'🚩',
+  /* 사물/도구 */
+  'phone':'📱','computer':'💻','keyboard':'⌨️','mouse':'🖱️',
+  'camera':'📷','tv':'📺','radio':'📻','headphones':'🎧',
+  'mic':'🎤','book':'📚','notebook':'📓','pencil':'✏️',
+  'pen':'🖊️','memo':'📝','paperclip':'📎','scissors':'✂️',
+  'key':'🔑','lock':'🔒','unlock':'🔓','hammer':'🔨',
+  'wrench':'🔧','gear':'⚙️','magnet':'🧲','bulb':'💡',
+  'flashlight':'🔦','candle':'🕯️','clock':'⏰','hourglass':'⌛',
+  'calendar':'📅','chart':'📊','money':'💰','credit':'💳',
+  'gift':'🎁','balloon':'🎈','party':'🎉','confetti':'🎊',
+  'fireworks':'🎆','ribbon':'🎀','trophy2':'🏅',
+  /* 기호/표시 */
+  'check':'✅','x':'❌','warning':'⚠️','info':'ℹ️',
+  'question':'❓','exclamation':'❗','no':'🚫','stop':'🛑',
+  'up':'⬆️','down':'⬇️','left':'⬅️','right':'➡️',
+  'back':'🔙','new':'🆕','free':'🆓','top':'🔝',
+  'plus':'➕','minus':'➖','multiply':'✖️','divide':'➗',
+  'recycle':'♻️','sos':'🆘','id':'🆔',
+  /* 자연 */
+  'tree':'🌳','plant':'🌱','flower':'🌸','rose':'🌹',
+  'sunflower':'🌻','leaf':'🍃','mushroom':'🍄','wave2':'🌊',
+  'lightning':'⚡','tornado':'🌪️','volcano':'🌋',
+  /* 음악/예술 */
+  'music':'🎵','note':'🎶','guitar':'🎸','piano':'🎹',
+  'violin':'🎻','trumpet':'🎺','drum':'🥁','art':'🎨',
+  'paint':'🖌️','theater':'🎭','movie':'🎬','ticket':'🎫',
+};
+
+function dpEmojiConvert(el){
+  var val=el.value;
+  /* :code: 패턴 또는 :code + 스페이스 패턴 */
+  var changed=false;
+  /* :code: 완성형 */
+  val=val.replace(/:([a-z0-9_]+):/g,function(m,code){
+    return EMOJI_MAP[code]||m;
+  });
+  /* :code + 스페이스 (단어 경계) */
+  val=val.replace(/:([a-z0-9_]+)( )/g,function(m,code,sp){
+    return EMOJI_MAP[code]?(EMOJI_MAP[code]+sp):m;
+  });
+  if(val!==el.value){
+    var pos=el.selectionStart+(val.length-el.value.length);
+    el.value=val;
+    try{ el.setSelectionRange(pos,pos); }catch(e){}
+    changed=true;
+  }
+  return changed;
+}
+
+function dpBindEmoji(selector){
+  document.querySelectorAll(selector).forEach(function(el){
+    if(el._emojiBound) return;
+    el._emojiBound=true;
+    el.addEventListener('input',function(){ dpEmojiConvert(el); });
+    el.addEventListener('keydown',function(e){
+      if(e.key===' '||e.key===':'||e.key==='Enter') dpEmojiConvert(el);
+    });
+  });
+}
+
+function dpShowEmojiTable(){
+  var ko=(dpLang()==='ko');
+  var existing=document.getElementById('dp-emoji-popup');
+  if(existing){ existing.remove(); return; }
+
+  var categories=[
+    {
+      label: ko?'꼭 포함 이모지':'Must-have Emojis',
+      items:[
+        [':tomato:','🍅','tomato'],
+        [':cat:','🐱','cat'],
+        [':joy:','😂',ko?'울면서 웃음':'Laughing Crying'],
+        [':cry:','😢',ko?'우는 얼굴':'Crying Face'],
+        [':sob:','😭',ko?'엉엉 우는':'Loudly Crying'],
+        [':sparkles:','✨',ko?'반짝이':'Sparkles'],
+        [':heart:','❤️',ko?'빨간 하트':'Red Heart'],
+        [':orange_heart:','🧡',ko?'주황 하트':'Orange Heart'],
+        [':yellow_heart:','💛',ko?'노란 하트':'Yellow Heart'],
+        [':green_heart:','💚',ko?'초록 하트':'Green Heart'],
+        [':blue_heart:','💙',ko?'파란 하트':'Blue Heart'],
+        [':purple_heart:','💜',ko?'보라 하트':'Purple Heart'],
+        [':black_heart:','🖤',ko?'검정 하트':'Black Heart'],
+        [':white_heart:','🤍',ko?'흰 하트':'White Heart'],
+        [':broken_heart:','💔',ko?'깨진 하트':'Broken Heart'],
+        [':sparkling_heart:','💖',ko?'반짝 하트':'Sparkling Heart'],
+        [':two_hearts:','💕',ko?'두 하트':'Two Hearts'],
+      ]
+    },
+    {
+      label: ko?'표정 / 감정':'Faces & Emotions',
+      items:[
+        [':smile:','😊','smile'],[':grin:','😁','grin'],[':laugh:','😂','laugh'],
+        [':wink:','😉','wink'],[':blush:','☺️','blush'],[':heart_eyes:','😍','heart_eyes'],
+        [':cool:','😎','cool'],[':thinking:','🤔','thinking'],[':smirk:','😏','smirk'],
+        [':neutral:','😐','neutral'],[':unamused:','😒','unamused'],
+        [':disappointed:','😞','disappointed'],[':worried:','😟','worried'],
+        [':pensive:','😔','pensive'],[':relieved:','😌','relieved'],
+        [':surprised:','😲','surprised'],[':astonished:','😱','astonished'],
+        [':tired:','😩','tired'],[':weary:','😩','weary'],[':sweat:','😓','sweat'],
+        [':sleepy:','😪','sleepy'],[':sleeping:','😴','sleeping'],
+        [':mask:','😷','mask'],[':nerd:','🤓','nerd'],[':monocle:','🧐','monocle'],
+        [':clown:','🤡','clown'],[':skull:','💀','skull'],[':ghost:','👻','ghost'],
+        [':alien:','👽','alien'],[':robot:','🤖','robot'],[':poop:','💩','poop'],
+      ]
+    },
+    {
+      label: ko?'손 / 제스처':'Hands & Gestures',
+      items:[
+        [':thumbsup:','👍','thumbsup'],[':thumbsdown:','👎','thumbsdown'],
+        [':clap:','👏','clap'],[':wave:','👋','wave'],[':pray:','🙏','pray'],
+        [':muscle:','💪','muscle'],[':point_right:','👉','point_right'],
+        [':point_left:','👈','point_left'],[':raised_hands:','🙌','raised_hands'],
+        [':handshake:','🤝','handshake'],[':peace:','✌️','peace'],
+        [':crossed_fingers:','🤞','crossed_fingers'],[':fist:','✊','fist'],
+        [':ok:','👌','ok'],
+      ]
+    },
+    {
+      label: ko?'별 / 자연':'Stars & Nature',
+      items:[
+        [':star:','⭐','star'],[':star2:','🌟','star2'],[':sparkles:','✨','sparkles'],
+        [':dizzy:','💫','dizzy'],[':boom:','💥','boom'],[':zap:','⚡','zap'],
+        [':fire:','🔥','fire'],[':sun:','☀️','sun'],[':moon:','🌙','moon'],
+        [':rainbow:','🌈','rainbow'],[':cloud:','☁️','cloud'],[':snowflake:','❄️','snowflake'],
+        [':tree:','🌳','tree'],[':plant:','🌱','plant'],[':flower:','🌸','flower'],
+        [':rose:','🌹','rose'],[':sunflower:','🌻','sunflower'],[':leaf:','🍃','leaf'],
+        [':mushroom:','🍄','mushroom'],[':wave2:','🌊','wave2'],[':volcano:','🌋','volcano'],
+      ]
+    },
+    {
+      label: ko?'동물':'Animals',
+      items:[
+        [':dog:','🐶','dog'],[':cat:','🐱','cat'],[':bear:','🐻','bear'],
+        [':panda:','🐼','panda'],[':fox:','🦊','fox'],[':lion:','🦁','lion'],
+        [':tiger:','🐯','tiger'],[':cow:','🐮','cow'],[':pig:','🐷','pig'],
+        [':frog:','🐸','frog'],[':monkey:','🐵','monkey'],[':bird:','🐦','bird'],
+        [':penguin:','🐧','penguin'],[':owl:','🦉','owl'],[':butterfly:','🦋','butterfly'],
+        [':bee:','🐝','bee'],[':turtle:','🐢','turtle'],[':unicorn:','🦄','unicorn'],
+        [':rabbit:','🐰','rabbit'],[':dragon:','🐲','dragon'],
+      ]
+    },
+    {
+      label: ko?'음식 / 음료':'Food & Drinks',
+      items:[
+        [':pizza:','🍕','pizza'],[':burger:','🍔','burger'],[':sushi:','🍣','sushi'],
+        [':ramen:','🍜','ramen'],[':rice:','🍚','rice'],[':bread:','🍞','bread'],
+        [':cake:','🎂','cake'],[':cookie:','🍪','cookie'],[':chocolate:','🍫','chocolate'],
+        [':icecream:','🍦','icecream'],[':donut:','🍩','donut'],
+        [':coffee:','☕','coffee'],[':tea:','🍵','tea'],[':beer:','🍺','beer'],
+        [':wine:','🍷','wine'],[':milk:','🥛','milk'],
+        [':apple:','🍎','apple'],[':banana:','🍌','banana'],[':strawberry:','🍓','strawberry'],
+        [':watermelon:','🍉','watermelon'],[':tomato:','🍅','tomato'],[':avocado:','🥑','avocado'],
+      ]
+    },
+    {
+      label: ko?'기호 / 표시':'Symbols',
+      items:[
+        [':check:','✅','check'],[':x:','❌','x'],[':warning:','⚠️','warning'],
+        [':question:','❓','question'],[':exclamation:','❗','exclamation'],
+        [':no:','🚫','no'],[':stop:','🛑','stop'],[':100:','💯','100'],
+        [':recycle:','♻️','recycle'],[':sos:','🆘','sos'],
+        [':up:','⬆️','up'],[':down:','⬇️','down'],
+        [':left:','⬅️','left'],[':right:','➡️','right'],
+        [':plus:','➕','plus'],[':minus:','➖','minus'],
+      ]
+    },
+    {
+      label: ko?'활동 / 스포츠':'Activities',
+      items:[
+        [':trophy:','🏆','trophy'],[':medal:','🥇','medal'],[':dart:','🎯','dart'],
+        [':game:','🎮','game'],[':music:','🎵','music'],[':art:','🎨','art'],
+        [':rocket:','🚀','rocket'],[':running:','🏃','running'],[':workout:','🏋️','workout'],
+        [':yoga:','🧘','yoga'],[':gift:','🎁','gift'],[':party:','🎉','party'],
+        [':fireworks:','🎆','fireworks'],[':balloon:','🎈','balloon'],
+      ]
+    },
+    {
+      label: ko?'사물 / 도구':'Objects & Tools',
+      items:[
+        [':phone:','📱','phone'],[':computer:','💻','computer'],[':camera:','📷','camera'],
+        [':book:','📚','book'],[':notebook:','📓','notebook'],[':pencil:','✏️','pencil'],
+        [':memo:','📝','memo'],[':key:','🔑','key'],[':lock:','🔒','lock'],
+        [':unlock:','🔓','unlock'],[':bulb:','💡','bulb'],[':clock:','⏰','clock'],
+        [':calendar:','📅','calendar'],[':chart:','📊','chart'],[':money:','💰','money'],
+        [':trophy2:','🏅','trophy2'],[':ribbon:','🎀','ribbon'],
+      ]
+    },
+  ];
+
+  var overlay=document.createElement('div');
+  overlay.id='dp-emoji-popup';
+  overlay.style.cssText='position:fixed;inset:0;background:rgba(30,20,60,.45);z-index:9999;display:flex;align-items:flex-end;justify-content:center;';
+
+  var box=document.createElement('div');
+  box.style.cssText='background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:480px;max-height:80vh;display:flex;flex-direction:column;overflow:hidden;';
+
+  // 헤더
+  var hdr=document.createElement('div');
+  hdr.style.cssText='display:flex;align-items:center;justify-content:space-between;padding:16px 18px 12px;border-bottom:1px solid rgba(180,165,225,.2);flex-shrink:0;';
+  hdr.innerHTML='<div style="font-size:14px;font-weight:800;color:#3d2d7a;">✨ '+(ko?'이모지 단축코드 목록':'Emoji Shortcode List')+'</div>'
+    +'<button id="dp-emoji-close" style="width:28px;height:28px;border-radius:50%;border:none;background:rgba(120,100,180,.1);font-size:16px;cursor:pointer;color:#6e5ab4;">✕</button>';
+
+  // 안내
+  var guide=document.createElement('div');
+  guide.style.cssText='padding:8px 18px;font-size:11px;color:#888;flex-shrink:0;';
+  guide.textContent=ko?':코드: 또는 :코드 (스페이스) 로 입력하면 이모지로 자동변환됩니다.':':code: or :code (space) → auto-converts to emoji';
+
+  // 스크롤 영역
+  var scroll=document.createElement('div');
+  scroll.style.cssText='overflow-y:auto;flex:1;padding:8px 14px 24px;';
+
+  categories.forEach(function(cat){
+    var catTitle=document.createElement('div');
+    catTitle.style.cssText='font-size:11px;font-weight:800;color:#6e5ab4;margin:14px 0 8px;letter-spacing:.02em;';
+    catTitle.textContent=cat.label;
+    scroll.appendChild(catTitle);
+
+    var grid=document.createElement('div');
+    grid.style.cssText='display:grid;grid-template-columns:repeat(2,1fr);gap:5px;';
+
+    cat.items.forEach(function(item){
+      var code=item[0], emoji=item[1], desc=item[2];
+      var row=document.createElement('div');
+      row.style.cssText='display:flex;align-items:center;gap:8px;padding:6px 8px;background:rgba(240,236,255,.5);border-radius:8px;cursor:pointer;';
+      row.title=ko?'탭하면 클립보드 복사':'Tap to copy';
+      var copyCode=code.replace(/:$/,''); /* :code 형태 — 붙여넣기 후 : 또는 스페이스 치면 변환 */
+      row.innerHTML='<span style="font-size:18px;flex-shrink:0;">'+emoji+'</span>'
+        +'<div style="min-width:0;flex:1;">'
+        +'<div style="font-size:10px;color:#6e5ab4;font-weight:700;font-family:monospace;">'+code+'</div>'
+        +'<div style="font-size:10px;color:#888;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+desc+'</div>'
+        +'</div>'
+        +'<button class="dp-emoji-copy-btn" style="flex-shrink:0;width:26px;height:26px;border:none;background:rgba(110,90,180,.12);border-radius:7px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;" title="'+(ko?'클립보드에 복사':'Copy to clipboard')+'">📋</button>';
+      row.style.cursor='default';
+      row.querySelector('.dp-emoji-copy-btn').onclick=function(e){
+        e.stopPropagation();
+        var btn=this;
+        navigator.clipboard&&navigator.clipboard.writeText(copyCode).then(function(){
+          btn.textContent='✅';
+          btn.style.background='rgba(80,180,120,.2)';
+          setTimeout(function(){ btn.textContent='📋'; btn.style.background='rgba(110,90,180,.12)'; },800);
+        }).catch(function(){
+          /* fallback */
+          var ta=document.createElement('textarea');
+          ta.value=copyCode; ta.style.position='fixed'; ta.style.opacity='0';
+          document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+          document.body.removeChild(ta);
+          btn.textContent='✅';
+          setTimeout(function(){ btn.textContent='📋'; },800);
+        });
+      };
+      grid.appendChild(row);
+    });
+    scroll.appendChild(grid);
+  });
+
+  box.appendChild(hdr);
+  box.appendChild(guide);
+  box.appendChild(scroll);
+  overlay.appendChild(box);
+  document.body.appendChild(overlay);
+
+  document.getElementById('dp-emoji-close').onclick=function(){ overlay.remove(); };
+  overlay.onclick=function(e){ if(e.target===overlay) overlay.remove(); };
+}
 function dpAutoSave(){
   clearTimeout(_dpSaveTimer);
   _dpSaveTimer=setTimeout(function(){
@@ -3928,7 +4253,7 @@ function dpRenderCert(){
         '.dp-cert-mode .dp-cert-sec-line{border:none!important;background:transparent!important;}',
         /* Priority/Blocks 헤더: 네이비 배경 제거, 폰트 네이비, 하단선만 */
         '.dp-cert-mode .dp-cert-hdr-line .dp-hdr-add,.dp-cert-mode .dp-cert-hdr-line .dp-prev-btn{background:transparent!important;border:1px solid rgba(30,45,107,.3)!important;color:#1e2d6b!important;margin-left:auto!important;}',
-        '.dp-cert-mode .dp-section-hdr{background:#1e2d6b!important;border-radius:0!important;justify-content:flex-end!important;position:relative!important;}',
+        '.dp-cert-mode .dp-section-hdr{background:#1e2d6b!important;border-radius:0!important;justify-content:flex-end!important;position:relative!important;overflow:visible!important;}',
         '.dp-cert-mode .dp-section-hdr-title{color:#fff!important;position:absolute!important;left:calc(50% - 22px)!important;transform:translateX(-50%)!important;pointer-events:none!important;}',
         '.dp-cert-mode .dp-cert-hdr-line{background:transparent!important;border-bottom:2px solid #1e2d6b!important;padding:4px 2px!important;justify-content:flex-end!important;position:relative!important;}',
         '.dp-cert-mode .dp-cert-hdr-line .dp-section-hdr-title{color:#1e2d6b!important;font-size:12px!important;font-weight:800!important;position:absolute!important;left:50%!important;transform:translateX(-50%)!important;pointer-events:none!important;}',
@@ -4128,6 +4453,10 @@ function dpRenderCert(){
     });
   });
   /* block-content, gap-area: 고정 단일 라인 */
+  /* ── 이모지 자동변환 바인딩 ── */
+  dpBindEmoji('.dp-row-inp,.dp-pri-inp,.dp-block-content,.dp-gap-area,.dp-field-input');
+  /* ── 이모지 자동변환 바인딩 ── */
+  dpBindEmoji('.dp-row-inp,.dp-pri-inp,.dp-block-content,.dp-gap-area,.dp-field-input');
   /* ── 전날 버튼 바인딩 ── */
   var prevBd=document.getElementById('dp-prev-bd'); if(prevBd) prevBd.onclick=function(){dpLoadPrev('brainDump');};
   var prevRm=document.getElementById('dp-prev-rm'); if(prevRm) prevRm.onclick=function(){dpLoadPrev('remember');};
@@ -4170,13 +4499,46 @@ function dpRenderCert(){
       popup.onclick=function(e){ if(e.target===popup) popup.remove(); };
       function doCapture(mode){
         popup.remove();
-        /* 캡처 전 버튼 숨기기 */
         var mBtn=document.getElementById('dp-cert-mosaic-btn');
         var sBtn=document.getElementById('dp-cert-save-btn');
-        var dateNav=document.querySelector('.dp-cert-mode .dp-date-nav-row, .dp-cert-mode .dp-date-row .dp-cert-btn');
-        if(mBtn) mBtn.style.display='none';
-        if(sBtn) sBtn.style.display='none';
-        html2canvas(planner,{backgroundColor:'#ffffff',scale:2,useCORS:true}).then(function(canvas){
+        /* 버튼 숨기기 */
+        if(mBtn) mBtn.style.visibility='hidden';
+        if(sBtn) sBtn.style.visibility='hidden';
+        /* 날짜 이동 버튼 숨기기 */
+        var hiddenEls=[];
+        planner.querySelectorAll('#dp-cert-date-prev,#dp-cert-date-next,.dp-prev-btn,.dp-hdr-add').forEach(function(el){
+          hiddenEls.push({el:el,vis:el.style.visibility});
+          el.style.visibility='hidden';
+        });
+        /* 모자이크 ON이면 텍스트 실제로 치환 (filter:blur는 html2canvas 미지원) */
+        var origVals=[];
+        if(_mosaicOn){
+          planner.querySelectorAll('.dp-row-inp,.dp-pri-inp,.dp-block-content,.dp-gap-area,.dp-field-input').forEach(function(el){
+            origVals.push({el:el,val:el.value});
+            if(el.value) el.value=el.value.replace(/./g,'●');
+          });
+        }
+        /* 전체 높이 캡처 */
+        var fullH=planner.scrollHeight;
+        var fullW=planner.scrollWidth;
+        html2canvas(planner,{
+          backgroundColor:'#ffffff',
+          scale:2,
+          useCORS:true,
+          width:fullW,
+          height:fullH,
+          windowWidth:fullW,
+          windowHeight:fullH,
+          scrollX:0,
+          scrollY:0,
+          y:0,
+          x:0
+        }).then(function(canvas){
+          /* 원래 값 복원 */
+          origVals.forEach(function(o){ o.el.value=o.val; });
+          if(mBtn) mBtn.style.visibility='';
+          if(sBtn) sBtn.style.visibility='';
+          hiddenEls.forEach(function(o){ o.el.style.visibility=o.vis; });
           canvas.toBlob(function(blob){
             if(mode==='share'&&navigator.share&&blob){
               navigator.share({files:[new File([blob],'daily-note.png',{type:'image/png'})]}).catch(function(){
@@ -4186,9 +4548,11 @@ function dpRenderCert(){
               var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='daily-note.png'; a.click();
             }
           },'image/png');
-        }).finally(function(){
-          if(mBtn) mBtn.style.display='';
-          if(sBtn) sBtn.style.display='';
+        }).catch(function(){
+          origVals.forEach(function(o){ o.el.value=o.val; });
+          if(mBtn) mBtn.style.visibility='';
+          if(sBtn) sBtn.style.visibility='';
+          hiddenEls.forEach(function(o){ o.el.style.visibility=o.vis; });
         });
       }
       document.getElementById('dp-cert-do-save').onclick=function(){ doCapture('save'); };
@@ -4404,6 +4768,8 @@ function dpRenderPlanner(){
     });
   });
   /* block-content, gap-area: 고정 단일 라인 */
+  /* ── 이모지 자동변환 바인딩 ── */
+  dpBindEmoji('.dp-row-inp,.dp-pri-inp,.dp-block-content,.dp-gap-area,.dp-field-input');
   /* ── 전날 버튼 바인딩 ── */
   var prevBd=document.getElementById('dp-prev-bd'); if(prevBd) prevBd.onclick=function(){dpLoadPrev('brainDump');};
   var prevRm=document.getElementById('dp-prev-rm'); if(prevRm) prevRm.onclick=function(){dpLoadPrev('remember');};
@@ -4532,6 +4898,12 @@ function dpTab(tab){
       +'<div style="display:flex;gap:10px;">'
       +'<button class="lang-btn'+enA+'" id="dp-lang-en">🇺🇸 English</button>'
       +'<button class="lang-btn'+koA+'" id="dp-lang-ko">🇰🇷 한국어</button>'
+      +'</div>'
+      +'<div style="margin-top:24px;">'
+      +'<div class="section-title-sm" style="margin-bottom:10px">😊 '+(ko?'이모지 매핑 테이블':'Emoji Shortcode Table')+'</div>'
+      +'<button id="dp-emoji-table-btn" style="width:100%;padding:12px;background:rgba(255,255,255,.7);border:1.5px solid rgba(180,165,225,.4);border-radius:12px;font-size:13px;font-weight:700;color:#6e5ab4;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">'
+      +'<span>✨</span><span>'+(ko?':smile: → 😊  이모지 코드 목록 보기':':smile: → 😊  View Emoji Shortcodes')+'</span>'
+      +'</button>'
       +'</div></div>';
     var formBasic=document.getElementById('dp-form-basic');
     if(formBasic) formBasic.onclick=function(){
@@ -4548,6 +4920,8 @@ function dpTab(tab){
       localStorage.setItem('ymwt_dp_form','cert');
       dpTab('settings');
     };
+    var emojiBtn=document.getElementById('dp-emoji-table-btn');
+    if(emojiBtn) emojiBtn.onclick=function(){ dpShowEmojiTable(); };
     [['dp-theme-lav','default'],['dp-theme-tomato','tomato'],['dp-theme-cat','cat'],['dp-theme-lemon','lemon']].forEach(function(p){
       var el=document.getElementById(p[0]); if(el) el.onclick=function(){ applyTheme(p[1]); localStorage.setItem('lf_theme_daily',p[1]); dpTab('settings'); };
     });
