@@ -2785,6 +2785,7 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
       <div class="back-row">
         <button class="nav-btn" id="monthBackBtn">←</button>
         <span id="monthDetailLabel" style="font-size:15px;font-weight:800;flex:1;"></span>
+        <button class="delete-btn" id="monthSaveImgBtn" style="background:rgba(110,90,180,.12);color:#6e5ab4;border:1.5px solid rgba(110,90,180,.25);margin-right:6px;">🖼 저장</button>
         <button class="delete-btn" id="monthDeleteBtn">🗑 삭제</button>
       </div>
       <div class="card card-pad">
@@ -2915,6 +2916,39 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
   </div>
 </div>
 <script>
+/* ── 빙고 자정 자동저장 ── */
+function bingoAutoSaveMidnight(){
+  if(localStorage.getItem('bingo_autosave')!=='true') return;
+  var lastSave=localStorage.getItem('bingo_autosave_date')||'';
+  var today=(function(){ var d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); })();
+  if(lastSave===today) return; /* 오늘 이미 저장 */
+  /* saveBingoReport() 함수가 있으면 호출 — 없으면 직접 저장 */
+  try{
+    var S=JSON.parse(localStorage.getItem('bingo-weekly-v1')||'null');
+    if(!S||!S.cells) return;
+    var arr=JSON.parse(localStorage.getItem('bingo-weekly-history')||'[]');
+    var label=(function(){ var d=new Date(); return d.getFullYear()+'년 '+String(d.getMonth()+1).padStart(2,'0')+'월'; })();
+    var entry={ id:Date.now(), label:label, title:S.title||'', cells:S.cells, rowConcepts:S.rowConcepts||[], size:S.size||3, savedAt:new Date().toISOString() };
+    arr.unshift(entry);
+    localStorage.setItem('bingo-weekly-history', JSON.stringify(arr));
+    localStorage.setItem('bingo_autosave_date', today);
+    console.log('빙고 자동저장 완료:', label);
+  } catch(e){ console.error('빙고 자동저장 오류:',e); }
+}
+
+/* 자정까지 남은 시간 계산 후 타이머 등록 */
+(function scheduleBingoAutoSave(){
+  var now=new Date();
+  var midnight=new Date(now); midnight.setHours(24,0,0,0);
+  var ms=midnight-now;
+  setTimeout(function(){
+    bingoAutoSaveMidnight();
+    setInterval(bingoAutoSaveMidnight, 24*60*60*1000);
+  }, ms);
+  /* 앱 시작 시에도 오늘 저장 여부 체크 (어제 자정 놓쳤을 경우 대비) */
+  setTimeout(bingoAutoSaveMidnight, 3000);
+})();
+
 function goTimely(){
   window._curApp='lumi';
   var _t=localStorage.getItem('lf_theme_lumi')||'tomato';
@@ -3108,6 +3142,10 @@ function rnTab(tab){
           '<button class="lang-btn'+enA+'" id="rn-lang-en">🇺🇸 English</button>',
           '<button class="lang-btn'+koA+'" id="rn-lang-ko">🇰🇷 한국어</button>',
         '</div>',
+        '<div style="margin-top:24px;">',
+          '<div class="section-title-sm" style="margin-bottom:10px">✨ 텍스트 → 이모지 가이드</div>',
+          '<button id="rn-emoji-table-btn" style="width:100%;padding:12px;background:rgba(255,255,255,.7);border:1.5px solid rgba(180,165,225,.4);border-radius:12px;font-size:13px;font-weight:700;color:#6e5ab4;cursor:pointer;">:smile → 😊  이모지 단축코드 목록 보기</button>',
+        '</div>',
       '</div>'
     ].join('');
     /* 테마 버튼 이벤트 */
@@ -3115,6 +3153,8 @@ function rnTab(tab){
       var el=document.getElementById(p[0]);
       if(el) el.onclick=function(){ applyTheme(p[1]); rnSetTheme(); };
     });
+    var rnEmojiBtn=document.getElementById('rn-emoji-table-btn');
+    if(rnEmojiBtn) rnEmojiBtn.onclick=function(){ dpShowEmojiTable(); };
     /* 언어 버튼 이벤트 */
     [['rn-lang-en','en'],['rn-lang-ko','ko']].forEach(function(p){
       var el=document.getElementById(p[0]);
@@ -4269,6 +4309,7 @@ function dpRenderCert(){
         '.dp-cert-mode .dp-section{background:#fff!important;border:none!important;box-shadow:none!important;border-radius:0!important;}',
         /* Wants/Remember: 좌우하단 border 제거 */
         '.dp-cert-mode .dp-cert-sec-solid{border:none!important;}',
+        '.dp-cert-mode [style*="dashed"] {border-color:rgba(30,45,107,.25)!important;color:rgba(30,45,107,.45)!important;}',
         /* Priority/Blocks: 섹션 border 전체 제거 */
         '.dp-cert-mode .dp-cert-sec-line{border:none!important;background:transparent!important;}',
         /* Priority/Blocks 헤더: 네이비 배경 제거, 폰트 네이비, 하단선만 */
@@ -4315,7 +4356,6 @@ function dpRenderCert(){
   var ko=(dpLang()==='ko'); var pct=dpProgress(data);
   // blocks/gaps만 최소 보장 — brainDump/remember/priorities는 사용자 입력대로
   while(data.blocks.length<6)     data.blocks.push({title:'Block '+(data.blocks.length+1),content:''});
-  while(data.brainDump.length<10)  data.brainDump.push({text:'',done:false});
   while(data.gaps.length<5)       data.gaps.push({text:''});
   function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
   var DP_DRAG_SVG='<svg width="10" height="10" viewBox="0 0 10 10" fill="none" style="pointer-events:none"><circle cx="3" cy="3" r="1.3" fill="currentColor"/><circle cx="7" cy="3" r="1.3" fill="currentColor"/><circle cx="3" cy="7" r="1.3" fill="currentColor"/><circle cx="7" cy="7" r="1.3" fill="currentColor"/></svg>';
@@ -4933,9 +4973,9 @@ function dpTab(tab){
       +'<button class="lang-btn'+koA+'" id="dp-lang-ko">🇰🇷 한국어</button>'
       +'</div>'
       +'<div style="margin-top:24px;">'
-      +'<div class="section-title-sm" style="margin-bottom:10px">😊 '+(ko?'이모지 매핑 테이블':'Emoji Shortcode Table')+'</div>'
-      +'<button id="dp-emoji-table-btn" style="width:100%;padding:12px;background:rgba(255,255,255,.7);border:1.5px solid rgba(180,165,225,.4);border-radius:12px;font-size:13px;font-weight:700;color:#6e5ab4;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">'
-      +'<span>✨</span><span>'+(ko?':smile: → 😊  이모지 코드 목록 보기':':smile: → 😊  View Emoji Shortcodes')+'</span>'
+      +'<div class="section-title-sm" style="margin-bottom:10px">✨ 텍스트 → 이모지 가이드</div>'
+      +'<button id="dp-emoji-table-btn" style="width:100%;padding:12px;background:rgba(255,255,255,.7);border:1.5px solid rgba(180,165,225,.4);border-radius:12px;font-size:13px;font-weight:700;color:#6e5ab4;cursor:pointer;">'
+      +':smile → 😊  이모지 단축코드 목록 보기'
       +'</button>'
       +'</div></div>';
     var formBasic=document.getElementById('dp-form-basic');
@@ -6038,6 +6078,8 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
   }
   function renderViewBoard() {
     renderBoard(document.getElementById('viewBoard'), S.cells, S.rowConcepts, S.size, S.title, S.detailMode, S.diffMode, false);
+    /* 이모지 변환 바인딩 */
+    setTimeout(function(){ dpBindEmoji('#viewBoard input, #viewBoard textarea, .concept-input, .input-base'); }, 100);
   }
   function renderViewStats() {
     const vc    = visibleCells();
@@ -6467,6 +6509,59 @@ function showMonthDetail(entry) {
     document.getElementById('monthlyDetailView').classList.add('hidden');
     S.currentMonthEntry=null;
   });
+  document.getElementById('monthSaveImgBtn').addEventListener('click',()=>{
+    var dv=document.getElementById('monthlyDetailView');
+    if(!dv) return;
+    /* 인증용과 동일한 팝업 인터페이스 */
+    var existing=document.getElementById('dp-cert-popup');
+    if(existing) existing.remove();
+    var popup=document.createElement('div');
+    popup.id='dp-cert-popup';
+    popup.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:9999;display:flex;align-items:center;justify-content:center;';
+    popup.innerHTML='      <div style="background:#fff;border-radius:16px;padding:24px 20px;min-width:240px;box-shadow:0 8px 32px rgba(0,0,0,.18);">        <div style="font-size:14px;font-weight:800;color:#3d2d7a;margin-bottom:16px;text-align:center;">🖼 이미지 내보내기</div>        <div style="display:flex;flex-direction:column;gap:10px;">          <button id="bingo-do-save" style="padding:10px;background:#6e5ab4;color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;">💾 이미지 저장</button>          <button id="bingo-do-share" style="padding:10px;background:#fff;color:#6e5ab4;border:2px solid #6e5ab4;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;">📤 공유하기</button>          <button id="bingo-do-cancel" style="padding:8px;background:transparent;color:#888;border:none;font-size:12px;cursor:pointer;">취소</button>        </div>      </div>';
+    document.body.appendChild(popup);
+    document.getElementById('bingo-do-cancel').onclick=function(){ popup.remove(); };
+    popup.onclick=function(e){ if(e.target===popup) popup.remove(); };
+
+    function doBingoCapture(mode){
+      popup.remove();
+      /* 저장/공유 버튼 숨기기 */
+      var saveBtn=document.getElementById('monthSaveImgBtn');
+      var delBtn=document.getElementById('monthDeleteBtn');
+      var backBtn=document.getElementById('monthBackBtn');
+      [saveBtn,delBtn,backBtn].forEach(function(el){ if(el) el.style.visibility='hidden'; });
+      var target=document.getElementById('monthlyDetailView');
+      if(!target||typeof domtoimage==='undefined'){
+        [saveBtn,delBtn,backBtn].forEach(function(el){ if(el) el.style.visibility=''; });
+        return;
+      }
+      var fname='bingo_'+(function(){
+        var n=new Date();
+        return String(n.getFullYear()).slice(2)+String(n.getMonth()+1).padStart(2,'0')+String(n.getDate()).padStart(2,'0')+'_'+String(n.getHours()).padStart(2,'0')+String(n.getMinutes()).padStart(2,'0');
+      })()+'.png';
+      var scale=2, w=target.offsetWidth, h=target.scrollHeight;
+      domtoimage.toPng(target,{
+        width:w*scale, height:h*scale,
+        style:{ transform:'scale('+scale+')', transformOrigin:'top left', width:w+'px', height:h+'px' }
+      }).then(function(dataUrl){
+        [saveBtn,delBtn,backBtn].forEach(function(el){ if(el) el.style.visibility=''; });
+        if(mode==='share'&&navigator.share){
+          fetch(dataUrl).then(function(r){return r.blob();}).then(function(blob){
+            navigator.share({files:[new File([blob],fname,{type:'image/png'})]}).catch(function(){
+              var a=document.createElement('a'); a.href=dataUrl; a.download=fname; a.click();
+            });
+          });
+        } else {
+          var a=document.createElement('a'); a.href=dataUrl; a.download=fname; a.click();
+        }
+      }).catch(function(){
+        [saveBtn,delBtn,backBtn].forEach(function(el){ if(el) el.style.visibility=''; });
+      });
+    }
+    document.getElementById('bingo-do-save').onclick=function(){ doBingoCapture('save'); };
+    document.getElementById('bingo-do-share').onclick=function(){ doBingoCapture('share'); };
+  });
+
   document.getElementById('monthDeleteBtn').addEventListener('click',()=>{
     if (!S.currentMonthEntry) return;
     if (!confirm(`${S.currentMonthEntry.label} 빙고를 삭제할까요?`)) return;
@@ -6781,9 +6876,22 @@ function showMonthDetail(entry) {
       '<div style="font-size:11px;color:#8878b8">하🟡 / 중🟠 / 상🔴</div></div>'+
       '<div style="background:rgba(255,255,255,.7);border-radius:14px;border:1px solid rgba(200,190,255,.4);padding:14px 16px;margin-bottom:12px">'+
       '<label class="field-label" style="margin-bottom:10px;display:block">🎨 색깔 테마</label>'+
-      '<div class="theme-row">'+themeHTML+'</div></div>';
+      '<div class="theme-row">'+themeHTML+'</div></div>'+
+      '<div style="background:rgba(255,255,255,.7);border-radius:14px;border:1px solid rgba(200,190,255,.4);padding:14px 16px;margin-bottom:12px">'+
+      '<label style="display:flex;align-items:center;gap:8px;margin-bottom:6px;cursor:pointer">'+
+      '<input type="checkbox" id="bsAutoSave"'+(localStorage.getItem('bingo_autosave')==='true'?' checked':'')+'>'+
+      '<span style="font-size:13px;font-weight:700">⏰ 자동 저장</span></label>'+
+      '<div style="font-size:11px;color:#8878b8;line-height:1.6">활성화 시 매일 자정에 빙고가 리포트에 자동 저장됩니다.<br>비활성화 시 사용자가 직접 저장해야 합니다.</div>'+
+      '</div>'+
+      '<div style="margin-top:4px;">'+
+      '<div class="field-label" style="margin-bottom:10px;font-size:12px;font-weight:700;color:#4a3a8a;">✨ 텍스트 → 이모지 가이드</div>'+
+      '<button id="bingo-emoji-table-btn" style="width:100%;padding:12px;background:rgba(255,255,255,.7);border:1.5px solid rgba(200,190,255,.4);border-radius:12px;font-size:13px;font-weight:700;color:#6e5ab4;cursor:pointer;">'+
+      ':smile → 😊  이모지 단축코드 목록 보기'+
+      '</button></div>';
 
     document.getElementById('bsTitle').oninput=function(){S.title=this.value;save();renderViewBoard();};
+  /* 이모지 변환: 빙고 설정 타이틀 */
+  dpBindEmoji('#bsTitle');
     document.getElementById('bsSize').onchange=function(){
       var ns=parseInt(this.value);
       if(ns!==S.size){
@@ -6805,6 +6913,13 @@ function showMonthDetail(entry) {
       lsSet(KEYS.DIFF,String(S.diffMode)); save();renderViewBoard();
     };
 
+    var bingoEmojiBtn=document.getElementById('bingo-emoji-table-btn');
+    if(bingoEmojiBtn) bingoEmojiBtn.onclick=function(){ dpShowEmojiTable(); };
+    var bsAutoSave=document.getElementById('bsAutoSave');
+    if(bsAutoSave) bsAutoSave.onchange=function(){
+      localStorage.setItem('bingo_autosave', this.checked?'true':'false');
+      showToast(this.checked?'자동 저장이 활성화되었습니다 ⏰':'자동 저장이 비활성화되었습니다');
+    };
     body.querySelectorAll('.theme-btn[data-theme]').forEach(function(btn){
       btn.onclick=function(){
         var t=this.dataset.theme;
@@ -8282,6 +8397,7 @@ function refreshMissionHeader(){
    TRACKER EVENTS
 ══════════════════════════════════ */
 function bindTrackerEvents(){
+  dpBindEmoji('.tr-habit');
   document.querySelectorAll('.tr-habit').forEach(function(inp){inp.oninput=function(){
     var ri=parseInt(this.dataset.row);
     ST.weekData.tracker[ri].habit=this.value;
