@@ -5562,6 +5562,7 @@ function qlRender() {
   qlEnterNav('ql-sub-quests', '.ql-quest-text', 'subQuests', {text:'',done:false});
 
     // 전투 기록 엔터
+  dpBindEmoji('.ql-log-retro,.ql-retro-textarea');
   document.querySelectorAll('.ql-battle-row .ql-log-retro').forEach(function(inp,i,all){
     inp.addEventListener('keydown', function(e){
       if(e.key !== 'Enter') return;
@@ -7949,6 +7950,7 @@ function bindDay(){
       S.save(ST.currentDate,ST.dayData); render();
     };
   });
+  dpBindEmoji('.refl-good,.refl-lesson,.refl-tmr');
   document.querySelectorAll('.refl-good').forEach(function(inp){inp.oninput=function(){ST.dayData.reflection.good[parseInt(this.dataset.idx)]=this.value;S.save(ST.currentDate,ST.dayData);};});
   var les=document.querySelector('.refl-lesson');if(les)les.oninput=function(){ST.dayData.reflection.lesson=this.value;S.save(ST.currentDate,ST.dayData);};
   document.querySelectorAll('.refl-tmr').forEach(function(inp){inp.oninput=function(){ST.dayData.reflection.tomorrow[parseInt(this.dataset.idx)]=this.value;S.save(ST.currentDate,ST.dayData);};});
@@ -8397,7 +8399,7 @@ function refreshMissionHeader(){
    TRACKER EVENTS
 ══════════════════════════════════ */
 function bindTrackerEvents(){
-  dpBindEmoji('.tr-habit');
+  dpBindEmoji('.tr-habit,.tr-over,.tr-ach');
   document.querySelectorAll('.tr-habit').forEach(function(inp){inp.oninput=function(){
     var ri=parseInt(this.dataset.row);
     ST.weekData.tracker[ri].habit=this.value;
@@ -8440,6 +8442,7 @@ function bindTrackerEvents(){
 function refreshTrackerTable(){
   var tbody=document.getElementById('tracker-tbody');
   if(tbody)tbody.innerHTML=buildTrackerHTML(ST.weekData.tracker);
+  bindTrackerEvents();
 }
 
 /* ══════════════════════════════════
@@ -8487,6 +8490,7 @@ function bindWeekModal(){
     saveWeekAndSync();
   }
   /* KPT single-textarea bindings */
+  dpBindEmoji('.wk-rf,.wk-refl-lesson');
   document.querySelectorAll('.wk-rf').forEach(function(ta){
     ta.oninput=function(){
       if(!ST.weekData.reflection)ST.weekData.reflection={keep:'',drop:'',try_:''};
@@ -10589,6 +10593,7 @@ function bindTmplEditor(){
     };
   });
 
+  dpBindEmoji('.te-refl-inp');
   document.querySelectorAll('.te-refl-inp, .te-refl-sel').forEach(function(inp){
     inp.onchange = inp.oninput = function(){
       var field = this.dataset.field;
