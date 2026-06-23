@@ -2,7 +2,31 @@
 <html lang='ko'>
 <head>
 <meta charset='UTF-8'>
-<meta name='viewport' content='width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no'>
+<meta id='app-viewport' name='viewport' content='width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no'>
+<script>
+(function(){
+  /* 앱은 480px 기준으로 디자인됨. 화면이 그보다 좁으면 viewport를 480으로 고정해
+     브라우저가 디자인 전체를 균일하게 축소 렌더링하도록 함 (모든 폰에서 동일 비율). */
+  var DESIGN_WIDTH = 480;
+  function fitViewport(){
+    var vp = document.getElementById('app-viewport');
+    if(!vp) return;
+    var sw = window.screen && window.screen.width ? window.screen.width : window.innerWidth;
+    /* 실제 사용 가능한 폭은 innerWidth가 더 정확할 때가 많음 */
+    var w = Math.min(window.innerWidth || sw, sw) || sw;
+    if(w < DESIGN_WIDTH){
+      /* 화면이 좁으면: 480px 폭으로 잡고 화면에 맞춰 축소 */
+      vp.setAttribute('content','width='+DESIGN_WIDTH+',initial-scale='+(w/DESIGN_WIDTH)+',maximum-scale='+(w/DESIGN_WIDTH)+',user-scalable=no');
+    } else {
+      /* 480px 이상이면 기본 */
+      vp.setAttribute('content','width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no');
+    }
+  }
+  fitViewport();
+  window.addEventListener('resize', fitViewport);
+  window.addEventListener('orientationchange', function(){ setTimeout(fitViewport, 200); });
+})();
+</script>
 <meta name='theme-color' content='#c8bef5'>
 <title>별빛달빛해빗</title>
 <style>
