@@ -5,22 +5,21 @@
 <meta id='app-viewport' name='viewport' content='width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no'>
 <script>
 (function(){
-  /* 앱은 480px 기준으로 디자인됨. 화면이 그보다 좁으면 viewport를 480으로 고정해
-     브라우저가 디자인 전체를 균일하게 축소 렌더링하도록 함 (모든 폰에서 동일 비율). */
+  /* 앱은 480px 기준으로 디자인됨. 기본 표시 비율을 ~115%로 키우기 위해
+     기준 폭을 480/1.15 ≈ 417px로 잡음. 화면이 그보다 좁으면 그 폭에 맞춰 축소. */
   var DESIGN_WIDTH = 480;
+  var BASE_SCALE = 1.15;            /* 기본 확대 비율 */
+  var FIT_WIDTH = DESIGN_WIDTH / BASE_SCALE;  /* ≈ 417 */
   function fitViewport(){
     var vp = document.getElementById('app-viewport');
     if(!vp) return;
     var sw = window.screen && window.screen.width ? window.screen.width : window.innerWidth;
-    /* 실제 사용 가능한 폭은 innerWidth가 더 정확할 때가 많음 */
     var w = Math.min(window.innerWidth || sw, sw) || sw;
-    if(w < DESIGN_WIDTH){
-      /* 화면이 좁으면: 480px 폭으로 잡고 화면에 맞춰 축소 */
-      vp.setAttribute('content','width='+DESIGN_WIDTH+',initial-scale='+(w/DESIGN_WIDTH)+',maximum-scale='+(w/DESIGN_WIDTH)+',user-scalable=no');
-    } else {
-      /* 480px 이상이면 기본 */
-      vp.setAttribute('content','width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no');
-    }
+    /* 기준 폭(FIT_WIDTH)을 화면 폭에 맞춰 스케일. 화면이 기준보다 좁으면 더 축소,
+       넓으면 1.15배까지만 키우고 그 이상은 고정. */
+    var scale = w / FIT_WIDTH;
+    if(scale > BASE_SCALE) scale = BASE_SCALE;   /* 최대 1.15배 */
+    vp.setAttribute('content','width='+DESIGN_WIDTH+',initial-scale='+scale+',maximum-scale='+scale+',user-scalable=no');
   }
   fitViewport();
   window.addEventListener('resize', fitViewport);
@@ -39,9 +38,9 @@ html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif;overscroll-beh
 #bingo-screen{display:none;position:absolute;inset:0;overflow-y:auto;z-index:10;}
 #routine-screen{display:none;position:absolute;inset:0;overflow:hidden;z-index:10;flex-direction:column;min-height:0;}
 :root{--mint:#b8a8e8;--mint-dk:#8b7fd4;--mint-lt:#d8d0f8;--mint-pale:rgba(184,168,232,.18);--mint-glass:rgba(184,168,232,.12);--y-color:#c8b840;--m-color:#a08ad8;--wd-color:#6abadc;--t-color:#e85d4a;--text:#2a2240;--muted:#7a72a0;--card-bg:rgba(255,255,255,.82);--card-s:rgba(255,255,255,.96);--r:28px;}
-.brand-center{display:flex;align-items:center;justify-content:space-between;padding:8px 16px 10px;flex-shrink:0;background:transparent;position:sticky;top:0;z-index:60;width:100%;box-sizing:border-box;}
+.brand-center{display:flex;align-items:center;justify-content:space-between;padding:8px 16px 8px;flex-shrink:0;background:transparent;position:sticky;top:0;z-index:60;width:100%;box-sizing:border-box;}
 .brand-title span{background:linear-gradient(135deg,#8b7fd4 0%,#c8b840 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.clover-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:16px 20px 8px;position:relative;overflow-y:auto;}
+.clover-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:40px 20px 8px;position:relative;overflow-y:auto;}
 .lumi-app-sw-fixed,.home-app-sw-fixed{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;padding:8px 8px 0;display:flex;justify-content:flex-end;pointer-events:none;z-index:300;}
 .home-app-sw-fixed{display:none!important;}
 .lumi-app-sw-fixed .app-switcher,.home-app-sw-fixed .app-switcher{pointer-events:auto;}
@@ -133,9 +132,9 @@ html, body {
   flex-direction: column;
 }
 .brand-title {
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 800;
-  color: var(--text);
+  color: #2a1f6e;
   letter-spacing: -1px;
   line-height: 1;
 }
@@ -144,9 +143,9 @@ html, body {
 }
 .brand-sub {
   font-size: 11px;
-  color: var(--muted);
-  margin-top: 2px;
-  font-weight: 700;
+  color: rgba(120,100,180,.7);
+  margin-top: 1px;
+  font-weight: 600;
   letter-spacing: .3px;
 }
 .date-chip {
@@ -709,7 +708,7 @@ body[data-theme="cat"] {
 .card-sky{background:var(--grad);border-color:transparent;box-shadow:0 4px 14px var(--t-shadow2);}
 .card-sky .tsc-val,.card-sky .tsc-lbl,.card-sky .sc-val,.card-sky .sc-lbl{color:#fff;}
 
-#lumi-top-bar{display:flex;align-items:center;justify-content:space-between;padding:8px 16px 10px;flex-shrink:0;border-bottom:1px solid rgba(180,170,220,.18);}
+#lumi-top-bar{display:flex;align-items:center;justify-content:space-between;padding:8px 16px 8px;flex-shrink:0;border-bottom:1px solid rgba(180,170,220,.18);}
 #timer-view{padding-top:0;align-items:center;}
 
 .timer-top{width:100%;padding:52px 20px 12px;display:flex;justify-content:space-between;align-items:flex-start;}
@@ -1744,7 +1743,7 @@ textarea.inp{resize:vertical;line-height:1.6}
 /* ── 말풍선 점 ── */
 .speech-dots{
   display:flex; flex-direction:column; align-items:center;
-  gap:7px; margin:0 auto; padding:3px 0;
+  gap:6px; margin:0 auto; padding:1px 0 0;
 }
 .speech-dot{
   opacity:0;
@@ -1868,7 +1867,7 @@ body[data-theme="cat"]      { --rn-hdr-bg:rgba(255,248,220,.92); --rn-hdr-border
 body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:rgba(180,170,220,.18); --dp-gap-color:rgba(100,80,190,.6); --dp-gap-focus:rgba(80,60,170,.82); }
 
 /* ── 주간앱 top-bar ── */
-#routine-top-bar{display:none;align-items:center;justify-content:space-between;padding:8px 16px 10px;flex-shrink:0;border-bottom:1px solid var(--rn-hdr-border,rgba(180,170,220,.18));background:var(--rn-hdr-bg,rgba(232,226,248,1));position:sticky;top:0;z-index:60;width:100%;box-sizing:border-box;overflow:visible;}
+#routine-top-bar{display:none;align-items:center;justify-content:space-between;padding:8px 16px 8px;flex-shrink:0;border-bottom:1px solid var(--rn-hdr-border,rgba(180,170,220,.18));background:var(--rn-hdr-bg,rgba(232,226,248,1));position:sticky;top:0;z-index:60;width:100%;box-sizing:border-box;overflow:visible;}
 
 #routine-app{flex:1;flex-shrink:1;overflow-y:auto;min-height:0;padding-bottom:62px;}
 .rn-hdr-title{font-size:15px;font-weight:800;color:var(--lav-dk);letter-spacing:-0.02em;white-space:nowrap;}
@@ -2128,7 +2127,7 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:r
    DAILY PLANNER APP
 ══════════════════════════════════════════ */
 #daily-screen{display:none;flex-direction:column;width:100%;height:100vh;overflow:hidden;position:relative;}
-#daily-top-bar{display:none;align-items:center;justify-content:space-between;padding:8px 16px 10px;flex-shrink:0;border-bottom:1px solid var(--rn-hdr-border,rgba(180,170,220,.18));background:var(--rn-hdr-bg,rgba(232,226,248,1));position:sticky;top:0;z-index:60;width:100%;box-sizing:border-box;overflow:visible;}
+#daily-top-bar{display:none;align-items:center;justify-content:space-between;padding:8px 16px 8px;flex-shrink:0;border-bottom:1px solid var(--rn-hdr-border,rgba(180,170,220,.18));background:var(--rn-hdr-bg,rgba(232,226,248,1));position:sticky;top:0;z-index:60;width:100%;box-sizing:border-box;overflow:visible;}
 .dp-hdr-title{font-size:15px;font-weight:800;color:var(--lav-dk);letter-spacing:-0.02em;white-space:nowrap;}
 .dp-hdr-sub{font-size:11px;color:rgba(120,100,180,.7);font-weight:600;margin-top:1px;}
 #daily-app{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:80px;}
@@ -2450,7 +2449,8 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
 /* 기록·메모 전용 화면 */
 #record-screen,#memo-screen{
   display:none;
-  position:fixed;inset:0;
+  position:absolute;inset:0;
+  width:100%;
   z-index:500;
   flex-direction:column;
   background:linear-gradient(160deg,#ede0ff 0%,#ddd0ff 40%,#f8f0c8 100%);
@@ -2802,6 +2802,29 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
 #rn-rpt-body .rn-rf-icon{font-size:11px;flex-shrink:0;line-height:1.5;}
 #rn-rpt-body .rn-rf-txt{font-size:12.5px;font-weight:600;color:#3a2a70;line-height:1.5;flex:1;min-width:0;}
 
+/* 플래너 본문만 전체 스케일(1.15x)을 상쇄해 이전 비율로 표시 */
+#daily-app{
+  transform: scale(0.8696);          /* 1/1.15 */
+  transform-origin: top left;
+  width: 115.0%;                      /* scale로 줄어든 가로폭 보정 (1/0.8696) */
+}
+
+/* 메모 — 선택 탭에 따라 본문(탭 아래 네모 영역)만 배경 변경 (파일 폴더 느낌) */
+#memo-body{ transition:background .4s ease; border-radius:0 0 14px 14px; }
+#memo-screen[data-memobg="scribble"]  #memo-body{ background:linear-gradient(160deg,rgba(190,168,245,.32),rgba(244,232,158,.28)); }
+#memo-screen[data-memobg="memory"]    #memo-body{ background:linear-gradient(160deg,rgba(190,168,245,.32),rgba(178,224,172,.28)); }
+#memo-screen[data-memobg="record"]    #memo-body{ background:linear-gradient(160deg,rgba(178,224,172,.32),rgba(248,188,208,.28)); }
+#memo-screen[data-memobg="important"] #memo-body{ background:linear-gradient(160deg,rgba(248,188,208,.32),rgba(190,168,245,.28)); }
+
+/* 메모 탭 드래그 중 시각 효과 (최소한) */
+.memo-tab{ transition:transform .18s ease, background .15s, color .15s, top .15s; touch-action:pan-y; }
+.memo-tab.memo-tab-dragging{
+  transform:scale(1.08) translateY(-3px);
+  box-shadow:0 6px 16px rgba(120,100,180,.28);
+  opacity:.92;z-index:5;
+  transition:transform .12s ease;
+}
+
 </style>
 
   <link rel="manifest" href="/Starlight-Habit/manifest.json">
@@ -2849,7 +2872,7 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
       </div>
     </div>
     <div class='clover-wrap'>
-      <div id='daily-quote-wrap' style='width:100%;max-width:340px;margin:0 auto 4px'></div>
+      <div id='daily-quote-wrap' style='width:100%;max-width:340px;margin:0 auto 2px'></div>
       <div class='speech-dots'>
         <div class='speech-dot speech-dot-1'></div>
         <div class='speech-dot speech-dot-2'></div>
@@ -4146,24 +4169,138 @@ function memoSave(data){
   try{ localStorage.setItem('ymwt_memo_v1', JSON.stringify(data)); }catch(e){}
 }
 
+/* 저장된 탭 순서 불러오기 (없으면 기본 순서) */
+function memoOrderedCats(){
+  var order=[];
+  try{ order=JSON.parse(localStorage.getItem('ymwt_memo_taborder')||'[]'); }catch(e){ order=[]; }
+  if(!Array.isArray(order)||!order.length) return MEMO_CATS.slice();
+  var byId={}; MEMO_CATS.forEach(function(c){ byId[c.id]=c; });
+  var result=[];
+  order.forEach(function(id){ if(byId[id]){ result.push(byId[id]); delete byId[id]; } });
+  /* 저장 안 된 새 카테고리는 뒤에 추가 */
+  MEMO_CATS.forEach(function(c){ if(byId[c.id]) result.push(c); });
+  return result;
+}
+function memoSaveOrder(idsArr){
+  try{ localStorage.setItem('ymwt_memo_taborder', JSON.stringify(idsArr)); }catch(e){}
+}
+
+/* 탭 클릭(전환) + 롱프레스 드래그(순서 변경) */
+function memoBindTabEvents(tab, container){
+  var LONG_PRESS=320;   /* ms: 이 시간 이상 누르면 드래그 모드 */
+  var pressTimer=null, dragging=false, startX=0, moved=false;
+  var ghost=null, originIdx=0;
+
+  function getTabs(){ return Array.prototype.slice.call(container.querySelectorAll('.memo-tab')); }
+  function indexOf(el){ return getTabs().indexOf(el); }
+
+  function startDrag(clientX){
+    dragging=true;
+    tab.classList.add('memo-tab-dragging');
+    originIdx=indexOf(tab);
+    if(navigator.vibrate) try{ navigator.vibrate(15); }catch(e){}
+  }
+
+  function moveDrag(clientX){
+    if(!dragging) return;
+    /* 포인터 위치의 다른 탭 위로 가면 자리 교체 */
+    var tabs=getTabs();
+    for(var i=0;i<tabs.length;i++){
+      var other=tabs[i];
+      if(other===tab) continue;
+      var r=other.getBoundingClientRect();
+      if(clientX>r.left && clientX<r.right){
+        var myIdx=indexOf(tab), otherIdx=i;
+        if(myIdx<otherIdx) container.insertBefore(tab, other.nextSibling);
+        else container.insertBefore(tab, other);
+        break;
+      }
+    }
+  }
+
+  function endDrag(){
+    if(dragging){
+      tab.classList.remove('memo-tab-dragging');
+      /* 새 순서 저장 */
+      var ids=getTabs().map(function(t){ return t.dataset.memotab; });
+      memoSaveOrder(ids);
+      dragging=false;
+      /* 옮긴 탭을 바로 활성화 → 해당 화면 표시 */
+      _memoTab=tab.dataset.memotab;
+      localStorage.setItem('ymwt_memo_tab',_memoTab);
+      renderMemo();
+    }
+    clearTimeout(pressTimer);
+  }
+
+  /* ── 터치 ── */
+  tab.addEventListener('touchstart', function(e){
+    moved=false;
+    startX=e.touches[0].clientX;
+    pressTimer=setTimeout(function(){ startDrag(startX); }, LONG_PRESS);
+  }, {passive:true});
+  tab.addEventListener('touchmove', function(e){
+    var x=e.touches[0].clientX;
+    if(Math.abs(x-startX)>8) moved=true;
+    if(dragging){ e.preventDefault(); moveDrag(x); }
+    else if(moved){ clearTimeout(pressTimer); }  /* 드래그 전 스크롤이면 롱프레스 취소 */
+  }, {passive:false});
+  tab.addEventListener('touchend', function(e){
+    clearTimeout(pressTimer);
+    if(dragging){ endDrag(); }
+    else if(!moved){
+      /* 짧게 탭 → 전환 */
+      _memoTab=tab.dataset.memotab;
+      localStorage.setItem('ymwt_memo_tab',_memoTab);
+      renderMemo();
+    }
+  });
+
+  /* ── 마우스(데스크톱) ── */
+  tab.addEventListener('mousedown', function(e){
+    moved=false; startX=e.clientX;
+    pressTimer=setTimeout(function(){ startDrag(startX); }, LONG_PRESS);
+    function mm(ev){
+      if(Math.abs(ev.clientX-startX)>8) moved=true;
+      if(dragging) moveDrag(ev.clientX);
+    }
+    function mu(){
+      document.removeEventListener('mousemove',mm);
+      document.removeEventListener('mouseup',mu);
+      clearTimeout(pressTimer);
+      if(dragging){ endDrag(); }
+      else if(!moved){
+        _memoTab=tab.dataset.memotab;
+        localStorage.setItem('ymwt_memo_tab',_memoTab);
+        renderMemo();
+      }
+    }
+    document.addEventListener('mousemove',mm);
+    document.addEventListener('mouseup',mu);
+  });
+}
+
 function renderMemo(){
   if(!_memoTab) _memoTab=localStorage.getItem('ymwt_memo_tab')||'scribble';
   var tabsEl=document.getElementById('memo-tabs');
   var bodyEl=document.getElementById('memo-body');
   if(!tabsEl||!bodyEl) return;
+  /* 화면 배경을 현재 탭 색으로 */
+  var memoScreen=document.getElementById('memo-screen');
+  if(memoScreen) memoScreen.dataset.memobg=_memoTab;
+
+  /* 저장된 순서대로 정렬한 탭 목록 */
+  var orderedCats=memoOrderedCats();
 
   /* 탭 렌더 */
-  tabsEl.innerHTML=MEMO_CATS.map(function(c){
+  tabsEl.innerHTML=orderedCats.map(function(c){
     return '<div class="memo-tab'+(_memoTab===c.id?' active':'')+'" data-memotab="'+c.id+'">'
       +'<span class="memo-tab-hash">#</span>'+c.label
       +'</div>';
   }).join('');
+  /* 클릭(전환) + 드래그(순서 변경) 바인딩 */
   tabsEl.querySelectorAll('.memo-tab').forEach(function(t){
-    t.onclick=function(){
-      _memoTab=this.dataset.memotab;
-      localStorage.setItem('ymwt_memo_tab',_memoTab);
-      renderMemo();
-    };
+    memoBindTabEvents(t, tabsEl);
   });
 
   if(_memoTab==='scribble') renderMemoScribble();
