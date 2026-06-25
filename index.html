@@ -2,30 +2,7 @@
 <html lang='ko'>
 <head>
 <meta charset='UTF-8'>
-<meta id='app-viewport' name='viewport' content='width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no'>
-<script>
-(function(){
-  /* 앱은 480px 기준으로 디자인됨. 기본 표시 비율을 ~115%로 키우기 위해
-     기준 폭을 480/1.15 ≈ 417px로 잡음. 화면이 그보다 좁으면 그 폭에 맞춰 축소. */
-  var DESIGN_WIDTH = 480;
-  var BASE_SCALE = 1.15;            /* 기본 확대 비율 */
-  var FIT_WIDTH = DESIGN_WIDTH / BASE_SCALE;  /* ≈ 417 */
-  function fitViewport(){
-    var vp = document.getElementById('app-viewport');
-    if(!vp) return;
-    var sw = window.screen && window.screen.width ? window.screen.width : window.innerWidth;
-    var w = Math.min(window.innerWidth || sw, sw) || sw;
-    /* 기준 폭(FIT_WIDTH)을 화면 폭에 맞춰 스케일. 화면이 기준보다 좁으면 더 축소,
-       넓으면 1.15배까지만 키우고 그 이상은 고정. */
-    var scale = w / FIT_WIDTH;
-    if(scale > BASE_SCALE) scale = BASE_SCALE;   /* 최대 1.15배 */
-    vp.setAttribute('content','width='+DESIGN_WIDTH+',initial-scale='+scale+',maximum-scale='+scale+',user-scalable=no');
-  }
-  fitViewport();
-  window.addEventListener('resize', fitViewport);
-  window.addEventListener('orientationchange', function(){ setTimeout(fitViewport, 200); });
-})();
-</script>
+<meta id='app-viewport' name='viewport' content='width=device-width,initial-scale=1.0,viewport-fit=cover'>
 <meta name='theme-color' content='#c8bef5'>
 <title>별빛달빛해빗</title>
 <style>
@@ -2801,16 +2778,7 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
 #rn-rpt-body .rn-rf-txt{font-size:12.5px;font-weight:600;color:#3a2a70;line-height:1.5;flex:1;min-width:0;}
 
 /* 플래너 본문만 전체 스케일(1.15x)을 상쇄해 이전 비율로 표시 */
-#daily-app{
-  transform: scale(0.8696);          /* 1/1.15 */
-  transform-origin: top left;
-  width: 115.0%;                      /* scale로 줄어든 가로폭 보정 (1/0.8696) */
-}
-/* 기록모음(리포트) 화면은 역스케일 해제 → 트래커와 동일하게 경계에 붙음 */
-#daily-app.dp-report-mode{
-  transform: none;
-  width: 100%;
-}
+/* (역스케일 제거됨 — 전역 viewport 스케일링 폐지에 따라 불필요) */
 
 /* 메모 — 선택 탭에 따라 본문(탭 아래 네모 영역)만 배경 변경 (파일 폴더 느낌) */
 #memo-body{ transition:background .4s ease; border-radius:0 0 14px 14px; }
