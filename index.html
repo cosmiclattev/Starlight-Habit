@@ -420,7 +420,7 @@ html, body {
   display: none;
   position: fixed; inset: 0;
   background: rgba(26,58,42,.55);
-  z-index: 200;
+  z-index: 2100;
   align-items: center;
   justify-content: center;
   backdrop-filter: blur(4px);
@@ -1127,9 +1127,8 @@ body[data-theme="cat"] {
 
 .app-header {
   position: sticky; top: 0; z-index: 50;
-  background: rgba(238,230,255,.92);
-  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
-  border-bottom: 1px solid rgba(180,170,220,.18);
+  background: var(--rn-hdr-bg,rgba(232,226,248,1));
+  border-bottom: 1px solid var(--rn-hdr-border,rgba(180,170,220,.18));
 }
 .header-brand-row {
   max-width: 480px; margin: 0 auto; padding: 0 14px;
@@ -1861,9 +1860,9 @@ textarea.inp{resize:vertical;line-height:1.6}
 .quote-copy-btn:active{color:rgba(100,80,160,.8);}
 
 /* ── 주간앱 헤더 테마 변수 ── */
-body[data-theme="default"]  { --rn-hdr-bg:rgba(238,230,255,.92); --rn-hdr-border:rgba(180,170,220,.18); --dp-gap-color:rgba(110,90,190,.58); --dp-gap-focus:rgba(90,70,170,.82); }
-body[data-theme="tomato"]   { --rn-hdr-bg:rgba(255,235,225,.92); --rn-hdr-border:rgba(220,160,140,.2); --dp-gap-color:rgba(200,100,80,.6); --dp-gap-focus:rgba(180,80,60,.82); }
-body[data-theme="cat"]      { --rn-hdr-bg:rgba(255,248,220,.92); --rn-hdr-border:rgba(220,190,130,.2); --dp-gap-color:rgba(180,140,40,.62); --dp-gap-focus:rgba(160,120,20,.82); }
+body[data-theme="default"]  { --rn-hdr-bg:rgba(238,230,254,1); --rn-hdr-border:rgba(180,170,220,.18); --dp-gap-color:rgba(110,90,190,.58); --dp-gap-focus:rgba(90,70,170,.82); }
+body[data-theme="tomato"]   { --rn-hdr-bg:rgba(255,230,225,1); --rn-hdr-border:rgba(220,160,140,.2); --dp-gap-color:rgba(200,100,80,.6); --dp-gap-focus:rgba(180,80,60,.82); }
+body[data-theme="cat"]      { --rn-hdr-bg:rgba(255,248,208,1); --rn-hdr-border:rgba(220,190,130,.2); --dp-gap-color:rgba(180,140,40,.62); --dp-gap-focus:rgba(160,120,20,.82); }
 body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:rgba(180,170,220,.18); --dp-gap-color:rgba(100,80,190,.6); --dp-gap-focus:rgba(80,60,170,.82); }
 
 /* ── 주간앱 top-bar ── */
@@ -2475,9 +2474,8 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
 #record-screen .app-header,
 #memo-screen .app-header {
   position: sticky; top: 0; z-index: 50;
-  background: rgba(238,230,255,.92);
-  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
-  border-bottom: 1px solid rgba(180,170,220,.18);
+  background: var(--rn-hdr-bg,rgba(232,226,248,1));
+  border-bottom: 1px solid var(--rn-hdr-border,rgba(180,170,220,.18));
   padding: 8px 16px 8px;
 }
 #record-screen .app-brand,
@@ -2808,6 +2806,11 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
   transform-origin: top left;
   width: 115.0%;                      /* scale로 줄어든 가로폭 보정 (1/0.8696) */
 }
+/* 기록모음(리포트) 화면은 역스케일 해제 → 트래커와 동일하게 경계에 붙음 */
+#daily-app.dp-report-mode{
+  transform: none;
+  width: 100%;
+}
 
 /* 메모 — 선택 탭에 따라 본문(탭 아래 네모 영역)만 배경 변경 (파일 폴더 느낌) */
 #memo-body{ transition:background .4s ease; border-radius:0 0 14px 14px; }
@@ -2836,6 +2839,9 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
 
 /* 퀘스트로그 양식 버튼 — ql 테마색 사용 */
 
+
+/* 빙고 bg-layer를 앱 폭(480px) 안에 가둬 root 좌우 그림자가 보이도록 (body는 그대로) */
+#bingo-screen .bg-layer{position:absolute;left:0;right:0;top:0;bottom:0;inset:auto;}
 
 </style>
 
@@ -3927,13 +3933,13 @@ function rnRenderRptRetro(){
     +'<div class="arc-aff-month">'+mStr+'</div>'
     +'<button class="arc-aff-navbtn" id="rn-rf-next"'+(isCurrentMonth?' disabled style="opacity:.3;"':'')+'>›</button>'
     +'</div>'
-    /* 주간 회고 — 상단 (있을 때만) */
-    +(weekRows?
-      '<div class="arc-aff-section">'+(ko?'📆 주간 회고':'📆 Weekly')+'</div>'
-      +'<div class="arc-aff-note" style="margin-bottom:14px;">'+weekRows+'</div>'
-      :'')
+    /* 주간 회고 — 상단 (항상 표시) */
+    +'<div class="arc-aff-section">'+(ko?'📆 주간 회고':'📆 Weekly')+'</div>'
+    +'<div class="arc-aff-note" style="margin-bottom:14px;">'
+    +(weekRows?weekRows:'<div style="text-align:center;padding:24px 0;color:rgba(120,100,180,.4);font-size:13px;">'+(ko?'이 달의 주간 회고가 없어요 🌙':'No weekly retrospects 🌙')+'</div>')
+    +'</div>'
     /* 날짜별 회고 */
-    +'<div class="arc-aff-section">'+(ko?'💬 날마다의 회고':'💬 Daily Retro')+'</div>'
+    +'<div class="arc-aff-section">'+(ko?'💫 날마다의 회고':'💫 Daily Retro')+'</div>'
     +'<div class="arc-aff-note">'+dayRows+'</div>'
     +'</div>';
 
@@ -5265,6 +5271,7 @@ function dpCalcStreak(allKeys){
 function dpRenderReport(){
   var app=document.getElementById('daily-app');
   if(!app) return;
+  app.classList.add('dp-report-mode');
   var ko=(dpLang()==='ko');
   var activeTab=localStorage.getItem('ymwt_archive_tab')||'calendar';
 
@@ -6276,6 +6283,7 @@ function dpCertAutoSave(){
 function dpRenderCurrent(){
   var curForm=localStorage.getItem('ymwt_dp_form')||'basic';
   var ds=document.getElementById('daily-screen');
+  var _da=document.getElementById('daily-app'); if(_da) _da.classList.remove('dp-report-mode');
   if(curForm==='questlog'){ qlRender(); return; }
   if(curForm==='cert'){ if(ds) ds.setAttribute('data-form','cert'); dpRenderCert(); return; }
   if(ds) ds.setAttribute('data-form','basic');
@@ -13032,10 +13040,10 @@ function applyTheme(name) {
   /* directly update bingo header and key elements */
   var hdr=document.querySelector('#bingo-screen .app-header');
   if(hdr){
-    if(name==='tomato') hdr.style.background='rgba(255,230,225,.92)';
-    else if(name==='cat') hdr.style.background='rgba(255,248,208,.92)';
+    if(name==='tomato') hdr.style.background='rgba(255,235,225,.95)';
+    else if(name==='cat') hdr.style.background='rgba(255,248,208,.95)';
     else if(name==='lemon') hdr.style.background='rgba(230,223,254,1)';
-    else hdr.style.background='rgba(238,230,255,.92)';
+    else hdr.style.background='rgba(238,230,254,1)';
   }
   var savBtn=document.querySelector('#bingo-screen .btn-primary');
   if(savBtn){
