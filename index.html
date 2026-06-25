@@ -276,8 +276,8 @@ html, body {
 }
 
 .petal-icon {
-  width: 52px; height: 52px;
-  border-radius: 15px;
+  width: 47px; height: 47px;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2687,7 +2687,7 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
 .memo-body{
   flex:1;overflow-y:auto;
   max-width:480px;margin:0 auto;width:100%;box-sizing:border-box;
-  padding:14px;
+  padding:5px 14px 14px;
   border-top:1.5px solid rgba(160,140,230,.3);
 }
 
@@ -2697,12 +2697,12 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
   width:100%;min-height:60vh;box-sizing:border-box;
   border:1.5px solid rgba(180,165,230,.25);
   border-radius:12px;
-  padding:10px 16px;
+  padding:0 16px;
   font-size:14px;line-height:28px;color:#2a2240;
   font-family:inherit;resize:none;
-  background:
-    linear-gradient(rgba(255,255,255,.75),rgba(255,255,255,.75)),
-    repeating-linear-gradient(transparent,transparent 27px,rgba(150,125,215,.4) 27px,rgba(150,125,215,.4) 28px);
+  background-color:rgba(255,255,255,.75);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='28'%3E%3Crect x='0' y='27' width='4' height='1' fill='rgba(150,125,215,0.45)'/%3E%3C/svg%3E");
+  background-repeat:repeat;
   background-attachment:local;
   outline:none;
 }
@@ -2710,7 +2710,7 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
 
 /* 그리드 — 4칸 */
 .memo-grid-wrap{}
-.memo-pager{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:12px;}
+.memo-pager{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:5px;}
 .memo-pager-btn{
   width:32px;height:32px;border-radius:50%;
   border:1.5px solid rgba(120,100,200,.2);background:rgba(255,255,255,.8);
@@ -2732,10 +2732,22 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
   min-width:0;overflow:hidden;
 }
 .memo-card-title{
-  width:100%;box-sizing:border-box;border:none;background:transparent;
+  flex:1;min-width:0;box-sizing:border-box;border:none;background:transparent;
   font-size:13px;font-weight:800;color:#2a2240;
   padding:2px 2px;outline:none;font-family:inherit;
 }
+/* 카드 제목 헤더 (제목 + 우측 액션버튼) */
+.memo-card-head{display:flex;align-items:center;gap:2px;width:100%;}
+.memo-card-actions{display:flex;gap:2px;flex-shrink:0;}
+.memo-card-act{
+  width:20px;height:20px;border:none;background:transparent;cursor:pointer;
+  font-size:11px;display:flex;align-items:center;justify-content:center;
+  border-radius:5px;padding:0;opacity:.55;transition:opacity .15s,background .15s;
+  -webkit-tap-highlight-color:transparent;
+}
+.memo-card-act:active{opacity:1;background:rgba(150,125,215,.15);}
+.memo-card-del{color:#c25a6a;}
+.memo-card-archive{color:#7a6fb0;}
 .memo-card-title::placeholder{color:rgba(150,130,200,.5);font-weight:700;}
 .memo-card-divider{
   border-top:1.5px dashed rgba(160,140,220,.4);
@@ -2810,6 +2822,83 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
 
 /* 빙고 bg-layer를 앱 폭(480px) 안에 가둬 root 좌우 그림자가 보이도록 (body는 그대로) */
 #bingo-screen .bg-layer{position:absolute;left:0;right:0;top:0;bottom:0;inset:auto;}
+
+/* 페이저 줄 (페이저 + 보관함 버튼) */
+.memo-pager-row{position:relative;display:flex;align-items:center;justify-content:center;margin-top:2px;margin-bottom:5px;min-height:30px;}
+.memo-pager-row .memo-pager{margin-bottom:0;}
+.memo-pager-row .memo-archive-btn{position:absolute;right:0;top:50%;transform:translateY(-50%);}
+.memo-pager-row .memo-arch-pagetitle{text-align:center;}
+.memo-archive-btn{
+  position:relative;flex-shrink:0;
+  border:1.5px solid rgba(160,140,220,.35);background:rgba(255,255,255,.6);
+  border-radius:9px;padding:5px 9px;font-size:14px;cursor:pointer;
+  color:#6a5fb0;font-weight:700;display:flex;align-items:center;gap:3px;
+  -webkit-tap-highlight-color:transparent;
+}
+.memo-archive-btn:active{background:rgba(150,125,215,.15);}
+.memo-archive-back{font-size:13px;}
+.memo-archive-badge{
+  position:absolute;top:-6px;right:-6px;min-width:16px;height:16px;
+  background:#c25a6a;color:#fff;border-radius:8px;font-size:10px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;padding:0 4px;
+}
+.memo-arch-pagetitle{font-size:13px;font-weight:800;color:#4a3a8a;}
+/* 보관함 리스트 */
+.memo-arch-list{display:flex;flex-direction:column;gap:10px;}
+.memo-arch-empty{text-align:center;padding:40px 0;color:rgba(120,100,180,.45);font-size:14px;}
+.memo-arch-card{
+  background:rgba(255,255,255,.65);border:1.5px solid rgba(160,140,230,.25);
+  border-radius:12px;padding:10px 12px;
+}
+.memo-arch-head{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:6px;}
+.memo-arch-title{font-size:13px;font-weight:800;color:#2a2240;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.memo-arch-actions{display:flex;gap:4px;flex-shrink:0;}
+.memo-arch-act{
+  width:24px;height:24px;border:none;background:rgba(150,125,215,.1);cursor:pointer;
+  font-size:12px;border-radius:6px;display:flex;align-items:center;justify-content:center;padding:0;
+  -webkit-tap-highlight-color:transparent;
+}
+.memo-arch-act:active{opacity:.6;}
+.memo-arch-restore{color:#5a8a5a;}
+.memo-arch-del{color:#c25a6a;}
+.memo-arch-content{font-size:12px;color:#3a2a60;line-height:1.5;}
+.memo-arch-line{padding:1px 0;}
+.memo-arch-body{white-space:pre-wrap;word-break:break-word;}
+
+/* 메모 카드 보관/삭제 애니메이션 */
+@keyframes memoCellArchive{
+  0%{ transform:scale(1); opacity:1; }
+  40%{ transform:scale(1.04); }
+  100%{ transform:scale(.7) translateY(-12px); opacity:0; }
+}
+@keyframes memoCellDelete{
+  0%{ transform:scale(1); opacity:1; }
+  100%{ transform:scale(.8); opacity:0; }
+}
+.memo-cell-archiving{ animation:memoCellArchive .26s cubic-bezier(.4,0,.6,1) forwards; pointer-events:none; }
+.memo-cell-deleting{ animation:memoCellDelete .26s ease forwards; pointer-events:none; }
+
+/* 보관함 2x2 그리드 셀 */
+.memo-arch-cell{position:relative;}
+.memo-arch-empty-cell{background:transparent!important;border:1.5px dashed rgba(160,140,230,.15)!important;box-shadow:none!important;}
+.memo-arch-celltitle{font-size:13px;font-weight:800;color:#2a2240;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.memo-arch-cellbody{flex:1;overflow-y:auto;font-size:12px;color:#3a2a60;line-height:1.5;padding:2px;}
+.memo-arch-restore{color:#5a8a5a;}
+/* 꺼내기 애니메이션 (아래로 빠져나가는 느낌) */
+@keyframes memoCellRestore{
+  0%{ transform:scale(1); opacity:1; }
+  40%{ transform:scale(1.04); }
+  100%{ transform:scale(.7) translateY(12px); opacity:0; }
+}
+.memo-cell-restoring{ animation:memoCellRestore .26s cubic-bezier(.4,0,.6,1) forwards; pointer-events:none; }
+
+/* 보관함 페이저 줄: 제목(좌) + 페이저(중앙 고정) + 뒤로가기(우) */
+.memo-arch-pager-row .memo-arch-pagetitle{
+  position:absolute;left:0;top:50%;transform:translateY(-50%);
+  font-size:13px;font-weight:800;color:#4a3a8a;text-align:left;
+  max-width:38%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.memo-arch-pager-row .memo-pager{margin:0 auto;}
 
 </style>
 
@@ -4155,6 +4244,68 @@ function memoSave(data){
   try{ localStorage.setItem('ymwt_memo_v1', JSON.stringify(data)); }catch(e){}
 }
 
+/* ── 보관함: 탭별 보관 데이터 (data._archive[cat] = [cell,...]) ── */
+function memoArchiveList(cat){
+  var d=memoLoad();
+  if(!d._archive) d._archive={};
+  if(!d._archive[cat]) d._archive[cat]=[];
+  return d._archive[cat];
+}
+/* 확인한 보관 개수 (이 개수 이후 추가분만 배지에 표시) */
+function memoArchiveSeen(cat){
+  var d=memoLoad();
+  if(!d._archiveSeen) d._archiveSeen={};
+  return d._archiveSeen[cat]||0;
+}
+function memoSetArchiveSeen(cat, n){
+  var d=memoLoad();
+  if(!d._archiveSeen) d._archiveSeen={};
+  d._archiveSeen[cat]=n;
+  memoSave(d);
+}
+/* 신규(미확인) 보관 개수 = 전체 - 확인한 개수 */
+function memoArchiveNewCount(cat){
+  var total=memoArchiveList(cat).length;
+  var seen=memoArchiveSeen(cat);
+  return Math.max(0, total-seen);
+}
+/* 특정 카드(idx)를 보관함으로 이동 (원본에서 제거) */
+function memoArchiveCell(cat, idx){
+  var d=memoLoad();
+  if(!d[cat]) return;
+  if(!d._archive) d._archive={};
+  if(!d._archive[cat]) d._archive[cat]=[];
+  var type=memoCatType(cat);
+  var cell=memoNormCell(d[cat][idx], type);
+  /* 빈 카드는 보관 안 함 */
+  var hasContent=(cell.title&&cell.title.trim())||(type==='check'?(cell.items||[]).some(function(it){return (typeof it==='object'?it.text:it||'').trim();}):(cell.body&&cell.body.trim()));
+  if(!hasContent) return false;
+  d._archive[cat].unshift({cell:cell, ts:Date.now()});
+  /* 원본 자리 비우기 (배열에서 제거) */
+  d[cat].splice(idx,1);
+  memoSave(d);
+  return true;
+}
+/* 보관함에서 꺼내기 → 원래 탭 맨 앞에 복원 */
+function memoRestoreCell(cat, archIdx){
+  var d=memoLoad();
+  if(!d._archive||!d._archive[cat]||!d._archive[cat][archIdx]) return;
+  var item=d._archive[cat].splice(archIdx,1)[0];
+  if(!d[cat]) d[cat]=[];
+  d[cat].unshift(item.cell);
+  memoSave(d);
+}
+/* 보관함에서 영구 삭제 */
+function memoArchiveDelete(cat, archIdx){
+  var d=memoLoad();
+  if(!d._archive||!d._archive[cat]) return;
+  d._archive[cat].splice(archIdx,1);
+  memoSave(d);
+}
+/* 보관함 보기 상태 (탭별) */
+var _memoArchiveView=false;
+var _memoArchPage={scribble:0, memory:0, record:0, important:0};
+
 /* 메모 입력 중 마크다운 자동 변환 (불릿 · 체크박스)
    - 줄 시작에서 '* '+공백 → '• '
    - '[] ' 또는 '[ ] '+공백 → '☐ '
@@ -4293,6 +4444,7 @@ function memoBindTabEvents(tab, container){
       dragging=false;
       /* 옮긴 탭을 바로 활성화 → 해당 화면 표시 */
       _memoTab=tab.dataset.memotab;
+      _memoArchiveView=false;
       localStorage.setItem('ymwt_memo_tab',_memoTab);
       renderMemo();
     }
@@ -4317,6 +4469,7 @@ function memoBindTabEvents(tab, container){
     else if(!moved){
       /* 짧게 탭 → 전환 */
       _memoTab=tab.dataset.memotab;
+      _memoArchiveView=false;
       localStorage.setItem('ymwt_memo_tab',_memoTab);
       renderMemo();
     }
@@ -4337,6 +4490,7 @@ function memoBindTabEvents(tab, container){
       if(dragging){ endDrag(); }
       else if(!moved){
         _memoTab=tab.dataset.memotab;
+        _memoArchiveView=false;
         localStorage.setItem('ymwt_memo_tab',_memoTab);
         renderMemo();
       }
@@ -4369,6 +4523,7 @@ function renderMemo(){
     memoBindTabEvents(t, tabsEl);
   });
 
+  if(_memoArchiveView && _memoTab!=='scribble'){ renderMemoArchive(_memoTab); return; }
   if(_memoTab==='scribble') renderMemoScribble();
   else renderMemoGrid(_memoTab);
 }
@@ -4380,7 +4535,7 @@ function renderMemoScribble(){
   var val=(data.scribble!==undefined)?data.scribble:'';
   bodyEl.innerHTML=
     '<div class="memo-scribble-wrap">'
-    +'<textarea class="memo-scribble" id="memo-scribble-ta" placeholder="여기에 자유롭게 끄적여보세요 ✏️"></textarea>'
+    +'<textarea class="memo-scribble" id="memo-scribble-ta" spellcheck="false" placeholder="여기에 자유롭게 끄적여보세요 ✏️"></textarea>'
     +'</div>';
   var ta=document.getElementById('memo-scribble-ta');
   ta.value=val;
@@ -4395,6 +4550,106 @@ function renderMemoScribble(){
 function memoCatType(cat){
   var c=MEMO_CATS.find(function(x){return x.id===cat;});
   return c?c.type:'note';
+}
+
+/* 보관함 페이지 렌더 */
+function renderMemoArchive(cat){
+  var bodyEl=document.getElementById('memo-body');
+  if(!bodyEl) return;
+  var type=memoCatType(cat);
+  var list=memoArchiveList(cat);
+  var catLabel=(MEMO_CATS.find(function(x){return x.id===cat;})||{}).label||'';
+
+  var page=_memoArchPage[cat]||0;
+  var totalPages=Math.max(1, Math.ceil(list.length/4));
+  if(page>totalPages-1){ page=totalPages-1; _memoArchPage[cat]=page; }
+  var start=page*4;
+
+  var cells='';
+  for(var i=0;i<4;i++){
+    var ai=start+i;
+    if(ai>=list.length){
+      cells+='<div class="memo-cell memo-arch-cell memo-arch-empty-cell"></div>';
+      continue;
+    }
+    var item=list[ai];
+    var cell=item.cell||{};
+    var titleTxt=cell.title?escMemo(cell.title):'<span style="opacity:.4;">제목 없음</span>';
+    var preview='';
+    if(type==='check'){
+      var items=(cell.items||[]).filter(function(it){return (typeof it==='object'?it.text:it||'').trim();});
+      preview=items.map(function(it){
+        var t=typeof it==='object'?it.text:it;
+        var done=typeof it==='object'&&it.done;
+        return '<div class="memo-arch-line">'+(done?'☑':'☐')+' '+escMemo(t)+'</div>';
+      }).join('');
+    } else {
+      preview='<div class="memo-arch-body">'+escMemo(cell.body||'').replace(/\n/g,'<br>')+'</div>';
+    }
+    cells+='<div class="memo-cell memo-arch-cell">'
+      +'<div class="memo-card-head">'
+      +'<span class="memo-card-title memo-arch-celltitle">'+titleTxt+'</span>'
+      +'<div class="memo-card-actions">'
+      +'<button class="memo-card-act memo-arch-restore" data-ai="'+ai+'" title="꺼내기">↩</button>'
+      +'<button class="memo-card-act memo-card-del memo-arch-del" data-ai="'+ai+'" title="삭제">✕</button>'
+      +'</div></div>'
+      +'<div class="memo-card-divider"></div>'
+      +'<div class="memo-arch-cellbody">'+preview+'</div>'
+      +'</div>';
+  }
+
+  bodyEl.innerHTML=
+    '<div class="memo-grid-wrap">'
+    +'<div class="memo-pager-row memo-arch-pager-row">'
+    +'<span class="memo-arch-pagetitle">🗃️ #'+escMemo(catLabel)+'</span>'
+    +'<div class="memo-pager">'
+    +'<button class="memo-pager-btn" id="memo-arch-prev"'+(page<=0?' disabled':'')+'>‹</button>'
+    +'<span class="memo-pager-lbl">'+(page+1)+' / '+totalPages+'</span>'
+    +'<button class="memo-pager-btn" id="memo-arch-next"'+(page>=totalPages-1?' disabled':'')+'>›</button>'
+    +'</div>'
+    +'<button class="memo-archive-btn memo-archive-back" id="memo-archive-back" title="뒤로가기">↩️</button>'
+    +'</div>'
+    +(list.length?'':'<div class="memo-arch-empty">보관한 메모가 없어요 🗃️</div>')
+    +'<div class="memo-grid">'+(list.length?cells:'')+'</div>'
+    +'</div>';
+
+  /* 뒤로가기 (토글) — 나갈 때 확인 개수를 현재 전체로 동기화 (배지 0) */
+  document.getElementById('memo-archive-back').onclick=function(){
+    memoSetArchiveSeen(cat, memoArchiveList(cat).length);
+    _memoArchiveView=false;
+    renderMemoGrid(cat);
+  };
+  /* 페이저 */
+  var ap=document.getElementById('memo-arch-prev');
+  if(ap) ap.onclick=function(){ if(page>0){ _memoArchPage[cat]=page-1; renderMemoArchive(cat); } };
+  var an=document.getElementById('memo-arch-next');
+  if(an) an.onclick=function(){ if(page<totalPages-1){ _memoArchPage[cat]=page+1; renderMemoArchive(cat); } };
+  /* 꺼내기 */
+  bodyEl.querySelectorAll('.memo-arch-restore').forEach(function(btn){
+    btn.onclick=function(){
+      var ai=parseInt(this.dataset.ai);
+      var cellEl=this.closest('.memo-cell');
+      if(cellEl){
+        cellEl.classList.add('memo-cell-restoring');
+        setTimeout(function(){ memoRestoreCell(cat, ai); renderMemoArchive(cat); }, 260);
+      } else {
+        memoRestoreCell(cat, ai); renderMemoArchive(cat);
+      }
+    };
+  });
+  /* 영구 삭제 (애니메이션) */
+  bodyEl.querySelectorAll('.memo-arch-del').forEach(function(btn){
+    btn.onclick=function(){
+      var ai=parseInt(this.dataset.ai);
+      var card=this.closest('.memo-cell');
+      if(card){
+        card.classList.add('memo-cell-deleting');
+        setTimeout(function(){ memoArchiveDelete(cat, ai); renderMemoArchive(cat); }, 260);
+      } else {
+        memoArchiveDelete(cat, ai); renderMemoArchive(cat);
+      }
+    };
+  });
 }
 /* 칸 데이터 정규화: 문자열(구버전)→객체 */
 function memoNormCell(cell, type){
@@ -4420,19 +4675,24 @@ function renderMemoGrid(cat){
   for(var i=0;i<4;i++){
     var idx=start+i;
     var cell=memoNormCell(data[cat][idx], type);
-    var titleHtml='<input class="memo-card-title" data-idx="'+idx+'" placeholder="제목" value="'+escMemo(cell.title)+'">';
+    var titleHtml='<div class="memo-card-head">'
+      +'<input class="memo-card-title" data-idx="'+idx+'" spellcheck="false" placeholder="제목" value="'+escMemo(cell.title)+'">'
+      +'<div class="memo-card-actions">'
+      +'<button class="memo-card-act memo-card-archive" data-idx="'+idx+'" title="보관하기">📥</button>'
+      +'<button class="memo-card-act memo-card-del" data-idx="'+idx+'" title="삭제">✕</button>'
+      +'</div></div>';
     var contentHtml='';
     if(type==='check'){
       contentHtml='<div class="memo-check-list" data-idx="'+idx+'">'
         +(cell.items||['']).map(function(it,ii){
           return '<div class="memo-check-row">'
             +'<span class="memo-check-circle'+(it&&it.done?' done':'')+'" data-ii="'+ii+'"></span>'
-            +'<textarea class="memo-check-input" data-ii="'+ii+'" rows="1" placeholder="할 일">'+escMemo(typeof it==='object'?it.text:it)+'</textarea>'
+            +'<textarea class="memo-check-input" data-ii="'+ii+'" rows="1" spellcheck="false" placeholder="할 일">'+escMemo(typeof it==='object'?it.text:it)+'</textarea>'
             +'</div>';
         }).join('')
         +'</div>';
     } else {
-      contentHtml='<textarea class="memo-card-body" data-idx="'+idx+'" placeholder="내용을 적어보세요"></textarea>';
+      contentHtml='<textarea class="memo-card-body" data-idx="'+idx+'" spellcheck="false" placeholder="내용을 적어보세요"></textarea>';
     }
     cells+='<div class="memo-cell">'
       +titleHtml
@@ -4441,12 +4701,16 @@ function renderMemoGrid(cat){
       +'</div>';
   }
 
+  var archCount=memoArchiveNewCount(cat);
   bodyEl.innerHTML=
     '<div class="memo-grid-wrap">'
+    +'<div class="memo-pager-row">'
     +'<div class="memo-pager">'
     +'<button class="memo-pager-btn" id="memo-prev"'+(page<=0?' disabled':'')+'>‹</button>'
     +'<span class="memo-pager-lbl">'+(page+1)+' / '+(page+2)+'</span>'
     +'<button class="memo-pager-btn" id="memo-next">›</button>'
+    +'</div>'
+    +'<button class="memo-archive-btn" id="memo-archive-open" title="보관함">🗃️'+(archCount?'<span class="memo-archive-badge">'+archCount+'</span>':'')+'</button>'
     +'</div>'
     +'<div class="memo-grid">'+cells+'</div>'
     +'</div>';
@@ -4461,6 +4725,53 @@ function renderMemoGrid(cat){
       d[cat][idx].title=this.value; memoSave(d);
     };
   });
+
+  /* 보관 버튼 */
+  bodyEl.querySelectorAll('.memo-card-archive').forEach(function(btn){
+    btn.onclick=function(){
+      var idx=parseInt(this.dataset.idx);
+      var cellEl=this.closest('.memo-cell');
+      /* 보관 가능 여부 미리 확인 (빈 카드면 애니메이션 없이 무시) */
+      var d=memoLoad();
+      var type2=memoCatType(cat);
+      var c=memoNormCell((d[cat]||[])[idx], type2);
+      var hasContent=(c.title&&c.title.trim())||(type2==='check'?(c.items||[]).some(function(it){return (typeof it==='object'?it.text:it||'').trim();}):(c.body&&c.body.trim()));
+      if(!hasContent) return;
+      if(cellEl){
+        cellEl.classList.add('memo-cell-archiving');
+        setTimeout(function(){
+          if(memoArchiveCell(cat, idx)!==false) renderMemoGrid(cat);
+        }, 260);
+      } else {
+        if(memoArchiveCell(cat, idx)!==false) renderMemoGrid(cat);
+      }
+    };
+  });
+  /* 삭제 버튼 */
+  bodyEl.querySelectorAll('.memo-card-del').forEach(function(btn){
+    btn.onclick=function(){
+      var idx=parseInt(this.dataset.idx);
+      var cellEl=this.closest('.memo-cell');
+      var d=memoLoad(); if(!d[cat]) return;
+      if(d[cat][idx]===undefined) return;
+      if(cellEl){
+        cellEl.classList.add('memo-cell-deleting');
+        setTimeout(function(){
+          var dd=memoLoad();
+          if(dd[cat] && dd[cat][idx]!==undefined){ dd[cat].splice(idx,1); memoSave(dd); renderMemoGrid(cat); }
+        }, 260);
+      } else {
+        d[cat].splice(idx,1); memoSave(d); renderMemoGrid(cat);
+      }
+    };
+  });
+  /* 보관함 열기 → 현재 보관 개수를 확인 완료로 기록 (배지 사라짐) */
+  var archOpen=document.getElementById('memo-archive-open');
+  if(archOpen) archOpen.onclick=function(){
+    memoSetArchiveSeen(cat, memoArchiveList(cat).length);
+    _memoArchiveView=true;
+    renderMemoArchive(cat);
+  };
 
   if(type==='check'){
     /* 체크리스트 */
