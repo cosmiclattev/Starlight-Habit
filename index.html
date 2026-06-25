@@ -2,7 +2,7 @@
 <html lang='ko'>
 <head>
 <meta charset='UTF-8'>
-<meta id='app-viewport' name='viewport' content='width=device-width,initial-scale=1.0,viewport-fit=cover'>
+<meta id='app-viewport' name='viewport' content='width=device-width,initial-scale=0.9,viewport-fit=cover'>
 <meta name='theme-color' content='#c8bef5'>
 <title>별빛달빛해빗</title>
 <style>
@@ -2700,13 +2700,20 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
   padding:0 16px;
   font-size:14px;line-height:28px;color:#2a2240;
   font-family:inherit;resize:none;
-  background-color:rgba(255,255,255,.75);
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='28'%3E%3Crect x='0' y='27' width='4' height='1' fill='rgba(150,125,215,0.45)'/%3E%3C/svg%3E");
-  background-repeat:repeat;
-  background-attachment:local;
+  background:transparent;
   outline:none;
+  position:relative;z-index:1;
 }
 .memo-scribble:focus{border-color:rgba(160,140,230,.5);}
+/* 끄적 점선 오버레이 — 입력한 줄 아래에만 점선 */
+.memo-scribble-wrap{position:relative;height:100%;background:rgba(255,255,255,.75);border-radius:12px;overflow:hidden;}
+.memo-scribble-lines{
+  position:absolute;left:0;right:0;top:0;
+  margin:0 16px;   /* textarea 좌우 패딩과 동일 */
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='28'%3E%3Crect x='0' y='27' width='4' height='1' fill='rgba(150,125,215,0.45)'/%3E%3C/svg%3E");
+  background-repeat:repeat;background-size:9px 28px;
+  pointer-events:none;z-index:0;
+}
 
 /* 그리드 — 4칸 */
 .memo-grid-wrap{}
@@ -2879,10 +2886,10 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
 .memo-cell-deleting{ animation:memoCellDelete .26s ease forwards; pointer-events:none; }
 
 /* 보관함 2x2 그리드 셀 */
-.memo-arch-cell{position:relative;}
+.memo-arch-cell{position:relative;height:140px;min-height:140px;max-height:140px;}
 .memo-arch-empty-cell{background:transparent!important;border:1.5px dashed rgba(160,140,230,.15)!important;box-shadow:none!important;}
 .memo-arch-celltitle{font-size:13px;font-weight:800;color:#2a2240;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.memo-arch-cellbody{flex:1;overflow-y:auto;font-size:12px;color:#3a2a60;line-height:1.5;padding:2px;}
+.memo-arch-cellbody{flex:1;min-height:0;overflow-y:auto;font-size:12px;color:#3a2a60;line-height:1.5;padding:2px;}
 .memo-arch-restore{color:#5a8a5a;}
 /* 꺼내기 애니메이션 (아래로 빠져나가는 느낌) */
 @keyframes memoCellRestore{
@@ -2899,6 +2906,14 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
   max-width:38%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
 }
 .memo-arch-pager-row .memo-pager{margin:0 auto;}
+
+/* 플래너 양식 본문만 추가 축소 → 전체 90% × 0.944 ≈ 85% */
+#daily-app:not(.dp-report-mode){
+  transform: scale(0.944);
+  transform-origin: top center;
+  width: 105.9%;          /* scale로 줄어든 폭 보정 (1/0.944) */
+  margin-left: -2.95%;    /* 중앙 정렬 보정 */
+}
 
 </style>
 
@@ -4539,11 +4554,44 @@ function renderMemoScribble(){
     +'</div>';
   var ta=document.getElementById('memo-scribble-ta');
   ta.value=val;
+
+  /* 입력 줄 수만큼만 점선: 점선 전용 오버레이 div를 textarea 뒤에 깔고 높이를 줄 수에 맞춤 */
+  var LINE_H=28;
+  var wrap=ta.parentNode;
+  /* 점선 오버레이 생성 (textarea와 동일 위치, 뒤 레이어) */
+  var lines=document.createElement('div');
+  lines.className='memo-scribble-lines';
+  wrap.insertBefore(lines, ta);
+
+  function updateScribbleLines(){
+    var txt=ta.value;
+    var lineCount;
+    if(txt.length===0){
+      lineCount=0;
+    } else {
+      /* min-height 영향 제거하고 실제 내용 높이 측정 */
+      var prevH=ta.style.height, prevMin=ta.style.minHeight;
+      ta.style.minHeight='0px';
+      ta.style.height='0px';
+      var sh=ta.scrollHeight;
+      ta.style.height=prevH;
+      ta.style.minHeight=prevMin;
+      lineCount=Math.max(1, Math.round(sh/LINE_H));
+    }
+    /* 점선 오버레이 높이 = 줄 수 × 줄높이 (스크롤 위치도 동기화) */
+    lines.style.height=(lineCount*LINE_H)+'px';
+    lines.style.top=(-ta.scrollTop)+'px';
+    lines.style.display=lineCount===0?'none':'block';
+  }
+
   ta.oninput=function(){
     var d=memoLoad(); d.scribble=this.value; memoSave(d);
+    updateScribbleLines();
   };
+  ta.onscroll=function(){ lines.style.top=(-ta.scrollTop)+'px'; };
   memoBindMarkdown(ta);
   if(typeof dpBindEmoji==='function') dpBindEmoji('#memo-scribble-ta');
+  updateScribbleLines();
 }
 
 /* 기억/기록/중요 — 4칸 그리드 + 페이지 이동 */
