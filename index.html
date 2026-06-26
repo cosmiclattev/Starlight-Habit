@@ -2451,8 +2451,7 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
 #record-screen .app-header,
 #memo-screen .app-header {
   position: sticky; top: 0; z-index: 50;
-  background: var(--rn-hdr-bg,rgba(232,226,248,1));
-  border-bottom: 1px solid var(--rn-hdr-border,rgba(180,170,220,.18));
+  background: transparent;
   padding: 8px 16px 8px;
 }
 #record-screen .app-brand,
@@ -2917,6 +2916,20 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
   margin-left: -2.95%;    /* 중앙 정렬 보정 */
 }
 
+/* 홈 배경 별/반짝이 장식 (petal 사이 빈 공간) */
+.home-sparkles{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.home-sparkles .spark{
+  position:absolute;
+  display:flex;align-items:center;justify-content:center;
+  opacity:var(--sp-max,.8);
+  transform:scale(1) rotate(var(--sp-rot,0deg));
+  user-select:none;
+}
+.home-sparkles .spark.emoji{filter:drop-shadow(0 1px 2px rgba(180,160,230,.25));}
+.home-sparkles .spark.white svg{display:block;}
+/* clover-grid는 별보다 위에 */
+.clover-grid{z-index:1;}
+
 </style>
 
   <link rel="manifest" href="/Starlight-Habit/manifest.json">
@@ -2964,6 +2977,7 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
       </div>
     </div>
     <div class='clover-wrap'>
+      <div id='home-sparkles' class='home-sparkles'></div>
       <div id='daily-quote-wrap' style='width:100%;max-width:340px;margin:0 auto 2px'></div>
       <div class='speech-dots'>
         <div class='speech-dot speech-dot-1'></div>
@@ -4922,7 +4936,72 @@ function renderMemoGrid(cat){
 }
 
 
+/* 홈 배경 별/반짝이 랜덤 생성 — petal 사이 빈 공간(좌우 가장자리)에만 */
+function renderHomeSparkles(){
+  var box=document.getElementById('home-sparkles');
+  if(!box) return;
+  box.innerHTML='';
+  var boxRect=box.getBoundingClientRect();
+  var W=box.clientWidth||390, H=box.clientHeight||600;
+  var count=6+Math.floor(Math.random()*7);   /* 6~12개 */
+  var placed=[];
+  /* 실제 petal들의 박스(컨테이너 기준 좌표)를 수집 → 그 영역 회피 */
+  var avoidRects=[];
+  document.querySelectorAll('#home-screen .petal, #home-screen .petal-timely-wrap').forEach(function(p){
+    var r=p.getBoundingClientRect();
+    /* petal은 타원형이라 사각 박스보다 살짝 안쪽까지가 실제 영역. 마진 약간 추가해 확실히 회피 */
+    avoidRects.push({l:r.left-boxRect.left+4, t:r.top-boxRect.top+4, r:r.right-boxRect.left-4, b:r.bottom-boxRect.top-4});
+  });
+  function inAvoid(x,y){
+    var pad=16;  /* 별 반경 여유 */
+    for(var i=0;i<avoidRects.length;i++){
+      var a=avoidRects[i];
+      if(x>=a.l-pad&&x<=a.r+pad&&y>=a.t-pad&&y<=a.b+pad) return true;
+    }
+    return false;
+  }
+  function overlaps(x,y){
+    for(var i=0;i<placed.length;i++){
+      var dx=x-placed[i].x, dy=y-placed[i].y;
+      if(dx*dx+dy*dy < 48*48) return true;
+    }
+    return false;
+  }
+  function randomSpot(){
+    return {x:6+Math.random()*(W-12), y:14+Math.random()*(H-34)};
+  }
+  for(var i=0;i<count;i++){
+    var spot=null;
+    for(var tries=0;tries<30;tries++){
+      var s=randomSpot();
+      if(!inAvoid(s.x,s.y) && !overlaps(s.x,s.y)){ spot=s; break; }
+    }
+    if(!spot) continue;
+    placed.push(spot);
+    var el=document.createElement('div');
+    el.className='spark';
+    var size=12+Math.random()*16;            /* 12~28px */
+    var dur=(2.2+Math.random()*2.8).toFixed(2);   /* 2.2~5s */
+    var delay=(Math.random()*3).toFixed(2);
+    var rot=(Math.random()*40-20).toFixed(0);
+    var maxOp=(0.55+Math.random()*0.4).toFixed(2);
+    el.style.left=spot.x+'px';
+    el.style.top=spot.y+'px';
+    el.style.setProperty('--sp-dur',dur+'s');
+    el.style.setProperty('--sp-delay',delay+'s');
+    el.style.setProperty('--sp-rot',rot+'deg');
+    el.style.setProperty('--sp-max',maxOp);
+    /* 전부 흰색 별 아이콘 */
+    el.classList.add('white');
+    var ws=size*1.15;
+    el.innerHTML='<svg width="'+ws.toFixed(0)+'" height="'+ws.toFixed(0)+'" viewBox="0 0 24 24" fill="none"><path d="M12 0 L14 10 L24 12 L14 14 L12 24 L10 14 L0 12 L10 10 Z" fill="rgba(255,255,255,0.95)"/></svg>';
+    box.appendChild(el);
+  }
+}
+
 function homeNavShow(tabId){
+  /* 홈 계열 화면(홈/기록/메모)은 항상 default 테마 — 이전 앱 테마색 잔존 방지 */
+  document.body.dataset.theme='default';
   var nav=document.getElementById('home-nav');
   if(nav) nav.style.display='flex';
   /* 마지막 탭 기억 */
@@ -4939,6 +5018,8 @@ function homeNavShow(tabId){
   /* 홈은 flex가 아닌 block */
   if(tabId==='home'){
     target.style.display='block';
+    /* 홈 열 때마다 별 장식 새로 생성 (위치·개수 랜덤) */
+    requestAnimationFrame(function(){ renderHomeSparkles(); });
   }
   if(tabId==='memo'){ renderMemo(); }
   requestAnimationFrame(function(){ homeNavSyncPill(tabId); });
@@ -6883,8 +6964,8 @@ function dpTab(tab){
   localStorage.setItem('ymwt_dp_lastTab',tab);
   var ko=(dpLang()==='ko');
   var TITLES={
-    planner: ['✨ 데일리 플래너', '오늘 하루를 계획하고 완료해나가요!'],
-    report:  ['📊 플래너 리포트', '나의 플래너 기록을 확인해보세요.'],
+    planner: ['✨ 데일리 플래너', '오늘 하루을 완료해나가요!'],
+    report:  ['📊 플래너 리포트', '플래너 기록을 돌아보자!'],
     settings:['⚙️ 설정', '테마, 언어 설정을 바꾸어 보아요.']
   };
   var t=TITLES[tab];
@@ -12882,7 +12963,7 @@ function movePill(viewId){
 }
 
 /* ── VIEW SWITCHING ── */
-var LUMI_TITLES={timer:['🍅 뽀모도로 타이머','집중해서 토마토를 모아보자.'],report:['🌳 토마토 수확 리포트','내가 모은 토마토 개수를 확인해 보세요!'],settings:['🌱 설정','테마, 타이머 설정을 바꾸어 보아요.']};
+var LUMI_TITLES={timer:['🍅 뽀모도로 타이머','집중해서 토마토를 모아보자.'],report:['🌳 토마토 수확 리포트','토마토 수확량을 확인해보자!'],settings:['🌱 설정','테마, 타이머 설정을 바꾸어 보아요.']};
 function switchView(v){
   window._lumiLastView=v; /* 현재 뷰 저장 */
   document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
