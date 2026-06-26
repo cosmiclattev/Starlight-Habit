@@ -2705,7 +2705,7 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
 }
 .memo-scribble:focus{border-color:rgba(160,140,230,.5);}
 /* 끄적 점선 오버레이 — 입력한 줄 아래에만 점선 */
-.memo-scribble-wrap{position:relative;height:100%;background:rgba(255,255,255,.75);border-radius:12px;overflow:hidden;}
+.memo-scribble-wrap{position:relative;height:100%;background:rgba(255,255,255,.45);border-radius:12px;overflow:hidden;}
 .memo-scribble-lines{
   position:absolute;left:0;right:0;top:0;
   margin:0 16px;   /* textarea 좌우 패딩과 동일 */
@@ -3056,6 +3056,7 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
 
   <!-- 데이터베이스 화면 -->
   <div id="record-screen">
+    <div id="record-sparkles" class="home-sparkles screen-sparkles"></div>
     <header class="app-header" style="padding:8px 16px 8px;">
       <div style="display:flex;align-items:center;justify-content:space-between;">
         <div>
@@ -3081,6 +3082,7 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
 
   <!-- 메모 화면 -->
   <div id="memo-screen">
+    <div id="memo-sparkles" class="home-sparkles screen-sparkles"></div>
     <header class="app-header" style="padding:8px 16px 8px;">
       <div style="display:flex;align-items:center;justify-content:space-between;">
         <div>
@@ -4478,6 +4480,7 @@ function memoBindTabEvents(tab, container){
       _memoArchiveView=false;
       localStorage.setItem('ymwt_memo_tab',_memoTab);
       renderMemo();
+      memoReshuffleSparkles();
     }
     clearTimeout(pressTimer);
   }
@@ -4503,6 +4506,7 @@ function memoBindTabEvents(tab, container){
       _memoArchiveView=false;
       localStorage.setItem('ymwt_memo_tab',_memoTab);
       renderMemo();
+      memoReshuffleSparkles();
     }
   });
 
@@ -4524,6 +4528,7 @@ function memoBindTabEvents(tab, container){
         _memoArchiveView=false;
         localStorage.setItem('ymwt_memo_tab',_memoTab);
         renderMemo();
+        memoReshuffleSparkles();
       }
     }
     document.addEventListener('mousemove',mm);
@@ -4665,7 +4670,7 @@ function renderMemoArchive(cat){
   bodyEl.innerHTML=
     '<div class="memo-grid-wrap">'
     +'<div class="memo-pager-row memo-arch-pager-row">'
-    +'<span class="memo-arch-pagetitle">🗃️ #'+escMemo(catLabel)+'</span>'
+    +'<span class="memo-arch-pagetitle">🗃️ #'+escMemo(catLabel)+'보관함</span>'
     +'<div class="memo-pager">'
     +'<button class="memo-pager-btn" id="memo-arch-prev"'+(page<=0?' disabled':'')+'>‹</button>'
     +'<span class="memo-pager-lbl">'+(page+1)+' / '+totalPages+'</span>'
@@ -4999,6 +5004,53 @@ function renderHomeSparkles(){
   }
 }
 
+/* 기록/메모 화면 별 — 세션 동안 고정 (한 번 생성 후 캐시, 리로드 시에만 새로) */
+var _screenSparkleCache={};
+function renderScreenSparkles(boxId){
+  var box=document.getElementById(boxId);
+  if(!box) return;
+  /* 이미 이 세션에서 생성했으면 캐시된 HTML 재사용 (위치 고정) */
+  if(_screenSparkleCache[boxId]!==undefined){
+    box.innerHTML=_screenSparkleCache[boxId];
+    return;
+  }
+  var W=box.clientWidth||390, H=box.clientHeight||600;
+  var count=7+Math.floor(Math.random()*6);   /* 7~12개 */
+  var placed=[];
+  function overlaps(x,y){
+    for(var i=0;i<placed.length;i++){
+      var dx=x-placed[i].x, dy=y-placed[i].y;
+      if(dx*dx+dy*dy < 60*60) return true;
+    }
+    return false;
+  }
+  var html='';
+  for(var i=0;i<count;i++){
+    var spot=null;
+    for(var tries=0;tries<30;tries++){
+      var s={x:8+Math.random()*(W-16), y:70+Math.random()*(H-110)};  /* 헤더 아래부터 */
+      if(!overlaps(s.x,s.y)){ spot=s; break; }
+    }
+    if(!spot) continue;
+    placed.push(spot);
+    var size=12+Math.random()*16;
+    var rot=(Math.random()*40-20).toFixed(0);
+    var maxOp=(0.5+Math.random()*0.4).toFixed(2);
+    var ws=(size*1.15).toFixed(0);
+    html+='<div class="spark white" style="left:'+spot.x.toFixed(0)+'px;top:'+spot.y.toFixed(0)+'px;--sp-rot:'+rot+'deg;--sp-max:'+maxOp+';">'
+      +'<svg width="'+ws+'" height="'+ws+'" viewBox="0 0 24 24" fill="none"><path d="M12 0 L14 10 L24 12 L14 14 L12 24 L10 14 L0 12 L10 10 Z" fill="rgba(255,255,255,0.95)"/></svg>'
+      +'</div>';
+  }
+  _screenSparkleCache[boxId]=html;   /* 세션 캐시 */
+  box.innerHTML=html;
+}
+
+/* 메모 탭 전환 시 별 위치 새로 섞기 (캐시 비우고 재생성) */
+function memoReshuffleSparkles(){
+  delete _screenSparkleCache['memo-sparkles'];
+  renderScreenSparkles('memo-sparkles');
+}
+
 function homeNavShow(tabId){
   /* 홈 계열 화면(홈/기록/메모)은 항상 default 테마 — 이전 앱 테마색 잔존 방지 */
   document.body.dataset.theme='default';
@@ -5021,7 +5073,13 @@ function homeNavShow(tabId){
     /* 홈 열 때마다 별 장식 새로 생성 (위치·개수 랜덤) */
     requestAnimationFrame(function(){ renderHomeSparkles(); });
   }
-  if(tabId==='memo'){ renderMemo(); }
+  if(tabId==='memo'){
+    renderMemo();
+    requestAnimationFrame(function(){ renderScreenSparkles('memo-sparkles'); });
+  }
+  if(tabId==='record'){
+    requestAnimationFrame(function(){ renderScreenSparkles('record-sparkles'); });
+  }
   requestAnimationFrame(function(){ homeNavSyncPill(tabId); });
 }
 function homeNavHide(){
