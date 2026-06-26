@@ -7,7 +7,7 @@
 <title>별빛달빛해빗</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%;}
-html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif;overscroll-behavior:none;overflow:hidden;background:#e8e2f8;}
+html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',system-ui,'Segoe UI',Roboto,sans-serif;overscroll-behavior:none;overflow:hidden;background:#e8e2f8;}
 #root{max-width:480px;margin:0 auto;height:100%;position:relative;overflow:hidden;box-shadow:0 0 40px rgba(80,60,160,.12);}
 #home-screen{display:flex;flex-direction:column;height:100%;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;}
 #lumi-screen{display:none;height:100%;}
@@ -50,7 +50,7 @@ html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif;overscroll-beh
 #routine-screen .card-lav{background:var(--grad-hi)!important;border-color:transparent;}
 #routine-screen .card-grn{background:var(--grad-s)!important;border-color:transparent;}
 
-@import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Nanum+Gothic:wght@400;700;800&display=swap');
+/* 웹폰트 제거 — 시스템 폰트 사용 (폰트 섞임/로딩 깜빡임 방지) */
 
 :root {
   --mint:     #2ecc8a;
@@ -79,7 +79,7 @@ html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif;overscroll-beh
 
 html, body {
   height: 100%;
-  font-family: 'Nanum Gothic', 'Gowun Dodum', sans-serif;
+  font-family: -apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',system-ui,'Segoe UI',Roboto,sans-serif;
   color: var(--text);
   background: linear-gradient(160deg,#ede0ff 0%,#d8e8ff 50%,#c8e0ff 100%);
   background-attachment: fixed;
@@ -2787,6 +2787,8 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
   white-space:nowrap;
 }
 .memo-check-input::placeholder{color:rgba(150,130,200,.4);}
+/* 체크 완료 항목 자동 취소선 */
+.memo-check-row.done .memo-check-input{text-decoration:line-through;color:rgba(120,100,170,.55);}
 
 /* 트래커 회고 모음 — arc-aff 레이아웃 안에서 여러 줄 항목 */
 #rn-rpt-body .arc-aff-line{align-items:flex-start;}
@@ -4733,7 +4735,7 @@ function renderMemoGrid(cat){
     if(type==='check'){
       contentHtml='<div class="memo-check-list" data-idx="'+idx+'">'
         +(cell.items||['']).map(function(it,ii){
-          return '<div class="memo-check-row">'
+          return '<div class="memo-check-row'+(it&&it.done?' done':'')+'">'
             +'<span class="memo-check-circle'+(it&&it.done?' done':'')+'" data-ii="'+ii+'"></span>'
             +'<textarea class="memo-check-input" data-ii="'+ii+'" rows="1" spellcheck="false" placeholder="할 일">'+escMemo(typeof it==='object'?it.text:it)+'</textarea>'
             +'</div>';
