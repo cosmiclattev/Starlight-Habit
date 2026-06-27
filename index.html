@@ -2,7 +2,7 @@
 <html lang='ko'>
 <head>
 <meta charset='UTF-8'>
-<meta id='app-viewport' name='viewport' content='width=device-width,initial-scale=0.9,viewport-fit=cover'>
+<meta id='app-viewport' name='viewport' content='width=device-width,initial-scale=1.0,viewport-fit=cover'>
 <meta name='theme-color' content='#c8bef5'>
 <title>별빛달빛해빗</title>
 <style>
@@ -139,11 +139,19 @@ html, body {
 .clover-wrap {
   flex: 1;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 0 16px 16px;
   position: relative;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  min-height: 0;
 }
+/* 콘텐츠를 묶어 center 기준을 안정화 (화면 높이 변동에도 흔들림 방지) */
+.clover-wrap > .clover-grid,
+.clover-wrap > #daily-quote-wrap,
+.clover-wrap > .speech-dots{ flex-shrink: 0; }
 
 .clover-grid {
   display: grid;
@@ -2423,7 +2431,7 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
 .home-nav-label{font-size:10px;font-weight:700;}
 
 /* 기록·메모 전용 화면 */
-#record-screen,#memo-screen{
+#record-screen,#memo-screen,#settings-screen{
   display:none;
   position:absolute;inset:0;
   width:100%;
@@ -2449,19 +2457,22 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
 
 /* ── DB/메모 화면 헤더 — 빙고와 동일 스타일 ── */
 #record-screen .app-header,
-#memo-screen .app-header {
+#memo-screen .app-header,
+#settings-screen .app-header {
   position: sticky; top: 0; z-index: 50;
   background: transparent;
   padding: 8px 16px 8px;
 }
 #record-screen .app-brand,
-#memo-screen .app-brand {
+#memo-screen .app-brand,
+#settings-screen .app-brand {
   font-size: 15px; font-weight: 800;
   color: #6a5fb0; white-space: nowrap;
   letter-spacing: -0.02em;
 }
 #record-screen .app-sub,
-#memo-screen .app-sub {
+#memo-screen .app-sub,
+#settings-screen .app-sub {
   font-size: 11px; font-weight: 600;
   color: rgba(120,100,180,.7);
   margin-top: 1px; white-space: nowrap;
@@ -2918,6 +2929,8 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
 
 /* 홈 배경 별/반짝이 장식 (petal 사이 빈 공간) */
 .home-sparkles{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+/* clover-wrap 내 sparkles는 flex 흐름에서 완전히 제외 (center 정렬 안정화) */
+.clover-wrap > .home-sparkles{position:absolute;}
 .home-sparkles .spark{
   position:absolute;
   display:flex;align-items:center;justify-content:center;
@@ -2929,6 +2942,42 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
 .home-sparkles .spark.white svg{display:block;}
 /* clover-grid는 별보다 위에 */
 .clover-grid{z-index:1;}
+
+/* 설정 화면 */
+.settings-body{
+  flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  max-width:480px;margin:0 auto;width:100%;box-sizing:border-box;
+  padding:16px 16px 90px;position:relative;z-index:1;
+}
+.set-section{
+  background:rgba(255,255,255,.6);border:1.5px solid rgba(160,140,230,.25);
+  border-radius:14px;padding:16px;margin-bottom:14px;
+}
+.set-section-title{font-size:14px;font-weight:800;color:#4a3a8a;margin-bottom:4px;display:flex;align-items:center;gap:6px;}
+.set-section-desc{font-size:11.5px;color:rgba(110,90,170,.75);margin-bottom:14px;line-height:1.5;}
+.set-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;}
+.set-row:last-child{margin-bottom:0;}
+.set-btn{
+  border:1.5px solid rgba(160,140,230,.4);background:rgba(255,255,255,.8);
+  border-radius:10px;padding:10px 16px;font-size:13px;font-weight:700;color:#5a4a9a;
+  cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent;
+  transition:background .15s;flex:1;
+}
+.set-btn:active{background:rgba(150,125,215,.18);}
+.set-btn.primary{background:linear-gradient(135deg,#a890e8,#8b6fd0);color:#fff;border:none;}
+.set-size-display{font-size:13px;font-weight:800;color:#4a3a8a;min-width:54px;text-align:center;}
+.set-size-btn{
+  width:40px;height:40px;border-radius:10px;border:1.5px solid rgba(160,140,230,.4);
+  background:rgba(255,255,255,.8);font-size:20px;font-weight:800;color:#5a4a9a;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;
+}
+.set-size-btn:active{background:rgba(150,125,215,.18);}
+
+/* petal 콘텐츠 묶음 — center 정렬 기준 고정 (화면 높이 변동에도 안 흔들림) */
+.clover-inner{
+  display:flex;flex-direction:column;align-items:center;
+  width:100%;flex-shrink:0;position:relative;z-index:1;
+}
 
 </style>
 
@@ -2978,6 +3027,7 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
     </div>
     <div class='clover-wrap'>
       <div id='home-sparkles' class='home-sparkles'></div>
+      <div class='clover-inner'>
       <div id='daily-quote-wrap' style='width:100%;max-width:340px;margin:0 auto 2px'></div>
       <div class='speech-dots'>
         <div class='speech-dot speech-dot-1'></div>
@@ -3036,6 +3086,7 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
         <div class='pt-name'>Timely</div>
         <div class='pt-desc'>집중하고<br>토마토를 모아요</div>
       </div>
+    </div>
     </div>
     </div>
 
@@ -3105,20 +3156,42 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
     <div class="memo-body" id="memo-body"></div>
   </div>
 
+  <!-- 설정 화면 -->
+  <div id="settings-screen">
+    <div id="settings-sparkles" class="home-sparkles screen-sparkles"></div>
+    <header class="app-header" style="padding:8px 16px 8px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div>
+          <span class="app-brand">⚙️ 설정</span>
+          <div class="app-sub">앱을 내 취향에 맞게 조정해요</div>
+        </div>
+        <div class="app-switcher app-sw-bar"><button class="app-sw-collapse" title="접기/펼치기">&#8250;</button>
+      <button class='app-sw-btn active-app' data-label='Home'>🏠</button>
+      <button class='app-sw-btn' data-label='Yearly' onclick="showWip('Y','Yearly','연간 만다라트','☀️ 곧 오픈 예정이에요!')">☀️</button>
+      <button class='app-sw-btn' data-label='Monthly' onclick='goMonthly()'>🌙</button>
+      <button class='app-sw-btn' data-label='W/D' onclick='goRoutine()'>⭐</button>
+      <button class='app-sw-btn' data-label='Daily' onclick='goDaily()'>✨</button>
+      <button class='app-sw-btn' data-label='Timely' onclick='goTimely()'>🍅</button>
+    </div>
+      </div>
+    </header>
+    <div class="settings-body" id="settings-body"></div>
+  </div>
+
   <!-- 홈 하단 네비게이션 -->
   <nav id="home-nav" style="display:none;">
     <div class="home-nav-pill" id="home-nav-pill"></div>
-    <button class="home-nav-btn" id="hnav-record" data-htab="record">
-      <span class="hni">📂</span>
-      <span class="home-nav-label">기록 모음</span>
+    <button class="home-nav-btn" id="hnav-memo" data-htab="memo">
+      <span class="hni">📝</span>
+      <span class="home-nav-label">메모</span>
     </button>
     <button class="home-nav-btn active" id="hnav-home" data-htab="home">
       <span class="hni">🏠</span>
       <span class="home-nav-label">홈</span>
     </button>
-    <button class="home-nav-btn" id="hnav-memo" data-htab="memo">
-      <span class="hni">📝</span>
-      <span class="home-nav-label">메모</span>
+    <button class="home-nav-btn" id="hnav-settings" data-htab="settings">
+      <span class="hni">⚙️</span>
+      <span class="home-nav-label">설정</span>
     </button>
   </nav>
 
@@ -3619,12 +3692,12 @@ function goTimely(){
   window._curApp='lumi';
   var _t=localStorage.getItem('lf_theme_lumi')||'tomato';
   document.body.dataset.theme=_t; applyTheme(_t);
-  localStorage.setItem('ymwt_lastApp','timely');homeNavHide();closeWip();['home-screen','bingo-screen','routine-screen','daily-screen'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none';});var rsf=document.getElementById('routine-sw-fixed');if(rsf)rsf.style.display='none';var bsf=document.getElementById('bingo-sw-fixed');if(bsf)bsf.style.display='none';var _dn2=document.getElementById('daily-nav');if(_dn2)_dn2.style.display='none';var _dt2=document.getElementById('daily-top-bar');if(_dt2)_dt2.style.display='none';document.getElementById('lumi-screen').style.display='block';document.body.dataset.screen='lumi';var _th=document.body.dataset.theme;/* bg handled by applyTheme - removed override */document.body.style.backgroundAttachment='fixed';if(!window._lumiInited){window._lumiInited=true;init();}else{var _lv=window._lumiLastView||'timer';renderTimerUI();switchView(_lv);}}
+  localStorage.setItem('ymwt_lastApp','timely');homeNavHide();closeWip();['home-screen','bingo-screen','routine-screen','daily-screen','memo-screen','record-screen','settings-screen'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none';});var rsf=document.getElementById('routine-sw-fixed');if(rsf)rsf.style.display='none';var bsf=document.getElementById('bingo-sw-fixed');if(bsf)bsf.style.display='none';var _dn2=document.getElementById('daily-nav');if(_dn2)_dn2.style.display='none';var _dt2=document.getElementById('daily-top-bar');if(_dt2)_dt2.style.display='none';document.getElementById('lumi-screen').style.display='block';document.body.dataset.screen='lumi';var _th=document.body.dataset.theme;/* bg handled by applyTheme - removed override */document.body.style.backgroundAttachment='fixed';if(!window._lumiInited){window._lumiInited=true;init();}else{var _lv=window._lumiLastView||'timer';renderTimerUI();switchView(_lv);}}
 function goMonthly(){
   window._curApp='bingo';
   var _t=localStorage.getItem('lf_theme_bingo')||'default'; /* 빙고 기본: 라벤더 */
   document.body.dataset.theme=_t; applyTheme(_t);
-  localStorage.setItem('ymwt_lastApp','monthly');homeNavHide();closeWip();['home-screen','lumi-screen','routine-screen','daily-screen'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none';});var rsf=document.getElementById('routine-sw-fixed');if(rsf)rsf.style.display='none';var lasf=document.querySelector('.lumi-app-sw-fixed');if(lasf)lasf.style.display='none';var bsf=document.getElementById('bingo-sw-fixed');if(bsf)bsf.style.display='none';var _dn3=document.getElementById('daily-nav');if(_dn3)_dn3.style.display='none';var _dt3=document.getElementById('daily-top-bar');if(_dt3)_dt3.style.display='none';document.getElementById('bingo-screen').style.display='block';var bn=document.getElementById('bingo-nav');if(bn)bn.style.display='flex';var _bt=localStorage.getItem('lf_theme')||'default';if(typeof applyTheme==='function')applyTheme(_bt);document.body.dataset.screen='bingo';(function(){var t=localStorage.getItem('lf_theme');var bgV=t==='tomato'?'linear-gradient(160deg,#ffe6e4 0%,#e8f8f0 50%,#ccf0e4 100%)':t==='cat'?'linear-gradient(160deg,#fff8d0 0%,#ffe8f0 50%,#ffd6e8 100%)':'linear-gradient(160deg,#ede0ff 0%,#d8e8ff 50%,#c8e0ff 100%)';document.body.style.background=bgV;document.body.style.backgroundAttachment='fixed';})();document.querySelectorAll('#bingo-screen .tab-content').forEach(function(t){t.style.display='';});requestAnimationFrame(function(){var lastTab=window._bingoLastTab||localStorage.getItem('ymwt_bingo_lastTab')||'view';if(window._bingoSwitchTab){window._bingoSwitchTab(lastTab);}setTimeout(function(){if(window._bingoSyncNav)window._bingoSyncNav(lastTab);},80);});}
+  localStorage.setItem('ymwt_lastApp','monthly');homeNavHide();closeWip();['home-screen','lumi-screen','routine-screen','daily-screen','memo-screen','record-screen','settings-screen'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none';});var rsf=document.getElementById('routine-sw-fixed');if(rsf)rsf.style.display='none';var lasf=document.querySelector('.lumi-app-sw-fixed');if(lasf)lasf.style.display='none';var bsf=document.getElementById('bingo-sw-fixed');if(bsf)bsf.style.display='none';var _dn3=document.getElementById('daily-nav');if(_dn3)_dn3.style.display='none';var _dt3=document.getElementById('daily-top-bar');if(_dt3)_dt3.style.display='none';document.getElementById('bingo-screen').style.display='block';var bn=document.getElementById('bingo-nav');if(bn)bn.style.display='flex';var _bt=localStorage.getItem('lf_theme')||'default';if(typeof applyTheme==='function')applyTheme(_bt);document.body.dataset.screen='bingo';(function(){var t=localStorage.getItem('lf_theme');var bgV=t==='tomato'?'linear-gradient(160deg,#ffe6e4 0%,#e8f8f0 50%,#ccf0e4 100%)':t==='cat'?'linear-gradient(160deg,#fff8d0 0%,#ffe8f0 50%,#ffd6e8 100%)':'linear-gradient(160deg,#ede0ff 0%,#d8e8ff 50%,#c8e0ff 100%)';document.body.style.background=bgV;document.body.style.backgroundAttachment='fixed';})();document.querySelectorAll('#bingo-screen .tab-content').forEach(function(t){t.style.display='';});requestAnimationFrame(function(){var lastTab=window._bingoLastTab||localStorage.getItem('ymwt_bingo_lastTab')||'view';if(window._bingoSwitchTab){window._bingoSwitchTab(lastTab);}setTimeout(function(){if(window._bingoSyncNav)window._bingoSyncNav(lastTab);},80);});}
 
 function applyLangSetting(lang){
   localStorage.setItem('ymwt_lang', lang);
@@ -4154,7 +4227,7 @@ function goRoutine(){
   var _rnav=document.getElementById('routine-nav');if(_rnav){_rnav.style.display='flex';}
   rnTab(_savedRnTab);
   requestAnimationFrame(function(){rnSyncPill(_savedRnTab);});
-  var _rtb=document.getElementById('routine-top-bar');if(_rtb)_rtb.style.display='flex';localStorage.setItem('ymwt_lastRoutineSub','cal');homeNavHide();closeWip();['home-screen','lumi-screen','bingo-screen','daily-screen'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none';});var _dn=document.getElementById('daily-nav');if(_dn)_dn.style.display='none';var _dt=document.getElementById('daily-top-bar');if(_dt)_dt.style.display='none';document.getElementById('routine-screen').style.display='flex';document.body.dataset.screen='routine';document.body.style.backgroundAttachment='fixed';if(_savedRnTab==='calendar' && typeof window._routineRender==='function')window._routineRender();}
+  var _rtb=document.getElementById('routine-top-bar');if(_rtb)_rtb.style.display='flex';localStorage.setItem('ymwt_lastRoutineSub','cal');homeNavHide();closeWip();['home-screen','lumi-screen','bingo-screen','daily-screen','memo-screen','record-screen','settings-screen'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none';});var _dn=document.getElementById('daily-nav');if(_dn)_dn.style.display='none';var _dt=document.getElementById('daily-top-bar');if(_dt)_dt.style.display='none';document.getElementById('routine-screen').style.display='flex';document.body.dataset.screen='routine';document.body.style.backgroundAttachment='fixed';if(_savedRnTab==='calendar' && typeof window._routineRender==='function')window._routineRender();}
 function goHomeFromLumi(){closeWip();clearTick();document.getElementById('lumi-screen').style.display='none';goHome();}
 function goHomeFromBingo(){document.getElementById('bingo-nav').style.display='none';closeWip();document.getElementById('bingo-screen').style.display='none';var bsf=document.getElementById('bingo-sw-fixed');if(bsf)bsf.style.display='none';goHome();}
 function goHomeFromRoutine(){closeWip();document.getElementById('routine-screen').style.display='none';document.getElementById('routine-sw-fixed').style.display='none';goHome();}
@@ -4788,6 +4861,8 @@ function renderMemoGrid(cat){
   bodyEl.querySelectorAll('.memo-card-title').forEach(function(inp){
     var idx=parseInt(inp.dataset.idx);
     inp.oninput=function(){
+      /* :code: 텍스트 이모지 변환 (제목은 단일 input이라 Enter 충돌 없음) */
+      if(typeof dpEmojiConvert==='function') dpEmojiConvert(this);
       var d=memoLoad(); if(!d[cat]) d[cat]=[];
       while(d[cat].length<=idx) d[cat].push(null);
       d[cat][idx]=memoNormCell(d[cat][idx], type);
@@ -5051,6 +5126,105 @@ function memoReshuffleSparkles(){
   renderScreenSparkles('memo-sparkles');
 }
 
+/* 앱 전체 줌 적용 (크롬 줌처럼 콘텐츠 확대/축소) */
+function applyAppZoom(scale){
+  var root=document.getElementById('root');
+  if(!root) return;
+  /* zoom 지원 브라우저(크롬 등)는 zoom 사용 — 레이아웃 재계산되어 가장 자연스러움 */
+  if('zoom' in document.body.style || true){
+    root.style.zoom=scale;
+  }
+}
+
+/* ── 설정 화면 (홈 하단 네비) ── */
+function renderHomeSettings(){
+  var body=document.getElementById('settings-body');
+  if(!body) return;
+  var curScale=Math.round((parseFloat(localStorage.getItem('ymwt_app_scale_zoom'))||1.0)*100);
+  body.innerHTML=
+    '<div class="set-section">'
+    +'<div class="set-section-title">📐 화면 크기</div>'
+    +'<div class="set-section-desc">앱 전체 화면 크기를 조정해요. 글씨가 작거나 크게 느껴지면 바꿔보세요.</div>'
+    +'<div class="set-row" style="justify-content:center;gap:16px;">'
+    +'<button class="set-size-btn" id="set-size-minus">−</button>'
+    +'<span class="set-size-display" id="set-size-val">'+curScale+'%</span>'
+    +'<button class="set-size-btn" id="set-size-plus">+</button>'
+    +'</div>'
+    +'<div class="set-row" style="margin-top:10px;">'
+    +'<button class="set-btn" id="set-size-reset">기본값(100%)으로</button>'
+    +'</div>'
+    +'</div>'
+    +'<div class="set-section">'
+    +'<div class="set-section-title">💾 데이터 백업</div>'
+    +'<div class="set-section-desc">모든 메모·기록·플래너 데이터를 파일로 저장하거나 불러와요. 기기를 바꾸거나 만약을 대비해 백업해두세요.</div>'
+    +'<div class="set-row">'
+    +'<button class="set-btn primary" id="set-export">📤 내보내기</button>'
+    +'<button class="set-btn" id="set-import">📥 불러오기</button>'
+    +'</div>'
+    +'<input type="file" id="set-import-file" accept="application/json,.json" style="display:none;">'
+    +'</div>';
+
+  /* 화면 크기 조정 — 크롬 줌처럼 zoom으로 콘텐츠 전체 확대/축소 */
+  function applyScale(pct){
+    pct=Math.max(70, Math.min(130, pct));
+    localStorage.setItem('ymwt_app_scale_zoom', (pct/100).toFixed(3));
+    applyAppZoom(pct/100);
+    var disp=document.getElementById('set-size-val'); if(disp) disp.textContent=pct+'%';
+  }
+  document.getElementById('set-size-minus').onclick=function(){
+    var cur=Math.round((parseFloat(localStorage.getItem('ymwt_app_scale_zoom'))||1.0)*100);
+    applyScale(cur-5);
+  };
+  document.getElementById('set-size-plus').onclick=function(){
+    var cur=Math.round((parseFloat(localStorage.getItem('ymwt_app_scale_zoom'))||1.0)*100);
+    applyScale(cur+5);
+  };
+  document.getElementById('set-size-reset').onclick=function(){ applyScale(100); };
+
+  /* 데이터 백업 내보내기 */
+  document.getElementById('set-export').onclick=function(){
+    try{
+      var all={};
+      for(var i=0;i<localStorage.length;i++){
+        var k=localStorage.key(i);
+        all[k]=localStorage.getItem(k);
+      }
+      var blob=new Blob([JSON.stringify({_app:'byeolbit-habit',_ver:1,_date:new Date().toISOString(),data:all},null,2)],{type:'application/json'});
+      var url=URL.createObjectURL(blob);
+      var a=document.createElement('a');
+      var d=new Date();
+      var fname='별빛달빛해빗_백업_'+d.getFullYear()+('0'+(d.getMonth()+1)).slice(-2)+('0'+d.getDate()).slice(-2)+'.json';
+      a.href=url; a.download=fname; a.click();
+      setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+    }catch(e){ alert('백업 내보내기에 실패했어요: '+e.message); }
+  };
+
+  /* 데이터 백업 불러오기 */
+  document.getElementById('set-import').onclick=function(){
+    document.getElementById('set-import-file').click();
+  };
+  document.getElementById('set-import-file').onchange=function(e){
+    var file=e.target.files[0];
+    if(!file) return;
+    var reader=new FileReader();
+    reader.onload=function(ev){
+      try{
+        var parsed=JSON.parse(ev.target.result);
+        var data=parsed.data||parsed;
+        if(typeof data!=='object') throw new Error('형식이 올바르지 않아요');
+        if(!confirm('백업을 불러오면 현재 데이터를 덮어써요. 계속할까요?')) return;
+        Object.keys(data).forEach(function(k){
+          localStorage.setItem(k, data[k]);
+        });
+        alert('백업을 불러왔어요! 앱을 새로고침할게요.');
+        location.reload();
+      }catch(err){ alert('백업 불러오기에 실패했어요: '+err.message); }
+    };
+    reader.readAsText(file);
+    e.target.value='';
+  };
+}
+
 function homeNavShow(tabId){
   /* 홈 계열 화면(홈/기록/메모)은 항상 default 테마 — 이전 앱 테마색 잔존 방지 */
   document.body.dataset.theme='default';
@@ -5059,8 +5233,8 @@ function homeNavShow(tabId){
   /* 마지막 탭 기억 */
   localStorage.setItem('ymwt_lastHomeTab', tabId);
   /* 화면 전환 */
-  var screens=['home-screen','record-screen','memo-screen'];
-  var map={home:'home-screen',record:'record-screen',memo:'memo-screen'};
+  var screens=['home-screen','record-screen','memo-screen','settings-screen'];
+  var map={home:'home-screen',record:'record-screen',memo:'memo-screen',settings:'settings-screen'};
   screens.forEach(function(id){
     var el=document.getElementById(id);
     if(el) el.style.display='none';
@@ -5080,6 +5254,10 @@ function homeNavShow(tabId){
   if(tabId==='record'){
     requestAnimationFrame(function(){ renderScreenSparkles('record-sparkles'); });
   }
+  if(tabId==='settings'){
+    renderHomeSettings();
+    requestAnimationFrame(function(){ renderScreenSparkles('settings-sparkles'); });
+  }
   requestAnimationFrame(function(){ homeNavSyncPill(tabId); });
 }
 function homeNavHide(){
@@ -5092,6 +5270,14 @@ function homeNavHide(){
 }
 /* 버튼 클릭 이벤트 등록 */
 (function(){
+  /* 앱 시작 시 저장된 화면 크기(줌) 적용 */
+  (function(){
+    var savedZoom=parseFloat(localStorage.getItem('ymwt_app_scale_zoom'));
+    if(savedZoom && savedZoom>=0.7 && savedZoom<=1.3){
+      if(typeof applyAppZoom==='function') applyAppZoom(savedZoom);
+    }
+  })();
+
   function bindHomeNav(){
     var nav=document.getElementById('home-nav');
     if(!nav) return;
@@ -5115,10 +5301,9 @@ function homeNavHide(){
 })();
 
 function goHome(){localStorage.setItem('ymwt_lastApp','home');closeWip();
-  var _lastHTab=localStorage.getItem('ymwt_lastHomeTab')||'home';
-  homeNavShow(_lastHTab);
+  homeNavShow('home');
   /* 다른 앱 화면 전부 숨김 */
-  ['lumi-screen','bingo-screen','routine-screen','daily-screen'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none';});
+  ['lumi-screen','bingo-screen','routine-screen','daily-screen','memo-screen','record-screen','settings-screen'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none';});
   var rnav=document.getElementById('routine-nav');if(rnav)rnav.style.display='none';
   var rtb=document.getElementById('routine-top-bar');if(rtb)rtb.style.display='none';
   var dnav=document.getElementById('daily-nav');if(dnav)dnav.style.display='none';
@@ -5175,7 +5360,8 @@ var EMOJI_MAP={
   'relieved':'😌','sleepy':'😪','sleeping':'😴','mask':'😷',
   'sunglasses':'😎','nerd':'🤓','monocle':'🧐','clown':'🤡',
   'skull':'💀','ghost':'👻','alien':'👽','robot':'🤖',
-  'poop':'💩','fire':'🔥','100':'💯','ok':'👌','yes':'✅',
+  'poop':'💩','fire':'🔥','100':'💯','hundred':'💯','ok':'👌','yes':'✅',
+  'cat_joy':'😹','smiling_cat':'😺','heart_eyes_cat':'😻',
   /* 손/제스처 */
   'thumbsup':'👍','thumbsdown':'👎','clap':'👏','wave':'👋',
   'pray':'🙏','muscle':'💪','point_up':'☝️','point_right':'👉',
@@ -5187,9 +5373,9 @@ var EMOJI_MAP={
   'green_heart':'💚','blue_heart':'💙','purple_heart':'💜',
   'black_heart':'🖤','white_heart':'🤍','broken_heart':'💔',
   'sparkling_heart':'💖','heartbeat':'💓','two_hearts':'💕',
-  'revolving_hearts':'💞','love':'😍','kiss':'💋',
+  'revolving_hearts':'💞','light_blue_heart':'🩵','love':'😍','kiss':'💋',
   /* 별/빛 */
-  'star':'⭐','star2':'🌟','dizzy':'💫','sparkles':'✨',
+  'star':'⭐','star2':'🌟','dizzy':'💫','comet':'💫','sparkles':'✨',
   'boom':'💥','zap':'⚡','sun':'☀️','moon':'🌙','crescent':'🌛',
   'rainbow':'🌈','cloud':'☁️','snowflake':'❄️','umbrella':'☂️',
   /* 동물 */
@@ -5200,6 +5386,8 @@ var EMOJI_MAP={
   'whale':'🐳','dolphin':'🐬','fish':'🐟','octopus':'🐙',
   'butterfly':'🦋','bee':'🐝','snail':'🐌','turtle':'🐢',
   'dragon':'🐲','unicorn':'🦄','rabbit':'🐰','hamster':'🐹',
+  'black_cat':'🐈‍⬛','polar_bear':'🐻‍❄️','paw':'🐾','paws':'🐾',
+  'tropical_fish':'🐠','fish2':'🐟','penguin2':'🐧',
   /* 음식/음료 */
   'pizza':'🍕','burger':'🍔','fries':'🍟','hotdog':'🌭',
   'taco':'🌮','sushi':'🍣','ramen':'🍜','rice':'🍚',
@@ -5239,9 +5427,11 @@ var EMOJI_MAP={
   'plus':'➕','minus':'➖','multiply':'✖️','divide':'➗',
   'recycle':'♻️','sos':'🆘','id':'🆔',
   /* 자연 */
-  'tree':'🌳','plant':'🌱','flower':'🌸','rose':'🌹',
+  'tree':'🌳','plant':'🌱','seedling':'🌱','flower':'🌸','rose':'🌹',
   'sunflower':'🌻','leaf':'🍃','mushroom':'🍄','wave2':'🌊',
   'lightning':'⚡','tornado':'🌪️','volcano':'🌋',
+  'four_leaf_clover':'🍀','clover':'☘️','shamrock':'☘️','potted_plant':'🪴',
+  'sweat_drops':'💦','dash':'💨','wind':'💨','zzz':'💤','sleep':'💤',
   /* 음악/예술 */
   'music':'🎵','note':'🎶','guitar':'🎸','piano':'🎹',
   'violin':'🎻','trumpet':'🎺','drum':'🥁','art':'🎨',
@@ -5306,6 +5496,7 @@ function dpShowEmojiTable(){
         [':broken_heart:','💔',ko?'깨진 하트':'Broken Heart'],
         [':sparkling_heart:','💖',ko?'반짝 하트':'Sparkling Heart'],
         [':two_hearts:','💕',ko?'두 하트':'Two Hearts'],
+        [':light_blue_heart:','🩵',ko?'하늘색 하트':'Light Blue Heart'],
       ]
     },
     {
@@ -5323,6 +5514,9 @@ function dpShowEmojiTable(){
         [':mask:','😷','mask'],[':nerd:','🤓','nerd'],[':monocle:','🧐','monocle'],
         [':clown:','🤡','clown'],[':skull:','💀','skull'],[':ghost:','👻','ghost'],
         [':alien:','👽','alien'],[':robot:','🤖','robot'],[':poop:','💩','poop'],
+        [':joy:','😂',ko?'울면서 웃음':'joy'],[':smiling_cat:','😺',ko?'웃는 고양이':'smiling cat'],
+        [':cat_joy:','😹',ko?'웃는 고양이(눈물)':'cat joy'],[':heart_eyes_cat:','😻',ko?'하트눈 고양이':'heart eyes cat'],
+        [':hundred:','💯',ko?'100점':'hundred'],
       ]
     },
     {
@@ -5347,6 +5541,11 @@ function dpShowEmojiTable(){
         [':tree:','🌳','tree'],[':plant:','🌱','plant'],[':flower:','🌸','flower'],
         [':rose:','🌹','rose'],[':sunflower:','🌻','sunflower'],[':leaf:','🍃','leaf'],
         [':mushroom:','🍄','mushroom'],[':wave2:','🌊','wave2'],[':volcano:','🌋','volcano'],
+        [':comet:','💫',ko?'혜성':'comet'],
+        [':four_leaf_clover:','🍀',ko?'네잎클로버':'four leaf clover'],[':clover:','☘️',ko?'세잎클로버':'clover'],
+        [':seedling:','🌱',ko?'새싹':'seedling'],[':potted_plant:','🪴',ko?'화분':'potted plant'],
+        [':sweat_drops:','💦',ko?'물방울':'sweat drops'],[':dash:','💨',ko?'바람/쌩':'dash'],
+        [':zzz:','💤',ko?'잠':'zzz'],
       ]
     },
     {
@@ -5359,6 +5558,9 @@ function dpShowEmojiTable(){
         [':penguin:','🐧','penguin'],[':owl:','🦉','owl'],[':butterfly:','🦋','butterfly'],
         [':bee:','🐝','bee'],[':turtle:','🐢','turtle'],[':unicorn:','🦄','unicorn'],
         [':rabbit:','🐰','rabbit'],[':dragon:','🐲','dragon'],
+        [':black_cat:','🐈‍⬛',ko?'검은 고양이':'black cat'],[':polar_bear:','🐻‍❄️',ko?'북극곰':'polar bear'],
+        [':paw:','🐾',ko?'발자국':'paw'],[':fish:','🐟',ko?'물고기':'fish'],
+        [':tropical_fish:','🐠',ko?'열대어':'tropical fish'],
       ]
     },
     {
@@ -7103,7 +7305,7 @@ function goDaily(){
   document.body.dataset.theme=_t; applyTheme(_t);
   localStorage.setItem('ymwt_lastApp','daily');homeNavHide();
   closeWip();
-  ['home-screen','lumi-screen','bingo-screen','routine-screen'].forEach(function(id){ var el=document.getElementById(id); if(el) el.style.display='none'; });
+  ['home-screen','lumi-screen','bingo-screen','routine-screen','memo-screen','record-screen','settings-screen'].forEach(function(id){ var el=document.getElementById(id); if(el) el.style.display='none'; });
   var rsf=document.getElementById('routine-sw-fixed'); if(rsf) rsf.style.display='none';
   var lasf=document.querySelector('.lumi-app-sw-fixed'); if(lasf) lasf.style.display='none';
   var bsf=document.getElementById('bingo-sw-fixed'); if(bsf) bsf.style.display='none';
