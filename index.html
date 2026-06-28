@@ -1796,7 +1796,9 @@ textarea.inp{resize:vertical;line-height:1.6}
 #daily-quote-wrap{
   width:fit-content; max-width:300px; min-width:180px;
   margin: 0 auto 10px;
-  display:flex; flex-direction:column; align-items:center;
+  /* 4줄까지 늘어나도 아래 아이콘이 안 밀리도록 고정 높이 + 하단 정렬 */
+  height:108px;
+  display:flex; flex-direction:column; align-items:center; justify-content:flex-end;
   opacity:0;
   animation: quoteRise .45s .4s cubic-bezier(.34,1.5,.64,1) forwards;
 }
@@ -1831,6 +1833,11 @@ textarea.inp{resize:vertical;line-height:1.6}
   font-weight:600;
   margin:0;
   white-space:pre-line;
+  /* 최대 4줄 제한 — 넘치면 말줄임 */
+  display:-webkit-box;
+  -webkit-line-clamp:4;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
 }
 .daily-quote-source{
   font-size:9.5px;
@@ -1962,6 +1969,10 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:r
 .backup-btn-save{background:linear-gradient(135deg,rgba(230,220,255,.7),rgba(210,235,255,.7));border-color:rgba(160,145,220,.4);color:#4a35a0}
 .backup-btn-load{background:linear-gradient(135deg,rgba(210,245,225,.7),rgba(200,235,255,.7));border-color:rgba(120,195,160,.4);color:#1a5a40}
 .tedit-tab{flex-shrink:0;padding:6px 11px 7px;border-radius:8px 8px 0 0;border:1.5px solid rgba(180,165,225,.35);border-bottom:none;font-size:11px;font-weight:700;cursor:pointer;color:rgba(60,45,110,.7);transition:transform .15s,box-shadow .15s,opacity .15s;user-select:none;white-space:nowrap}
+/* 숨긴 섹션 탭 — 점선 테두리 + 흐림 (편집 비활성 느낌) */
+.tedit-tab.tedit-tab-hidden{border-style:dashed!important;border-color:rgba(150,135,200,.55)!important;opacity:.5;filter:grayscale(.4)}
+.tedit-tab-eye{margin-left:5px;font-size:10px;opacity:.85;cursor:pointer;display:inline-block;padding:1px 2px;border-radius:4px}
+.tedit-tab-eye:active{background:rgba(0,0,0,.08)}
 .tedit-tab.active{transform:translateY(-3px);box-shadow:0 -3px 10px rgba(120,100,200,.18);color:#2a1f5a;font-weight:800;z-index:2}
 .tedit-tab:not(.active){opacity:.68}
 .tedit-tab:hover:not(.active){opacity:.88;transform:translateY(-1px)}
@@ -2338,6 +2349,11 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
 .ql-achv-star{color:var(--t-accent,#8878b8);font-size:11px;flex-shrink:0;width:14px;text-align:center;}
 .ql-achv-inp{font-size:12px;color:var(--lav-dk);padding:1px 2px;}
 .ql-achv-inp::placeholder{color:rgba(160,148,210,.4);}
+/* 기억해 둘 것 — 3개 분량 높이 고정, 넘치면 내부 스크롤 (섹션 크기 불변) */
+.ql-achv-scroll{max-height:48px;overflow-y:auto;overflow-x:hidden;}
+.ql-achv-scroll::-webkit-scrollbar{width:3px;}
+.ql-achv-scroll::-webkit-scrollbar-track{background:rgba(200,195,230,.15);border-radius:2px;}
+.ql-achv-scroll::-webkit-scrollbar-thumb{background:rgba(160,148,210,.4);border-radius:2px;}
 
 /* 이벤트 */
 .ql-event-row{display:flex;align-items:center;gap:3px;margin-bottom:3px;padding:2px 0;}
@@ -2951,27 +2967,36 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
 }
 .set-section{
   background:rgba(255,255,255,.6);border:1.5px solid rgba(160,140,230,.25);
-  border-radius:14px;padding:16px;margin-bottom:14px;
+  border-radius:13px;padding:12px 14px;margin-bottom:10px;
 }
-.set-section-title{font-size:14px;font-weight:800;color:#4a3a8a;margin-bottom:4px;display:flex;align-items:center;gap:6px;}
-.set-section-desc{font-size:11.5px;color:rgba(110,90,170,.75);margin-bottom:14px;line-height:1.5;}
-.set-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;}
+.set-section-title{font-size:13px;font-weight:800;color:#4a3a8a;margin-bottom:9px;display:flex;align-items:center;gap:6px;}
+.set-section-desc{font-size:11px;color:rgba(110,90,170,.7);margin-bottom:9px;line-height:1.45;}
+.set-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;}
 .set-row:last-child{margin-bottom:0;}
 .set-btn{
   border:1.5px solid rgba(160,140,230,.4);background:rgba(255,255,255,.8);
-  border-radius:10px;padding:10px 16px;font-size:13px;font-weight:700;color:#5a4a9a;
+  border-radius:9px;padding:8px 14px;font-size:12.5px;font-weight:700;color:#5a4a9a;
   cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent;
   transition:background .15s;flex:1;
 }
 .set-btn:active{background:rgba(150,125,215,.18);}
 .set-btn.primary{background:linear-gradient(135deg,#a890e8,#8b6fd0);color:#fff;border:none;}
-.set-size-display{font-size:13px;font-weight:800;color:#4a3a8a;min-width:54px;text-align:center;}
+.set-size-display{font-size:13px;font-weight:800;color:#4a3a8a;min-width:50px;text-align:center;}
 .set-size-btn{
-  width:40px;height:40px;border-radius:10px;border:1.5px solid rgba(160,140,230,.4);
-  background:rgba(255,255,255,.8);font-size:20px;font-weight:800;color:#5a4a9a;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;
+  width:34px;height:34px;border-radius:9px;border:1.5px solid rgba(160,140,230,.4);
+  background:rgba(255,255,255,.8);font-size:18px;font-weight:800;color:#5a4a9a;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;flex:none;
 }
 .set-size-btn:active{background:rgba(150,125,215,.18);}
+/* 화면 크기 컨트롤 — −/값/+ 를 한 묶음 카드로 균형있게 */
+.set-size-control{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  background:rgba(150,125,215,.07);
+  border:1.5px solid rgba(160,140,230,.2);
+  border-radius:11px;padding:6px;margin-bottom:8px;
+}
+.set-size-control .set-size-display{flex:1;font-size:15px;}
+.set-size-reset-btn{width:100%;flex:none;font-size:12px;padding:8px;color:#6e5ab4;}
 
 /* petal 콘텐츠 묶음 — center 정렬 기준 고정 (화면 높이 변동에도 안 흔들림) */
 .clover-inner{
@@ -4336,7 +4361,7 @@ function homeNavSyncPill(tabId){
 ══════════════════════════════════════════════════════ */
 var MEMO_CATS=[
   {id:'scribble', label:'끄적', emoji:'✏️'},
-  {id:'memory',   label:'기록', emoji:'📋', type:'note'},
+  {id:'memory',   label:'기록', emoji:'📒', type:'note'},
   {id:'record',   label:'체크', emoji:'✅', type:'check'},
   {id:'important',label:'중요', emoji:'⭐', type:'note'}
 ];
@@ -4624,7 +4649,7 @@ function renderMemo(){
   /* 탭 렌더 */
   tabsEl.innerHTML=orderedCats.map(function(c){
     return '<div class="memo-tab'+(_memoTab===c.id?' active':'')+'" data-memotab="'+c.id+'">'
-      +'<span class="memo-tab-hash">#</span>'+c.label
+      +'<span class="memo-tab-hash">#</span>'+c.label+(c.emoji||'')
       +'</div>';
   }).join('');
   /* 클릭(전환) + 드래그(순서 변경) 바인딩 */
@@ -5144,24 +5169,29 @@ function renderHomeSettings(){
   body.innerHTML=
     '<div class="set-section">'
     +'<div class="set-section-title">📐 화면 크기</div>'
-    +'<div class="set-section-desc">앱 전체 화면 크기를 조정해요. 글씨가 작거나 크게 느껴지면 바꿔보세요.</div>'
-    +'<div class="set-row" style="justify-content:center;gap:16px;">'
+    +'<div class="set-section-desc">글씨가 작거나 크면 화면 전체 크기를 조정해요.</div>'
+    +'<div class="set-size-control">'
     +'<button class="set-size-btn" id="set-size-minus">−</button>'
     +'<span class="set-size-display" id="set-size-val">'+curScale+'%</span>'
     +'<button class="set-size-btn" id="set-size-plus">+</button>'
     +'</div>'
-    +'<div class="set-row" style="margin-top:10px;">'
-    +'<button class="set-btn" id="set-size-reset">기본값(100%)으로</button>'
-    +'</div>'
+    +'<button class="set-btn set-size-reset-btn" id="set-size-reset">기본값(100%)으로 되돌리기</button>'
     +'</div>'
     +'<div class="set-section">'
     +'<div class="set-section-title">💾 데이터 백업</div>'
-    +'<div class="set-section-desc">모든 메모·기록·플래너 데이터를 파일로 저장하거나 불러와요. 기기를 바꾸거나 만약을 대비해 백업해두세요.</div>'
+    +'<div class="set-section-desc">메모·기록·플래너 데이터를 파일로 저장하거나 불러와요.</div>'
     +'<div class="set-row">'
     +'<button class="set-btn primary" id="set-export">📤 내보내기</button>'
     +'<button class="set-btn" id="set-import">📥 불러오기</button>'
     +'</div>'
     +'<input type="file" id="set-import-file" accept="application/json,.json" style="display:none;">'
+    +'</div>'
+    +'<div class="set-section">'
+    +'<div class="set-section-title">✨ 텍스트 → 이모지 가이드</div>'
+    +'<div class="set-section-desc"><b>:tomato:</b> 처럼 콜론으로 감싸면 이모지로 바뀌어요.</div>'
+    +'<div class="set-row">'
+    +'<button class="set-btn" id="set-emoji-guide">:smile → 😊  이모지 단축코드 목록 보기</button>'
+    +'</div>'
     +'</div>';
 
   /* 화면 크기 조정 — 크롬 줌처럼 zoom으로 콘텐츠 전체 확대/축소 */
@@ -5222,6 +5252,12 @@ function renderHomeSettings(){
     };
     reader.readAsText(file);
     e.target.value='';
+  };
+
+  /* 이모지 가이드 */
+  var emojiBtn=document.getElementById('set-emoji-guide');
+  if(emojiBtn) emojiBtn.onclick=function(){
+    if(typeof dpShowEmojiTable==='function') dpShowEmojiTable();
   };
 }
 
@@ -5324,6 +5360,57 @@ function dpFmtDate(d){
 function dpKey(d){ var y=d.getFullYear(),m=d.getMonth()+1,day=d.getDate(); return y+'-'+(m<10?'0'+m:m)+'-'+(day<10?'0'+day:day); }
 function dpLoad(key){ try{ return JSON.parse(localStorage.getItem('ymwt_dp_'+key)||'null'); }catch(e){ return null; } }
 function dpSave(key,data){ localStorage.setItem('ymwt_dp_'+key, JSON.stringify(data)); }
+
+/* 베이직 → 퀘스트로그 데이터 이전 (퀘스트로그가 비어있는 칸만 채움, 기존 데이터 보호) */
+function dpMirrorForms(fromForm, toForm){
+  /* B안: 양식 전환 시 떠나는 양식(from)의 내용을 들어가는 양식(to)으로 통째 미러링.
+     추가·수정·삭제 모두 반영(병합 아닌 덮어쓰기). 한 번에 한 양식만 보므로 충돌 없음. */
+  try{
+    var d=dpCurrentDate(); var dk=dpKey(d);
+    var qlK='ymwt_ql_'+dk;
+    function loadQl(){ try{ return JSON.parse(localStorage.getItem(qlK)||'null'); }catch(e){ return null; } }
+
+    var fromBasicLike=(fromForm==='basic'||fromForm==='cert');
+    var toBasicLike=(toForm==='basic'||toForm==='cert');
+
+    /* 베이직 ↔ 인증은 같은 ymwt_dp_ 저장소라 미러링 불필요 */
+    if(fromBasicLike && toBasicLike) return;
+
+    if(fromBasicLike && toForm==='questlog'){
+      /* 베이직/인증 → 퀘스트로그: brainDump → mainQuests 통째 교체 (서브는 비움) */
+      var basic=dpLoad(dk); if(!basic) return;
+      var ql=loadQl()||qlDefaultData();
+      var bd=(basic.brainDump||[]).filter(function(b){return b&&b.text&&b.text.trim();});
+      ql.mainQuests = bd.length
+        ? bd.map(function(b){return {text:b.text,done:!!b.done};})
+        : [{text:'',done:false},{text:'',done:false},{text:'',done:false}];
+      /* 기억할 것 → 기억해 둘 것 통째 교체 */
+      var rm=(basic.remember||[]).filter(function(r){return r&&r.text&&r.text.trim();}).map(function(r){return r.text;});
+      while(rm.length<3) rm.push('');
+      ql.achievements=rm;
+      /* 이번달 목표 / 오늘의 주문 */
+      ql.monthlyQuest = basic.monthlyFocus||'';
+      ql.intention = basic.intention||'';
+      localStorage.setItem(qlK, JSON.stringify(ql));
+    }
+    else if(fromForm==='questlog' && toBasicLike){
+      /* 퀘스트로그 → 베이직/인증: mainQuests + subQuests(순서) → brainDump 통째 교체 */
+      var ql2=loadQl(); if(!ql2) return;
+      var basic2=dpLoad(dk)||dpDefaultData();
+      var merged=[];
+      (ql2.mainQuests||[]).forEach(function(q){ if(q&&q.text&&q.text.trim()) merged.push({text:q.text,done:!!q.done}); });
+      (ql2.subQuests||[]).forEach(function(q){ if(q&&q.text&&q.text.trim()) merged.push({text:q.text,done:!!q.done}); });
+      basic2.brainDump = merged.length ? merged : [];
+      /* 기억해 둘 것 → 기억할 것 통째 교체 */
+      var achv=(ql2.achievements||[]).filter(function(a){return a&&a.trim();}).map(function(a){return {text:a,done:false};});
+      basic2.remember = achv;
+      /* 이번달 목표 / 오늘의 주문 */
+      basic2.monthlyFocus = ql2.monthlyQuest||'';
+      basic2.intention = ql2.intention||'';
+      dpSave(dk, basic2);
+    }
+  }catch(e){}
+}
 function dpDefaultData(){
   return {
     monthlyFocus:'', intention:'',
@@ -7216,8 +7303,8 @@ function dpSyncPill(tab){
   if(!nav||!pill) return;
   var ids={report:'dp-report',planner:'dp-planner',settings:'dp-settings'};
   var btn=document.getElementById(ids[tab]); if(!btn) return;
-  var navR=nav.getBoundingClientRect(); var btnR=btn.getBoundingClientRect();
-  pill.style.left=(btnR.left-navR.left)+'px'; pill.style.width=btnR.width+'px';
+  /* offsetLeft/Width 사용 — 부모 기준 레이아웃 좌표라 zoom(화면크기조절) 영향 없음 */
+  pill.style.left=btn.offsetLeft+'px'; pill.style.width=btn.offsetWidth+'px';
 }
 function dpUpdateNavLabels(){ /* 하단탭 라벨은 한국어 고정 */ }
 function dpTab(tab){
@@ -7268,16 +7355,22 @@ function dpTab(tab){
       +'</div></div>';
     var formBasic=document.getElementById('dp-form-basic');
     if(formBasic) formBasic.onclick=function(){
+      var _from=localStorage.getItem('ymwt_dp_form')||'basic';
+      if(_from!=='basic'){ dpMirrorForms(_from,'basic'); }
       localStorage.setItem('ymwt_dp_form','basic');
       dpTab('settings');
     };
     var formQl=document.getElementById('dp-form-questlog');
     if(formQl) formQl.onclick=function(){
+      var _from=localStorage.getItem('ymwt_dp_form')||'basic';
+      if(_from!=='questlog'){ dpMirrorForms(_from,'questlog'); }
       localStorage.setItem('ymwt_dp_form','questlog');
       dpTab('settings');
     };
     var formCert=document.getElementById('dp-form-cert');
     if(formCert) formCert.onclick=function(){
+      var _from=localStorage.getItem('ymwt_dp_form')||'basic';
+      if(_from!=='cert'){ dpMirrorForms(_from,'cert'); }
       localStorage.setItem('ymwt_dp_form','cert');
       dpTab('settings');
     };
@@ -7488,7 +7581,7 @@ function qlAutoSave() {
   var hp=document.getElementById('ql-hp'); if(hp) data.hp=parseInt(hp.value)||0;
   var mp=document.getElementById('ql-mp'); if(mp) data.mp=parseInt(mp.value)||0;
   // 업적
-  document.querySelectorAll('.ql-achv-inp').forEach(function(el,i){ data.achievements[i]=el.value; });
+  document.querySelectorAll('.ql-achv-real').forEach(function(el,i){ data.achievements[i]=el.value; });
   // 이벤트
   document.querySelectorAll('.ql-event-row').forEach(function(row,i){
     row.setAttribute('data-idx', i);
@@ -7643,9 +7736,14 @@ function qlRender() {
     + '<div class="ql-achv-item"><span class="ql-equip-label">🛡</span><input class="ql-achv-inp" style="flex:1;background:transparent;border:none;border-bottom:1px solid rgba(180,170,220,.3);outline:none;font-family:inherit;font-size:11px;color:var(--text);" id="ql-armor" value="'+e(data.armor)+'" placeholder="방어구.."></div>'
     + '<div class="ql-achv-item"><span class="ql-equip-label">✨</span><input class="ql-achv-inp" style="flex:1;background:transparent;border:none;border-bottom:1px solid rgba(180,170,220,.3);outline:none;font-family:inherit;font-size:11px;color:var(--text);" id="ql-buff" value="'+e(data.buff)+'" placeholder="버프.."></div>';
 
-  var achvBody = (data.achievements||['','','']).slice(0,3).map(function(a){
-    return '<div class="ql-achv-item"><span class="ql-achv-star" style="width:12px;">✦</span><input class="ql-achv-inp" style="flex:1;background:transparent;border:none;border-bottom:1px solid rgba(180,170,220,.3);outline:none;font-family:inherit;font-size:11px;color:var(--text);" value="'+e(a)+'" placeholder="잘한 일.."></div>';
+  /* 기억해 둘 것 — 기본 3개, +로 추가 가능. 4개 이상이면 내부 스크롤(섹션 크기 고정) */
+  var achvArr = data.achievements||['','',''];
+  while(achvArr.length<3) achvArr.push('');
+  var achvRows = achvArr.map(function(a){
+    return '<div class="ql-achv-item"><span class="ql-achv-star" style="width:12px;flex-shrink:0;">✦</span><input class="ql-achv-inp ql-achv-real" style="flex:1;min-width:0;background:transparent;border:none;border-bottom:1px solid rgba(180,170,220,.3);outline:none;font-family:inherit;font-size:11px;color:var(--text);" value="'+e(a)+'" placeholder="잘한 일.."></div>';
   }).join('');
+  /* 3개 분량 높이로 고정, 넘치면 스크롤 */
+  var achvBody = '<div class="ql-achv-scroll">'+achvRows+'</div>';
 
   function qlSectionSm(title, body){
     return '<div class="dp-section">'
@@ -7656,7 +7754,7 @@ function qlRender() {
   html += '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:6px;margin-top:0;">'
     + '<div class="dp-section"><div class="dp-section-hdr"><span class="dp-section-hdr-title">❤️ 오늘의 상태</span></div><div style="padding:4px 8px 2px 6px;">'+statBody+'</div></div>'
     + qlSectionSm('🛡 오늘의 장비', equipBody)
-    + qlSectionSm('🧭 기억해 둘 것', achvBody)
+    + ('<div class="dp-section"><div class="dp-section-hdr"><span class="dp-section-hdr-title">🧭 기억해 둘 것</span><div style="display:flex;align-items:center;gap:4px;"><button class="dp-prev-btn" id="ql-prev-achv" title="전날 불러오기">⏮</button><button class="dp-hdr-add" id="ql-add-achv" title="추가">+</button></div></div><div style="padding:4px 4px 2px;">'+achvBody+'</div></div>')
     + '</div>';
 
   // ── 이벤트 + 퀘스트 2열 ── (evBody/questBody는 아래서 정의됨, 여기선 placeholder)
@@ -7932,6 +8030,37 @@ function qlRender() {
     var d2=qlLoad(qlKey(qlCurrentDate()))||qlDefaultData();
     d2.subQuests.push({text:'',done:false});
     qlSave(qlKey(qlCurrentDate()),d2); qlRender();
+  };
+
+  // 기억해 둘 것 — 추가
+  var addAchv=document.getElementById('ql-add-achv');
+  if(addAchv) addAchv.onclick=function(){
+    qlAutoSave(); /* 현재 입력 보존 */
+    var d2=qlLoad(qlKey(qlCurrentDate()))||qlDefaultData();
+    if(!d2.achievements) d2.achievements=['','',''];
+    d2.achievements.push('');
+    qlSave(qlKey(qlCurrentDate()),d2); qlRender();
+  };
+  // 기억해 둘 것 — 전날 불러오기
+  var prevAchv=document.getElementById('ql-prev-achv');
+  if(prevAchv) prevAchv.onclick=function(){
+    qlAutoSave();
+    var cur=qlLoad(qlKey(qlCurrentDate()))||qlDefaultData();
+    /* 전날 날짜 계산 */
+    var d=qlCurrentDate(); var prevD=new Date(d.getTime()-86400000);
+    var pd=qlLoad(qlKey(prevD));
+    if(!pd||!pd.achievements||!pd.achievements.some(function(a){return a&&a.trim();})){
+      dpToast('전날 기억해 둘 것이 없어요'); return;
+    }
+    if(!cur.achievements) cur.achievements=['','',''];
+    /* 전날의 비어있지 않은 항목 중, 현재에 없는 것만 추가 */
+    var added=0;
+    pd.achievements.forEach(function(a){
+      if(a&&a.trim()&&cur.achievements.indexOf(a)===-1){ cur.achievements.push(a); added++; }
+    });
+    if(added===0){ dpToast('이미 모두 있어요'); return; }
+    qlSave(qlKey(qlCurrentDate()),cur); qlRender();
+    dpToast('전날 기록을 불러왔어요 ✓');
   };
 
   // 시간 입력: 커서 위치 보존 + 자동 포맷 + 이동
@@ -9291,6 +9420,42 @@ function mkCircleSVG(pct, hasData) {
 
 var ROUTINE_TEMPLATE = {
   morning:[
+    {id:'m00',type:'hd',text:'기상',timeText:'7:00',timeMode:'text'},
+    {id:'m01',type:'check',text:'물 한 잔 마시기 💧',checked:false},
+    {id:'m02',type:'check',text:'가벼운 스트레칭 🧘‍♀️',checked:false},
+    {id:'m03',type:'check',text:'세수 · 양치 🪥',checked:false},
+    {id:'m04',type:'hd',text:'아침 식사',timeText:'8:00',timeMode:'text'},
+    {id:'m05',type:'check',text:'📲 플래너 체크인',checked:false,memo:'오늘 할 일을 플래너에서 확인해요'},
+  ],
+  afternoon:[
+    {id:'a00',type:'hd',text:'집중 시간 1',timeText:'9-12',timeMode:'text',memo:'공부 또는 일에 집중해요 📚'},
+    {id:'a01',type:'check',text:'오전 집중 끝내기 📚',checked:false},
+    {id:'a02',type:'hd',text:'점심',timeText:'12-1',timeMode:'text'},
+    {id:'a03',type:'check',text:'점심 식사 · 잠깐 산책 🚶‍♀️',checked:false},
+    {id:'a04',type:'hd',text:'집중 시간 2',timeText:'2-5',timeMode:'text',memo:'공부 또는 일에 집중해요 💻'},
+    {id:'a05',type:'check',text:'오후 집중 끝내기 💻',checked:false},
+    {id:'a06',type:'check',text:'물 충분히 마시기 💧',checked:false},
+  ],
+  evening:[
+    {id:'e00',type:'hd',text:'저녁',timeText:'6:00',timeMode:'text'},
+    {id:'e01',type:'check',text:'저녁 식사 🍚',checked:false},
+    {id:'e02',type:'check',text:'가벼운 운동 · 산책 🏃‍♀️',checked:false},
+    {id:'e03',type:'check',text:'샤워 · 스킨케어 🛁',checked:false},
+    {id:'e04',type:'check',text:'휴대폰 잠시 내려놓기 📵',checked:false},
+  ],
+  night:[
+    {id:'n00',type:'hd',text:'하루 마무리',timeText:'10:00',timeMode:'text'},
+    {id:'n01',type:'check',text:'📝 트래커 회고 쓰기',checked:false,memo:'✅잘한 일 / 💡배운 점·느낀 점 / 🌱내일 할 일 을 적어요'},
+    {id:'n02',type:'check',text:'📲 플래너 체크아웃',checked:false,memo:'내일 할 일을 플래너에 미리 적어요'},
+    {id:'n03',type:'hd',text:'잠들기 전',timeText:'11:00',timeMode:'text'},
+    {id:'n04',type:'check',text:'독서 · 스트레칭 📖',checked:false},
+    {id:'n05',type:'hd',text:'🌙 취침',timeText:'12:00',timeMode:'text'},
+  ],
+};
+
+/* [주인장꺼] — 기존 상세 템플릿 보존 */
+var ROUTINE_TEMPLATE_OWNER = {
+  morning:[
     {id:'m00',type:'hd',text:'기상',timeText:'6:45',timeMode:'text'},
     {id:'m01',type:'check',text:'💊+💧',checked:false},
     {id:'m02',type:'check',text:'누워서 하체 🧘🏻‍♀️',checked:false},
@@ -9371,6 +9536,29 @@ var SECTIONS=[
   {key:'evening',  title:'Evening Routine',   titleKo:'저녁 정돈 루틴', emoji:'🌆',bg:'bg-eve'},
   {key:'night',    title:'Night Ritual',      titleKo:'밤 마무리 루틴', emoji:'🌙',bg:'bg-ngt'},
 ];
+
+/* 템플릿별 숨긴 섹션 관리 (reflection은 항상 표시, 숨김 대상 아님) */
+function getHiddenSections(tmpl){
+  if(!tmpl||!tmpl.hiddenSections) return [];
+  return tmpl.hiddenSections.filter(function(k){return k!=='reflection';});
+}
+function isSectionHidden(tmpl, key){
+  return getHiddenSections(tmpl).indexOf(key)!==-1;
+}
+function visibleSectionCount(tmpl){
+  var hidden=getHiddenSections(tmpl);
+  return SECTIONS.filter(function(s){return hidden.indexOf(s.key)===-1;}).length;
+}
+/* 탭 경고 토스트 팝업 (아무데나 클릭 시 닫힘) */
+function rnShowTabWarn(msg){
+  var old=document.getElementById('rn-tab-warn'); if(old) old.remove();
+  var ov=document.createElement('div');
+  ov.id='rn-tab-warn';
+  ov.style.cssText='position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:rgba(40,30,70,.28);';
+  ov.innerHTML='<div style="background:#fff;border-radius:16px;padding:22px 26px;max-width:260px;text-align:center;box-shadow:0 8px 30px rgba(80,60,160,.25);font-size:13.5px;font-weight:700;color:#4a3a8a;line-height:1.5;">'+msg+'<div style="margin-top:6px;font-size:11px;font-weight:600;color:rgba(110,90,170,.65);">탭은 최대 4개까지 쓸 수 있어요</div></div>';
+  ov.onclick=function(){ ov.remove(); };
+  document.body.appendChild(ov);
+}
 
 var S={
   load:  function(k){try{var r=localStorage.getItem('drt:'+k);return r?JSON.parse(r):null;}catch(e){return null;}},
@@ -9972,7 +10160,8 @@ function renderDay(){
   /* File-folder section tabs */
   var _STL=window.SECT_TAB_LABELS||{morning:'Morning',afternoon:'Afternoon',evening:'Evening',night:'Night',reflection:'Reflection'};
   var _DN=window.DAY_NAMES||DAY_NAMES;
-  var dayTabsH = SECTIONS.map(function(s){
+  var _dayHidden = (typeof appliedTmpl!=='undefined'&&appliedTmpl)?getHiddenSections(appliedTmpl):[];
+  var dayTabsH = SECTIONS.filter(function(s){return _dayHidden.indexOf(s.key)===-1;}).map(function(s){
     return '<button class="day-tab" data-sect="'+s.key+'" style="background:'+SECT_TAB_COLORS[s.key]+'">'+SECT_TAB_EMOJIS[s.key]+' '+_STL[s.key]+'</button>';
   }).join('') +
   '<div style="flex:1"></div>'+
@@ -9986,7 +10175,7 @@ function renderDay(){
       '<div class="day-tabs-bar" id="day-tabs-bar">'+dayTabsH+'</div>'+
     '</div>'+
     '<div style="padding:10px 12px 20px" id="day-content">'+banner+
-      SECTIONS.map(function(s){var _t=(localStorage.getItem('ymwt_lang')==='ko'&&s.titleKo)?s.titleKo:s.title;return renderSection(s.key,_t,s.emoji,s.bg,data.routines[s.key]);}).join('')+
+      SECTIONS.filter(function(s){return _dayHidden.indexOf(s.key)===-1;}).map(function(s){var _t=(localStorage.getItem('ymwt_lang')==='ko'&&s.titleKo)?s.titleKo:s.title;return renderSection(s.key,_t,s.emoji,s.bg,data.routines[s.key]);}).join('')+
       renderReflection(data.reflection)+
     '</div></div>';
 }
@@ -11162,12 +11351,35 @@ function mkDefaultTemplate(){
   return {id:'tpl_default',name:'예시 템플릿',createdAt:todayStr(),sections:sections};
 }
 
+function mkOwnerTemplate(){
+  var sections={};
+  Object.keys(ROUTINE_TEMPLATE_OWNER).forEach(function(k){
+    sections[k]=ROUTINE_TEMPLATE_OWNER[k].map(function(item){return Object.assign({},item);});
+  });
+  return {id:'tpl_owner',name:'[주인장꺼]',createdAt:todayStr(),sections:sections};
+}
+
 function getTmpls(){
   try{
     var r=localStorage.getItem(TMPL_KEY);
     var arr=r?JSON.parse(r):[];
+    var migrated=false;
     var hasDef=arr.find(function(t){return t.id==='tpl_default';});
-    if(!hasDef){arr.unshift(mkDefaultTemplate());localStorage.setItem(TMPL_KEY,JSON.stringify(arr));}
+    if(!hasDef){arr.unshift(mkDefaultTemplate()); migrated=true;}
+    else if(hasDef.name==='주중일정' || hasDef.name==='주중 일정'){
+      /* 옛 디폴트('주중일정')를 새 예시 템플릿으로 갱신 */
+      var defIdx0=arr.findIndex(function(t){return t.id==='tpl_default';});
+      arr[defIdx0]=mkDefaultTemplate();
+      migrated=true;
+    }
+    var hasOwner=arr.find(function(t){return t.id==='tpl_owner';});
+    if(!hasOwner){
+      /* 예시 템플릿 바로 다음(두 번째)에 [주인장꺼] 배치 */
+      var defIdx=arr.findIndex(function(t){return t.id==='tpl_default';});
+      arr.splice(defIdx+1,0,mkOwnerTemplate());
+      migrated=true;
+    }
+    if(migrated){localStorage.setItem(TMPL_KEY,JSON.stringify(arr));}
     return arr;
   }catch(e){return [mkDefaultTemplate()];}
 }
@@ -12128,10 +12340,15 @@ function renderTmplEditor(){
   }).join('');
   /* te-add-menu moved to header */
 
-  /* Tab buttons — 4 sections + reflection */
+  /* Tab buttons — 4 sections + reflection. 숨긴 섹션은 점선+흐림 처리 */
   var tabsH = SECTIONS.map(function(s){
     var cur = s.key === sk;
-    return '<button class="tedit-tab'+(cur?' active':'')+'" data-sk="'+s.key+'" style="background:'+SECT_TAB_COLORS[s.key]+'">'+SECT_TAB_EMOJIS[s.key]+' '+s.title.split(' ')[0]+'</button>';
+    var hidden = isSectionHidden(tmpl, s.key);
+    var cls = 'tedit-tab'+(cur&&!hidden?' active':'')+(hidden?' tedit-tab-hidden':'');
+    var label = SECT_TAB_EMOJIS[s.key]+' '+s.title.split(' ')[0];
+    /* 숨김 토글 아이콘 (👁 표시/🚫 숨김) */
+    var eyeBtn = '<span class="tedit-tab-eye" data-eye="'+s.key+'" title="'+(hidden?'숨김 해제':'숨기기')+'">'+(hidden?'🚫':'👁')+'</span>';
+    return '<button class="'+cls+'" data-sk="'+s.key+'" style="background:'+SECT_TAB_COLORS[s.key]+'">'+label+eyeBtn+'</button>';
   }).join('') +
   '<div style="flex:1"></div>' +
   '<button class="tedit-tab'+(sk==='reflection'?' active':'')+' tedit-tab-refl" data-sk="reflection" style="background:'+SECT_TAB_COLORS.reflection+'">🌕 Reflection</button>';
@@ -12763,9 +12980,41 @@ function bindTmplEditor(){
     };
   });
 
+  /* 눈 아이콘 클릭 — 숨김 토글 (이벤트 위임으로 탭 클릭보다 우선) */
+  document.querySelectorAll('.tedit-tab-eye').forEach(function(eye){
+    eye.onclick = function(ev){
+      ev.stopPropagation();
+      var key = this.dataset.eye;
+      var tmpl = ST.tmplEditData;
+      if(!tmpl) return;
+      if(!tmpl.hiddenSections) tmpl.hiddenSections = [];
+      var hidden = isSectionHidden(tmpl, key);
+      if(hidden){
+        /* 숨김 해제 */
+        tmpl.hiddenSections = tmpl.hiddenSections.filter(function(k){return k!==key;});
+      } else {
+        /* 숨기려는데 마지막 1개면 차단 + 경고 */
+        if(visibleSectionCount(tmpl) <= 1){
+          rnShowTabWarn('최소 1개의 탭은 있어야 해요!');
+          return;
+        }
+        tmpl.hiddenSections.push(key);
+        /* 현재 편집 중인 탭을 숨기면, 보이는 첫 탭으로 이동 */
+        if(ST.tmplEditSection === key){
+          var firstVisible = SECTIONS.find(function(s){return !isSectionHidden(tmpl,s.key);});
+          if(firstVisible) ST.tmplEditSection = firstVisible.key;
+        }
+      }
+      refreshTmplEditor();
+    };
+  });
+
   document.querySelectorAll('.tedit-tab').forEach(function(btn){
     btn.onclick = function(){
-      ST.tmplEditSection = this.dataset.sk;
+      var sk2 = this.dataset.sk;
+      /* 숨긴 탭은 전환/편집 불가 */
+      if(sk2!=='reflection' && isSectionHidden(ST.tmplEditData, sk2)) return;
+      ST.tmplEditSection = sk2;
       ST.tmplActiveItem = null;
       refreshTmplEditor();
     };
@@ -13143,7 +13392,8 @@ function save(){
     totalTime:state.timer.totalTime,
     sessionsDone:state.timer.sessionsDone,
     pairsDone:state.timer.pairsDone,
-    savedAt:Date.now()
+    savedAt:Date.now(),
+    savedDate:today()
   }));
 }
 function load(){
@@ -13158,6 +13408,14 @@ function load(){
     const tm=localStorage.getItem('lf_tm');
     if(tm){
       const saved=JSON.parse(tm);
+      /* 날짜가 바뀌었으면 토마토(pairsDone/sessionsDone)는 초기화 — 매일 새로 시작 */
+      const isNewDay = saved.savedDate && saved.savedDate !== today();
+      if(isNewDay){
+        state.timer.pairsDone=0;
+        state.timer.sessionsDone=0;
+        state.timer.mode='idle';
+        /* 날짜 바뀐 오래된 상태는 더 복원하지 않음 */
+      } else {
       /* 저장 후 너무 오래됐으면(1시간 초과) 리셋 */
       const elapsed=Date.now()-saved.savedAt;
       if(elapsed < 3600000){
@@ -13187,6 +13445,7 @@ function load(){
         state.timer.pairsDone=saved.pairsDone||0;
         state.timer.sessionsDone=saved.sessionsDone||0;
       }
+      } /* end isNewDay else */
     }
   }catch(e){}
 }
