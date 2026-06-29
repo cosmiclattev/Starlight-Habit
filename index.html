@@ -1918,7 +1918,7 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:r
 .te-drag-handle:hover{color:var(--lav)}
 .te-drag-handle svg{pointer-events:none}
 .te-inline-add-lbl{font-size:10px;font-weight:700;color:var(--muted);margin-right:5px;white-space:nowrap;letter-spacing:.2px}
-.te-add-menu{display:flex;gap:5px;padding:5px 10px;border-top:1px dashed rgba(200,190,240,.35);background:rgba(248,244,255,.4)}
+.te-add-menu{display:flex;align-items:center;gap:5px;padding:5px 10px;border-top:1px dashed rgba(200,190,240,.35);background:rgba(248,244,255,.4)}
 .te-add-type-btn{flex:1;padding:6px 4px;border:1.5px dashed rgba(180,170,220,.5);background:rgba(240,236,255,.35);border-radius:8px;color:var(--lav-dk);font-size:11px;font-weight:700;cursor:pointer;text-align:center;transition:border-color .12s}
 .te-add-type-btn:hover{border-color:var(--lav);background:var(--lav-pale)}
 .te-tl-icon{font-size:14px;flex-shrink:0;margin-top:4px;width:18px;text-align:center}
@@ -2010,7 +2010,7 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:r
 .te-item-active{outline:2px solid var(--lav-lt)!important;border-radius:10px!important}
 
 .te-inline-add{display:flex;flex-wrap:wrap;gap:6px;padding:8px 10px;margin:3px 0 3px 18px;border-radius:10px;background:linear-gradient(135deg,rgba(235,228,255,.85),rgba(220,235,255,.85));border:1.5px solid rgba(180,165,225,.45);animation:fadeInAdd .14s ease-out;backdrop-filter:blur(4px);align-items:center}
-.te-add-plus{font-size:16px;font-weight:900;color:var(--lav-dk);flex-shrink:0;line-height:1;margin-right:2px;user-select:none}
+.te-add-plus{font-size:16px;font-weight:900;color:var(--lav-dk);flex-shrink:0;line-height:1;margin-right:2px;user-select:none;display:flex;align-items:center}
 @keyframes fadeInAdd{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:none}}
 .te-add-link{padding:5px 11px;border-radius:18px;font-size:11px;font-weight:700;cursor:pointer;transition:opacity .1s,transform .1s;white-space:nowrap;border:1.5px solid}
 .te-add-link:hover{opacity:.82}
@@ -3751,7 +3751,7 @@ function applyLangSetting(lang){
   });
 
   /* ── 3. 섹션 카드 타이틀 ── */
-  var sectKo = {morning:'아침 시작 루틴',afternoon:'오후 집중 루틴',evening:'저녁 정돈 루틴',night:'밤 마무리 루틴'};
+  var sectKo = {morning:'아침 시작 루틴',afternoon:'낮 집중 루틴',evening:'저녁 정돈 루틴',night:'밤 마무리 루틴'};
   var sectEn = {morning:'Morning Routine',afternoon:'Afternoon Routine',evening:'Evening Routine',night:'Night Ritual'};
   document.querySelectorAll('.sect-title').forEach(function(el){
     var card = el.closest('[id^="sect-"]');
@@ -9570,7 +9570,7 @@ var ROUTINE_TEMPLATE_OWNER = {
 
 var SECTIONS=[
   {key:'morning',  title:'Morning Routine',  titleKo:'아침 시작 루틴', emoji:'🌄',bg:'bg-morn'},
-  {key:'afternoon',title:'Afternoon Routine', titleKo:'오후 집중 루틴', emoji:'🌅',bg:'bg-aft'},
+  {key:'afternoon',title:'Afternoon Routine', titleKo:'낮 집중 루틴', emoji:'🌅',bg:'bg-aft'},
   {key:'evening',  title:'Evening Routine',   titleKo:'저녁 정돈 루틴', emoji:'🌆',bg:'bg-eve'},
   {key:'night',    title:'Night Ritual',      titleKo:'밤 마무리 루틴', emoji:'🌙',bg:'bg-ngt'},
 ];
@@ -11608,11 +11608,7 @@ function renderTmplPanel(){
         /* ─ 적용 섹션 ─ */
         '<div class="tmpl2-body">',
           (t.id==="tpl_default"
-            ? (function(){ var _gc=localStorage.getItem('drt:guideCollapsed')==='1';
-                return '<div class="tmpl-guide-box">'
-                  +'<button class="tmpl-guide-toggle" id="tmpl-guide-toggle">'+(_gc?'▸ 사용 안내 보기':'▾ 사용 안내')+'</button>'
-                  +(_gc?'':'<div style="font-size:11px;color:var(--muted);line-height:1.65;padding:4px 0 2px">기본적으로 모든 날짜에 적용되는 템플릿입니다.<br>요일별로 적용할 템플릿은 아래에 추가 및 설정해주세요.<br><br>· 요일별 템플릿은 오늘 날짜부터 적용됩니다.<br>· 기록이 있는 과거 날짜는 변경·삭제되지 않습니다.</div>')
-                  +'</div>'; })()
+            ? '<div style="font-size:11px;color:var(--muted);line-height:1.6;padding:2px 0">모든 날짜에 기본 적용되는 템플릿입니다.</div>'
             : ('<div class="tmpl2-daylabel" style="font-size:11px;font-weight:700;color:#6858a8;margin:2px 0 6px">🗓 요일별 적용</div>'
               + '<div class="tmpl2-day-row">'+dayBtns+'</div>'
               + '<button class="btn-apply-days'+(hasMyDays?' applied':'')+' " '+(hasMyDays?'disabled':'')+'>'
@@ -11632,7 +11628,11 @@ function renderTmplPanel(){
       '<button class="nav-btn" id="btn-close-tpanel" style="flex-shrink:0">&#10005;</button>'+
     '</div>'+
     '<div class="tpanel-body">'+
-      '<div style="font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.8px;margin-bottom:10px">저장된 템플릿</div>'+
+      (function(){ var _gc=localStorage.getItem('drt:guideCollapsed')==='1';
+        return '<div style="background:rgba(220,210,255,.25);border-radius:10px;padding:9px 12px;margin-bottom:12px;font-size:11.5px;color:#6858a8;line-height:1.75">'
+          +'<button class="tmpl-guide-toggle" id="tmpl-guide-toggle" style="display:block;width:100%;text-align:left;background:none;border:none;font-size:11.5px;font-weight:800;color:#6858a8;cursor:pointer;font-family:inherit;padding:5px 0;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent">'+(_gc?'▸ 💡 사용 안내 보기':'▾ 💡 사용 안내')+'</button>'
+          +(_gc?'':'<div style="margin-top:6px">기본 일정은 모든 날짜에 적용되는 기본 템플릿입니다.<br>요일별로 다르게 적용할 템플릿은 아래에서 추가·설정해주세요.<br><br>· 요일별 템플릿은 오늘 날짜부터 적용됩니다.<br>· 기록이 있는 과거 날짜는 변경·삭제되지 않습니다.</div>')
+          +'</div>'; })()+
       cards+
       '<div style="margin-top:10px">'+
         '<button class="btn-tmpl-new" id="btn-new-tmpl">+ 새 템플릿 만들기</button>'+
@@ -12344,7 +12344,7 @@ function renderTmplEditor(){
     return '<button class="'+cls+'" data-sk="'+s.key+'" style="background:'+SECT_TAB_COLORS[s.key]+'">'+label+'</button>';
   }).join('') +
   '<div style="flex:1"></div>' +
-  '<button class="tedit-tab'+(sk==='reflection'?' active':'')+' tedit-tab-refl" data-sk="reflection" style="background:'+SECT_TAB_COLORS.reflection+'">🌕 Reflection</button>';
+  '<button class="tedit-tab'+(sk==='reflection'?' active':'')+' tedit-tab-refl" data-sk="reflection" style="background:'+SECT_TAB_COLORS.reflection+'">🌕 회고</button>';
 
   /* If reflection tab selected, render reflConfig editor */
   var bodyH;
@@ -12377,18 +12377,18 @@ function renderTmplEditor(){
         '</select>'+
       '</div>';
     };
-    var mkRow = function(emoji, label, field, val, cntField, cnt){
+    var mkRow = function(emoji, label, field, val, cntField, cnt, hideCnt){
       return '<div class="te-refl-group">'+
         '<div style="display:flex;align-items:center;gap:6px">'+
           '<span style="font-size:12px;font-weight:700;color:#4a3a7a;white-space:nowrap">'+emoji+' '+label+' :</span>'+
           '<input class="inp te-refl-inp" data-field="'+field+'" type="text" value="'+esc(val)+'" placeholder="…" style="flex:1">'+
         '</div>'+
-        mkCntBtns(cntField, cnt)+
+        (hideCnt?'':mkCntBtns(cntField, cnt))+
       '</div>';
     };
     bodyH = '<div class="te-refl-editor">'+
       mkRow('🌸','오늘 기록','goodLabel',cfg.goodLabel,'goodCount',cfg.goodCount)+
-      mkRow('💡','배운점','lessonLabel',cfg.lessonLabel,'lessonCount',cfg.lessonCount||1)+
+      mkRow('💡','배운점','lessonLabel',cfg.lessonLabel,'lessonCount',1,true)+
       mkRow('🌱','내일 기록','tomorrowLabel',cfg.tomorrowLabel,'tomorrowCount',cfg.tomorrowCount)+
     '</div>';
   } else {
@@ -12405,29 +12405,32 @@ function renderTmplEditor(){
       '</div>'+
       '<div class="tedit-btn-row">'+
         '<button class="btn-te btn-te-load" id="btn-te-load">&#128229; 불러오기</button>'+
-        '<button class="btn-te btn-te-save" id="btn-te-save">저장 &#10003;</button>'+
+        '<button class="btn-te btn-te-save" id="btn-te-save">&#128190; 저장</button>'+
         '<div style="flex:1"></div>'+
         '<button class="btn-te btn-te-hist" id="btn-te-undo" title="실행 취소 (Undo)" disabled>&#x21A9;</button>'+
         '<button class="btn-te btn-te-hist" id="btn-te-redo" title="다시 실행 (Redo)" disabled>&#x21AA;</button>'+
       '</div>'+
       '<div class="tedit-tabs-row">'+tabsH+'</div>'+
-      (sk!=='reflection'?'<div style="background:rgba(220,210,255,.25);border-radius:10px;padding:9px 12px;margin:6px 10px 2px;font-size:11.5px;color:#6858a8;line-height:1.75">'+
-        '<b>💡 사용 안내</b><br>'+
+      (sk!=='reflection'?('<div style="background:rgba(220,210,255,.25);border-radius:10px;padding:9px 12px;margin:6px 10px 2px;font-size:11.5px;color:#6858a8;line-height:1.75">'+
+        '<button class="tedit-guide-toggle" id="tedit-guide-toggle" style="display:block;width:100%;text-align:left;background:none;border:none;font-size:11.5px;font-weight:800;color:#6858a8;cursor:pointer;font-family:inherit;padding:5px 0;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent">'+(localStorage.getItem('drt:editGuideCollapsed')==='1'?'▸ 💡 사용 안내 보기':'▾ 💡 사용 안내')+'</button>'+
+        (localStorage.getItem('drt:editGuideCollapsed')==='1'?'':('<div style="margin-top:6px">'+
         '• <b>간단 편집 )</b> 항목을 누르면 내용을 편집할 수 있습니다.<br>'+
         '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enter를 누르면 체크 항목이 추가됩니다.<br>'+
         '• <b>상세 편집 )</b> 항목 왼쪽 ⠿ 아이콘을 누르면 내용 편집 뿐만 아니라<br>'+
         '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;바로 아래에 모든 유형의 항목을 추가할 수 있습니다.'+
-      '</div>'+
+        '</div>'))+
+      '</div>')+
       /* 탭 이름/이모지/숨김 편집 영역 (현재 선택 섹션) */
       (function(){
         var _m=(tmpl.sectionMeta&&tmpl.sectionMeta[sk])||{};
         var _e=_m.emoji||SECT_TAB_EMOJIS[sk];
         var _sObj=SECTIONS.find(function(x){return x.key===sk;})||{};
-        var _n=_m.label||_sObj.titleKo||(_sObj.title||'').split(' ')[0];
+        var _STLm=(window.SECT_TAB_LABELS||{morning:'아침',afternoon:'낮',evening:'저녁',night:'밤'});
+        var _n=_m.label||_STLm[sk]||(_sObj.title||'').split(' ')[0];
         var _hid=isSectionHidden(tmpl,sk);
         return '<div class="te-tabedit" style="margin:0 10px 4px;padding:9px 12px;background:rgba(235,228,255,.4);border-radius:10px">'+
           '<div style="display:flex;align-items:center;gap:6px">'+
-            '<span style="font-size:11px;font-weight:700;color:#6858a8">탭 이름</span>'+
+
             '<button class="te-tabemoji-btn" id="te-tabemoji" style="font-size:16px;background:#fff;border:1.5px solid rgba(170,155,220,.4);border-radius:8px;width:34px;height:30px;cursor:pointer">'+_e+'</button>'+
             '<input class="te-tabname-inp" id="te-tabname" value="'+esc(_n)+'" maxlength="8" style="flex:1;min-width:0;font-size:12px;padding:6px 8px;border:1.5px solid rgba(170,155,220,.4);border-radius:8px;font-family:inherit;background:#fff" placeholder="탭 이름">'+
           '</div>'+
@@ -13268,6 +13271,12 @@ function bindTmplEditor(){
   };
 
   document.getElementById('btn-te-load').onclick = function(){ openTmplLoadPopup(); };
+  var _egt=document.getElementById('tedit-guide-toggle');
+  if(_egt) _egt.onclick=function(){
+    var cur=localStorage.getItem('drt:editGuideCollapsed')==='1';
+    localStorage.setItem('drt:editGuideCollapsed', cur?'0':'1');
+    refreshTmplEditor();
+  };
 
   initEditorDnD();
 
