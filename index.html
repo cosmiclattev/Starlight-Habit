@@ -1707,12 +1707,11 @@ textarea.inp{resize:vertical;line-height:1.6}
 .tmpl2-tab.days-open{border-color:rgba(139,127,212,.5);color:rgba(100,90,160,.9);background:rgba(220,210,255,.5);}
 .tmpl2-tab:active{transform:scale(.96);}
 .tmpl2-section{}
-.btn-apply-today{width:100%;padding:9px;border-radius:10px;border:none;background:linear-gradient(135deg,var(--lav),var(--sky));color:#fff;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit;transition:all .15s;}
 .theme-btn-lemon{background:linear-gradient(135deg,#ddd5f8 0%,#e8e2f4 40%,#fbf580 75%,#f9f02a 100%);border:2.5px solid rgba(255,255,255,.6) !important;}
 .btn-apply-days{width:100%;padding:9px;border-radius:10px;border:1.5px solid rgba(180,170,220,.3);background:rgba(240,236,255,.3);color:rgba(120,110,170,.6);font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s;}
 .btn-apply-days:not([disabled]):not(.applied){background:linear-gradient(135deg,var(--lav),var(--sky));color:#fff;border-color:transparent;cursor:pointer;}
 .btn-apply-days.applied{background:linear-gradient(135deg,rgba(76,186,122,.85),rgba(59,180,140,.8));color:#fff;border-color:transparent;}
-.btn-apply-today:active,.btn-apply-days:active{transform:scale(.97);opacity:.88;}
+.btn-apply-days:active{transform:scale(.97);opacity:.88;}
 .btn-apply-days:disabled{opacity:.38;cursor:not-allowed;transform:none;}
 .tmpl2-day-row{display:flex;gap:3px;justify-content:space-between;margin-bottom:8px;}
 .tmpl-day-btn{width:34px;height:34px;border-radius:50%;border:1.5px solid rgba(180,170,220,.4);background:rgba(240,236,255,.35);font-size:10px;font-weight:800;cursor:pointer;color:rgba(100,90,160,.7);font-family:inherit;transition:all .15s;flex-shrink:0;padding:0;}
@@ -1958,7 +1957,7 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:r
 .day-tab:hover:not(.active){opacity:.9;transform:translateY(-1px)}
 .day-tab-refl{margin-left:6px;border-color:rgba(130,90,200,.3)}
 
-.tedit-tabs-row{display:flex;align-items:flex-end;gap:3px;padding:8px 12px 0;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-behavior:smooth}
+.tedit-tabs-row{display:flex;flex-wrap:nowrap;align-items:flex-end;gap:3px;padding:8px 12px 0;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scroll-behavior:smooth;max-width:100%;box-sizing:border-box;touch-action:pan-x}
 .tedit-tabs-row::-webkit-scrollbar{height:3px}
 .tedit-tabs-row::-webkit-scrollbar-track{background:rgba(200,195,230,.18);border-radius:2px}
 .tedit-tabs-row::-webkit-scrollbar-thumb{background:rgba(160,148,210,.45);border-radius:2px}
@@ -1968,6 +1967,7 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:r
 .backup-btn:active{transform:scale(.95)}
 .backup-btn-save{background:linear-gradient(135deg,rgba(230,220,255,.7),rgba(210,235,255,.7));border-color:rgba(160,145,220,.4);color:#4a35a0}
 .backup-btn-load{background:linear-gradient(135deg,rgba(210,245,225,.7),rgba(200,235,255,.7));border-color:rgba(120,195,160,.4);color:#1a5a40}
+.tmpl-guide-toggle{background:none;border:none;font-size:11px;font-weight:700;color:#8878b8;cursor:pointer;padding:2px 0;font-family:inherit}
 .tedit-tab{flex-shrink:0;padding:6px 11px 7px;border-radius:8px 8px 0 0;border:1.5px solid rgba(180,165,225,.35);border-bottom:none;font-size:11px;font-weight:700;cursor:pointer;color:rgba(60,45,110,.7);transition:transform .15s,box-shadow .15s,opacity .15s;user-select:none;white-space:nowrap}
 /* 숨긴 섹션 탭 — 점선 테두리 + 흐림 (편집 비활성 느낌) */
 .tedit-tab.tedit-tab-hidden{border-style:dashed!important;border-color:rgba(150,135,200,.55)!important;opacity:.5;filter:grayscale(.4)}
@@ -2996,7 +2996,14 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
   border-radius:11px;padding:6px;margin-bottom:8px;
 }
 .set-size-control .set-size-display{flex:1;font-size:15px;}
-.set-size-reset-btn{width:100%;flex:none;font-size:12px;padding:8px;color:#6e5ab4;}
+.set-memo-ppg{display:flex;gap:8px;}
+.set-ppg-btn{flex:1;padding:11px 0;border-radius:12px;border:1.5px solid rgba(170,155,220,.35);background:rgba(245,242,255,.6);color:#6858a8;font-size:14px;font-weight:800;font-family:inherit;cursor:pointer;transition:all .15s;}
+.set-ppg-btn:active{transform:scale(.96);}
+.set-ppg-btn.active{background:linear-gradient(135deg,rgba(168,144,232,.95),rgba(139,111,208,.9));color:#fff;border-color:transparent;box-shadow:0 3px 12px rgba(139,111,208,.3);}
+.set-size-wrap{display:flex;gap:8px;margin-bottom:8px;}
+.set-size-wrap .set-size-control{flex:7;margin-bottom:0;}
+.set-size-reset-box{flex:3;border-radius:11px;border:1.5px solid rgba(160,140,230,.3);background:rgba(150,125,215,.1);color:#6858a8;font-size:11px;font-weight:800;font-family:inherit;cursor:pointer;line-height:1.3;transition:all .15s;}
+.set-size-reset-box:active{transform:scale(.97);background:rgba(150,125,215,.2);}
 
 /* petal 콘텐츠 묶음 — center 정렬 기준 고정 (화면 높이 변동에도 안 흔들림) */
 .clover-inner{
@@ -4366,6 +4373,7 @@ var MEMO_CATS=[
   {id:'important',label:'중요', emoji:'⭐', type:'note'}
 ];
 var _memoTab=null, _memoPage={memory:0, record:0, important:0};
+function memoPerPage(){ var v=parseInt(localStorage.getItem('ymwt_memo_perpage')); return (v===4||v===6||v===8)?v:4; }
 
 function memoLoad(){
   try{ return JSON.parse(localStorage.getItem('ymwt_memo_v1')||'{}'); }
@@ -4836,10 +4844,11 @@ function renderMemoGrid(cat){
   var data=memoLoad();
   if(!data[cat]) data[cat]=[];
   var page=_memoPage[cat]||0;
-  var start=page*4;
+  var _ppg=memoPerPage();
+  var start=page*_ppg;
 
   var cells='';
-  for(var i=0;i<4;i++){
+  for(var i=0;i<_ppg;i++){
     var idx=start+i;
     var cell=memoNormCell(data[cat][idx], type);
     var titleHtml='<div class="memo-card-head">'
@@ -5170,12 +5179,21 @@ function renderHomeSettings(){
     '<div class="set-section">'
     +'<div class="set-section-title">📐 화면 크기</div>'
     +'<div class="set-section-desc">글씨가 작거나 크면 화면 전체 크기를 조정해요.</div>'
+    +'<div class="set-size-wrap">'
     +'<div class="set-size-control">'
     +'<button class="set-size-btn" id="set-size-minus">−</button>'
     +'<span class="set-size-display" id="set-size-val">'+curScale+'%</span>'
     +'<button class="set-size-btn" id="set-size-plus">+</button>'
     +'</div>'
-    +'<button class="set-btn set-size-reset-btn" id="set-size-reset">기본값(100%)으로 되돌리기</button>'
+    +'<button class="set-size-reset-box" id="set-size-reset">기본값<br>(100%)<br>복구</button>'
+    +'</div>'
+    +'</div>'
+    +'<div class="set-section">'
+    +'<div class="set-section-title">📝 한 페이지에 보일 메모 수</div>'
+    +'<div class="set-section-desc">메모 탭(기록·체크·중요)에서 한 번에 보이는 메모 개수예요.</div>'
+    +'<div class="set-memo-ppg">'
+    +['4','6','8'].map(function(n){ var on=memoPerPage()==parseInt(n); return '<button class="set-ppg-btn'+(on?' active':'')+'" data-ppg="'+n+'">'+n+'개</button>'; }).join('')
+    +'</div>'
     +'</div>'
     +'<div class="set-section">'
     +'<div class="set-section-title">💾 데이터 백업</div>'
@@ -5210,6 +5228,17 @@ function renderHomeSettings(){
     applyScale(cur+5);
   };
   document.getElementById('set-size-reset').onclick=function(){ applyScale(100); };
+
+  /* 메모 페이지당 개수 */
+  document.querySelectorAll('.set-ppg-btn').forEach(function(btn){
+    btn.onclick=function(){
+      var n=parseInt(this.dataset.ppg);
+      localStorage.setItem('ymwt_memo_perpage', n);
+      /* 모든 탭 페이지 0으로 리셋 */
+      _memoPage={memory:0, record:0, important:0};
+      document.querySelectorAll('.set-ppg-btn').forEach(function(b){ b.classList.toggle('active', parseInt(b.dataset.ppg)===n); });
+    };
+  });
 
   /* 데이터 백업 내보내기 */
   document.getElementById('set-export').onclick=function(){
@@ -6840,6 +6869,15 @@ function dpRenderCert(){
             nxt.setSelectionRange(nxt.value.length, nxt.value.length);
           } else {
             var d2=dpLoad(key)||dpDefaultData(); d2[c[1]]=d2[c[1]]||[];
+            /* ★ 새 항목 추가 전, 현재 화면의 모든 입력값을 먼저 반영 (직전 입력 유실 방지) */
+            var curInps=Array.from(list.querySelectorAll('.dp-row-inp,.dp-pri-inp'));
+            curInps.forEach(function(ipt, ii){
+              if(!d2[c[1]][ii]) d2[c[1]][ii]={text:'',done:false};
+              d2[c[1]][ii].text=ipt.value;
+              var rowEl=ipt.closest('.'+c[2]);
+              var cbEl=rowEl?rowEl.querySelector('.dp-row-cb'):null;
+              if(cbEl) d2[c[1]][ii].done=cbEl.checked;
+            });
             d2[c[1]].push({text:'',done:false}); dpSave(key,d2); dpRenderCert();
             setTimeout(function(){
               var nl=document.getElementById(c[0]); if(!nl) return;
@@ -9550,6 +9588,28 @@ function visibleSectionCount(tmpl){
   return SECTIONS.filter(function(s){return hidden.indexOf(s.key)===-1;}).length;
 }
 /* 탭 경고 토스트 팝업 (아무데나 클릭 시 닫힘) */
+function dpPickEmoji(cb){
+  var EMOS=['🌄','🌅','🌆','🌙','☀️','⭐','🌟','✨','🍅','🔥','💪','📚','💻','🏃‍♀️','🧘‍♀️','🛁','🍚','💧','😴','📝','📲','✅','💛','🌱','☕','🎯','📖','🎵','🧹','💊','🐈','🌸'];
+  var old=document.getElementById('dp-emoji-pick'); if(old) old.remove();
+  var ov=document.createElement('div');
+  ov.id='dp-emoji-pick';
+  ov.style.cssText='position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:rgba(40,30,70,.3)';
+  var grid=EMOS.map(function(e){return '<button class="dpep-e" style="font-size:22px;background:none;border:none;cursor:pointer;padding:6px;border-radius:8px">'+e+'</button>';}).join('');
+  ov.innerHTML='<div style="background:#fff;border-radius:16px;padding:16px;max-width:300px;width:90%;box-shadow:0 8px 30px rgba(80,60,160,.25)">'+
+    '<div style="font-size:13px;font-weight:800;color:#4a3a8a;margin-bottom:8px">이모지 선택</div>'+
+    '<div style="display:grid;grid-template-columns:repeat(8,1fr);gap:2px;max-height:180px;overflow-y:auto">'+grid+'</div>'+
+    '<div style="display:flex;gap:6px;margin-top:10px">'+
+      '<input id="dpep-custom" maxlength="2" placeholder="직접 입력" style="flex:1;font-size:14px;padding:6px;border:1.5px solid rgba(170,155,220,.4);border-radius:8px;text-align:center">'+
+      '<button id="dpep-ok" style="padding:6px 14px;background:linear-gradient(135deg,#a890e8,#8b6fd0);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer">확인</button>'+
+    '</div></div>';
+  ov.onclick=function(e){ if(e.target===ov) ov.remove(); };
+  document.body.appendChild(ov);
+  ov.querySelectorAll('.dpep-e').forEach(function(b){ b.onclick=function(){ cb(this.textContent); ov.remove(); }; });
+  document.getElementById('dpep-ok').onclick=function(){
+    var v=document.getElementById('dpep-custom').value.trim();
+    if(v){ cb(v); } ov.remove();
+  };
+}
 function rnShowTabWarn(msg){
   var old=document.getElementById('rn-tab-warn'); if(old) old.remove();
   var ov=document.createElement('div');
@@ -10161,8 +10221,12 @@ function renderDay(){
   var _STL=window.SECT_TAB_LABELS||{morning:'Morning',afternoon:'Afternoon',evening:'Evening',night:'Night',reflection:'Reflection'};
   var _DN=window.DAY_NAMES||DAY_NAMES;
   var _dayHidden = (typeof appliedTmpl!=='undefined'&&appliedTmpl)?getHiddenSections(appliedTmpl):[];
+  var _dayMeta=(typeof appliedTmpl!=='undefined'&&appliedTmpl&&appliedTmpl.sectionMeta)?appliedTmpl.sectionMeta:{};
   var dayTabsH = SECTIONS.filter(function(s){return _dayHidden.indexOf(s.key)===-1;}).map(function(s){
-    return '<button class="day-tab" data-sect="'+s.key+'" style="background:'+SECT_TAB_COLORS[s.key]+'">'+SECT_TAB_EMOJIS[s.key]+' '+_STL[s.key]+'</button>';
+    var _mm=_dayMeta[s.key]||{};
+    var _de=_mm.emoji||SECT_TAB_EMOJIS[s.key];
+    var _dl=_mm.label||_STL[s.key];
+    return '<button class="day-tab" data-sect="'+s.key+'" style="background:'+SECT_TAB_COLORS[s.key]+'">'+_de+' '+_dl+'</button>';
   }).join('') +
   '<div style="flex:1"></div>'+
   '<button class="day-tab day-tab-refl" data-sect="reflection" style="background:'+SECT_TAB_COLORS.reflection+'">'+SECT_TAB_EMOJIS.reflection+'회고</button>';
@@ -11348,7 +11412,7 @@ function mkDefaultTemplate(){
   Object.keys(ROUTINE_TEMPLATE).forEach(function(k){
     sections[k]=ROUTINE_TEMPLATE[k].map(function(item){return Object.assign({},item);});
   });
-  return {id:'tpl_default',name:'예시 템플릿',createdAt:todayStr(),sections:sections};
+  return {id:'tpl_default',name:'기본 일정',createdAt:todayStr(),sections:sections};
 }
 
 function mkOwnerTemplate(){
@@ -11356,7 +11420,7 @@ function mkOwnerTemplate(){
   Object.keys(ROUTINE_TEMPLATE_OWNER).forEach(function(k){
     sections[k]=ROUTINE_TEMPLATE_OWNER[k].map(function(item){return Object.assign({},item);});
   });
-  return {id:'tpl_owner',name:'[주인장꺼]',createdAt:todayStr(),sections:sections};
+  return {id:'tpl_owner',name:'[예시 일정]',createdAt:todayStr(),sections:sections};
 }
 
 function getTmpls(){
@@ -11366,13 +11430,14 @@ function getTmpls(){
     var migrated=false;
     var hasDef=arr.find(function(t){return t.id==='tpl_default';});
     if(!hasDef){arr.unshift(mkDefaultTemplate()); migrated=true;}
-    else if(hasDef.name==='주중일정' || hasDef.name==='주중 일정'){
+    else if(hasDef.name==='주중일정' || hasDef.name==='주중 일정' || hasDef.name==='예시 템플릿'){
       /* 옛 디폴트('주중일정')를 새 예시 템플릿으로 갱신 */
       var defIdx0=arr.findIndex(function(t){return t.id==='tpl_default';});
       arr[defIdx0]=mkDefaultTemplate();
       migrated=true;
     }
     var hasOwner=arr.find(function(t){return t.id==='tpl_owner';});
+    if(hasOwner && hasOwner.name==='[주인장꺼]'){ hasOwner.name='[예시 일정]'; migrated=true; }
     if(!hasOwner){
       /* 예시 템플릿 바로 다음(두 번째)에 [주인장꺼] 배치 */
       var defIdx=arr.findIndex(function(t){return t.id==='tpl_default';});
@@ -11516,8 +11581,6 @@ function renderTmplPanel(){
       ? '<button class="btn-te-del-tmpl nav-btn" data-tid="'+t.id+'" style="width:26px;height:26px;font-size:13px;color:#e05544;background:rgba(220,90,80,.08);border-color:rgba(220,90,80,.25)">&#215;</button>' : '';
 
     var hasDaysAssigned = mDays.length > 0;
-    var _savedApp2 = ST.currentDate ? ((S.load(ST.currentDate)||{}).appliedTemplate||'') : '';
-    var _isTodayApplied = !hasDaysAssigned && _savedApp2===t.id && _savedApp2!=='';
     var dayBtns = DOW_KO.map(function(lbl,i){
       var dow   = DOW_IDX[i];
       var on    = mDays.indexOf(dow) !== -1;
@@ -11544,28 +11607,17 @@ function renderTmplPanel(){
         '<div class="tmpl2-divider"></div>',
         /* ─ 적용 섹션 ─ */
         '<div class="tmpl2-body">',
-          '<div class="tmpl2-tabs">',
-            /* [기본 탭 비활성화] '<button class="tmpl2-tab'+(isDef&&!hasDaysAssigned&&!_isTodayApplied?' active':'')+' " data-tab="default" data-tid="'+t.id+'">⭐ 기본</button>', */
-            '<button class="tmpl2-tab'+(_isTodayApplied?' active':'')+' " data-tab="today" data-tid="'+t.id+'">📅 오늘만</button>',
-            '<button class="tmpl2-tab'+(hasDaysAssigned?' active':'')+' " data-tab="days" data-tid="'+t.id+'">🗓 요일별</button>',
-          '</div>',
-          /* [기본 섹션 비활성화 - 주석처리]
-          '기본 섹션 tmpl2-section data-section=default style=display:none', */
-          '<div class="tmpl2-section" data-section="default" style="display:none">',
-            '<div style="font-size:11px;color:var(--muted);padding:6px 0 2px;line-height:1.6">',
-              '기록이 없는 날짜에 기본으로 사용할 템플릿으로 설정합니다.',
-            '</div>',
-          '</div>',
-          /* 오늘만 섹션 - 탭 클릭 시 바로 적용 */
-          '<div class="tmpl2-section" data-section="today" style="display:none"></div>',
-          /* 요일별 섹션: 배정 있으면 열기 */
-          '<div class="tmpl2-section" data-section="days" style="'+(hasDaysAssigned?'':'display:none')+'">',
-
-            '<div class="tmpl2-day-row">'+dayBtns+'</div>',
-            '<button class="btn-apply-days'+(hasMyDays?' applied':'')+' " '+(hasMyDays?'disabled':'')+'>',
-              (hasMyDays ? '✅ 선택 요일에 적용됨' : '요일 선택 후 적용'),
-            '</button>',
-          '</div>',
+          (t.id==="tpl_default"
+            ? (function(){ var _gc=localStorage.getItem('drt:guideCollapsed')==='1';
+                return '<div class="tmpl-guide-box">'
+                  +'<button class="tmpl-guide-toggle" id="tmpl-guide-toggle">'+(_gc?'▸ 사용 안내 보기':'▾ 사용 안내')+'</button>'
+                  +(_gc?'':'<div style="font-size:11px;color:var(--muted);line-height:1.65;padding:4px 0 2px">기본적으로 모든 날짜에 적용되는 템플릿입니다.<br>요일별로 적용할 템플릿은 아래에 추가 및 설정해주세요.<br><br>· 요일별 템플릿은 오늘 날짜부터 적용됩니다.<br>· 기록이 있는 과거 날짜는 변경·삭제되지 않습니다.</div>')
+                  +'</div>'; })()
+            : ('<div class="tmpl2-daylabel" style="font-size:11px;font-weight:700;color:#6858a8;margin:2px 0 6px">🗓 요일별 적용</div>'
+              + '<div class="tmpl2-day-row">'+dayBtns+'</div>'
+              + '<button class="btn-apply-days'+(hasMyDays?' applied':'')+' " '+(hasMyDays?'disabled':'')+'>'
+              + (hasMyDays ? '✅ 선택 요일에 적용됨' : '요일 선택 후 적용')
+              + '</button>')),
         '</div>',
       '</div>'
     ].join('');
@@ -11590,27 +11642,6 @@ function renderTmplPanel(){
   '</div>';
 }
 
-function confirmAndApplyTemplate(tid, onConfirmed){
-  var hasData = ST.dayData && S.hasReal(ST.currentDate);
-  var isSame  = ST.dayData && ST.dayData.appliedTemplate === tid;
-  if(!hasData || isSame){ onConfirmed(); return; }
-  var pop = document.createElement('div');
-  pop.style.cssText = 'position:fixed;z-index:9999;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.35)';
-  pop.innerHTML =
-    '<div style="background:#fff;border-radius:18px;padding:22px 20px;max-width:300px;width:90%;box-shadow:0 8px 32px rgba(80,60,160,.22)">'+
-      '<div style="font-size:15px;font-weight:800;color:#2a1f5a;margin-bottom:10px">템플릿 변경 확인</div>'+
-      '<div style="font-size:13px;color:#555;line-height:1.6;margin-bottom:18px">오늘 기록된 내용이 초기화됩니다.<br>계속하시겠습니까?</div>'+
-      '<div style="display:flex;gap:10px">'+
-        '<button id="tc-yes" style="flex:1;padding:10px;border-radius:10px;border:none;background:linear-gradient(135deg,rgba(139,127,212,.9),rgba(59,159,214,.8));color:#fff;font-size:14px;font-weight:800;cursor:pointer">적용</button>'+
-        '<button id="tc-no"  style="flex:1;padding:10px;border-radius:10px;border:1.5px solid rgba(180,170,220,.4);background:transparent;color:#8878b8;font-size:14px;font-weight:700;cursor:pointer">취소</button>'+
-      '</div>'+
-    '</div>';
-  document.body.appendChild(pop);
-  document.getElementById('tc-yes').onclick = function(){ pop.remove(); onConfirmed(); };
-  document.getElementById('tc-no').onclick  = function(){ pop.remove(); };
-  pop.onclick = function(e){ if(e.target===pop) pop.remove(); };
-}
-
 function _reloadTmplPanel(){
   var panel = document.getElementById('tpanel-el');
   if(!panel) return;
@@ -11633,6 +11664,12 @@ function _reloadTmplPanel(){
 
 function bindTmplPanel(){
   document.getElementById('btn-close-tpanel').onclick = closeTmplPanel;
+  var _gt=document.getElementById('tmpl-guide-toggle');
+  if(_gt) _gt.onclick=function(){
+    var cur=localStorage.getItem('drt:guideCollapsed')==='1';
+    localStorage.setItem('drt:guideCollapsed', cur?'0':'1');
+    _reloadTmplPanel();
+  };
 
   /* 언어설정: 주간앱 설정창에서 처리 */
 
@@ -11682,73 +11719,6 @@ function bindTmplPanel(){
   }
 
   /* ── 탭 클릭 ── */
-  document.querySelectorAll('.tmpl2-tab').forEach(function(tab){
-    tab.onclick=function(e){
-      e.stopPropagation();
-      var tid=this.dataset.tid, mode=this.dataset.tab;
-      var card=this.closest('.tmpl-card2[data-tid="'+tid+'"]');
-      if(!card) return;
-      var wasActive=this.classList.contains('active');
-
-      /* ─ 기본 탭 ─ */
-      /* [기본으로 적용] 핸들러 - 임시 비활성화
-      if(mode==='default'){
-        if(wasActive){ return; }
-        assignDayToTmpl(tid, -1, false);
-        setDefaultTmplId(tid);
-        requestAnimationFrame(function(){ refreshPanel(); });
-        return;
-      }
-      */
-
-      /* ─ 오늘만 탭 ─ */
-      if(mode==='today'){
-        if(!ST.currentDate||!ST.dayData){ alert('날짜를 먼저 선택해주세요.'); return; }
-        if(wasActive){
-          /* 두번 클릭 → 선택 취소 */
-          this.classList.remove('active');
-          this.textContent='📅 오늘만';
-          card.querySelectorAll('.tmpl2-section').forEach(function(s){s.style.display='none';});
-          return;
-        }
-        /* 실제 적용 */
-        confirmAndApplyTemplate(tid, function(){
-          /* ── 오늘 날짜 요일에 배정된 템플릿이 있으면 요일 배정 해제 ── */
-          var todayStr = ST.currentDate;
-          var todayDow = new Date(todayStr+'T00:00:00').getDay();
-          var dayMapNow = getTmplDays();
-          Object.keys(dayMapNow).forEach(function(existTid){
-            var dows = dayMapNow[existTid]||[];
-            if(dows.indexOf(todayDow)!==-1){
-              /* 해당 요일 배정 해제 → 미래 날짜들이 기본 템플릿으로 원복 */
-              assignDayToTmpl(existTid, todayDow, false);
-            }
-          });
-          /* 오늘 날짜에만 이 템플릿 적용 */
-          applyTmplToDay(tid);
-          /* 전체 패널 리렌더 */
-          refreshPanel();
-        });
-        return;
-      }
-
-      /* ─ 요일별 탭 ─ */
-      if(mode==='days'){
-        if(wasActive || this.classList.contains('days-open')){
-          /* 두번 클릭 또는 열린상태 클릭 → 닫기 */
-          this.classList.remove('active','days-open');
-          card.querySelector('[data-section="days"]').style.display='none';
-          return;
-        }
-        /* 섹션 열기 (active 없이 days-open만) */
-        card.querySelectorAll('.tmpl2-tab').forEach(function(t){t.classList.remove('active','days-open');});
-        card.querySelectorAll('.tmpl2-section').forEach(function(s){s.style.display='none';});
-        this.classList.add('days-open');
-        card.querySelector('[data-section="days"]').style.display='';
-      }
-    };
-  });
-
   /* ── 요일 버튼 토글 ── */
   function updateAllDayBtns(){
     var pendingMap={};
@@ -11810,6 +11780,8 @@ function bindTmplPanel(){
       if(!this.classList.contains('applied')) return;
       /* 배정 전체 해제 */
       assignDayToTmpl(tid,-1,false);
+      /* 현재 보고있는 날짜가 이 템플릿이면 기본 일정으로 복귀 */
+      if(ST.dayData && ST.dayData.appliedTemplate===tid){ applyTmplToDay('tpl_default'); }
       /* 버튼 미선택 상태 */
       this.classList.remove('applied');
       this.disabled=true;
@@ -11883,7 +11855,6 @@ function bindTmplPanel(){
       requestAnimationFrame(refreshPanel);
     };
   });
-  /* 오늘만 적용: tmpl2-tab 핸들러에서 처리 */
 
   /* ── 요일별 적용 ── */
   document.querySelectorAll('.btn-apply-days').forEach(function(btn){
@@ -11923,6 +11894,7 @@ function bindTmplPanel(){
         for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(k&&/^drt:\d{4}-\d{2}-\d{2}$/.test(k))keys.push(k);}
         keys.forEach(function(k){
           var ds=k.replace('drt:','');
+          if(ds===ST.currentDate) return; /* 현재 보는 날짜는 아래 확인 로직에서 처리 */
           var dow=new Date(ds+'T00:00:00').getDay();
           if(sel.indexOf(dow)===-1) return; /* 해당 요일 아님 */
           var isPast = ds < todayStr;
@@ -11932,12 +11904,7 @@ function bindTmplPanel(){
           day.appliedTemplate=tid;
           S.save(ds,day);
         });
-        /* 오늘 날짜도 교체 (데이터 있건 없건) */
-        var curDow=new Date(todayStr+'T00:00:00').getDay();
-        if(sel.indexOf(curDow)!==-1){
-          if(ST.dayData){ ST.dayData.routines=makeRoutines(); ST.dayData.appliedTemplate=tid; S.save(todayStr,ST.dayData); }
-          else{ var nd=mkDay(todayStr); nd.appliedTemplate=tid; S.save(todayStr,nd); }
-        }
+        /* 오늘(현재 보는) 날짜 교체는 아래 확인 로직에서 처리 */
       }());
       /* 버튼 완료 상태 + 요일도 완료 표시 */
       var DOW_KO2=['일','월','화','수','목','금','토'];
@@ -11945,18 +11912,41 @@ function bindTmplPanel(){
       this.textContent = '✅ 선택 요일에 적용됨';
       this.classList.add('applied');
       this.disabled = true;
-      /* 요일별 탭 active로, 오늘만 탭 active 제거 */
-      var daysTab = card.querySelector('.tmpl2-tab[data-tab="days"]');
-      var todayTab2 = card.querySelector('.tmpl2-tab[data-tab="today"]');
-      if(daysTab){ daysTab.classList.remove('days-open'); daysTab.classList.add('active'); }
-      if(todayTab2){ todayTab2.classList.remove('active'); todayTab2.textContent='📅 오늘만'; }
-      /* 현재 날짜가 해당 요일이면 실시간 curId 업데이트 */
+      /* 현재 날짜가 해당 요일이면 새 템플릿으로 실제 적용 + 화면 갱신 */
       if(ST.currentDate && ST.dayData){
         var curDow = new Date(ST.currentDate+'T00:00:00').getDay();
-        if(sel.indexOf(curDow)!==-1){
-          /* 요일별 적용이 오늘만 적용보다 나중 선택 → 우선순위 높음 */
-          ST.dayData.appliedTemplate = tid;
-          S.save(ST.currentDate, ST.dayData);
+        var _isPastDay = ST.currentDate < window._rnTodayStr();
+        if(sel.indexOf(curDow)!==-1 && _isPastDay && S.hasReal(ST.currentDate)){
+          /* 과거 + 기록 있는 날짜는 템플릿 변경 안 함 (기록 보호) */
+          setTimeout(_reloadTmplPanel, 600);
+          return;
+        }
+        if(sel.indexOf(curDow)!==-1 && ST.dayData.appliedTemplate!==tid){
+          var _doApply=function(){
+            applyTmplToDay(tid);   /* 루틴 교체 + 저장 */
+            closeTmplPanel();
+            render();              /* 일간 화면 갱신 */
+          };
+          if(S.hasReal(ST.currentDate)){
+            /* 기록 있으면 확인 */
+            var _pop=document.createElement('div');
+            _pop.style.cssText='position:fixed;z-index:99999;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.35)';
+            _pop.innerHTML='<div style="background:#fff;border-radius:18px;padding:22px 20px;max-width:300px;width:90%;box-shadow:0 8px 32px rgba(80,60,160,.22)">'
+              +'<div style="font-size:15px;font-weight:800;color:#2a1f5a;margin-bottom:10px">템플릿 변경</div>'
+              +'<div style="font-size:13px;color:#555;line-height:1.6;margin-bottom:18px">이 날짜의 기록된 내용이 새 템플릿으로 초기화됩니다.<br>계속할까요?</div>'
+              +'<div style="display:flex;gap:10px">'
+              +'<button id="tcy" style="flex:1;padding:10px;border-radius:10px;border:none;background:linear-gradient(135deg,rgba(139,127,212,.9),rgba(59,159,214,.8));color:#fff;font-size:14px;font-weight:800;cursor:pointer">적용</button>'
+              +'<button id="tcn" style="flex:1;padding:10px;border-radius:10px;border:1.5px solid rgba(180,170,220,.4);background:transparent;color:#8878b8;font-size:14px;font-weight:700;cursor:pointer">취소</button>'
+              +'</div></div>';
+            document.body.appendChild(_pop);
+            _pop.querySelector('#tcy').onclick=function(){ _pop.remove(); _doApply(); };
+            _pop.querySelector('#tcn').onclick=function(){ _pop.remove(); setTimeout(_reloadTmplPanel,100); };
+            _pop.onclick=function(e){ if(e.target===_pop){ _pop.remove(); setTimeout(_reloadTmplPanel,100); } };
+            return;
+          } else {
+            _doApply();
+            return;
+          }
         }
       }
       setTimeout(_reloadTmplPanel, 600);
@@ -12033,6 +12023,8 @@ function closeTmplEditor(){
   if(bd2)bd2.remove();
   ST.tmplEdit=false;
   ST.tmplLoadPopup=false;
+  /* 편집기 닫으면 템플릿 목록 패널로 복귀 */
+  openTmplPanel();
 }
 
 /* ══════════════════════════════════
@@ -12345,10 +12337,11 @@ function renderTmplEditor(){
     var cur = s.key === sk;
     var hidden = isSectionHidden(tmpl, s.key);
     var cls = 'tedit-tab'+(cur&&!hidden?' active':'')+(hidden?' tedit-tab-hidden':'');
-    var label = SECT_TAB_EMOJIS[s.key]+' '+s.title.split(' ')[0];
-    /* 숨김 토글 아이콘 (👁 표시/🚫 숨김) */
-    var eyeBtn = '<span class="tedit-tab-eye" data-eye="'+s.key+'" title="'+(hidden?'숨김 해제':'숨기기')+'">'+(hidden?'🚫':'👁')+'</span>';
-    return '<button class="'+cls+'" data-sk="'+s.key+'" style="background:'+SECT_TAB_COLORS[s.key]+'">'+label+eyeBtn+'</button>';
+    var _meta=(tmpl.sectionMeta&&tmpl.sectionMeta[s.key])||{};
+    var _emo=_meta.emoji||SECT_TAB_EMOJIS[s.key];
+    var _nm=_meta.label||(s.titleKo?s.titleKo.split(' ')[0]:s.title.split(' ')[0]);
+    var label = _emo+' '+_nm;
+    return '<button class="'+cls+'" data-sk="'+s.key+'" style="background:'+SECT_TAB_COLORS[s.key]+'">'+label+'</button>';
   }).join('') +
   '<div style="flex:1"></div>' +
   '<button class="tedit-tab'+(sk==='reflection'?' active':'')+' tedit-tab-refl" data-sk="reflection" style="background:'+SECT_TAB_COLORS.reflection+'">🌕 Reflection</button>';
@@ -12424,7 +12417,26 @@ function renderTmplEditor(){
         '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enter를 누르면 체크 항목이 추가됩니다.<br>'+
         '• <b>상세 편집 )</b> 항목 왼쪽 ⠿ 아이콘을 누르면 내용 편집 뿐만 아니라<br>'+
         '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;바로 아래에 모든 유형의 항목을 추가할 수 있습니다.'+
-      '</div>'+'<div class="te-add-menu" style="margin:0 10px 2px"><span class="te-add-plus">&#8853;</span>'+endParts+'</div>':'')+
+      '</div>'+
+      /* 탭 이름/이모지/숨김 편집 영역 (현재 선택 섹션) */
+      (function(){
+        var _m=(tmpl.sectionMeta&&tmpl.sectionMeta[sk])||{};
+        var _e=_m.emoji||SECT_TAB_EMOJIS[sk];
+        var _sObj=SECTIONS.find(function(x){return x.key===sk;})||{};
+        var _n=_m.label||_sObj.titleKo||(_sObj.title||'').split(' ')[0];
+        var _hid=isSectionHidden(tmpl,sk);
+        return '<div class="te-tabedit" style="margin:0 10px 4px;padding:9px 12px;background:rgba(235,228,255,.4);border-radius:10px">'+
+          '<div style="display:flex;align-items:center;gap:6px">'+
+            '<span style="font-size:11px;font-weight:700;color:#6858a8">탭 이름</span>'+
+            '<button class="te-tabemoji-btn" id="te-tabemoji" style="font-size:16px;background:#fff;border:1.5px solid rgba(170,155,220,.4);border-radius:8px;width:34px;height:30px;cursor:pointer">'+_e+'</button>'+
+            '<input class="te-tabname-inp" id="te-tabname" value="'+esc(_n)+'" maxlength="8" style="flex:1;min-width:0;font-size:12px;padding:6px 8px;border:1.5px solid rgba(170,155,220,.4);border-radius:8px;font-family:inherit;background:#fff" placeholder="탭 이름">'+
+          '</div>'+
+          '<label style="display:flex;align-items:center;gap:5px;margin-top:7px;font-size:11px;color:#6858a8;cursor:pointer">'+
+            '<input type="checkbox" id="te-tabhide" '+(_hid?'checked':'')+' style="cursor:pointer"> 이 탭 숨기기 (실제 일정에서 안 보임)'+
+          '</label>'+
+        '</div>';
+      })()+
+      '<div class="te-add-menu" style="margin:0 10px 2px"><span class="te-add-plus">&#8853;</span>'+endParts+'</div>':'')+
     '</div>'+
     '<div class="tedit-body">'+bodyH+'</div>'+
   '</div>';
@@ -12980,40 +12992,44 @@ function bindTmplEditor(){
     };
   });
 
-  /* 눈 아이콘 클릭 — 숨김 토글 (이벤트 위임으로 탭 클릭보다 우선) */
-  document.querySelectorAll('.tedit-tab-eye').forEach(function(eye){
-    eye.onclick = function(ev){
-      ev.stopPropagation();
-      var key = this.dataset.eye;
-      var tmpl = ST.tmplEditData;
-      if(!tmpl) return;
-      if(!tmpl.hiddenSections) tmpl.hiddenSections = [];
-      var hidden = isSectionHidden(tmpl, key);
-      if(hidden){
-        /* 숨김 해제 */
-        tmpl.hiddenSections = tmpl.hiddenSections.filter(function(k){return k!==key;});
-      } else {
-        /* 숨기려는데 마지막 1개면 차단 + 경고 */
-        if(visibleSectionCount(tmpl) <= 1){
-          rnShowTabWarn('최소 1개의 탭은 있어야 해요!');
-          return;
-        }
-        tmpl.hiddenSections.push(key);
-        /* 현재 편집 중인 탭을 숨기면, 보이는 첫 탭으로 이동 */
-        if(ST.tmplEditSection === key){
-          var firstVisible = SECTIONS.find(function(s){return !isSectionHidden(tmpl,s.key);});
-          if(firstVisible) ST.tmplEditSection = firstVisible.key;
-        }
-      }
+  var _curSk=ST.tmplEditSection||SECTIONS[0].key;
+  /* 탭 이름 입력 */
+  var _tn=document.getElementById('te-tabname');
+  if(_tn) _tn.onchange=function(){
+    var t=ST.tmplEditData; if(!t)return;
+    if(!t.sectionMeta) t.sectionMeta={};
+    if(!t.sectionMeta[_curSk]) t.sectionMeta[_curSk]={};
+    t.sectionMeta[_curSk].label=this.value.trim();
+    refreshTmplEditor();
+  };
+  /* 탭 이모지 버튼 → 이모지 선택 */
+  var _te=document.getElementById('te-tabemoji');
+  if(_te) _te.onclick=function(){
+    dpPickEmoji(function(emo){
+      var t=ST.tmplEditData; if(!t)return;
+      if(!t.sectionMeta) t.sectionMeta={};
+      if(!t.sectionMeta[_curSk]) t.sectionMeta[_curSk]={};
+      t.sectionMeta[_curSk].emoji=emo;
       refreshTmplEditor();
-    };
-  });
+    });
+  };
+  /* 탭 숨김 체크박스 */
+  var _th=document.getElementById('te-tabhide');
+  if(_th) _th.onchange=function(){
+    var t=ST.tmplEditData; if(!t)return;
+    if(!t.hiddenSections) t.hiddenSections=[];
+    if(this.checked){
+      if(visibleSectionCount(t)<=1){ rnShowTabWarn('최소 1개의 탭은 있어야 해요!'); this.checked=false; return; }
+      if(t.hiddenSections.indexOf(_curSk)===-1) t.hiddenSections.push(_curSk);
+    } else {
+      t.hiddenSections=t.hiddenSections.filter(function(k){return k!==_curSk;});
+    }
+    refreshTmplEditor();
+  };
 
   document.querySelectorAll('.tedit-tab').forEach(function(btn){
     btn.onclick = function(){
       var sk2 = this.dataset.sk;
-      /* 숨긴 탭은 전환/편집 불가 */
-      if(sk2!=='reflection' && isSectionHidden(ST.tmplEditData, sk2)) return;
       ST.tmplEditSection = sk2;
       ST.tmplActiveItem = null;
       refreshTmplEditor();
