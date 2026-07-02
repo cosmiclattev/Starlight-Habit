@@ -17,7 +17,6 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Apple SD Got
 :root{--mint:#b8a8e8;--mint-dk:#8b7fd4;--mint-lt:#d8d0f8;--mint-pale:rgba(184,168,232,.18);--mint-glass:rgba(184,168,232,.12);--y-color:#c8b840;--m-color:#a08ad8;--wd-color:#6abadc;--t-color:#e85d4a;--text:#2a2240;--muted:#7a72a0;--card-bg:rgba(255,255,255,.82);--card-s:rgba(255,255,255,.96);--r:28px;}
 .brand-center{display:flex;align-items:center;justify-content:space-between;padding:8px 16px 8px;flex-shrink:0;background:transparent;position:sticky;top:0;z-index:60;width:100%;box-sizing:border-box;}
 .brand-title span{background:linear-gradient(135deg,#8b7fd4 0%,#c8b840 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.clover-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:40px 20px 8px;position:relative;overflow-y:auto;}
 .lumi-app-sw-fixed,.home-app-sw-fixed{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;padding:8px 8px 0;display:flex;justify-content:flex-end;pointer-events:none;z-index:300;}
 .home-app-sw-fixed{display:none!important;}
 .lumi-app-sw-fixed .app-switcher,.home-app-sw-fixed .app-switcher{pointer-events:auto;}
@@ -141,8 +140,10 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 0 16px 16px;
+  /* center는 콘텐츠가 화면보다 클 때 위를 잘라먹어 petal 위치가 흔들림.
+     flex-start로 고정하면 항상 위에서 시작해 위치 불변 + 넘치면 스크롤 가능 */
+  justify-content: flex-start;
+  padding: 24px 16px 16px;
   position: relative;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
@@ -4258,7 +4259,16 @@ function goRoutine(){
   _rnLastTab=_savedRnTab;
   var _rnav=document.getElementById('routine-nav');if(_rnav){_rnav.style.display='flex';}
   rnTab(_savedRnTab);
-  requestAnimationFrame(function(){rnSyncPill(_savedRnTab);});
+  /* 진입 시 pill transition 잠깐 꺼서 슬라이드 깜빡임 방지 */
+  (function(){
+    var _pill=document.getElementById('routine-nav-pill');
+    if(_pill){ _pill.style.transition='none'; }
+    rnSyncPill(_savedRnTab);
+    requestAnimationFrame(function(){
+      rnSyncPill(_savedRnTab);
+      requestAnimationFrame(function(){ if(_pill) _pill.style.transition=''; });
+    });
+  })();
   var _rtb=document.getElementById('routine-top-bar');if(_rtb)_rtb.style.display='flex';localStorage.setItem('ymwt_lastRoutineSub','cal');homeNavHide();closeWip();['home-screen','lumi-screen','bingo-screen','daily-screen','memo-screen','record-screen','settings-screen'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none';});var _dn=document.getElementById('daily-nav');if(_dn)_dn.style.display='none';var _dt=document.getElementById('daily-top-bar');if(_dt)_dt.style.display='none';document.getElementById('routine-screen').style.display='flex';document.body.dataset.screen='routine';document.body.style.backgroundAttachment='fixed';if(_savedRnTab==='calendar' && typeof window._routineRender==='function')window._routineRender();}
 function goHomeFromLumi(){closeWip();clearTick();document.getElementById('lumi-screen').style.display='none';goHome();}
 function goHomeFromBingo(){document.getElementById('bingo-nav').style.display='none';closeWip();document.getElementById('bingo-screen').style.display='none';var bsf=document.getElementById('bingo-sw-fixed');if(bsf)bsf.style.display='none';goHome();}
@@ -12414,6 +12424,7 @@ function renderTmplEditor(){
       (sk!=='reflection'?('<div style="background:rgba(220,210,255,.25);border-radius:10px;padding:9px 12px;margin:6px 10px 2px;font-size:11.5px;color:#6858a8;line-height:1.75">'+
         '<button class="tedit-guide-toggle" id="tedit-guide-toggle" style="display:block;width:100%;text-align:left;background:none;border:none;font-size:11.5px;font-weight:800;color:#6858a8;cursor:pointer;font-family:inherit;padding:5px 0;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent">'+(localStorage.getItem('drt:editGuideCollapsed')==='1'?'▸ 💡 사용 안내 보기':'▾ 💡 사용 안내')+'</button>'+
         (localStorage.getItem('drt:editGuideCollapsed')==='1'?'':('<div style="margin-top:6px">'+
+        '• <b>불러오기 )</b> 다른 템플릿에 저장된 루틴을 불러올 수 있습니다.<br>'+
         '• <b>간단 편집 )</b> 항목을 누르면 내용을 편집할 수 있습니다.<br>'+
         '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enter를 누르면 체크 항목이 추가됩니다.<br>'+
         '• <b>상세 편집 )</b> 항목 왼쪽 ⠿ 아이콘을 누르면 내용 편집 뿐만 아니라<br>'+
