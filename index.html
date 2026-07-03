@@ -1512,7 +1512,7 @@ input,textarea{font-family:inherit;font-size:14px;color:#1e3a5f;outline:none;tra
 .inp:focus{border-color:var(--lav-lt);box-shadow:0 0 0 3px rgba(139,127,212,.14);background:#fff}
 textarea.inp{resize:vertical;line-height:1.6}
 
-.cal-8{display:grid;grid-template-columns:34px repeat(7,1fr);gap:3px;align-items:center}
+.cal-8{display:grid;grid-template-columns:34px repeat(7,1fr);gap:3px;align-items:center;max-width:335px;margin-left:auto;margin-right:auto}
 .cal-hdr-cell{text-align:center;font-size:10px;font-weight:700;padding:3px 0;color:var(--muted)}
 .cal-hdr-cell.wknd{color:var(--lav)}
 .cal-hdr-cell.meta{color:var(--lav-lt);font-size:9px}
@@ -2128,8 +2128,21 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:r
 .dp-hdr-sub{font-size:11px;color:rgba(120,100,180,.7);font-weight:600;margin-top:1px;}
 #daily-app{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:80px;}
 #daily-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:var(--t-nav,rgba(240,236,255,.92));backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-top:1px solid rgba(180,170,220,.25);padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px));z-index:100;display:none;align-items:center;gap:0;}
-#daily-nav-pill{position:absolute;height:54px;border-radius:27px;background:var(--grad-hi);box-shadow:0 4px 16px rgba(120,100,200,.2);top:6px;left:0;transition:left .32s cubic-bezier(.34,1.38,.64,1),width .32s cubic-bezier(.34,1.38,.64,1);pointer-events:none;z-index:1;}
+#daily-nav-pill{position:absolute;height:54px;border-radius:27px;background:linear-gradient(135deg,rgba(139,127,212,.85),rgba(59,159,214,.8));background:var(--grad-hi);box-shadow:0 4px 16px rgba(120,100,200,.2);top:6px;left:0;transition:left .32s cubic-bezier(.34,1.38,.64,1),width .32s cubic-bezier(.34,1.38,.64,1);pointer-events:none;z-index:1;}
 .dp-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:transparent!important;border:none!important;cursor:pointer;padding:10px 0 6px;font-family:inherit;font-size:10px;font-weight:700;color:rgba(120,100,180,.6);letter-spacing:.2px;position:relative;z-index:2;transition:color .2s;border-radius:27px!important;min-width:0;-webkit-tap-highlight-color:transparent;}
+/* 분할 중간 버튼 (좌:일간 / 우:월간, 사선 구분) */
+.dp-btn#dp-planner{flex-direction:row!important;gap:33px!important;justify-content:center;align-items:center;position:relative;overflow:hidden;}
+/* 일간/월간 사이 구분선 (skew로 기울인 선, 버튼 위아래 끝까지) */
+.dp-btn#dp-planner::before{content:'';position:absolute;top:-8px;bottom:-8px;left:50%;width:1.5px;transform:translateX(-50%) skewX(-16deg);background:rgba(255,255,255,.55);pointer-events:none;z-index:5;}
+.dp-pl-view{display:flex;flex-direction:column;align-items:center;gap:3px;transition:opacity .2s,filter .2s;}
+.dp-pl-view .dp-icon{font-size:19px;line-height:1;}
+.dp-pl-view .dp-label{font-size:9px;font-weight:800;}
+/* 활성: 선명 */
+.dp-pl-view.dp-pl-on{opacity:1;filter:none;}
+.dp-pl-view.dp-pl-on .dp-label{color:#6a50b0;}
+/* 비활성: 옅은 회색 */
+.dp-pl-view.dp-pl-off{opacity:.4;filter:grayscale(.85);}
+.dp-pl-view.dp-pl-off .dp-label{color:rgba(120,115,135,.7);}
 .dp-btn.active{color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.18);}
 .dp-btn .dp-icon{font-size:22px;line-height:1;}
 .dp-btn .dp-label{font-size:9px;font-weight:700;}
@@ -2227,6 +2240,28 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:r
 .dp-cal-dnames{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:2px;}
 .dp-cal-dname{text-align:center;font-size:10px;font-weight:700;color:var(--muted-lt,rgba(160,148,200,.6));padding:3px 0;}
 .dp-cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
+/* 월간 플래너 화면 (트래커풍 달력) */
+.dpm-wrap{padding:14px 14px 90px;zoom:1.0593;}
+/* 월간 달력: 트래커 첫화면(.cal-day) 그대로 사용. 일정있는날/선택만 추가 상태 */
+.cal-day.dpm-has{outline:1.5px solid rgba(139,111,208,.55);outline-offset:-1.5px;}
+.cal-day.dpm-sel{outline:2px solid rgba(100,80,180,.75);outline-offset:-2px;}
+.dpm-list{background:rgba(255,255,255,.5);border-radius:14px;padding:14px;}
+.dpm-month-title,.dpm-seldate{font-size:14px;font-weight:800;color:#5a4a9a;margin-bottom:12px;}
+.dpm-sec-t{font-size:12px;font-weight:800;color:#7a6ab0;margin-bottom:6px;}
+.dpm-brows{margin-bottom:6px;}
+.dpm-brow{display:flex;align-items:center;gap:7px;margin-bottom:5px;}
+.dpm-bul{color:#a890e8;font-size:15px;font-weight:900;flex-shrink:0;}
+.dpm-inp{flex:1;width:100%;font-size:13px;padding:8px 10px;border:1.5px solid rgba(180,165,225,.35);border-radius:9px;font-family:inherit;background:#fff;color:#3a2f6a;}
+.dpm-inp:focus{outline:none;border-color:rgba(139,111,208,.6);}
+.dpm-add{font-size:11px;font-weight:700;color:#8878b8;background:rgba(255,255,255,.7);border:1px dashed rgba(160,145,215,.5);border-radius:8px;padding:5px 10px;cursor:pointer;font-family:inherit;}
+.dpm-add:active{transform:scale(.96);}
+.dpm-groups{}
+.dpm-grp{display:flex;gap:10px;margin-bottom:10px;align-items:flex-start;}
+.dpm-grp-d{flex-shrink:0;min-width:34px;font-size:12px;font-weight:800;color:#6a50b0;cursor:pointer;padding-top:2px;}
+.dpm-grp-items{flex:1;padding-top:2px;}
+.dpm-item-ro{font-size:13px;color:#4a3f7a;line-height:1.7;}
+.dpm-empty{font-size:12px;color:#9a8ac0;text-align:center;padding:16px 0;}
+.dpm-back-btn{margin-top:10px;font-size:12px;font-weight:700;color:#8878b8;background:none;border:none;cursor:pointer;font-family:inherit;padding:4px 0;}
 .dp-cal-cell{aspect-ratio:1;height:32px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:8px;font-size:11px;font-weight:600;color:var(--muted);cursor:pointer;position:relative;}
 .dp-cal-cell.has{background:var(--grad-hi);color:var(--t-hi-text,#fff);font-weight:800;}
 .dp-cal-cell.today{background:var(--t-pale,rgba(180,168,255,.2));color:var(--t-accent-dk,#6650a4);font-weight:800;}
@@ -3095,8 +3130,8 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
           <div class="petal-icon">⭐</div>
         </div>
         <div class="petal-body">
-          <div class="petal-name">Weekly &amp; Daily<br>Tracker</div>
-          <div class="petal-desc">주간·일간 루틴으로<br>습관을 쌓아요</div>
+          <div class="petal-name">Tracker</div>
+          <div class="petal-desc">루틴으로<br>습관을 쌓아요</div>
           <span class="go-arrow">▶ 시작하기</span>
         </div>
       </div>
@@ -3106,8 +3141,8 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
           <div class="petal-icon">✨</div>
         </div>
         <div class="petal-body">
-          <div class="petal-name">Daily Planner</div>
-          <div class="petal-desc">하루 일정을 계획하고<br>완료해나가요</div>
+          <div class="petal-name">Planner</div>
+          <div class="petal-desc">일정을 계획하고<br>완료해나가요</div>
           <span class="go-arrow">▶ 시작하기</span>
         </div>
       </div>
@@ -3603,7 +3638,7 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
   <div id='routine-screen'>
     <div id='routine-top-bar'>
       <div>
-        <div class='rn-hdr-title' id='routine-hdr-title'>⭐ 주간&일간 트래커</div>
+        <div class='rn-hdr-title' id='routine-hdr-title'>⭐ 트래커</div>
         <div class='rn-hdr-sub' id='routine-hdr-sub'>매일 루틴을 채워나가자!</div>
       </div>
       <div class='app-switcher app-sw-bar'><button class="app-sw-collapse" title="접기/펼치기">&#8250;</button>
@@ -3647,7 +3682,7 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
   <div id='daily-screen' style='display:none;flex-direction:column;width:100%;height:100vh;overflow:hidden;'>
     <div id='daily-top-bar' style='display:none;'>
       <div>
-        <div class='dp-hdr-title' id='dp-hdr-title'>✨ 데일리 플래너</div>
+        <div class='dp-hdr-title' id='dp-hdr-title'>✨ 플래너</div>
         <div class='dp-hdr-sub' id='dp-hdr-sub'>오늘 하루를 클리어해요!!</div>
       </div>
       <div class='app-switcher app-sw-bar'><button class='app-sw-collapse' title='접기/펼치기'>&#8250;</button>
@@ -3674,7 +3709,7 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
     <nav id='daily-nav' style='display:none;'>
       <div id='daily-nav-pill'></div>
       <button class='dp-btn' id='dp-report' tabindex='-1' onclick='dpTab("report")'><span class='dp-icon'>📂</span><span class='dp-label' id='dp-lbl-report'>기록 모음</span></button>
-      <button class='dp-btn active' id='dp-planner' tabindex='-1' onclick='dpTab("planner")'><span class='dp-icon'>✨</span><span class='dp-label' id='dp-lbl-planner'>플래너</span></button>
+      <button class='dp-btn active' id='dp-planner' tabindex='-1' onclick='dpPlannerBtn()'><span class='dp-pl-view dp-pl-on' id='dp-pl-daily'><span class='dp-icon'>✨</span><span class='dp-label'>일간</span></span><span class='dp-pl-view dp-pl-off' id='dp-pl-monthly'><span class='dp-icon'>📅</span><span class='dp-label'>월간</span></span></button>
       <button class='dp-btn' id='dp-settings' tabindex='-1' onclick='dpTab("settings")'><span class='dp-icon'>⚙️</span><span class='dp-label' id='dp-lbl-settings'>설정</span></button>
     </nav>
   </div>
@@ -3784,7 +3819,7 @@ function applyLangSetting(lang){
   /* ── 5. 주간앱 캘린더 헤더 ── */
   var rTitle = document.getElementById('routine-app-title');
   var rSub   = document.getElementById('routine-app-sub');
-  if(rTitle) rTitle.textContent = ko ? '⭐ 주간&일간 트래커' : '⭐ Weekly & Daily Tracker';
+  if(rTitle) rTitle.textContent = ko ? '⭐ 트래커' : '⭐ Tracker';
   if(rSub)   rSub.textContent   = ko ? '매일 루틴을 채워나가자!' : 'Track Routines, Build Habits!';
 
   /* ── 6. 주간 모달 열려있으면 리렌더 ── */
@@ -4156,7 +4191,7 @@ function rnTab(tab){
   localStorage.setItem('ymwt_rnLastTab', tab);
   /* 헤더 제목/서브 업데이트 */
   var RN_TITLES = {
-    calendar: ['⭐ 주간&일간 트래커','매일 루틴을 채워나가자!'],
+    calendar: ['⭐ 트래커','매일 루틴을 채워나가자!'],
     report:   ['📊 트래커 리포트','나의 루틴 기록을 한눈에 확인해보세요.'],
     settings: ['⚙️ 설정','테마, 언어 설정을 바꾸어 보아요.']
   };
@@ -7355,24 +7390,220 @@ function dpSyncPill(tab){
   pill.style.left=btn.offsetLeft+'px'; pill.style.width=btn.offsetWidth+'px';
 }
 function dpUpdateNavLabels(){ /* 하단탭 라벨은 한국어 고정 */ }
+/* ══ 월간 플래너 ══ */
+var _dpPlannerMode = 'daily';  /* 'daily' | 'monthly' */
+var _dpMonthlyCal = null;      /* {y,m} 월간 화면에서 보는 달 */
+var _dpMonthlySelDate = null;  /* 월간 달력에서 선택한 날짜(YYYY-MM-DD), null이면 미선택 */
+function dpMonthKey(y,m){ return 'ymwt_dp_monthly_'+y+'-'+((m+1)<10?'0':'')+(m+1); }
+/* 중간 버튼: planner 탭 아니면 planner로, 이미 planner면 일간↔월간 토글 */
+function dpPlannerBtn(){
+  var cur=localStorage.getItem('ymwt_dp_lastTab')||'planner';
+  if(cur!=='planner'){ _dpPlannerMode='daily'; dpTab('planner'); return; }
+  _dpPlannerMode = (_dpPlannerMode==='monthly') ? 'daily' : 'monthly';
+  dpTab('planner');
+}
+function dpMonthlyLoad(y,m){
+  try{ var r=localStorage.getItem(dpMonthKey(y,m)); if(r){ var d=JSON.parse(r); if(!d.dated)d.dated={}; if(!d.undated)d.undated=[]; return d; } }catch(e){}
+  return {dated:{}, undated:[]};
+}
+function dpMonthlySave(y,m,data){
+  try{ localStorage.setItem(dpMonthKey(y,m), JSON.stringify(data)); }catch(e){}
+}
+function dpEsc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+var _MONTH_EN=['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+/* 일간 본문 날짜 클릭 → 월간 화면 전환 */
+function dpBindDateToMonthly(){
+  setTimeout(function(){
+    var dt=document.getElementById('dp-date-text');
+    if(dt && !dt._monthlyBound){
+      dt._monthlyBound=true;
+      dt.style.cursor='pointer';
+      dt.addEventListener('click', function(){ _dpPlannerMode='monthly'; dpTab('planner'); });
+    }
+  }, 60);
+}
+
+/* 월간 플래너 렌더: 트래커풍 달력(주차열 없음) + 하단 리스트 */
+function dpRenderMonthly(){
+  var app=document.getElementById('daily-app'); if(!app) return;
+  var now=new Date();
+  if(!_dpMonthlyCal) _dpMonthlyCal={y:now.getFullYear(), m:now.getMonth()};
+  var y=_dpMonthlyCal.y, m=_dpMonthlyCal.m;
+  function pad2(n){return (n<10?'0':'')+n;}
+  var mon=dpMonthlyLoad(y,m);
+  var ko=(dpLang()==='ko');
+  /* 트래커 첫화면 달력과 동일 구조 (주차열 없음·일요일 먼저만 다름) */
+  var daysInMonth=new Date(y,m+1,0).getDate();
+  var todayStr=now.getFullYear()+'-'+pad2(now.getMonth()+1)+'-'+pad2(now.getDate());
+  var firstDow=new Date(y,m,1).getDay(); /* 0=일, 일요일 먼저 */
+  var _navSty='width:26px;height:26px;min-width:26px;border-radius:50%;border:1.5px solid rgba(180,170,220,.4);background:rgba(255,255,255,.8);color:#7060d0;font-size:15px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;padding:0;font-family:inherit';
+  var dhdr=['S','M','T','W','T','F','S'];
+  var hdrRow='<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:5px">'+dhdr.map(function(d,i){return '<div class="cal-hdr-cell'+((i===0||i===6)?' wknd':'')+'">'+d+'</div>';}).join('')+'</div>';
+  /* 셀 배열: 앞뒤를 이전/다음달 날짜(other-mo)로 채움 (트래커와 동일) */
+  var prevLast=new Date(y,m,0).getDate();
+  var cellsArr=[];
+  for(var i=firstDow-1;i>=0;i--){ cellsArr.push({day:prevLast-i,inMonth:false}); }
+  for(var dd=1; dd<=daysInMonth; dd++){ cellsArr.push({day:dd,inMonth:true,ds:y+'-'+pad2(m+1)+'-'+pad2(dd)}); }
+  var _nd=1; while(cellsArr.length%7!==0){ cellsArr.push({day:_nd++,inMonth:false}); }
+  var rows='';
+  for(var w=0;w<cellsArr.length;w+=7){
+    rows+='<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:4px">';
+    for(var k=w;k<w+7;k++){
+      var cx=cellsArr[k];
+      if(!cx.inMonth){ rows+='<div class="cal-day other-mo"><span style="position:relative;z-index:1;font-size:12px">'+cx.day+'</span></div>'; continue; }
+      var isToday=(cx.ds===todayStr);
+      var isSel=(_dpMonthlySelDate===cx.ds);
+      var has=(mon.dated[cx.ds]&&mon.dated[cx.ds].filter(function(t){return t&&t.trim();}).length>0);
+      var cls='cal-day'+(isToday?' today':'')+(isSel?' dpm-sel':'')+(has?' dpm-has':'');
+      rows+='<div class="'+cls+'" data-ds="'+cx.ds+'">'+(has&&!isToday?'<div class="day-dot"></div>':'')+(has&&isToday?'<div class="day-dot" style="background:rgba(255,255,255,.8)"></div>':'')+'<span style="position:relative;z-index:1;font-size:12px">'+cx.day+'</span></div>';
+    }
+    rows+='</div>';
+  }
+  var listHtml=dpMonthlyListHtml();
+  app.innerHTML=
+    '<div class="dpm-wrap">'
+    +'<div style="display:flex;align-items:center;justify-content:center;gap:5px;padding:10px 16px 10px">'
+      +'<button id="dpm-prev" style="'+_navSty+'">&#8249;</button>'
+      +'<div id="dpm-month-lbl" style="display:flex;flex-direction:column;align-items:center;min-width:70px;cursor:pointer">'
+        +'<div style="font-size:17px;font-weight:800;background:linear-gradient(135deg,#7060d0,#3a8fd0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.1">'+_MONTH_EN[m]+'</div>'
+        +'<div style="font-size:10px;color:#8878b8;letter-spacing:2px;font-weight:700">'+y+'</div>'
+      +'</div>'
+      +'<button id="dpm-next" style="'+_navSty+'">&#8250;</button>'
+    +'</div>'
+    +'<div style="max-width:298px;margin:0 auto;padding-top:21px">'+hdrRow+rows+'</div>'
+    +'<div class="dpm-list" id="dpm-list" style="margin-top:14px">'+listHtml+'</div>'
+    +'</div>';
+  var pv=document.getElementById('dpm-prev'); if(pv) pv.onclick=function(){ _dpMonthlyCal.m--; if(_dpMonthlyCal.m<0){_dpMonthlyCal.m=11;_dpMonthlyCal.y--;} _dpMonthlySelDate=null; dpRenderMonthly(); };
+  var nx=document.getElementById('dpm-next'); if(nx) nx.onclick=function(){ _dpMonthlyCal.m++; if(_dpMonthlyCal.m>11){_dpMonthlyCal.m=0;_dpMonthlyCal.y++;} _dpMonthlySelDate=null; dpRenderMonthly(); };
+  var ml=document.getElementById('dpm-month-lbl'); if(ml) ml.onclick=function(){ _dpMonthlySelDate=null; dpRenderMonthly(); };
+  app.querySelectorAll('.dpm-wrap .cal-day[data-ds]').forEach(function(cell){
+    cell.onclick=function(){ var ds=this.dataset.ds; _dpMonthlySelDate=(_dpMonthlySelDate===ds)?null:ds; dpRenderMonthly(); };
+  });
+  dpBindMonthlyList();
+}
+
+/* 하단 리스트 HTML */
+function dpMonthlyListHtml(){
+  var y=_dpMonthlyCal.y, m=_dpMonthlyCal.m;
+  var mon=dpMonthlyLoad(y,m);
+  function pad2(n){return (n<10?'0':'')+n;}
+  if(_dpMonthlySelDate){
+    /* 선택 날짜: 그날 월간 일정 불릿 편집 */
+    var ds=_dpMonthlySelDate;
+    var arr=mon.dated[ds]||[];
+    var dd=parseInt(ds.split('-')[2],10);
+    var rows=(arr.length?arr:['']).map(function(t,i){
+      return '<div class="dpm-brow"><span class="dpm-bul">•</span><input class="dpm-inp" data-scope="dated" data-i="'+i+'" value="'+dpEsc(t)+'" placeholder="일정 추가"></div>';
+    }).join('');
+    return '<div class="dpm-seldate">'+(m+1)+'월 '+dd+'일 일정</div>'
+      +'<div class="dpm-brows">'+rows+'</div>'
+      +'<button class="dpm-add" data-scope="dated">＋ 추가</button>'
+      +'<button class="dpm-back-btn" id="dpm-back">▸ 이번 달 모음 보기</button>';
+  }
+  /* 월별 모음: 날짜별 그룹 + 날짜 미지정 항목 편집 */
+  var dsKeys=Object.keys(mon.dated).filter(function(k){ return (mon.dated[k]||[]).some(function(t){return t&&t.trim();}); }).sort();
+  var groupHtml='';
+  if(dsKeys.length){
+    groupHtml=dsKeys.map(function(k){
+      var dd=parseInt(k.split('-')[2],10);
+      var items=(mon.dated[k]||[]).filter(function(t){return t&&t.trim();});
+      return '<div class="dpm-grp"><div class="dpm-grp-d" data-goto="'+k+'">'+(m+1)+'/'+dd+'</div><div class="dpm-grp-items">'
+        +items.map(function(t){return '<div class="dpm-item-ro">• '+dpEsc(t)+'</div>';}).join('')
+        +'</div></div>';
+    }).join('');
+  } else {
+    groupHtml='<div class="dpm-empty">달력에서 날짜를 눌러 일정을 추가하세요.</div>';
+  }
+  /* 날짜 미지정 */
+  var uArr=mon.undated||[];
+  var uRows=(uArr.length?uArr:['']).map(function(t,i){
+    return '<div class="dpm-brow"><span class="dpm-bul">•</span><input class="dpm-inp" data-scope="undated" data-i="'+i+'" value="'+dpEsc(t)+'" placeholder="날짜 미지정 항목"></div>';
+  }).join('');
+  return '<div class="dpm-month-title">'+((dpLang()==='ko')?((m+1)+'월의 할 일 모음'):(_MONTH_EN[m]+' Tasks'))+'</div>'
+    +'<div class="dpm-groups">'+groupHtml+'</div>'
+    +'<div class="dpm-sec-t" style="margin-top:16px">📌 날짜 미지정</div>'
+    +'<div class="dpm-brows">'+uRows+'</div>'
+    +'<button class="dpm-add" data-scope="undated">＋ 추가</button>';
+}
+
+/* 리스트 바인딩 */
+function dpBindMonthlyList(){
+  var y=_dpMonthlyCal.y, m=_dpMonthlyCal.m;
+  var app=document.getElementById('daily-app'); if(!app) return;
+  var back=document.getElementById('dpm-back');
+  if(back) back.onclick=function(){ _dpMonthlySelDate=null; dpRenderMonthly(); };
+  /* 그룹 날짜 클릭 → 그 날짜 편집으로 */
+  app.querySelectorAll('.dpm-grp-d[data-goto]').forEach(function(el){
+    el.onclick=function(){ _dpMonthlySelDate=this.dataset.goto; dpRenderMonthly(); };
+  });
+  function collect(){
+    var mon=dpMonthlyLoad(y,m);
+    if(_dpMonthlySelDate){
+      var vals=[]; app.querySelectorAll('.dpm-inp[data-scope="dated"]').forEach(function(inp){ vals.push(inp.value); });
+      mon.dated[_dpMonthlySelDate]=vals;
+    } else {
+      var uv=[]; app.querySelectorAll('.dpm-inp[data-scope="undated"]').forEach(function(inp){ uv.push(inp.value); });
+      mon.undated=uv;
+    }
+    dpMonthlySave(y,m,mon);
+  }
+  app.querySelectorAll('.dpm-inp').forEach(function(inp){
+    inp.oninput=function(){ clearTimeout(window._dpmSaveT); window._dpmSaveT=setTimeout(collect,400); };
+    inp.onkeydown=function(e){
+      if(e.key==='Enter'){ e.preventDefault(); collect();
+        var mon=dpMonthlyLoad(y,m); var sc=this.dataset.scope;
+        if(sc==='dated'){ mon.dated[_dpMonthlySelDate]=mon.dated[_dpMonthlySelDate]||[]; mon.dated[_dpMonthlySelDate].push(''); }
+        else { mon.undated=mon.undated||[]; mon.undated.push(''); }
+        dpMonthlySave(y,m,mon); dpRenderMonthly();
+        setTimeout(function(){ var ins=app.querySelectorAll('.dpm-inp[data-scope="'+sc+'"]'); if(ins.length){ ins[ins.length-1].focus(); } },50);
+      }
+    };
+  });
+  app.querySelectorAll('.dpm-add').forEach(function(btn){
+    btn.onclick=function(){ collect(); var mon=dpMonthlyLoad(y,m); var sc=this.dataset.scope;
+      if(sc==='dated'){ mon.dated[_dpMonthlySelDate]=mon.dated[_dpMonthlySelDate]||[]; mon.dated[_dpMonthlySelDate].push(''); }
+      else { mon.undated=mon.undated||[]; mon.undated.push(''); }
+      dpMonthlySave(y,m,mon); dpRenderMonthly();
+      setTimeout(function(){ var ins=app.querySelectorAll('.dpm-inp[data-scope="'+sc+'"]'); if(ins.length){ ins[ins.length-1].focus(); } },50);
+    };
+  });
+}
+
+/* 중간 버튼 아이콘/이름을 모드에 맞게 갱신 */
+function dpUpdatePlannerBtn(){
+  var daily=document.getElementById('dp-pl-daily');
+  var monthly=document.getElementById('dp-pl-monthly');
+  var isMonthly=(_dpPlannerMode==='monthly');
+  if(daily){ daily.classList.toggle('dp-pl-on', !isMonthly); daily.classList.toggle('dp-pl-off', isMonthly); }
+  if(monthly){ monthly.classList.toggle('dp-pl-on', isMonthly); monthly.classList.toggle('dp-pl-off', !isMonthly); }
+}
+function dpBindSplitBtn(){ /* 단일 버튼이라 별도 바인딩 불필요 */ }
+
 function dpTab(tab){
   localStorage.setItem('ymwt_dp_lastTab',tab);
   var ko=(dpLang()==='ko');
   var TITLES={
-    planner: ['✨ 데일리 플래너', '오늘 하루을 완료해나가요!'],
+    planner: ['✨ 플래너', '오늘 하루을 완료해나가요!'],
     report:  ['📊 플래너 리포트', '플래너 기록을 돌아보자!'],
     settings:['⚙️ 설정', '테마, 언어 설정을 바꾸어 보아요.']
   };
   var t=TITLES[tab];
   if(t){ var ht=document.getElementById('dp-hdr-title'); if(ht) ht.textContent=t[0]; var hs=document.getElementById('dp-hdr-sub'); if(hs) hs.textContent=t[1]; }
+  if(tab!=='planner'){ _dpPlannerMode='daily'; }
   ['report','planner','settings'].forEach(function(s){ var btn=document.getElementById('dp-'+s); if(btn) btn.classList.toggle('active',s===tab); });
+  dpUpdatePlannerBtn();
   requestAnimationFrame(function(){ dpSyncPill(tab); });
   var app=document.getElementById('daily-app'); if(!app) return;
   if(tab==='planner'){
+    dpBindSplitBtn();
+    dpUpdatePlannerBtn();
+    if(_dpPlannerMode==='monthly'){ dpRenderMonthly(); return; }
     var curForm=localStorage.getItem('ymwt_dp_form')||'basic';
-    if(curForm==='questlog'){ qlRender(); return; }
-    if(curForm==='cert'){ dpRenderCert(); return; }
-    dpRenderCurrent(); return;
+    if(curForm==='questlog'){ qlRender(); dpBindDateToMonthly(); return; }
+    if(curForm==='cert'){ dpRenderCert(); dpBindDateToMonthly(); return; }
+    dpRenderCurrent(); dpBindDateToMonthly(); return;
   }
   if(tab==='report'){
     dpRenderReport();
