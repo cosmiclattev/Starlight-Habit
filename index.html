@@ -13,7 +13,7 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Apple SD Got
 #lumi-screen{display:none;height:100%;}
 .lumi-inner{display:flex;flex-direction:column;height:100%;}
 #bingo-screen{display:none;position:absolute;inset:0;overflow-y:auto;z-index:10;}
-#routine-screen{display:none;position:absolute;inset:0;overflow:hidden;z-index:10;flex-direction:column;min-height:0;}
+#routine-screen{display:none;position:absolute;inset:0;overflow:hidden;z-index:10;flex-direction:column;min-height:0;--text:#2a1f5a;--muted:#7060a8;--muted-lt:#9080c0;}
 :root{--mint:#b8a8e8;--mint-dk:#8b7fd4;--mint-lt:#d8d0f8;--mint-pale:rgba(184,168,232,.18);--mint-glass:rgba(184,168,232,.12);--y-color:#c8b840;--m-color:#a08ad8;--wd-color:#6abadc;--t-color:#e85d4a;--text:#2a2240;--muted:#7a72a0;--card-bg:rgba(255,255,255,.82);--card-s:rgba(255,255,255,.96);--r:28px;}
 .brand-center{display:flex;align-items:center;justify-content:space-between;padding:8px 16px 8px;flex-shrink:0;background:transparent;position:sticky;top:0;z-index:60;width:100%;box-sizing:border-box;}
 .brand-title span{background:linear-gradient(135deg,#8b7fd4 0%,#c8b840 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
@@ -891,6 +891,7 @@ body[data-theme="cat"] {
 .section-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
 .section-title-sm{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;}
 .sec-label{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px;}
+#lumi-screen .sec-label{color:#7060a8;}
 .add-btn{width:32px;height:32px;border-radius:50%;background:var(--grad-hi);border:none;cursor:pointer;font-size:18px;color:var(--t-hi-text);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.12);transition:transform .13s;}
 .add-btn:active{transform:scale(.9);}
 .config-card{padding:16px;margin-bottom:16px;}
@@ -2122,7 +2123,7 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:r
 /* ══════════════════════════════════════════
    DAILY PLANNER APP
 ══════════════════════════════════════════ */
-#daily-screen{display:none;flex-direction:column;width:100%;height:100vh;overflow:hidden;position:relative;}
+#daily-screen{display:none;flex-direction:column;width:100%;height:100vh;overflow:hidden;position:relative;--text:#2a1f5a;--muted:#7060a8;--muted-lt:#9080c0;}
 #daily-top-bar{display:none;align-items:center;justify-content:space-between;padding:8px 16px 8px;flex-shrink:0;border-bottom:1px solid var(--rn-hdr-border,rgba(180,170,220,.18));background:var(--rn-hdr-bg,rgba(232,226,248,1));position:sticky;top:0;z-index:60;width:100%;box-sizing:border-box;overflow:visible;}
 .dp-hdr-title{font-size:15px;font-weight:800;color:var(--lav-dk);letter-spacing:-0.02em;white-space:nowrap;}
 .dp-hdr-sub{font-size:11px;color:rgba(120,100,180,.7);font-weight:600;margin-top:1px;}
@@ -2478,7 +2479,7 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
 .ql-exp-bar { height:100%; background:linear-gradient(90deg,#ffe033,#a8d84a,#4caf72); background-size:100% 100%; border-radius:4px; transition:width .3s; }
 .ql-exp-label { font-size:7px; color:var(--ql-muted); margin-top:2px; }
 
-.dp-settings-body{padding:20px;overflow-y:auto;height:calc(100vh - 62px - env(safe-area-inset-bottom,0px));}
+.dp-settings-body{padding:20px 20px 100px;overflow-y:auto;-webkit-overflow-scrolling:touch;height:calc(100vh - 62px - env(safe-area-inset-bottom,0px));box-sizing:border-box;}
 /* ══════════════════════════════════════════
    홈 하단 네비게이션 (pill slide 방식)
 ══════════════════════════════════════════ */
@@ -2522,8 +2523,7 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
   width:100%;
   z-index:500;
   flex-direction:column;
-  background:linear-gradient(160deg,#ede0ff 0%,#ddd0ff 40%,#f8f0c8 100%);
-  background-attachment:fixed;
+  background:transparent;
   overflow-y:auto;-webkit-overflow-scrolling:touch;
 }
 #record-screen .hs-body,#memo-screen .hs-body{
@@ -3029,14 +3029,15 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
 .settings-body{
   flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;
   max-width:480px;margin:0 auto;width:100%;box-sizing:border-box;
-  padding:16px 16px 90px;position:relative;z-index:1;
+  padding:20px 20px 100px;position:relative;z-index:1;
 }
 .set-section{
-  background:rgba(255,255,255,.6);border:1.5px solid rgba(160,140,230,.25);
-  border-radius:13px;padding:12px 14px;margin-bottom:10px;
+  background:transparent;border:none;
+  border-radius:0;padding:4px 0;margin-bottom:14px;
 }
-.set-section-title{font-size:13px;font-weight:800;color:#4a3a8a;margin-bottom:9px;display:flex;align-items:center;gap:6px;}
-.set-section-desc{font-size:11px;color:rgba(110,90,170,.7);margin-bottom:9px;line-height:1.45;}
+.set-section-theme{margin-bottom:4px;}
+.set-section-title{font-size:12px;font-weight:700;color:#7060a8;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.set-section-desc{font-size:11px;color:rgba(120,105,170,.7);margin-bottom:10px;line-height:1.45;}
 .set-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;}
 .set-row:last-child{margin-bottom:0;}
 .set-btn{
@@ -3260,7 +3261,7 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
     <header class="app-header" style="padding:8px 16px 8px;">
       <div style="display:flex;align-items:center;justify-content:space-between;">
         <div>
-          <span class="app-brand">⚙️ 설정</span>
+          <span class="app-brand">⚙️ 홈 설정</span>
           <div class="app-sub">앱을 내 취향에 맞게 조정해요</div>
         </div>
         <div class="app-switcher app-sw-bar"><button class="app-sw-collapse" title="접기/펼치기">&#8250;</button>
@@ -3485,7 +3486,7 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
     </div>
 
     <div class="sec-label" style="margin-bottom:10px;">⏰ 기본 타이머</div>
-    <div class="config-card card">
+    <div class="config-card card" style="background:rgba(255,255,255,.7);border:1px solid rgba(200,190,255,.35);">
       <div class="cfg-row">
         <div class="cfg-lbl">🎯 집중 시간 (분)</div>
         <input class="cfg-val" id="cfg-focus" type="number" value="45" min="1" max="120" onchange="updateDefaultConfig()">
@@ -3632,7 +3633,7 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
   </div>
 
   <div id="tab-settings" class="tab-content">
-    <div id="bingoSettingsBody" style="padding:8px 0 100px"></div>
+    <div id="bingoSettingsBody" style="padding:6px 0 100px"></div>
   </div>
 
 </div>
@@ -5298,7 +5299,7 @@ function renderHomeSettings(){
   var _homeTheme=localStorage.getItem('lf_theme_home')||localStorage.getItem('lf_theme')||'default';
   function _tOn(t){ return (_homeTheme===t||(_homeTheme==='default'&&t==='lav'))?' active':''; }
   body.innerHTML=
-    '<div class="set-section">'
+    '<div class="set-section set-section-theme">'
     +'<div class="set-section-title">🎨 색깔 테마</div>'
     +'<div class="set-section-desc">홈·메모·설정 화면의 색상을 바꿔요.</div>'
     +'<div class="theme-section"><div class="theme-row">'
@@ -5311,6 +5312,7 @@ function renderHomeSettings(){
     +'<div class="set-section">'
     +'<div class="set-section-title">📐 화면 크기</div>'
     +'<div class="set-section-desc">글씨가 작거나 크면 화면 전체 크기를 조정해요.</div>'
+    +'<div style="background:rgba(255,255,255,.7);border:1px solid rgba(200,190,255,.35);border-radius:13px;padding:14px 16px;">'
     +'<div class="set-size-wrap">'
     +'<div class="set-size-control">'
     +'<button class="set-size-btn" id="set-size-minus">−</button>'
@@ -5320,11 +5322,14 @@ function renderHomeSettings(){
     +'<button class="set-size-reset-box" id="set-size-reset">기본값<br>(100%)<br>복구</button>'
     +'</div>'
     +'</div>'
+    +'</div>'
     +'<div class="set-section">'
     +'<div class="set-section-title">📝 한 페이지에 보일 메모 수</div>'
     +'<div class="set-section-desc">메모 탭(기록·체크·중요)에서 한 번에 보이는 메모 개수예요.</div>'
+    +'<div style="background:rgba(255,255,255,.7);border:1px solid rgba(200,190,255,.35);border-radius:13px;padding:14px 16px;">'
     +'<div class="set-memo-ppg">'
     +['4','6','8'].map(function(n){ var on=memoPerPage()==parseInt(n); return '<button class="set-ppg-btn'+(on?' active':'')+'" data-ppg="'+n+'">'+n+'개</button>'; }).join('')
+    +'</div>'
     +'</div>'
     +'</div>'
     +'<div class="set-section">'
@@ -5441,10 +5446,20 @@ function homeThemeBg(){
   var bg;
   if(t==='tomato') bg='radial-gradient(ellipse at 15% 20%,rgba(255,190,180,.35) 0%,transparent 50%),radial-gradient(ellipse at 85% 80%,rgba(200,240,220,.3) 0%,transparent 50%),linear-gradient(155deg,#ffe6e4 0%,#f2ebe4 35%,#e8f8f0 70%,#ccf0e4 100%)';
   else if(t==='cat') bg='radial-gradient(ellipse at 15% 20%,rgba(255,235,150,.35) 0%,transparent 50%),radial-gradient(ellipse at 85% 80%,rgba(255,210,235,.32) 0%,transparent 50%),linear-gradient(155deg,#fff8d0 0%,#ffeee0 35%,#ffe8f0 70%,#ffd6e8 100%)';
-  else if(t==='lemon') bg='radial-gradient(ellipse at 15% 20%,rgba(230,220,120,.32) 0%,transparent 50%),radial-gradient(ellipse at 85% 80%,rgba(200,235,150,.3) 0%,transparent 50%),linear-gradient(155deg,#fbf6c8 0%,#f5f0b8 35%,#eef5c0 70%,#e0eaa0 100%)';
-  else bg='radial-gradient(ellipse at 15% 20%,rgba(200,185,255,.35) 0%,transparent 50%),radial-gradient(ellipse at 85% 80%,rgba(230,220,120,.28) 0%,transparent 50%),linear-gradient(155deg,#f0ecff 0%,#e8e2f8 30%,#f5f0c8 70%,#eeea9a 100%)';
+  else if(t==='lemon') bg='radial-gradient(ellipse at 15% 20%,rgba(200,185,255,.35) 0%,transparent 50%),radial-gradient(ellipse at 85% 80%,rgba(230,220,120,.28) 0%,transparent 50%),linear-gradient(155deg,#f0ecff 0%,#e8e2f8 30%,#f5f0c8 70%,#eeea9a 100%)';
+  else bg='radial-gradient(ellipse at 15% 20%,rgba(200,185,255,.35) 0%,transparent 50%),radial-gradient(ellipse at 85% 80%,rgba(180,200,255,.3) 0%,transparent 50%),linear-gradient(160deg,#ede0ff 0%,#d8e8ff 50%,#c8e0ff 100%)';
   document.body.style.background=bg;
   document.body.style.backgroundAttachment='fixed';
+  /* 하단 nav 배경 + pill(하이라이트) 테마별 */
+  var nav=document.getElementById('home-nav');
+  var pill=document.querySelector('.home-nav-pill');
+  var navBg, pillBg;
+  if(t==='tomato'){ navBg='rgba(255,244,242,.92)'; pillBg='linear-gradient(135deg,#ffb0a4 0%,#ffd8d0 50%,#ffe0c8 100%)'; }
+  else if(t==='cat'){ navBg='rgba(255,250,240,.92)'; pillBg='linear-gradient(135deg,#ffe088 0%,#fff0d0 50%,#ffd6e8 100%)'; }
+  else if(t==='lemon'){ navBg='rgba(250,248,236,.92)'; pillBg='linear-gradient(135deg,#e8e0a0 0%,#f5f0c8 50%,#f0e8b0 100%)'; }
+  else { navBg='rgba(248,244,255,.92)'; pillBg='linear-gradient(135deg,#c8b4f8 0%,#dce4ff 50%,#c8e0ff 100%)'; }
+  if(nav) nav.style.background=navBg;
+  if(pill) pill.style.background=pillBg;
 }
 function homeNavShow(tabId){
   /* 홈 계열 화면(홈/기록/메모/설정)은 저장된 홈 테마 적용 */
@@ -5524,14 +5539,16 @@ function homeNavHide(){
 })();
 
 function goHome(){localStorage.setItem('ymwt_lastApp','home');closeWip();
-  homeNavShow('home');
-  /* 다른 앱 화면 전부 숨김 */
-  ['lumi-screen','bingo-screen','routine-screen','daily-screen','memo-screen','record-screen','settings-screen'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none';});
+  /* 다른 앱(비-홈계열) 화면 먼저 숨김 — 홈 계열(memo/record/settings)은 homeNavShow가 관리 */
+  ['lumi-screen','bingo-screen','routine-screen','daily-screen'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none';});
   var rnav=document.getElementById('routine-nav');if(rnav)rnav.style.display='none';
   var rtb=document.getElementById('routine-top-bar');if(rtb)rtb.style.display='none';
   var dnav=document.getElementById('daily-nav');if(dnav)dnav.style.display='none';
   var dtb=document.getElementById('daily-top-bar');if(dtb)dtb.style.display='none';
-  document.getElementById('home-screen').style.display='flex';document.getElementById('home-screen').style.flexDirection='column';document.body.dataset.screen='home';document.body.dataset.theme=(localStorage.getItem('lf_theme_home')||'default');homeThemeBg();}
+  document.body.dataset.screen='home';document.body.dataset.theme=(localStorage.getItem('lf_theme_home')||'default');homeThemeBg();
+  /* 마지막 홈 탭 복원 (홈 계열 화면 표시는 여기서 담당) */
+  var _lht=localStorage.getItem('ymwt_lastHomeTab')||'home';
+  homeNavShow(_lht);}
 
 /* ══════════════════════════════════════════
    DAILY PLANNER APP — JS
@@ -7829,14 +7846,14 @@ function dpTab(tab){
     var enA=curLang==='en'?' lang-btn-on':'', koA=curLang==='ko'?' lang-btn-on':'';
     var curForm=localStorage.getItem('ymwt_dp_form')||'basic';
     var wkStart=localStorage.getItem('ymwt_week_start')||'mon';
-    app.innerHTML='<div class="dp-settings-body">'      +'<div class="section-title-sm" style="margin-bottom:10px">📋 '+(ko?'플래너 양식':'Planner Template')+'</div>'      +'<div class="dp-form-section"><div class="dp-form-cards">'      +'<div class="dp-form-card'+(curForm==='basic'?' active':'')+' " id="dp-form-basic">'        +'<div class="dp-form-card-icon">📝</div>'        +'<div class="dp-form-card-info">'          +'<div class="dp-form-card-name">Basic Note</div>'          +'<div class="dp-form-card-desc">'+(ko?'기본 데일리 플래너 양식\n브레인덤프 · 우선순위 · 시간블록':'Basic daily planner\nBrain dump · Priorities · Time blocks')+'</div>'        +'</div>'        +'<div class="dp-form-card-badge'+(curForm==='basic'?' active':'')+'">'          +(curForm==='basic'?'✓ 사용중':'선택')+'</div>'      +'</div>'      +'<div class="dp-form-card'+(curForm==="questlog"?" active":"")+'" id="dp-form-questlog">'        +'<div class="dp-form-card-icon">⚔</div>'        +'<div class="dp-form-card-info">'          +'<div class="dp-form-card-name">Quest Log</div>'          +'<div class="dp-form-card-desc">'+(ko?'RPG 스타일 데일리 플래너\n퀘스트 · 상태창 · 전투 로그':'RPG daily planner\nQuests · Status · Battle log')+'</div>'        +'</div>'        +'<div class="dp-form-card-badge'+(curForm==="questlog"?" active":"")+'">'          +(curForm==="questlog"?"✓ 사용중":"선택")+'</div>'      +'</div>'      +'<div class="dp-form-card'+(curForm==="cert"?" active":"")+'" id="dp-form-cert">'        +'<div class="dp-form-card-icon">📋</div>'        +'<div class="dp-form-card-info">'          +'<div class="dp-form-card-name">'+(ko?'인증용':'Certification')+'</div>'          +'<div class="dp-form-card-desc">'+(ko?'네이비&화이트 인증 양식\n테마 무관 · 캡처 최적화':'Navy & white cert form\nTheme-free · Optimized for share')+'</div>'        +'</div>'        +'<div class="dp-form-card-badge'+(curForm==="cert"?" active":"")+'">'          +(curForm==="cert"?"✓ 사용중":"선택")+'</div>'      +'</div>'      +'</div></div>'      +'<div class="section-title-sm" style="margin-bottom:10px">🎨 '+(ko?'색깔 테마':'Color Theme')+'</div>'
+    app.innerHTML='<div class="dp-settings-body">'      +'<div class="section-title-sm" style="margin-bottom:10px">🎨 '+(ko?'색깔 테마':'Color Theme')+'</div>'
       +'<div class="theme-section"><div class="theme-row">'
       +'<button class="theme-btn theme-btn-lav'+lavA+'" id="dp-theme-lav"><div class="theme-btn-inner"><span class="theme-btn-icon">🌙</span><span class="theme-btn-name">'+('라벤더')+'</span></div></button>'
       +'<button class="theme-btn theme-btn-tomato'+tomA+'" id="dp-theme-tomato"><div class="theme-btn-inner"><span class="theme-btn-icon">🍅</span><span class="theme-btn-name">'+('토마토')+'</span></div></button>'
       +'<button class="theme-btn theme-btn-cat'+catA+'" id="dp-theme-cat"><div class="theme-btn-inner"><span class="theme-btn-icon">🐱</span><span class="theme-btn-name">'+('고양이')+'</span></div></button>'
       +'<button class="theme-btn theme-btn-lemon'+lemonA+'" id="dp-theme-lemon"><div class="theme-btn-inner"><span class="theme-btn-icon">🍋</span><span class="theme-btn-name">'+('레몬')+'</span></div></button>'
       +'</div></div>'
-      +'<div class="section-title-sm" style="margin-top:24px;margin-bottom:6px">📅 '+(ko?'주 시작 요일':'Week Starts On')+'</div>'      +'<div style="font-size:11px;color:rgba(120,105,170,.7);margin-bottom:10px;line-height:1.5;">'+(ko?'플래너에서 쓰이는 달력의 시작 요일을 바꿔요.':'Changes the planner calendar start day.')+'</div>'      +'<div style="display:flex;gap:10px;">'      +'<button class="lang-btn'+(wkStart==="sun"?" lang-btn-on":"")+'" id="dp-wk-sun">'+(ko?'일요일':'Sunday')+'</button>'      +'<button class="lang-btn'+(wkStart==="mon"?" lang-btn-on":"")+'" id="dp-wk-mon">'+(ko?'월요일':'Monday')+'</button>'      +'</div>'
+      +'<div class="section-title-sm" style="margin-bottom:10px">📋 '+(ko?'플래너 양식':'Planner Template')+'</div>'      +'<div class="dp-form-section"><div class="dp-form-cards">'      +'<div class="dp-form-card'+(curForm==='basic'?' active':'')+' " id="dp-form-basic">'        +'<div class="dp-form-card-icon">📝</div>'        +'<div class="dp-form-card-info">'          +'<div class="dp-form-card-name">Basic Note</div>'          +'<div class="dp-form-card-desc">'+(ko?'기본 데일리 플래너 양식\n브레인덤프 · 우선순위 · 시간블록':'Basic daily planner\nBrain dump · Priorities · Time blocks')+'</div>'        +'</div>'        +'<div class="dp-form-card-badge'+(curForm==='basic'?' active':'')+'">'          +(curForm==='basic'?'✓ 사용중':'선택')+'</div>'      +'</div>'      +'<div class="dp-form-card'+(curForm==="questlog"?" active":"")+'" id="dp-form-questlog">'        +'<div class="dp-form-card-icon">⚔</div>'        +'<div class="dp-form-card-info">'          +'<div class="dp-form-card-name">Quest Log</div>'          +'<div class="dp-form-card-desc">'+(ko?'RPG 스타일 데일리 플래너\n퀘스트 · 상태창 · 전투 로그':'RPG daily planner\nQuests · Status · Battle log')+'</div>'        +'</div>'        +'<div class="dp-form-card-badge'+(curForm==="questlog"?" active":"")+'">'          +(curForm==="questlog"?"✓ 사용중":"선택")+'</div>'      +'</div>'      +'<div class="dp-form-card'+(curForm==="cert"?" active":"")+'" id="dp-form-cert">'        +'<div class="dp-form-card-icon">📋</div>'        +'<div class="dp-form-card-info">'          +'<div class="dp-form-card-name">'+(ko?'인증용':'Certification')+'</div>'          +'<div class="dp-form-card-desc">'+(ko?'네이비&화이트 인증 양식\n테마 무관 · 캡처 최적화':'Navy & white cert form\nTheme-free · Optimized for share')+'</div>'        +'</div>'        +'<div class="dp-form-card-badge'+(curForm==="cert"?" active":"")+'">'          +(curForm==="cert"?"✓ 사용중":"선택")+'</div>'      +'</div>'      +'</div></div>'      +'<div class="section-title-sm" style="margin-top:24px;margin-bottom:6px">📅 '+(ko?'주 시작 요일':'Week Starts On')+'</div>'      +'<div style="font-size:11px;color:rgba(120,105,170,.7);margin-bottom:10px;line-height:1.5;">'+(ko?'플래너에서 쓰이는 달력의 시작 요일을 바꿔요.':'Changes the planner calendar start day.')+'</div>'      +'<div style="display:flex;gap:10px;">'      +'<button class="lang-btn'+(wkStart==="sun"?" lang-btn-on":"")+'" id="dp-wk-sun">'+(ko?'일요일':'Sunday')+'</button>'      +'<button class="lang-btn'+(wkStart==="mon"?" lang-btn-on":"")+'" id="dp-wk-mon">'+(ko?'월요일':'Monday')+'</button>'      +'</div>'
       +'<div class="section-title-sm" style="margin-top:24px;margin-bottom:10px">🌐 '+(ko?'메뉴 표기 언어':'Display Language')+'</div>'
       +'<div style="display:flex;gap:10px;">'
       +'<button class="lang-btn'+enA+'" id="dp-lang-en">🇺🇸 English</button>'
@@ -9807,30 +9824,33 @@ function showMonthDetail(entry) {
           '<span class="theme-btn-name">'+t.name+'</span>'+
         '</div></button>';
     }).join('');
+    var _bgSec='margin-bottom:16px;padding:2px 0;';
     body.innerHTML=
-      '<div style="background:rgba(255,255,255,.7);border-radius:14px;border:1px solid rgba(200,190,255,.4);padding:14px 16px;margin-bottom:12px">'+
-      '<div class="field" style="margin-bottom:10px"><label class="field-label">🏷️ 빙고 타이틀</label>'+
+      '<div style="'+_bgSec+'">'+
+      '<label style="font-size:12px;font-weight:700;color:#7060a8;margin-bottom:10px;display:block">🎨 색깔 테마</label>'+
+      '<div class="theme-row">'+themeHTML+'</div></div>'+
+      '<div style="'+_bgSec+'">'+
+      '<div class="field" style="margin-bottom:10px"><label style="font-size:12px;font-weight:700;color:#7060a8;margin-bottom:6px;display:block">🏷️ 빙고 타이틀</label>'+
       '<input class="input-base" id="bsTitle" value="'+esc(S.title)+'" placeholder="5월의 목표 빙고"></div>'+
-      '<div class="field" style="margin-bottom:0"><label class="field-label">📐 빙고 크기</label>'+
+      '<div class="field" style="margin-bottom:0"><label style="font-size:12px;font-weight:700;color:#7060a8;margin-bottom:6px;display:block">📐 빙고 크기</label>'+
       '<select class="input-base" id="bsSize">'+sizeOpts+'</select></div></div>'+
-      '<div style="background:rgba(255,255,255,.7);border-radius:14px;border:1px solid rgba(200,190,255,.4);padding:14px 16px;margin-bottom:12px">'+
+      '<div style="margin-bottom:16px;">'+
+      '<label style="font-size:12px;font-weight:700;color:#7060a8;margin-bottom:10px;display:block">🎲 빙고 모드 설정</label>'+
+      '<div style="background:rgba(255,255,255,.7);border:1px solid rgba(200,190,255,.35);border-radius:13px;padding:14px 16px;">'+
       '<label style="display:flex;align-items:center;gap:8px;margin-bottom:4px;cursor:pointer"><input type="checkbox" id="bsDetail"'+(S.detailMode?' checked':'')+'>'+
       '<span style="font-size:13px;font-weight:600">🔵 진행 모드</span></label>'+
       '<div style="font-size:11px;color:#8878b8;margin-bottom:12px">➡️시작→🔁진행중→✅완료</div>'+
       '<label style="display:flex;align-items:center;gap:8px;margin-bottom:4px;cursor:pointer"><input type="checkbox" id="bsDiff"'+(S.diffMode?' checked':'')+'>'+
       '<span style="font-size:13px;font-weight:600">🎯 난이도 모드</span></label>'+
-      '<div style="font-size:11px;color:#8878b8">하🟡 / 중🟠 / 상🔴</div></div>'+
-      '<div style="background:rgba(255,255,255,.7);border-radius:14px;border:1px solid rgba(200,190,255,.4);padding:14px 16px;margin-bottom:12px">'+
-      '<label class="field-label" style="margin-bottom:10px;display:block">🎨 색깔 테마</label>'+
-      '<div class="theme-row">'+themeHTML+'</div></div>'+
-      '<div style="background:rgba(255,255,255,.7);border-radius:14px;border:1px solid rgba(200,190,255,.4);padding:14px 16px;margin-bottom:12px">'+
+      '<div style="font-size:11px;color:#8878b8">하🟡 / 중🟠 / 상🔴</div></div></div>'+
+      '<div style="'+_bgSec+'">'+
       '<label style="display:flex;align-items:center;gap:8px;margin-bottom:6px;cursor:pointer">'+
       '<input type="checkbox" id="bsAutoSave"'+(localStorage.getItem('bingo_autosave')==='true'?' checked':'')+'>'+
       '<span style="font-size:13px;font-weight:700">⏰ 자동 저장</span></label>'+
       '<div style="font-size:11px;color:#8878b8;line-height:1.6">활성화 시 매일 자정에 빙고가 리포트에 자동 저장됩니다.<br>비활성화 시 사용자가 직접 저장해야 합니다.</div>'+
       '</div>'+
       '<div style="margin-top:4px;">'+
-      '<div class="field-label" style="margin-bottom:10px;font-size:12px;font-weight:700;color:#4a3a8a;">✨ 텍스트 → 이모지 가이드</div>'+
+      '<div style="margin-bottom:10px;font-size:12px;font-weight:700;color:#7060a8;">✨ 텍스트 → 이모지 가이드</div>'+
       '<button id="bingo-emoji-table-btn" style="width:100%;padding:12px;background:rgba(255,255,255,.7);border:1.5px solid rgba(200,190,255,.4);border-radius:12px;font-size:13px;font-weight:700;color:#6e5ab4;cursor:pointer;">'+
       ':smile → 😊  이모지 단축코드 목록 보기'+
       '</button></div>';
