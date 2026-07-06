@@ -3768,17 +3768,30 @@ function bingoAutoSaveMidnight(){
   var lastSave=localStorage.getItem('bingo_autosave_date')||'';
   var today=(function(){ var d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); })();
   if(lastSave===today) return; /* 오늘 이미 저장 */
-  /* saveBingoReport() 함수가 있으면 호출 — 없으면 직접 저장 */
   try{
-    var S=JSON.parse(localStorage.getItem('bingo-weekly-v1')||'null');
-    if(!S||!S.cells) return;
-    var arr=JSON.parse(localStorage.getItem('bingo-weekly-history')||'[]');
-    var label=(function(){ var d=new Date(); return d.getFullYear()+'년 '+String(d.getMonth()+1).padStart(2,'0')+'월'; })();
-    var entry={ id:Date.now(), label:label, title:S.title||'', cells:S.cells, rowConcepts:S.rowConcepts||[], size:S.size||3, savedAt:new Date().toISOString() };
-    arr.unshift(entry);
-    localStorage.setItem('bingo-weekly-history', JSON.stringify(arr));
+    /* 현재 빙고판 데이터를 실제 저장 키에서 읽기 (수동저장과 동일 소스) */
+    var board=JSON.parse(localStorage.getItem('bingo-board-state-v2')||'null');
+    if(!board||!board.cells) return; /* 빙고판 없으면 스킵 */
+    var title=localStorage.getItem('bingo-title')||'';
+    var size=parseInt(localStorage.getItem('bingo-size')||'3',10);
+    var detailMode=localStorage.getItem('bingo-detail-mode')==='true';
+    var diffMode=localStorage.getItem('bingo-difficulty-mode')==='true';
+    /* 주차 키/라벨 (수동저장 currentWeekKey/weekLabel과 동일 규칙) */
+    var d=new Date();
+    var y=d.getFullYear(), m=d.getMonth()+1, wn=Math.ceil(d.getDate()/7);
+    var wkey=y+'-'+String(m).padStart(2,'0')+'-W'+wn;
+    var wlabel=y+'년 '+String(m).padStart(2,'0')+'월 '+wn+'주차';
+    /* 수동저장과 동일 키(bingo-weekly-v1) 배열에 upsert */
+    var arr=JSON.parse(localStorage.getItem('bingo-weekly-v1')||'[]');
+    if(!Array.isArray(arr)) arr=[];
+    var entry={ id:wkey, label:wlabel, savedAt:Date.now(),
+      title:title, size:size, cells:board.cells, rowConcepts:board.rowConcepts||[],
+      detailMode:detailMode, diffMode:diffMode, theme:document.body.dataset.theme };
+    var idx=arr.findIndex(function(e){return e.id===wkey;});
+    if(idx>=0) arr[idx]=entry; else arr.unshift(entry);
+    localStorage.setItem('bingo-weekly-v1', JSON.stringify(arr));
     localStorage.setItem('bingo_autosave_date', today);
-    console.log('빙고 자동저장 완료:', label);
+    console.log('빙고 자동저장 완료:', wlabel);
   } catch(e){ console.error('빙고 자동저장 오류:',e); }
 }
 
