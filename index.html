@@ -2269,7 +2269,7 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:r
 /* 월 모음 그룹 편집 행: 날짜 라벨 + 완료원 + 입력 + x 한 줄 */
 .dpm-grp-edit{margin-bottom:7px;}
 .dpm-brow-grp{align-items:center;}
-.dpm-row-date{flex-shrink:0;width:48px;margin-right:0;font-size:14px;font-weight:800;color:#6a50b0;text-align:left;line-height:1;letter-spacing:-.3px;white-space:nowrap;}
+.dpm-row-date{flex-shrink:0;width:50px;margin-right:0;font-size:14px;font-weight:800;color:#6a50b0;text-align:left;line-height:1;letter-spacing:-.3px;white-space:nowrap;}
 .dpm-brow-grp .dpm-row-date:empty{visibility:hidden;} /* 둘째 줄부터는 빈 자리(정렬 유지) */
 .dpm-bul{color:#a890e8;font-size:15px;font-weight:900;flex-shrink:0;}
 /* 완료 체크 원 */
@@ -3011,6 +3011,10 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
 
 /* 홈 배경 별/반짝이 장식 (petal 사이 빈 공간) */
 .home-sparkles{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+/* 앱별 별 레이어: 화면에 고정 (콘텐츠 스크롤과 분리) */
+#bingo-sparkles{position:fixed;left:0;right:0;top:0;bottom:0;max-width:480px;margin:0 auto;}
+#lumi-sparkles{position:absolute;inset:0;}
+#routine-sparkles,#daily-sparkles{position:absolute;inset:0;}
 /* clover-wrap 내 sparkles는 flex 흐름에서 완전히 제외 (center 정렬 안정화) */
 .clover-wrap > .home-sparkles{position:absolute;}
 .home-sparkles .spark{
@@ -3036,7 +3040,7 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
   border-radius:0;padding:4px 0;margin-bottom:14px;
 }
 .set-section-theme{margin-bottom:4px;}
-.set-section-title{font-size:12px;font-weight:700;color:#7060a8;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.set-section-title{font-size:12px;font-weight:700;color:#7060a8;margin-bottom:10px;display:flex;align-items:center;gap:6px;letter-spacing:.8px;text-transform:uppercase;}
 .set-section-desc{font-size:11px;color:rgba(120,105,170,.7);margin-bottom:10px;line-height:1.45;}
 .set-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;}
 .set-row:last-child{margin-bottom:0;}
@@ -3295,6 +3299,7 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
   </nav>
 
   <div id='lumi-screen'>
+<div id="lumi-sparkles" class="home-sparkles screen-sparkles" style="z-index:0"></div>
 <div class="lumi-inner">
   <div id="lumi-top-bar">
     <div>
@@ -3461,7 +3466,7 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
         <button class="theme-btn theme-btn-lav active" id="theme-lav" onclick="applyTheme('default')">
           <div class="theme-btn-inner">
             <span class="theme-btn-icon">🌙</span>
-            <span class="theme-btn-name">라벤더</span>
+            <span class="theme-btn-name">새벽</span>
           </div>
         </button>
         <button class="theme-btn theme-btn-tomato" id="theme-tomato" onclick="applyTheme('tomato')">
@@ -3573,6 +3578,7 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
   </div></div>
   <div id='bingo-screen'>
 <div class="bg-layer"></div>
+<div id="bingo-sparkles" class="home-sparkles screen-sparkles" style="z-index:0"></div>
 
 <header class="app-header" style="padding:8px 16px 8px;">
   <div style="display:flex;align-items:center;justify-content:space-between;">
@@ -3681,6 +3687,7 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
         <button class='app-sw-btn' data-label='Timely' onclick='goTimely()'>🍅</button>
       </div>
     </div>
+    <div id='routine-sparkles' class='home-sparkles screen-sparkles' style='z-index:0'></div>
     <div id='routine-app'></div>
     <div class='toast' id='routine-toast'></div>
     <div class='toast' id='toast'></div>
@@ -3725,6 +3732,7 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
         <button class='app-sw-btn' data-label='Timely' onclick='goTimely()'>🍅</button>
       </div>
     </div>
+    <div id='daily-sparkles' class='home-sparkles screen-sparkles' style='z-index:0'></div>
     <div id='daily-app' style='flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:0;min-height:0;'></div>
     <div class='toast' id='daily-toast'></div>
     
@@ -4243,6 +4251,7 @@ function rnRenderRptRetro(){
 
 
 function rnTab(tab){
+  if(typeof reshuffleSparkles==='function') reshuffleSparkles('routine-sparkles');
   _rnLastTab = tab;
   localStorage.setItem('ymwt_rnLastTab', tab);
   /* 헤더 제목/서브 업데이트 */
@@ -4305,7 +4314,7 @@ function rnTab(tab){
         '<div class="section-title-sm" style="margin-bottom:10px">🎨 색깔 테마</div>',
         '<div class="theme-section"><div class="theme-row">',
           '<button class="theme-btn theme-btn-lav'+lavA+'" id="rn-theme-lav">',
-            '<div class="theme-btn-inner"><span class="theme-btn-icon">🌙</span><span class="theme-btn-name">라벤더</span></div></button>',
+            '<div class="theme-btn-inner"><span class="theme-btn-icon">🌙</span><span class="theme-btn-name">새벽</span></div></button>',
           '<button class="theme-btn theme-btn-tomato'+tomA+'" id="rn-theme-tomato">',
             '<div class="theme-btn-inner"><span class="theme-btn-icon">🍅</span><span class="theme-btn-name">토마토</span></div></button>',
           '<button class="theme-btn theme-btn-cat'+catA+'" id="rn-theme-cat">',
@@ -4314,7 +4323,7 @@ function rnTab(tab){
             '<div class="theme-btn-inner"><span class="theme-btn-icon">🍋</span><span class="theme-btn-name">레몬</span></div></button>',
         '</div></div>',
         '<div class="section-title-sm" style="margin-top:24px;margin-bottom:6px">📅 주 시작 요일</div>',
-        '<div style="font-size:11px;color:rgba(120,105,170,.7);margin-bottom:10px;line-height:1.5;">트래커에서 쓰이는 달력의 시작 요일을 바꿔요. <span style="color:rgba(150,120,180,.85);">(다만 주간회고 및 통계에서는 월요일부터 일요일까지의 통계만 보여주는 것으로 고정되어 있습니다. 변경 불가)</span></div>',
+        '<div style="font-size:11px;color:rgba(120,105,170,.7);margin-bottom:10px;line-height:1.5;">트래커에서 쓰이는 달력의 시작 요일을 바꿔요.<br><span style="color:rgba(150,120,180,.85);">단, 주간회고 및 리포트 통계는 시작요일이 월요일로 고정되어있어요.</span></div>',
         '<div style="display:flex;gap:10px;">',
           '<button class="lang-btn'+((rnWkStart==="sun")?" lang-btn-on":"")+'" id="rn-wk-sun">일요일</button>',
           '<button class="lang-btn'+((rnWkStart==="mon")?" lang-btn-on":"")+'" id="rn-wk-mon">월요일</button>',
@@ -5280,6 +5289,11 @@ function memoReshuffleSparkles(){
   delete _screenSparkleCache['memo-sparkles'];
   renderScreenSparkles('memo-sparkles');
 }
+/* 범용: 탭 전환 시 별 새로 섞기 (플래너/트래커/빙고/타이머) */
+function reshuffleSparkles(boxId){
+  delete _screenSparkleCache[boxId];
+  requestAnimationFrame(function(){ renderScreenSparkles(boxId); });
+}
 
 /* 앱 전체 줌 적용 (크롬 줌처럼 콘텐츠 확대/축소) */
 function applyAppZoom(scale){
@@ -5303,7 +5317,7 @@ function renderHomeSettings(){
     +'<div class="set-section-title">🎨 색깔 테마</div>'
     +'<div class="set-section-desc">홈·메모·설정 화면의 색상을 바꿔요.</div>'
     +'<div class="theme-section"><div class="theme-row">'
-    +'<button class="theme-btn theme-btn-lav'+_tOn('lav')+'" id="home-theme-lav"><div class="theme-btn-inner"><span class="theme-btn-icon">🌙</span><span class="theme-btn-name">라벤더</span></div></button>'
+    +'<button class="theme-btn theme-btn-lav'+_tOn('lav')+'" id="home-theme-lav"><div class="theme-btn-inner"><span class="theme-btn-icon">🌙</span><span class="theme-btn-name">새벽</span></div></button>'
     +'<button class="theme-btn theme-btn-tomato'+_tOn('tomato')+'" id="home-theme-tomato"><div class="theme-btn-inner"><span class="theme-btn-icon">🍅</span><span class="theme-btn-name">토마토</span></div></button>'
     +'<button class="theme-btn theme-btn-cat'+_tOn('cat')+'" id="home-theme-cat"><div class="theme-btn-inner"><span class="theme-btn-icon">🐱</span><span class="theme-btn-name">고양이</span></div></button>'
     +'<button class="theme-btn theme-btn-lemon'+_tOn('lemon')+'" id="home-theme-lemon"><div class="theme-btn-inner"><span class="theme-btn-icon">🍋</span><span class="theme-btn-name">레몬</span></div></button>'
@@ -7815,6 +7829,7 @@ function dpBindSplitBtn(){ /* 단일 버튼이라 별도 바인딩 불필요 */ 
 
 function dpTab(tab){
   localStorage.setItem('ymwt_dp_lastTab',tab);
+  if(typeof reshuffleSparkles==='function') reshuffleSparkles('daily-sparkles');
   var ko=(dpLang()==='ko');
   var TITLES={
     planner: ['✨ 플래너', '오늘 하루을 완료해나가요!'],
@@ -7848,7 +7863,7 @@ function dpTab(tab){
     var wkStart=localStorage.getItem('ymwt_week_start')||'mon';
     app.innerHTML='<div class="dp-settings-body">'      +'<div class="section-title-sm" style="margin-bottom:10px">🎨 '+(ko?'색깔 테마':'Color Theme')+'</div>'
       +'<div class="theme-section"><div class="theme-row">'
-      +'<button class="theme-btn theme-btn-lav'+lavA+'" id="dp-theme-lav"><div class="theme-btn-inner"><span class="theme-btn-icon">🌙</span><span class="theme-btn-name">'+('라벤더')+'</span></div></button>'
+      +'<button class="theme-btn theme-btn-lav'+lavA+'" id="dp-theme-lav"><div class="theme-btn-inner"><span class="theme-btn-icon">🌙</span><span class="theme-btn-name">'+('새벽')+'</span></div></button>'
       +'<button class="theme-btn theme-btn-tomato'+tomA+'" id="dp-theme-tomato"><div class="theme-btn-inner"><span class="theme-btn-icon">🍅</span><span class="theme-btn-name">'+('토마토')+'</span></div></button>'
       +'<button class="theme-btn theme-btn-cat'+catA+'" id="dp-theme-cat"><div class="theme-btn-inner"><span class="theme-btn-icon">🐱</span><span class="theme-btn-name">'+('고양이')+'</span></div></button>'
       +'<button class="theme-btn theme-btn-lemon'+lemonA+'" id="dp-theme-lemon"><div class="theme-btn-inner"><span class="theme-btn-icon">🍋</span><span class="theme-btn-name">'+('레몬')+'</span></div></button>'
@@ -8837,6 +8852,7 @@ function closeWip(e){if(!e||e.target===document.getElementById('wip-overlay'))do
   function switchTab(tab) {
     S.activeTab = tab;
     window._bingoLastTab = tab;
+    if(typeof reshuffleSparkles==='function') reshuffleSparkles('bingo-sparkles');
     localStorage.setItem('ymwt_bingo_lastTab', tab);
     /* 앱 헤더 제목/부제목 갱신 (탭별) */
     var BG_TITLES={
@@ -9811,7 +9827,7 @@ function showMonthDetail(entry) {
     var sizeOpts=[2,3,4].map(function(v){return '<option value="'+v+'"'+(S.size===v?' selected':'')+'>'+v+'x'+v+'</option>';}).join('');
     var curTheme=localStorage.getItem('lf_theme_bingo')||'default';
     var themeOptions=[
-      {id:'lavender',btnCls:'theme-btn-lav',  icon:'🌙',name:'라벤더',applyKey:'default'},
+      {id:'lavender',btnCls:'theme-btn-lav',  icon:'🌙',name:'새벽',applyKey:'default'},
       {id:'tomato',  btnCls:'theme-btn-tomato',icon:'🍅',name:'토마토',applyKey:'tomato'},
       {id:'cat',     btnCls:'theme-btn-cat',   icon:'🐱',name:'고양이',applyKey:'cat'},
       {id:'lemon',   btnCls:'theme-btn-lemon', icon:'🍋',name:'레몬',  applyKey:'lemon'},
@@ -9827,15 +9843,15 @@ function showMonthDetail(entry) {
     var _bgSec='margin-bottom:16px;padding:2px 0;';
     body.innerHTML=
       '<div style="'+_bgSec+'">'+
-      '<label style="font-size:12px;font-weight:700;color:#7060a8;margin-bottom:10px;display:block">🎨 색깔 테마</label>'+
+      '<label style="font-size:12px;font-weight:700;color:#7060a8;margin-bottom:10px;display:block;letter-spacing:.8px;text-transform:uppercase">🎨 색깔 테마</label>'+
       '<div class="theme-row">'+themeHTML+'</div></div>'+
       '<div style="'+_bgSec+'">'+
-      '<div class="field" style="margin-bottom:10px"><label style="font-size:12px;font-weight:700;color:#7060a8;margin-bottom:6px;display:block">🏷️ 빙고 타이틀</label>'+
+      '<div class="field" style="margin-bottom:10px"><label style="font-size:12px;font-weight:700;color:#7060a8;margin-bottom:6px;display:block;letter-spacing:.8px;text-transform:uppercase">🏷️ 빙고 타이틀</label>'+
       '<input class="input-base" id="bsTitle" value="'+esc(S.title)+'" placeholder="5월의 목표 빙고"></div>'+
-      '<div class="field" style="margin-bottom:0"><label style="font-size:12px;font-weight:700;color:#7060a8;margin-bottom:6px;display:block">📐 빙고 크기</label>'+
+      '<div class="field" style="margin-bottom:0"><label style="font-size:12px;font-weight:700;color:#7060a8;margin-bottom:6px;display:block;letter-spacing:.8px;text-transform:uppercase">📐 빙고 크기</label>'+
       '<select class="input-base" id="bsSize">'+sizeOpts+'</select></div></div>'+
       '<div style="margin-bottom:16px;">'+
-      '<label style="font-size:12px;font-weight:700;color:#7060a8;margin-bottom:10px;display:block">🎲 빙고 모드 설정</label>'+
+      '<label style="font-size:12px;font-weight:700;color:#7060a8;margin-bottom:10px;display:block;letter-spacing:.8px;text-transform:uppercase">🎲 빙고 모드 설정</label>'+
       '<div style="background:rgba(255,255,255,.7);border:1px solid rgba(200,190,255,.35);border-radius:13px;padding:14px 16px;">'+
       '<label style="display:flex;align-items:center;gap:8px;margin-bottom:4px;cursor:pointer"><input type="checkbox" id="bsDetail"'+(S.detailMode?' checked':'')+'>'+
       '<span style="font-size:13px;font-weight:600">🔵 진행 모드</span></label>'+
@@ -9850,7 +9866,7 @@ function showMonthDetail(entry) {
       '<div style="font-size:11px;color:#8878b8;line-height:1.6">활성화 시 매일 자정에 빙고가 리포트에 자동 저장됩니다.<br>비활성화 시 사용자가 직접 저장해야 합니다.</div>'+
       '</div>'+
       '<div style="margin-top:4px;">'+
-      '<div style="margin-bottom:10px;font-size:12px;font-weight:700;color:#7060a8;">✨ 텍스트 → 이모지 가이드</div>'+
+      '<div style="margin-bottom:10px;font-size:12px;font-weight:700;color:#7060a8;letter-spacing:.8px;text-transform:uppercase;">✨ 텍스트 → 이모지 가이드</div>'+
       '<button id="bingo-emoji-table-btn" style="width:100%;padding:12px;background:rgba(255,255,255,.7);border:1.5px solid rgba(200,190,255,.4);border-radius:12px;font-size:13px;font-weight:700;color:#6e5ab4;cursor:pointer;">'+
       ':smile → 😊  이모지 단축코드 목록 보기'+
       '</button></div>';
@@ -14019,6 +14035,7 @@ function movePill(viewId){
 /* ── VIEW SWITCHING ── */
 var LUMI_TITLES={timer:['🍅 뽀모도로 타이머','집중해서 토마토를 모아보자.'],report:['🌳 토마토 수확 리포트','토마토 수확량을 확인해보자!'],settings:['🌱 타이머 설정','테마, 타이머 설정을 바꾸어 보아요.']};
 function switchView(v){
+  if(typeof reshuffleSparkles==='function') reshuffleSparkles('lumi-sparkles');
   window._lumiLastView=v; /* 현재 뷰 저장 */
   document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
   document.getElementById(v+'-view').classList.add('active');
