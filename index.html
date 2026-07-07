@@ -11,7 +11,7 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Apple SD Got
 #root{max-width:480px;margin:0 auto;height:100%;position:relative;overflow:hidden;box-shadow:0 0 40px rgba(80,60,160,.12);}
 #home-screen{display:flex;flex-direction:column;height:100%;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;}
 #lumi-screen{display:none;height:100%;}
-.lumi-inner{display:flex;flex-direction:column;height:100%;}
+.lumi-inner{display:flex;flex-direction:column;height:100%;position:relative;z-index:1;}
 #bingo-screen{display:none;position:absolute;inset:0;overflow-y:auto;z-index:10;}
 #routine-screen{display:none;position:absolute;inset:0;overflow:hidden;z-index:10;flex-direction:column;min-height:0;--text:#2a1f5a;--muted:#7060a8;--muted-lt:#9080c0;}
 :root{--mint:#b8a8e8;--mint-dk:#8b7fd4;--mint-lt:#d8d0f8;--mint-pale:rgba(184,168,232,.18);--mint-glass:rgba(184,168,232,.12);--y-color:#c8b840;--m-color:#a08ad8;--wd-color:#6abadc;--t-color:#e85d4a;--text:#2a2240;--muted:#7a72a0;--card-bg:rgba(255,255,255,.82);--card-s:rgba(255,255,255,.96);--r:28px;}
@@ -1861,7 +1861,7 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:r
 /* ── 주간앱 top-bar ── */
 #routine-top-bar{display:none;align-items:center;justify-content:space-between;padding:8px 16px 8px;flex-shrink:0;border-bottom:1px solid var(--rn-hdr-border,rgba(180,170,220,.18));background:var(--rn-hdr-bg,rgba(232,226,248,1));position:sticky;top:0;z-index:60;width:100%;box-sizing:border-box;overflow:visible;}
 
-#routine-app{flex:1;flex-shrink:1;overflow-y:auto;min-height:0;padding-bottom:62px;}
+#routine-app{flex:1;flex-shrink:1;overflow-y:auto;min-height:0;padding-bottom:62px;position:relative;z-index:1;}
 .rn-hdr-title{font-size:15px;font-weight:800;color:var(--lav-dk);letter-spacing:-0.02em;white-space:nowrap;}
 .rn-hdr-sub{font-size:11px;color:rgba(120,100,180,.7);font-weight:600;margin-top:1px;}
 /* ── 주간앱 하단 nav (빙고와 동일 스타일) ── */
@@ -2118,7 +2118,7 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:r
 .bingo-nav-btn.active{color:#4a2a8a;font-weight:800;}
 .bingo-nav-btn.active .bni{transform:scale(1.12);}
 .bingo-nav-btn:active{opacity:.75;}
-#bingo-body{padding-bottom:90px;}
+#bingo-body{padding-bottom:90px;position:relative;z-index:1;}
 
 /* ══════════════════════════════════════════
    DAILY PLANNER APP
@@ -2127,7 +2127,7 @@ body[data-theme="lemon"]    { --rn-hdr-bg:rgba(230,223,254,1); --rn-hdr-border:r
 #daily-top-bar{display:none;align-items:center;justify-content:space-between;padding:8px 16px 8px;flex-shrink:0;border-bottom:1px solid var(--rn-hdr-border,rgba(180,170,220,.18));background:var(--rn-hdr-bg,rgba(232,226,248,1));position:sticky;top:0;z-index:60;width:100%;box-sizing:border-box;overflow:visible;}
 .dp-hdr-title{font-size:15px;font-weight:800;color:var(--lav-dk);letter-spacing:-0.02em;white-space:nowrap;}
 .dp-hdr-sub{font-size:11px;color:rgba(120,100,180,.7);font-weight:600;margin-top:1px;}
-#daily-app{flex:1;overflow-y:scroll;scrollbar-gutter:stable;-webkit-overflow-scrolling:touch;padding-bottom:80px;}
+#daily-app{flex:1;overflow-y:scroll;scrollbar-gutter:stable;-webkit-overflow-scrolling:touch;padding-bottom:80px;position:relative;z-index:1;}
 #daily-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:var(--t-nav,rgba(240,236,255,.92));backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-top:1px solid rgba(180,170,220,.25);padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px));z-index:100;display:none;align-items:center;gap:0;}
 #daily-nav-pill{position:absolute;height:54px;border-radius:27px;background:linear-gradient(135deg,rgba(139,127,212,.85),rgba(59,159,214,.8));background:var(--grad-hi);box-shadow:0 4px 16px rgba(120,100,200,.2);top:6px;left:0;transition:left .32s cubic-bezier(.34,1.38,.64,1),width .32s cubic-bezier(.34,1.38,.64,1);pointer-events:none;z-index:1;}
 .dp-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:transparent!important;border:none!important;cursor:pointer;padding:10px 0 6px;font-family:inherit;font-size:10px;font-weight:700;color:rgba(120,100,180,.6);letter-spacing:.2px;position:relative;z-index:2;transition:color .2s;border-radius:27px!important;min-width:0;-webkit-tap-highlight-color:transparent;}
@@ -7381,14 +7381,33 @@ function dpBetaHandleFile(file){
     r.readAsText(file);
     return;
   }
-  /* 이미지 → base64 → Vision */
+  /* 이미지 → 리사이즈·압축 → base64 → Vision */
   if(file.type.indexOf('image/')===0){
+    dpBetaStatus('🖼 이미지 준비 중...');
     var r2=new FileReader();
     r2.onload=function(){
-      var dataUrl=r2.result;
-      var base64=dataUrl.split(',')[1];
-      var mediaType=file.type;
-      dpBetaVisionDecode(base64, mediaType);
+      var img=new Image();
+      img.onload=function(){
+        try{
+          /* 최대 1568px로 리사이즈 (Claude 권장), JPEG 85% 압축 */
+          var MAX=1568;
+          var w=img.width, h=img.height;
+          if(w>MAX||h>MAX){ var sc=Math.min(MAX/w, MAX/h); w=Math.round(w*sc); h=Math.round(h*sc); }
+          var cv=document.createElement('canvas'); cv.width=w; cv.height=h;
+          var ctx=cv.getContext('2d');
+          ctx.fillStyle='#fff'; ctx.fillRect(0,0,w,h); /* 투명 배경 방지 */
+          ctx.drawImage(img,0,0,w,h);
+          var jpeg=cv.toDataURL('image/jpeg', 0.85);
+          var base64=jpeg.split(',')[1];
+          dpBetaVisionDecode(base64, 'image/jpeg');
+        }catch(e){
+          /* 압축 실패 시 원본 시도 */
+          var b=r2.result.split(',')[1];
+          dpBetaVisionDecode(b, file.type);
+        }
+      };
+      img.onerror=function(){ dpBetaStatus('❌ 이미지를 열 수 없어요'); };
+      img.src=r2.result;
     };
     r2.readAsDataURL(file);
     return;
@@ -7434,7 +7453,9 @@ function dpBetaVisionDecode(base64, mediaType){
     if(total===0){ dpBetaStatus('⚠️ 이미지에서 일정을 찾지 못했어요'); return; }
     dpBetaApplyToForm(scheduled, todos);
   }).catch(function(err){
-    dpBetaStatus('❌ 해독 실패: '+(err&&err.message||'네트워크 오류')+' (인터넷 연결을 확인해 주세요)');
+    var em=(err&&err.message)||'네트워크 오류';
+    if(em.indexOf('fetch')>=0){ dpBetaStatus('❌ 서버 연결 실패 — 배포된 앱(온라인)에서 이용해 주세요. 오프라인이나 일부 환경에서는 AI 해독이 제한될 수 있어요.'); }
+    else { dpBetaStatus('❌ 해독 실패: '+em); }
   });
 }
 
