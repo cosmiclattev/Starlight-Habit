@@ -3804,8 +3804,8 @@ function bingoAutoSaveMidnight(){
     bingoAutoSaveMidnight();
     setInterval(bingoAutoSaveMidnight, 24*60*60*1000);
   }, ms);
-  /* 앱 시작 시에도 오늘 저장 여부 체크 (어제 자정 놓쳤을 경우 대비) */
-  setTimeout(bingoAutoSaveMidnight, 3000);
+  /* 앱을 켤 때마다 오늘 저장 여부 체크 (하루 한 번, 자정 놓쳐도 켤 때 저장) */
+  setTimeout(bingoAutoSaveMidnight, 1500);
 })();
 
 function goTimely(){
@@ -7238,6 +7238,7 @@ function dpRenderCert(){
       document.getElementById('dp-cert-do-share').onclick=function(){ doCapture('share'); };
     };
   }
+  if(typeof dpAppendBetaBox==='function') dpAppendBetaBox();
 }
 
 function dpCertAutoSave(){
@@ -7284,10 +7285,224 @@ function dpRenderCurrent(){
   var curForm=localStorage.getItem('ymwt_dp_form')||'basic';
   var ds=document.getElementById('daily-screen');
   var _da=document.getElementById('daily-app'); if(_da) _da.classList.remove('dp-report-mode');
-  if(curForm==='questlog'){ qlRender(); return; }
-  if(curForm==='cert'){ if(ds) ds.setAttribute('data-form','cert'); dpRenderCert(); return; }
+  if(curForm==='questlog'){ qlRender(); dpAppendBetaBox(); return; }
+  if(curForm==='cert'){ if(ds) ds.setAttribute('data-form','cert'); dpRenderCert(); dpAppendBetaBox(); return; }
   if(ds) ds.setAttribute('data-form','basic');
   dpRenderPlanner();
+  dpAppendBetaBox();
+}
+
+
+/* ══════════════════════════════════════════
+   플래너 베타 기능 박스 (양식 무관 맨 아래 삽입)
+   - 내보내기: 플래너 데이터 JSON 다운로드
+   - 불러오기: 이미지 → Claude Vision 해독 → 오늘 일정/우선순위에 추가
+══════════════════════════════════════════ */
+function dpAppendBetaBox(){
+  var app=document.getElementById('daily-app'); if(!app) return;
+  if(document.getElementById('dp-beta-box')) return; /* 중복 방지 */
+  /* 콘텐츠 흐름에 포함되도록 실제 양식 컨테이너 안에 넣기 (스크롤 접근 가능) */
+  var host=app.querySelector('.dp-planner')||app.querySelector('.ql-wrap')||app;
+  var box=document.createElement('div');
+  box.id='dp-beta-box';
+  box.style.cssText='margin:18px 14px 0;border-radius:12px;border:1.5px solid rgba(180,170,220,.3);overflow:hidden;';
+  box.innerHTML=
+    '<button id="dp-beta-toggle" style="width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px 14px;background:rgba(220,210,255,.2);border:none;cursor:pointer;font-size:12px;font-weight:700;color:#8060c0">'
+      +'<span>🧪 베타테스트 중인 기능</span>'
+      +'<span id="dp-beta-chevron">▼</span>'
+    +'</button>'
+    +'<div id="dp-beta-section" style="display:none;padding:12px 14px 14px">'
+      +'<div style="display:flex;gap:8px;margin-bottom:10px">'
+        +'<button id="dp-beta-export" style="flex:1;min-height:40px;font-size:12px;font-weight:700;border-radius:10px;border:1.5px solid rgba(180,168,220,.5);background:rgba(240,236,255,.65);color:#6a50b0;cursor:pointer">📤 내보내기</button>'
+        +'<button id="dp-beta-import" style="flex:1;min-height:40px;font-size:12px;font-weight:700;border-radius:10px;border:1.5px solid rgba(180,168,220,.5);background:rgba(240,236,255,.65);color:#6a50b0;cursor:pointer">📥 불러오기</button>'
+      +'</div>'
+      +'<div style="font-size:11px;color:#c05050;line-height:1.6;background:rgba(255,220,220,.3);border-radius:8px;padding:8px 10px">'
+        +'⚠️ 불러오기는 이미지 속 글씨를 AI가 해독해 오늘 일정에 추가하는 베타 기능이에요. 인식이 부정확할 수 있으니 추가 후 확인해 주세요.'
+      +'</div>'
+      +'<div id="dp-beta-status" style="display:none;margin-top:10px;font-size:11px;color:#7060a8;text-align:center;padding:8px;background:rgba(230,224,255,.4);border-radius:8px"></div>'
+    +'</div>';
+  host.appendChild(box);
+  /* 토글 */
+  document.getElementById('dp-beta-toggle').onclick=function(){
+    var sec=document.getElementById('dp-beta-section');
+    var chev=document.getElementById('dp-beta-chevron');
+    var open=sec.style.display!=='none';
+    sec.style.display=open?'none':'';
+    if(chev)chev.textContent=open?'▼':'▲';
+  };
+  document.getElementById('dp-beta-export').onclick=dpBetaExport;
+  document.getElementById('dp-beta-import').onclick=dpBetaImportClick;
+}
+
+/* 내보내기: 현재 날짜 플래너 데이터를 JSON 파일로 */
+function dpBetaExport(){
+  try{
+    var d=dpCurrentDate(); var key=dpKey(d);
+    var data=dpLoad(key)||dpDefaultData();
+    var out={ app:'byeolbit-planner', version:1, date:key, exportedAt:new Date().toISOString(), data:data };
+    var blob=new Blob([JSON.stringify(out,null,2)],{type:'application/json'});
+    var url=URL.createObjectURL(blob);
+    var a=document.createElement('a');
+    a.href=url; a.download='planner_'+key+'.json';
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(url); },500);
+    dpBetaStatus('✅ 내보내기 완료: planner_'+key+'.json');
+  }catch(e){ dpBetaStatus('❌ 내보내기 오류: '+e.message); }
+}
+
+/* 불러오기 버튼: 이미지 파일 선택 */
+function dpBetaImportClick(e){
+  if(e&&e.preventDefault)e.preventDefault();
+  var old=document.getElementById('dp-beta-file'); if(old)old.remove();
+  var fi=document.createElement('input');
+  fi.type='file'; fi.id='dp-beta-file'; fi.accept='image/*,.json';
+  fi.style.cssText='position:absolute;width:0;height:0;opacity:0;pointer-events:none;top:0;left:0';
+  fi.addEventListener('change',function(){
+    if(this.files&&this.files[0]){ dpBetaHandleFile(this.files[0]); }
+    setTimeout(function(){ if(fi.parentNode)fi.parentNode.removeChild(fi); },1000);
+  });
+  document.body.appendChild(fi); fi.click();
+}
+
+/* 파일 처리: JSON이면 복원, 이미지면 Vision 해독 */
+function dpBetaHandleFile(file){
+  if(file.type==='application/json'||file.name.endsWith('.json')){
+    var r=new FileReader();
+    r.onload=function(){
+      try{
+        var obj=JSON.parse(r.result);
+        var data=obj.data||obj;
+        var d=dpCurrentDate(); var key=dpKey(d);
+        dpSave(key,data);
+        dpRenderCurrent();
+        dpBetaStatus('✅ JSON 불러오기 완료');
+      }catch(e){ dpBetaStatus('❌ JSON 파싱 오류: '+e.message); }
+    };
+    r.readAsText(file);
+    return;
+  }
+  /* 이미지 → base64 → Vision */
+  if(file.type.indexOf('image/')===0){
+    var r2=new FileReader();
+    r2.onload=function(){
+      var dataUrl=r2.result;
+      var base64=dataUrl.split(',')[1];
+      var mediaType=file.type;
+      dpBetaVisionDecode(base64, mediaType);
+    };
+    r2.readAsDataURL(file);
+    return;
+  }
+  dpBetaStatus('❌ 지원하지 않는 파일 형식이에요 (이미지 또는 JSON)');
+}
+
+/* Claude Vision으로 이미지 글씨 해독 → 일정 추가 */
+function dpBetaVisionDecode(base64, mediaType){
+  dpBetaStatus('🔍 이미지에서 글씨를 해독하는 중... (수 초 걸려요)');
+  var prompt='이 이미지는 손글씨나 인쇄된 할 일 목록·일정·메모예요. 이미지 속 텍스트를 읽어서 두 종류로 분류해 주세요.\n'
+    +'1) scheduled: 특정 시간이 적힌 일정 (예: "9시 회의", "14:30 약속"). 시간은 반드시 "HH:MM" 24시간 형식으로 변환하세요(예: 오전 9시->"09:00", 오후 2시반->"14:30"). 시작 시간만 사용하세요.\n'
+    +'2) todos: 시간이 없는 할 일·체크리스트 항목.\n'
+    +'각 항목 텍스트는 짧고 명확하게 정리하되 원문 의미를 유지하세요. 제목·날짜 같은 메타 정보는 제외하세요.\n'
+    +'반드시 아래 JSON만 반환하세요(설명·마크다운 없이):\n'
+    +'{"scheduled":[{"time":"09:00","text":"회의"}],"todos":["장보기","운동"]}\n'
+    +'해당 항목이 없으면 빈 배열로 두세요.';
+  fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      model:'claude-sonnet-4-20250514',
+      max_tokens:1500,
+      messages:[{role:'user',content:[
+        {type:'image',source:{type:'base64',media_type:mediaType,data:base64}},
+        {type:'text',text:prompt}
+      ]}]
+    })
+  }).then(function(r){return r.json();}).then(function(resp){
+    var text=resp.content&&resp.content[0]&&resp.content[0].text||'';
+    var clean=text.replace(/```json|```/g,'').trim();
+    var obj=JSON.parse(clean);
+    var scheduled=Array.isArray(obj.scheduled)?obj.scheduled:[];
+    var todos=Array.isArray(obj.todos)?obj.todos:[];
+    /* 시간 정규화 */
+    scheduled=scheduled.map(function(s){
+      var t=(s&&s.text?String(s.text):'').trim();
+      var tm=dpBetaNormalizeTime(s&&s.time?String(s.time):'');
+      return {time:tm, text:t};
+    }).filter(function(s){return s.text;});
+    todos=todos.map(function(t){return String(t||'').trim();}).filter(function(t){return t;});
+    var total=scheduled.length+todos.length;
+    if(total===0){ dpBetaStatus('⚠️ 이미지에서 일정을 찾지 못했어요'); return; }
+    dpBetaApplyToForm(scheduled, todos);
+  }).catch(function(err){
+    dpBetaStatus('❌ 해독 실패: '+(err&&err.message||'네트워크 오류')+' (인터넷 연결을 확인해 주세요)');
+  });
+}
+
+/* 시간 문자열을 HH:MM으로 정규화 (실패 시 원문/빈값) */
+function dpBetaNormalizeTime(raw){
+  if(!raw) return '';
+  raw=raw.trim();
+  var m=raw.match(/^([0-2]?\d):([0-5]\d)$/);
+  if(m){ var h=parseInt(m[1],10); if(h>=0&&h<=23) return String(h).padStart(2,'0')+':'+m[2]; }
+  /* "9시", "오전 9시", "오후 2시 30분" 등 대비 */
+  var ko=raw.match(/(오전|오후)?\s*(\d{1,2})\s*시\s*(\d{1,2})?\s*분?/);
+  if(ko){
+    var hh=parseInt(ko[2],10); var mm=ko[3]?parseInt(ko[3],10):0;
+    if(ko[1]==='오후'&&hh<12) hh+=12;
+    if(ko[1]==='오전'&&hh===12) hh=0;
+    if(hh>=0&&hh<=23&&mm>=0&&mm<=59) return String(hh).padStart(2,'0')+':'+String(mm).padStart(2,'0');
+  }
+  return ''; /* 못 알아보면 시간 없음 처리 */
+}
+
+/* 양식별 분기: 해독 결과를 현재 양식에 맞게 삽입 */
+function dpBetaApplyToForm(scheduled, todos){
+  var form=localStorage.getItem('ymwt_dp_form')||'basic';
+  var d=dpCurrentDate();
+  if(form==='questlog'){
+    /* 퀘스트로그: scheduled -> events(time,text), todos -> mainQuests */
+    var ds=dpKey(d); var qlKey='ymwt_ql_'+ds;
+    var q=qlLoad(qlKey)||qlDefaultData();
+    if(!Array.isArray(q.events)) q.events=[];
+    if(!Array.isArray(q.mainQuests)) q.mainQuests=[];
+    /* 빈 슬롯부터 채우고 넘치면 추가 */
+    function fillEvents(items){
+      items.forEach(function(it){
+        var slot=q.events.find(function(e){return !e.text||!e.text.trim();});
+        if(slot){ slot.time=it.time||''; slot.text=it.text; slot.done=false; }
+        else q.events.push({time:it.time||'',text:it.text,done:false});
+      });
+    }
+    function fillQuests(items){
+      items.forEach(function(txt){
+        var slot=q.mainQuests.find(function(e){return !e.text||!e.text.trim();});
+        if(slot){ slot.text=txt; slot.done=false; }
+        else q.mainQuests.push({text:txt,done:false});
+      });
+    }
+    fillEvents(scheduled);
+    fillQuests(todos);
+    qlSave(qlKey,q);
+    dpRenderCurrent();
+    var msg='✅ 오늘의 일정 '+scheduled.length+'개, 메인 퀘스트 '+todos.length+'개 추가!';
+    dpBetaStatus(msg);
+  } else {
+    /* 베이직/인증: 전부 brainDump(나의 원츠)에 */
+    var key=dpKey(d);
+    var data=dpLoad(key)||dpDefaultData();
+    if(!Array.isArray(data.brainDump)) data.brainDump=[];
+    /* 시간 있는 건 "HH:MM 텍스트" 형태로 합쳐서 */
+    scheduled.forEach(function(s){ data.brainDump.push({text:(s.time?s.time+' ':'')+s.text,done:false}); });
+    todos.forEach(function(t){ data.brainDump.push({text:t,done:false}); });
+    dpSave(key,data);
+    dpRenderCurrent();
+    dpBetaStatus('✅ '+(scheduled.length+todos.length)+'개 항목을 추가했어요!');
+  }
+}
+
+function dpBetaStatus(msg){
+  var el=document.getElementById('dp-beta-status');
+  if(el){ el.style.display=''; el.textContent=msg; }
 }
 
 function dpRenderPlanner(){
@@ -7467,6 +7682,7 @@ function dpRenderPlanner(){
     accentColor:'#6a5fb0',
     navSelectors:'#dp-date-prev,#dp-date-next'
   });
+  if(typeof dpAppendBetaBox==='function') dpAppendBetaBox();
 }
 function dpBindList(listId,rowClass,field,data,key){
   var list=document.getElementById(listId); if(!list) return;
@@ -8718,6 +8934,7 @@ function qlRender() {
   document.querySelectorAll('.ql-wrap input:not([type=checkbox]):not([type=range]), .ql-wrap textarea').forEach(function(el){
     el.oninput = function(){ qlAutoSave(); };
   });
+  if(typeof dpAppendBetaBox==='function') dpAppendBetaBox();
 }
 
 function showWip(key,name,feature,desc){var emojis={Y:'☀️',M:'🌙','W/D':'⭐'};document.getElementById('wip-emoji').textContent=emojis[key]||'🔨';document.getElementById('wip-title').textContent=name+' — '+feature;document.getElementById('wip-sub').textContent=desc;document.getElementById('wip-overlay').classList.add('open');}
@@ -9876,7 +10093,7 @@ function showMonthDetail(entry) {
       '<label style="display:flex;align-items:center;gap:8px;margin-bottom:6px;cursor:pointer">'+
       '<input type="checkbox" id="bsAutoSave"'+(localStorage.getItem('bingo_autosave')==='true'?' checked':'')+'>'+
       '<span style="font-size:13px;font-weight:700">⏰ 자동 저장</span></label>'+
-      '<div style="font-size:11px;color:#8878b8;line-height:1.6">활성화 시 매일 자정에 빙고가 리포트에 자동 저장됩니다.<br>비활성화 시 사용자가 직접 저장해야 합니다.</div>'+
+      '<div style="font-size:11px;color:#8878b8;line-height:1.6">활성화 시 하루에 한 번, 처음 앱을 켤 때마다 빙고가 리포트에 자동 저장돼요.<br>비활성화 시 직접 저장 버튼을 눌러야 해요.</div>'+
       '</div>'+
       '<div style="margin-top:4px;">'+
       '<div style="margin-bottom:10px;font-size:12px;font-weight:700;color:#7060a8;letter-spacing:.8px;text-transform:uppercase;">✨ 텍스트 → 이모지 가이드</div>'+
