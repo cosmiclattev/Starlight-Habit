@@ -5374,6 +5374,16 @@ function renderHomeSettings(){
     +'<div class="set-row">'
     +'<button class="set-btn" id="set-emoji-guide">:smile → 😊  이모지 단축코드 목록 보기</button>'
     +'</div>'
+    +'</div>'
+    +'<div class="set-section">'
+    +'<div class="set-section-title">🧪 베타테스트 기능</div>'
+    +'<div class="set-section-desc">개발 중인 실험 기능을 켜요. 플래너·트래커 하단에 베타 기능 UI가 나타나요. 오류가 있을 수 있어요.</div>'
+    +'<div style="background:rgba(255,255,255,.7);border:1px solid rgba(200,190,255,.35);border-radius:13px;padding:14px 16px;">'
+    +'<label style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;">'
+    +'<span style="font-size:13px;font-weight:700;color:#6a50b0;">베타테스트 기능 사용</span>'
+    +'<input type="checkbox" id="set-beta-toggle" style="width:18px;height:18px;cursor:pointer;"'+((localStorage.getItem('ymwt_beta_enabled')==='true')?' checked':'')+'>'
+    +'</label>'
+    +'</div>'
     +'</div>';
 
   /* 화면 크기 조정 — 크롬 줌처럼 zoom으로 콘텐츠 전체 확대/축소 */
@@ -5451,6 +5461,10 @@ function renderHomeSettings(){
   var emojiBtn=document.getElementById('set-emoji-guide');
   if(emojiBtn) emojiBtn.onclick=function(){
     if(typeof dpShowEmojiTable==='function') dpShowEmojiTable();
+  };
+  var betaToggle=document.getElementById('set-beta-toggle');
+  if(betaToggle) betaToggle.onchange=function(){
+    localStorage.setItem('ymwt_beta_enabled', this.checked?'true':'false');
   };
   /* 색깔 테마 버튼 */
   [['home-theme-lav','default','lav'],['home-theme-tomato','tomato','tomato'],['home-theme-cat','cat','cat'],['home-theme-lemon','lemon','lemon']].forEach(function(p){
@@ -7298,7 +7312,9 @@ function dpRenderCurrent(){
    - 내보내기: 플래너 데이터 JSON 다운로드
    - 불러오기: 이미지 → Claude Vision 해독 → 오늘 일정/우선순위에 추가
 ══════════════════════════════════════════ */
+function dpBetaEnabled(){ return localStorage.getItem('ymwt_beta_enabled')==='true'; }
 function dpAppendBetaBox(){
+  if(!dpBetaEnabled()){ var _ex=document.getElementById('dp-beta-box'); if(_ex)_ex.remove(); return; } /* 베타 OFF면 숨김 */
   var app=document.getElementById('daily-app'); if(!app) return;
   if(document.getElementById('dp-beta-box')) return; /* 중복 방지 */
   /* 콘텐츠 흐름에 포함되도록 실제 양식 컨테이너 안에 넣기 (스크롤 접근 가능) */
@@ -7317,7 +7333,7 @@ function dpAppendBetaBox(){
         +'<button id="dp-beta-import" style="flex:1;min-height:40px;font-size:12px;font-weight:700;border-radius:10px;border:1.5px solid rgba(180,168,220,.5);background:rgba(240,236,255,.65);color:#6a50b0;cursor:pointer">📥 불러오기</button>'
       +'</div>'
       +'<div style="font-size:11px;color:#c05050;line-height:1.6;background:rgba(255,220,220,.3);border-radius:8px;padding:8px 10px">'
-        +'⚠️ 불러오기는 이미지 속 글씨를 AI가 해독해 오늘 일정에 추가하는 베타 기능이에요. 인식이 부정확할 수 있으니 추가 후 확인해 주세요.'
+        +'⚠️ 내보내기로 저장한 이미지를 불러오면 플래너 데이터가 복원돼요. 다른 기기로 옮기거나 백업할 때 쓰세요.'
       +'</div>'
       +'<div id="dp-beta-status" style="display:none;margin-top:10px;font-size:11px;color:#7060a8;text-align:center;padding:8px;background:rgba(230,224,255,.4);border-radius:8px"></div>'
     +'</div>';
@@ -7335,18 +7351,59 @@ function dpAppendBetaBox(){
 }
 
 /* 내보내기: 현재 날짜 플래너 데이터를 JSON 파일로 */
+/* ── 플래너 PNG 데이터 심기/읽기 (빙고 방식, API 불필요) ── */
+var DP_PNG_SIG=[137,80,78,71,13,10,26,10], DP_MKEY='planner-state';
+function dpCrc32(buf){var c=0xffffffff;for(var i=0;i<buf.length;i++){c^=buf[i];for(var j=0;j<8;j++)c=c&1?(c>>>1)^0xedb88320:c>>>1;}return(c^0xffffffff)>>>0;}
+function dpU32(v){return new Uint8Array([(v>>24)&255,(v>>16)&255,(v>>8)&255,v&255]);}
+function dpRu32(b,o){return((b[o]<<24)|(b[o+1]<<16)|(b[o+2]<<8)|b[o+3])>>>0;}
+async function dpEmbedState(blob,data){
+  var buf=new Uint8Array(await blob.arrayBuffer());
+  for(var i=0;i<8;i++)if(buf[i]!==DP_PNG_SIG[i])return blob;
+  var enc=new TextEncoder(),k=enc.encode(DP_MKEY),v=enc.encode(JSON.stringify(data));
+  var cd=new Uint8Array(k.length+1+v.length);cd.set(k,0);cd[k.length]=0;cd.set(v,k.length+1);
+  var tb=enc.encode('tEXt'),ci=new Uint8Array(4+cd.length);ci.set(tb,0);ci.set(cd,4);
+  var crc=dpCrc32(ci),chunk=new Uint8Array(12+cd.length);
+  chunk.set(dpU32(cd.length),0);chunk.set(tb,4);chunk.set(cd,8);chunk.set(dpU32(crc),8+cd.length);
+  var ip=buf.length-12,result=new Uint8Array(buf.length+chunk.length);
+  result.set(buf.subarray(0,ip),0);result.set(chunk,ip);result.set(buf.subarray(ip),ip+chunk.length);
+  return new Blob([result],{type:'image/png'});
+}
+async function dpReadState(blob){
+  var buf=new Uint8Array(await blob.arrayBuffer());
+  for(var i=0;i<8;i++)if(buf[i]!==DP_PNG_SIG[i])return null;
+  var off=8;var dec=new TextDecoder();
+  while(off<buf.length){
+    var len=dpRu32(buf,off),type=dec.decode(buf.subarray(off+4,off+8));
+    if(type==='tEXt'){var d=buf.subarray(off+8,off+8+len);var ni=d.indexOf(0);if(ni>=0&&dec.decode(d.subarray(0,ni))===DP_MKEY){try{return JSON.parse(dec.decode(d.subarray(ni+1)));}catch(e){return null;}}}
+    off+=12+len;if(type==='IEND')break;
+  }
+  return null;
+}
+/* 내보내기: 플래너 데이터를 심은 PNG 이미지 다운로드 */
 function dpBetaExport(){
   try{
     var d=dpCurrentDate(); var key=dpKey(d);
     var data=dpLoad(key)||dpDefaultData();
     var out={ app:'byeolbit-planner', version:1, date:key, exportedAt:new Date().toISOString(), data:data };
-    var blob=new Blob([JSON.stringify(out,null,2)],{type:'application/json'});
-    var url=URL.createObjectURL(blob);
-    var a=document.createElement('a');
-    a.href=url; a.download='planner_'+key+'.json';
-    document.body.appendChild(a); a.click();
-    setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(url); },500);
-    dpBetaStatus('✅ 내보내기 완료: planner_'+key+'.json');
+    /* 라벨용 작은 PNG 캔버스 생성 */
+    var cv=document.createElement('canvas'); cv.width=600; cv.height=300;
+    var ctx=cv.getContext('2d');
+    var g=ctx.createLinearGradient(0,0,600,300); g.addColorStop(0,'#ede0ff'); g.addColorStop(1,'#c8e0ff');
+    ctx.fillStyle=g; ctx.fillRect(0,0,600,300);
+    ctx.fillStyle='#6a50b0'; ctx.font='bold 34px sans-serif'; ctx.textAlign='center';
+    ctx.fillText('별빛달빛해빛 플래너', 300, 120);
+    ctx.font='22px sans-serif'; ctx.fillStyle='#8878b8';
+    ctx.fillText(key+' 백업', 300, 165);
+    ctx.font='15px sans-serif';
+    ctx.fillText('이 이미지를 플래너 불러오기로 가져오세요', 300, 210);
+    cv.toBlob(async function(blob){
+      var enriched=await dpEmbedState(blob, out);
+      var url=URL.createObjectURL(enriched);
+      var a=document.createElement('a'); a.href=url; a.download='planner_'+key+'.png';
+      document.body.appendChild(a); a.click();
+      setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(url); },500);
+      dpBetaStatus('✅ 내보내기 완료: planner_'+key+'.png');
+    }, 'image/png');
   }catch(e){ dpBetaStatus('❌ 내보내기 오류: '+e.message); }
 }
 
@@ -7355,7 +7412,7 @@ function dpBetaImportClick(e){
   if(e&&e.preventDefault)e.preventDefault();
   var old=document.getElementById('dp-beta-file'); if(old)old.remove();
   var fi=document.createElement('input');
-  fi.type='file'; fi.id='dp-beta-file'; fi.accept='image/*,.json';
+  fi.type='file'; fi.id='dp-beta-file'; fi.accept='image/png,.json';
   fi.style.cssText='position:absolute;width:0;height:0;opacity:0;pointer-events:none;top:0;left:0';
   fi.addEventListener('change',function(){
     if(this.files&&this.files[0]){ dpBetaHandleFile(this.files[0]); }
@@ -7381,35 +7438,17 @@ function dpBetaHandleFile(file){
     r.readAsText(file);
     return;
   }
-  /* 이미지 → 리사이즈·압축 → base64 → Vision */
+  /* 이미지(PNG) → 심어둔 데이터 복원 (API 불필요, 빙고 방식) */
   if(file.type.indexOf('image/')===0){
-    dpBetaStatus('🖼 이미지 준비 중...');
-    var r2=new FileReader();
-    r2.onload=function(){
-      var img=new Image();
-      img.onload=function(){
-        try{
-          /* 최대 1568px로 리사이즈 (Claude 권장), JPEG 85% 압축 */
-          var MAX=1568;
-          var w=img.width, h=img.height;
-          if(w>MAX||h>MAX){ var sc=Math.min(MAX/w, MAX/h); w=Math.round(w*sc); h=Math.round(h*sc); }
-          var cv=document.createElement('canvas'); cv.width=w; cv.height=h;
-          var ctx=cv.getContext('2d');
-          ctx.fillStyle='#fff'; ctx.fillRect(0,0,w,h); /* 투명 배경 방지 */
-          ctx.drawImage(img,0,0,w,h);
-          var jpeg=cv.toDataURL('image/jpeg', 0.85);
-          var base64=jpeg.split(',')[1];
-          dpBetaVisionDecode(base64, 'image/jpeg');
-        }catch(e){
-          /* 압축 실패 시 원본 시도 */
-          var b=r2.result.split(',')[1];
-          dpBetaVisionDecode(b, file.type);
-        }
-      };
-      img.onerror=function(){ dpBetaStatus('❌ 이미지를 열 수 없어요'); };
-      img.src=r2.result;
-    };
-    r2.readAsDataURL(file);
+    dpBetaStatus('🖼 이미지에서 데이터를 읽는 중...');
+    dpReadState(file).then(function(obj){
+      if(!obj){ dpBetaStatus('❌ 이 이미지에는 플래너 데이터가 없어요. 플래너 내보내기로 만든 이미지만 불러올 수 있어요.'); return; }
+      var data=obj.data||obj;
+      var d=dpCurrentDate(); var key=dpKey(d);
+      dpSave(key,data);
+      dpRenderCurrent();
+      dpBetaStatus('✅ 이미지에서 플래너 데이터를 불러왔어요!');
+    }).catch(function(e){ dpBetaStatus('❌ 이미지 읽기 오류: '+(e&&e.message||e)); });
     return;
   }
   dpBetaStatus('❌ 지원하지 않는 파일 형식이에요 (이미지 또는 JSON)');
@@ -10699,6 +10738,7 @@ function renderCalendar(){
           '일일 진행률</div>'+
         '<div style="display:flex;align-items:center;gap:5px;font-size:11px;color:#8878b8;font-weight:600"><span style="font-size:13px">🎯</span>주간 목표</div>'+
       '</div>'+
+      ((localStorage.getItem('ymwt_beta_enabled')==='true')?(
       '<div style="margin-top:18px;border-radius:12px;border:1.5px solid rgba(180,170,220,.3);overflow:hidden">'+
         '<button id="btn-beta-toggle" style="width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px 14px;background:rgba(220,210,255,.2);border:none;cursor:pointer;font-size:12px;font-weight:700;color:#8060c0">'+
           '<span>🧪 베타테스트 중인 기능</span>'+
@@ -10713,7 +10753,7 @@ function renderCalendar(){
             '⚠️ 이 기능은 현재 베타테스트 중으로, 일부 데이터가 누락되거나 불러오기 오류가 발생할 수 있습니다. 중요한 기록은 별도로 보관해 주세요.'+
           '</div>'+
         '</div>'+
-      '</div>'+
+      '</div>'):'')+
       '<input type="file" id="backup-file-input" accept=".xls,.json" style="position:absolute;width:0;height:0;opacity:0;pointer-events:none">'+
       '<div style="padding-bottom:24px"></div>'+
     '</div></div>';
