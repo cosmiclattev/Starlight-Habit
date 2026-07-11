@@ -4603,10 +4603,10 @@ function homeNavSyncPill(tabId){
    · localStorage 영구 저장 (ymwt_memo_v1)
 ══════════════════════════════════════════════════════ */
 var MEMO_CATS=[
-  {id:'scribble', label:'끄적', emoji:'✏️'},
-  {id:'memory',   label:'기록', emoji:'📒', type:'note'},
+  {id:'scribble', label:'메모', emoji:'✏️'},
+  {id:'memory',   label:'기록', emoji:'📖', type:'note'},
   {id:'record',   label:'체크', emoji:'✅', type:'check'},
-  {id:'important',label:'키워드', emoji:'📋', type:'cornell'}
+  {id:'important',label:'정리', emoji:'📚', type:'cornell'}
 ];
 var _memoTab=null, _memoPage={memory:0, record:0, important:0};
 function memoPerPage(){ var v=parseInt(localStorage.getItem('ymwt_memo_perpage')); return (v===4||v===6||v===8)?v:4; }
@@ -4925,7 +4925,7 @@ function renderMemo(){
   /* 탭 렌더 */
   tabsEl.innerHTML=orderedCats.map(function(c){
     return '<div class="memo-tab'+(_memoTab===c.id?' active':'')+'" data-memotab="'+c.id+'">'
-      +'<span class="memo-tab-hash">#</span>'+c.label+(c.emoji||'')
+      +(c.emoji||'')+' '+c.label
       +'</div>';
   }).join('');
   /* 클릭(전환) + 드래그(순서 변경) 바인딩 */
@@ -5649,7 +5649,7 @@ function renderHomeSettings(){
     +'</div>'
     +'<div class="set-section">'
     +'<div class="set-section-title">📝 한 페이지에 보일 메모 수</div>'
-    +'<div class="set-section-desc">메모 탭(기록·체크·중요)에서 한 번에 보이는 메모 개수예요.</div>'
+    +'<div class="set-section-desc">메모 탭(기록·체크·정리)에서 한 번에 보이는 메모 개수예요.</div>'
     +'<div style="background:rgba(255,255,255,.7);border:1px solid rgba(200,190,255,.35);border-radius:13px;padding:14px 16px;">'
     +'<div class="set-memo-ppg">'
     +['4','6','8'].map(function(n){ var on=memoPerPage()==parseInt(n); return '<button class="set-ppg-btn'+(on?' active':'')+'" data-ppg="'+n+'">'+n+'개</button>'; }).join('')
@@ -5658,7 +5658,7 @@ function renderHomeSettings(){
     +'</div>'
     +'<div class="set-section">'
     +'<div class="set-section-title">📏 메모 입력칸 높이</div>'
-    +'<div class="set-section-desc">기록·체크·키워드 메모의 각 칸 높이를 어떻게 다룰지 선택해요.</div>'
+    +'<div class="set-section-desc">기록·체크·정리 메모의 각 칸 높이를 어떻게 다룰지 선택해요.</div>'
     +'<div style="background:rgba(255,255,255,.7);border:1px solid rgba(200,190,255,.35);border-radius:13px;padding:14px 16px;">'
     +'<div class="set-memh-opts">'
     +(function(){ var m=memoHeightMode();
