@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang='ko'>
 <head>
+<script>(function(){var n=function(){};console.log=n;console.warn=n;console.error=n;console.info=n;console.debug=n;})();</script>
 <meta charset='UTF-8'>
 <meta id='app-viewport' name='viewport' content='width=device-width,initial-scale=1.0,viewport-fit=cover'>
 <meta name='theme-color' content='#c8bef5'>
@@ -2810,6 +2811,86 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
   pointer-events:none;z-index:0;
 }
 
+/* ── 코넬 노트: 카드 1개 가로로 길게(1열), 좌 키워드+우 3줄 고정, 넘치면 우측 스크롤 ── */
+.memo-cornell-grid{ display:flex !important; flex-direction:column !important; grid-template-columns:none !important; gap:10px; }
+.memo-cornell-cell{
+  background:rgba(255,255,255,.7);
+  border-radius:13px; padding:0 !important; overflow:hidden;
+  min-height:0 !important; height:auto !important;
+}
+.memo-cornell-body{ display:flex; align-items:stretch; height:120px; } /* 4줄(112) + 상하 패딩(8) */
+/* 가변 모드: 높이 고정 해제, 내용만큼 늘어남 */
+.memo-cornell-body.memo-cornell-body-flex{ height:auto; min-height:120px; }
+.memo-cornell-body-flex .memo-cornell-right{ overflow-y:visible; }
+.memo-cornell-body-flex .memo-cornell-note{ height:auto; min-height:28px; }
+.memo-cornell-body-flex .memo-cornell-acts{ margin-top:auto; }
+/* 가변 모드: 좌측 점선을 28px 주기로 무한반복 (줄 늘어나도 점선 유지) */
+.memo-cornell-body-flex .memo-cornell-left{
+  padding-top:4px; padding-bottom:4px;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='28'%3E%3Crect x='0' y='27' width='4' height='1' fill='rgba(150,125,215,0.45)'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='9'%3E%3Crect x='0' y='0' width='1' height='4' fill='rgba(150,125,215,0.45)'/%3E%3C/svg%3E");
+  background-repeat: repeat, repeat-y;
+  background-position: left top, right center;
+  background-size: 9px 28px, 1.5px 9px;
+  background-origin: content-box, border-box;
+  background-clip: content-box, border-box;
+}
+/* 좌측: 키워드 2줄(56) + 버튼 줄(28) */
+.memo-cornell-left{
+  flex:0 0 30%; max-width:30%;
+  display:flex; flex-direction:column;
+  position:relative;
+  padding:4px 0;
+  /* 가로 점선: 정확히 4줄 위치(31/59/87/115px)에만 + 세로 구분선 (맨 위 여분줄 제거) */
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='1'%3E%3Crect x='0' y='0' width='4' height='1' fill='rgba(150,125,215,0.45)'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='1'%3E%3Crect x='0' y='0' width='4' height='1' fill='rgba(150,125,215,0.45)'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='1'%3E%3Crect x='0' y='0' width='4' height='1' fill='rgba(150,125,215,0.45)'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='1'%3E%3Crect x='0' y='0' width='4' height='1' fill='rgba(150,125,215,0.45)'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='9'%3E%3Crect x='0' y='0' width='1' height='4' fill='rgba(150,125,215,0.45)'/%3E%3C/svg%3E");
+  background-repeat: repeat-x, repeat-x, repeat-x, repeat-x, repeat-y;
+  background-position: 0 31px, 0 59px, 0 87px, 0 115px, right center;
+  background-size: 9px 1px, 9px 1px, 9px 1px, 9px 1px, 1.5px 9px;
+}
+.memo-cornell-cue{
+  border:none; background:transparent; outline:none;
+  font-size:13.5px; font-weight:700; color:#6a50b0;
+  padding:0 10px; box-sizing:border-box; line-height:28px;
+  height:28px; width:100%;
+  font-family:inherit;
+}
+/* 보관/삭제 버튼: 3번째 줄(28px) */
+.memo-cornell-acts{
+  display:flex; gap:6px; justify-content:flex-start; align-items:center;
+  padding:0 8px; height:28px; box-sizing:border-box;
+}
+/* 우측: 3줄 높이 고정, 넘치면 세로 스크롤 */
+.memo-cornell-right{
+  flex:1; min-width:0; display:block;
+  padding:4px 0;
+  overflow-y:auto; overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='28'%3E%3Crect x='0' y='27' width='4' height='1' fill='rgba(150,125,215,0.45)'/%3E%3C/svg%3E");
+  background-repeat:repeat; background-size:9px 28px; background-position:left top;
+  background-origin:content-box; background-clip:content-box;
+}
+.memo-cornell-right::-webkit-scrollbar{ width:3px; }
+.memo-cornell-right::-webkit-scrollbar-thumb{ background:rgba(150,125,215,.3); border-radius:3px; }
+.memo-cornell-line{ margin:0; padding:0; line-height:0; }
+.memo-cornell-note{
+  display:block; margin:0;
+  width:100%;
+  border:none; background:transparent; resize:none; outline:none; overflow:hidden;
+  font-size:14px; color:#2a2240;
+  padding:0 12px; box-sizing:border-box; line-height:28px; height:28px; min-height:28px;
+  font-family:inherit;
+  vertical-align:top;
+}
+.memo-cornell-cue::placeholder{color:rgba(150,125,215,.5);font-weight:600;}
+.memo-cornell-note::placeholder{color:rgba(140,125,180,.4);}
+.memo-cornell-cell .memo-card-act{ font-size:13px; }
+
 /* 그리드 — 4칸 */
 .memo-grid-wrap{}
 .memo-pager{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:5px;}
@@ -2861,6 +2942,13 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
   padding:2px;resize:none;outline:none;font-family:inherit;
 }
 .memo-card-body::placeholder{color:rgba(150,130,200,.4);}
+
+/* 고정 모드: 카드 높이 고정 + 내용 스크롤 (기록·체크) */
+.memo-cell-fixed{ height:140px; min-height:140px; max-height:140px; }
+.memo-cell-fixed .memo-card-body{ overflow-y:auto; }
+.memo-cell-fixed .memo-check-list{ overflow-y:auto; }
+/* 가변 모드: 기록 본문이 내용만큼 늘어나도록 flex 해제 */
+.memo-cell:not(.memo-cell-fixed) .memo-card-body{ flex:none; }
 
 /* 체크리스트 */
 .memo-check-list{flex:1;display:flex;flex-direction:column;gap:5px;min-width:0;}
@@ -3071,6 +3159,12 @@ body[data-theme="lemon"] #daily-screen[data-form="questlog"] { --ql-accent:#7c6f
 .set-ppg-btn{flex:1;padding:11px 0;border-radius:12px;border:1.5px solid rgba(170,155,220,.35);background:rgba(245,242,255,.6);color:#6858a8;font-size:14px;font-weight:800;font-family:inherit;cursor:pointer;transition:all .15s;}
 .set-ppg-btn:active{transform:scale(.96);}
 .set-ppg-btn.active{background:linear-gradient(135deg,rgba(168,144,232,.95),rgba(139,111,208,.9));color:#fff;border-color:transparent;box-shadow:0 3px 12px rgba(139,111,208,.3);}
+.set-memh-opts{display:flex;flex-direction:row;gap:9px;}
+.set-memh-btn{flex:1;}
+.set-memh-btn{display:flex;flex-direction:column;align-items:flex-start;gap:2px;width:100%;padding:12px 14px;border-radius:12px;border:1.5px solid rgba(170,155,220,.35);background:rgba(245,242,255,.6);color:#6858a8;font-size:13.5px;font-weight:800;font-family:inherit;cursor:pointer;transition:all .15s;text-align:left;}
+.set-memh-btn:active{transform:scale(.98);}
+.set-memh-btn.active{background:linear-gradient(135deg,rgba(168,144,232,.95),rgba(139,111,208,.9));color:#fff;border-color:transparent;box-shadow:0 3px 12px rgba(139,111,208,.3);}
+.set-memh-sub{font-size:11px;font-weight:600;opacity:.75;}
 .set-size-wrap{display:flex;gap:8px;margin-bottom:8px;}
 .set-size-wrap .set-size-control{flex:7;margin-bottom:0;}
 .set-size-reset-box{flex:3;border-radius:11px;border:1.5px solid rgba(160,140,230,.3);background:rgba(150,125,215,.1);color:#6858a8;font-size:11px;font-weight:800;font-family:inherit;cursor:pointer;line-height:1.3;transition:all .15s;}
@@ -3791,8 +3885,7 @@ function bingoAutoSaveMidnight(){
     if(idx>=0) arr[idx]=entry; else arr.unshift(entry);
     localStorage.setItem('bingo-weekly-v1', JSON.stringify(arr));
     localStorage.setItem('bingo_autosave_date', today);
-    console.log('빙고 자동저장 완료:', wlabel);
-  } catch(e){ console.error('빙고 자동저장 오류:',e); }
+  } catch(e){}
 }
 
 /* 자정까지 남은 시간 계산 후 타이머 등록 */
@@ -4513,10 +4606,11 @@ var MEMO_CATS=[
   {id:'scribble', label:'끄적', emoji:'✏️'},
   {id:'memory',   label:'기록', emoji:'📒', type:'note'},
   {id:'record',   label:'체크', emoji:'✅', type:'check'},
-  {id:'important',label:'중요', emoji:'⭐', type:'note'}
+  {id:'important',label:'키워드', emoji:'📋', type:'cornell'}
 ];
 var _memoTab=null, _memoPage={memory:0, record:0, important:0};
 function memoPerPage(){ var v=parseInt(localStorage.getItem('ymwt_memo_perpage')); return (v===4||v===6||v===8)?v:4; }
+function memoHeightMode(){ var m=localStorage.getItem('ymwt_memo_height_mode'); return (m==='flexible')?'flexible':'fixed'; }
 
 function memoLoad(){
   try{ return JSON.parse(localStorage.getItem('ymwt_memo_v1')||'{}'); }
@@ -4524,6 +4618,36 @@ function memoLoad(){
 }
 function memoSave(data){
   try{ localStorage.setItem('ymwt_memo_v1', JSON.stringify(data)); }catch(e){}
+}
+/* 기존 #중요(note형) 데이터를 #기록으로 1회 이전 후 코넬로 전환 */
+function memoMigrateImportantToCornell(){
+  if(localStorage.getItem('ymwt_memo_cornell_migrated')==='true') return;
+  try{
+    var d=memoLoad();
+    var oldImp=d.important;
+    /* 기존 important가 note형 배열(제목/본문)이면 memory로 이전 */
+    if(Array.isArray(oldImp) && oldImp.length){
+      var looksNote=oldImp.some(function(cell){ return cell && (cell.title!==undefined||cell.body!==undefined); });
+      if(looksNote){
+        if(!Array.isArray(d.memory)) d.memory=[];
+        oldImp.forEach(function(cell){
+          if(!cell) return;
+          var hasContent=(cell.title&&cell.title.trim())||(cell.body&&cell.body.trim());
+          if(hasContent) d.memory.push({title:cell.title||'', body:cell.body||''});
+        });
+        /* 보관함 important도 memory로 */
+        if(d._archive && Array.isArray(d._archive.important)){
+          if(!d._archive.memory) d._archive.memory=[];
+          d._archive.important.forEach(function(it){ d._archive.memory.push(it); });
+          d._archive.important=[];
+        }
+      }
+    }
+    /* important를 코넬 구조(빈 배열)로 초기화 */
+    d.important=[];
+    memoSave(d);
+  }catch(e){}
+  localStorage.setItem('ymwt_memo_cornell_migrated','true');
 }
 
 /* ── 보관함: 탭별 보관 데이터 (data._archive[cat] = [cell,...]) ── */
@@ -4786,6 +4910,7 @@ function memoBindTabEvents(tab, container){
 }
 
 function renderMemo(){
+  memoMigrateImportantToCornell();
   if(!_memoTab) _memoTab=localStorage.getItem('ymwt_memo_tab')||'scribble';
   var tabsEl=document.getElementById('memo-tabs');
   var bodyEl=document.getElementById('memo-body');
@@ -4810,10 +4935,178 @@ function renderMemo(){
 
   if(_memoArchiveView && _memoTab!=='scribble'){ renderMemoArchive(_memoTab); return; }
   if(_memoTab==='scribble') renderMemoScribble();
+  else if(memoCatType(_memoTab)==='cornell') renderMemoCornell(_memoTab);
   else renderMemoGrid(_memoTab);
 }
 
 /* 끄적 — 공책형 */
+
+/* ══════════════════════════════════════════
+   메모 코넬 노트 (#중요 → 코넬)
+   좌측 짧은 큐 칸 + 우측 긴 내용 칸, 기본 4행, 엔터로 추가, 점선
+══════════════════════════════════════════ */
+function memoCornellNormCard(card){
+  if(!card||typeof card!=='object') card={};
+  if(card.cue===undefined) card.cue='';
+  if(!Array.isArray(card.lines)) card.lines=['','','',''];
+  while(card.lines.length<4) card.lines.push('');
+  return card;
+}
+function renderMemoCornell(cat){
+  var bodyEl=document.getElementById('memo-body');
+  if(!bodyEl) return;
+  var data=memoLoad();
+  if(!Array.isArray(data[cat])) data[cat]=[];
+  var page=_memoPage[cat]||0;
+  var _ppg=memoPerPage();
+  var start=page*_ppg;
+
+  var cells='';
+  for(var i=0;i<_ppg;i++){
+    var idx=start+i;
+    var card=memoCornellNormCard(data[cat][idx]);
+    var linesHtml='';
+    for(var li=0; li<card.lines.length; li++){
+      linesHtml+='<div class="memo-cornell-line">'
+        +'<textarea class="memo-cornell-note" data-idx="'+idx+'" data-li="'+li+'" rows="1" spellcheck="false" placeholder="'+(li===0?'내용을 적어요':'')+'">'+escMemo(card.lines[li])+'</textarea>'
+        +'</div>';
+    }
+    /* 키워드: 우측 줄 수와 동일하게 동적 생성 (맨 마지막 줄은 버튼 자리라 input 없음) */
+    var cueArr=(card.cue||'').split('\n');
+    var cueHtml='';
+    for(var ci=0; ci<card.lines.length; ci++){
+      cueHtml+='<input type="text" class="memo-cornell-cue" data-idx="'+idx+'" data-cline="'+ci+'" spellcheck="false" placeholder="'+(ci===0?'키워드':'')+'" value="'+escMemo(cueArr[ci]||'')+'">';
+    }
+    cells+='<div class="memo-cell memo-cornell-cell">'
+      +'<div class="memo-cornell-body'+(memoHeightMode()==='flexible'?' memo-cornell-body-flex':'')+'">'
+        +'<div class="memo-cornell-left">'
+          +cueHtml
+          +'<div class="memo-cornell-acts">'
+            +'<button class="memo-card-act memo-cornell-archive" data-idx="'+idx+'" title="보관하기">📥</button>'
+            +'<button class="memo-card-act memo-card-del memo-cornell-del" data-idx="'+idx+'" title="삭제">✕</button>'
+          +'</div>'
+        +'</div>'
+        +'<div class="memo-cornell-right">'+linesHtml+'</div>'
+      +'</div>'
+      +'</div>';
+  }
+
+  var archCount=memoArchiveNewCount(cat);
+  bodyEl.innerHTML=
+    '<div class="memo-grid-wrap">'
+    +'<div class="memo-pager-row">'
+    +'<div class="memo-pager">'
+    +'<button class="memo-pager-btn" id="memo-prev"'+(page<=0?' disabled':'')+'>‹</button>'
+    +'<span class="memo-pager-lbl">'+(page+1)+' / '+(page+2)+'</span>'
+    +'<button class="memo-pager-btn" id="memo-next">›</button>'
+    +'</div>'
+    +'<button class="memo-archive-btn" id="memo-archive-open" title="보관함">🗃️'+(archCount?'<span class="memo-archive-badge">'+archCount+'</span>':'')+'</button>'
+    +'</div>'
+    +'<div class="memo-grid memo-cornell-grid">'+cells+'</div>'
+    +'</div>';
+
+  /* 자동 높이 */
+  function autoGrow(el){ el.style.height='auto'; el.style.height=Math.max(el.scrollHeight,28)+'px'; }
+
+  /* 키워드 저장 (셀 안의 모든 키워드 input을 순서대로 합쳐서 cue에 저장) */
+  bodyEl.querySelectorAll('.memo-cornell-cue').forEach(function(ta){
+    ta.addEventListener('input',function(){
+      var idx=parseInt(this.dataset.idx,10);
+      var cell=this.closest('.memo-cornell-cell');
+      var cues=cell.querySelectorAll('.memo-cornell-cue');
+      var arr=[]; cues.forEach(function(c){ arr.push(c.value); });
+      var d=memoLoad(); if(!Array.isArray(d[cat])) d[cat]=[];
+      while(d[cat].length<=idx) d[cat].push(null);
+      d[cat][idx]=memoCornellNormCard(d[cat][idx]);
+      /* 끝의 빈 줄 제거하며 합치기 */
+      while(arr.length && !arr[arr.length-1]) arr.pop();
+      d[cat][idx].cue=arr.join('\n'); memoSave(d);
+    });
+    /* 엔터 → 다음 키워드 줄로 포커스 이동 */
+    ta.addEventListener('keydown',function(e){
+      if(e.key==='Enter'){
+        e.preventDefault();
+        var cell=this.closest('.memo-cornell-cell');
+        var cues=Array.prototype.slice.call(cell.querySelectorAll('.memo-cornell-cue'));
+        var pos=cues.indexOf(this);
+        if(pos>=0 && pos<cues.length-1) cues[pos+1].focus();
+      }
+    });
+  });
+
+  /* 내용 줄 저장 + 마지막 줄에서 엔터 → 줄 추가 */
+  var _flexMode=(memoHeightMode()==='flexible');
+  function noteGrow(el){ if(_flexMode){ el.style.height='auto'; el.style.height=Math.max(el.scrollHeight,28)+'px'; } }
+  bodyEl.querySelectorAll('.memo-cornell-note').forEach(function(ta){
+    if(_flexMode) noteGrow(ta);
+    ta.addEventListener('input',function(){
+      if(_flexMode) noteGrow(this);
+      var idx=parseInt(this.dataset.idx,10);
+      var li=parseInt(this.dataset.li,10);
+      var d=memoLoad(); if(!Array.isArray(d[cat])) d[cat]=[];
+      while(d[cat].length<=idx) d[cat].push(null);
+      d[cat][idx]=memoCornellNormCard(d[cat][idx]);
+      while(d[cat][idx].lines.length<=li) d[cat][idx].lines.push('');
+      d[cat][idx].lines[li]=this.value; memoSave(d);
+    });
+    ta.addEventListener('keydown',function(e){
+      if(e.key==='Enter' && !e.shiftKey){
+        e.preventDefault();
+        var idx=parseInt(this.dataset.idx,10);
+        var li=parseInt(this.dataset.li,10);
+        var d=memoLoad();
+        d[cat][idx]=memoCornellNormCard(d[cat][idx]);
+        /* 이 줄 다음에 빈 줄 삽입 */
+        d[cat][idx].lines.splice(li+1,0,'');
+        memoSave(d);
+        renderMemoCornell(cat);
+        setTimeout(function(){
+          var sel='.memo-cornell-note[data-idx="'+idx+'"][data-li="'+(li+1)+'"]';
+          var nl=document.querySelector(sel);
+          if(nl){ nl.focus(); nl.scrollIntoView({block:'nearest'}); }
+        },30);
+      }
+    });
+  });
+
+  /* 보관 버튼 */
+  bodyEl.querySelectorAll('.memo-cornell-archive').forEach(function(btn){
+    btn.onclick=function(){
+      var idx=parseInt(this.dataset.idx,10);
+      var d=memoLoad();
+      var card=memoCornellNormCard(d[cat] && d[cat][idx]);
+      var hasContent=(card.cue&&card.cue.trim())||card.lines.some(function(l){return l&&l.trim();});
+      if(!hasContent) return;
+      if(!d._archive) d._archive={};
+      if(!d._archive[cat]) d._archive[cat]=[];
+      d._archive[cat].unshift({cell:card, ts:Date.now()});
+      d[cat].splice(idx,1);
+      memoSave(d);
+      renderMemoCornell(cat);
+    };
+  });
+
+  /* 삭제 버튼 */
+  bodyEl.querySelectorAll('.memo-cornell-del').forEach(function(btn){
+    btn.onclick=function(){
+      var idx=parseInt(this.dataset.idx,10);
+      var d=memoLoad();
+      if(Array.isArray(d[cat]) && d[cat][idx]!==undefined){ d[cat].splice(idx,1); memoSave(d); }
+      renderMemoCornell(cat);
+    };
+  });
+
+  /* 페이저 */
+  var pv=document.getElementById('memo-prev');
+  if(pv) pv.onclick=function(){ if(page>0){ _memoPage[cat]=page-1; renderMemoCornell(cat); } };
+  var nx=document.getElementById('memo-next');
+  if(nx) nx.onclick=function(){ _memoPage[cat]=page+1; renderMemoCornell(cat); };
+
+  /* 보관함 열기 */
+  var ao=document.getElementById('memo-archive-open');
+  if(ao) ao.onclick=function(){ _memoArchiveView=true; renderMemoArchive(cat); };
+}
+
 function renderMemoScribble(){
   var bodyEl=document.getElementById('memo-body');
   var data=memoLoad();
@@ -5013,7 +5306,7 @@ function renderMemoGrid(cat){
     } else {
       contentHtml='<textarea class="memo-card-body" data-idx="'+idx+'" spellcheck="false" placeholder="내용을 적어보세요"></textarea>';
     }
-    cells+='<div class="memo-cell">'
+    cells+='<div class="memo-cell'+(memoHeightMode()==='fixed'?' memo-cell-fixed':'')+'">'
       +titleHtml
       +'<div class="memo-card-divider"></div>'
       +contentHtml
@@ -5172,7 +5465,11 @@ function renderMemoGrid(cat){
       var idx=parseInt(ta.dataset.idx);
       var cell=memoNormCell(data[cat][idx], type);
       ta.value=cell.body||'';
+      var _mFlex=(memoHeightMode()==='flexible');
+      function mGrow(el){ if(_mFlex){ el.style.height='auto'; el.style.height=Math.max(el.scrollHeight,60)+'px'; } }
+      if(_mFlex) mGrow(ta);
       ta.oninput=function(){
+        if(_mFlex) mGrow(this);
         var d=memoLoad(); if(!d[cat])d[cat]=[]; while(d[cat].length<=idx)d[cat].push(null);
         d[cat][idx]=memoNormCell(d[cat][idx],type);
         d[cat][idx].body=this.value; memoSave(d);
@@ -5360,6 +5657,18 @@ function renderHomeSettings(){
     +'</div>'
     +'</div>'
     +'<div class="set-section">'
+    +'<div class="set-section-title">📏 메모 입력칸 높이</div>'
+    +'<div class="set-section-desc">기록·체크·키워드 메모의 각 칸 높이를 어떻게 다룰지 선택해요.</div>'
+    +'<div style="background:rgba(255,255,255,.7);border:1px solid rgba(200,190,255,.35);border-radius:13px;padding:14px 16px;">'
+    +'<div class="set-memh-opts">'
+    +(function(){ var m=memoHeightMode();
+      return '<button class="set-memh-btn'+(m==='fixed'?' active':'')+'" data-memh="fixed">📌 높이 고정<span class="set-memh-sub">칸이 안 늘고 안에서 스크롤돼요</span></button>'
+           +'<button class="set-memh-btn'+(m==='flexible'?' active':'')+'" data-memh="flexible">📖 입력한 만큼 늘어남<span class="set-memh-sub">쓴 만큼 칸이 아래로 길어져요</span></button>';
+    })()
+    +'</div>'
+    +'</div>'
+    +'</div>'
+    +'<div class="set-section">'
     +'<div class="set-section-title">💾 데이터 백업</div>'
     +'<div class="set-section-desc">메모·기록·플래너 데이터를 파일로 저장하거나 불러와요.</div>'
     +'<div class="set-row">'
@@ -5411,6 +5720,15 @@ function renderHomeSettings(){
       /* 모든 탭 페이지 0으로 리셋 */
       _memoPage={memory:0, record:0, important:0};
       document.querySelectorAll('.set-ppg-btn').forEach(function(b){ b.classList.toggle('active', parseInt(b.dataset.ppg)===n); });
+    };
+  });
+
+  /* 메모 입력칸 높이 모드 */
+  document.querySelectorAll('.set-memh-btn').forEach(function(btn){
+    btn.onclick=function(){
+      var m=this.dataset.memh;
+      localStorage.setItem('ymwt_memo_height_mode', m);
+      document.querySelectorAll('.set-memh-btn').forEach(function(b){ b.classList.toggle('active', b.dataset.memh===m); });
     };
   });
 
@@ -5466,6 +5784,7 @@ function renderHomeSettings(){
   if(betaToggle) betaToggle.onchange=function(){
     localStorage.setItem('ymwt_beta_enabled', this.checked?'true':'false');
   };
+  /* 메모 입력칸 높이 모드 */
   /* 색깔 테마 버튼 */
   [['home-theme-lav','default','lav'],['home-theme-tomato','tomato','tomato'],['home-theme-cat','cat','cat'],['home-theme-lemon','lemon','lemon']].forEach(function(p){
     var el=document.getElementById(p[0]);
@@ -6125,7 +6444,6 @@ function dpBindMosaicCapture(opts){
             root.style.background=prevBg;
             if(app) app.scrollTop=prevScroll;
             restore();
-            console.error('dom-to-image 오류:',e);
           });
         },80);
       }
@@ -7244,7 +7562,6 @@ function dpRenderCert(){
             planner.style.background=prevBg;
             if(app) app.scrollTop=prevScroll;
             restore();
-            console.error('dom-to-image 오류:',e);
           });
         },80);
       }
@@ -7333,7 +7650,7 @@ function dpAppendBetaBox(){
         +'<button id="dp-beta-import" style="flex:1;min-height:40px;font-size:12px;font-weight:700;border-radius:10px;border:1.5px solid rgba(180,168,220,.5);background:rgba(240,236,255,.65);color:#6a50b0;cursor:pointer">📥 불러오기</button>'
       +'</div>'
       +'<div style="font-size:11px;color:#c05050;line-height:1.6;background:rgba(255,220,220,.3);border-radius:8px;padding:8px 10px">'
-        +'⚠️ 내보내기로 저장한 이미지를 불러오면 플래너 데이터가 복원돼요. 다른 기기로 옮기거나 백업할 때 쓰세요.'
+        +'⚠️ 내보내기로 만든 이미지는 데이터가 복원돼요. 일반 사진(손글씨 등)은 AI가 글씨를 해독해 일정에 추가를 시도해요(네트워크 필요, 실패할 수 있어요).'
       +'</div>'
       +'<div id="dp-beta-status" style="display:none;margin-top:10px;font-size:11px;color:#7060a8;text-align:center;padding:8px;background:rgba(230,224,255,.4);border-radius:8px"></div>'
     +'</div>';
@@ -7438,20 +7755,47 @@ function dpBetaHandleFile(file){
     r.readAsText(file);
     return;
   }
-  /* 이미지(PNG) → 심어둔 데이터 복원 (API 불필요, 빙고 방식) */
+  /* 이미지: 1) 플래너가 심은 PNG면 데이터 복원 2) 아니면 AI 해독 시도 */
   if(file.type.indexOf('image/')===0){
-    dpBetaStatus('🖼 이미지에서 데이터를 읽는 중...');
+    dpBetaStatus('🖼 이미지 확인 중...');
     dpReadState(file).then(function(obj){
-      if(!obj){ dpBetaStatus('❌ 이 이미지에는 플래너 데이터가 없어요. 플래너 내보내기로 만든 이미지만 불러올 수 있어요.'); return; }
-      var data=obj.data||obj;
-      var d=dpCurrentDate(); var key=dpKey(d);
-      dpSave(key,data);
-      dpRenderCurrent();
-      dpBetaStatus('✅ 이미지에서 플래너 데이터를 불러왔어요!');
-    }).catch(function(e){ dpBetaStatus('❌ 이미지 읽기 오류: '+(e&&e.message||e)); });
+      if(obj){
+        /* 플래너 백업 이미지 → 데이터 복원 */
+        var data=obj.data||obj;
+        var d=dpCurrentDate(); var key=dpKey(d);
+        dpSave(key,data);
+        dpRenderCurrent();
+        dpBetaStatus('✅ 이미지에서 플래너 데이터를 불러왔어요!');
+      } else {
+        /* 일반 사진 → AI 글씨 해독 시도 (리사이즈 후) */
+        dpBetaStatus('🔍 일반 이미지네요. 글씨를 해독해볼게요...');
+        dpBetaTryVision(file);
+      }
+    }).catch(function(){ dpBetaTryVision(file); });
     return;
   }
   dpBetaStatus('❌ 지원하지 않는 파일 형식이에요 (이미지 또는 JSON)');
+}
+
+/* 일반 이미지를 리사이즈 후 Vision 해독 시도 */
+function dpBetaTryVision(file){
+  var r2=new FileReader();
+  r2.onload=function(){
+    var img=new Image();
+    img.onload=function(){
+      try{
+        var MAX=1568, w=img.width, h=img.height;
+        if(w>MAX||h>MAX){ var sc=Math.min(MAX/w, MAX/h); w=Math.round(w*sc); h=Math.round(h*sc); }
+        var cv=document.createElement('canvas'); cv.width=w; cv.height=h;
+        var ctx=cv.getContext('2d'); ctx.fillStyle='#fff'; ctx.fillRect(0,0,w,h); ctx.drawImage(img,0,0,w,h);
+        var jpeg=cv.toDataURL('image/jpeg', 0.85);
+        dpBetaVisionDecode(jpeg.split(',')[1], 'image/jpeg');
+      }catch(e){ dpBetaVisionDecode(r2.result.split(',')[1], file.type); }
+    };
+    img.onerror=function(){ dpBetaStatus('❌ 이미지를 열 수 없어요'); };
+    img.src=r2.result;
+  };
+  r2.readAsDataURL(file);
 }
 
 /* Claude Vision으로 이미지 글씨 해독 → 일정 추가 */
@@ -9643,7 +9987,6 @@ function renderRptBoard(container, rptCells, rowConcepts, size, title, onSave) {
       rptCells[idx].completed = !rptCells[idx].completed;
       /* 저장 먼저 (재렌더 전) */
       if (typeof onSave === 'function') onSave(rptCells);
-      else console.log('onSave is NOT a function!');
       /* 재렌더 */
       var _cont = document.getElementById('monthDetailBoard') || container;
       if (_cont) renderRptBoard(_cont, rptCells, rowConcepts, size, title, onSave);
@@ -14868,7 +15211,7 @@ if ('serviceWorker' in navigator) {
           });
         });
       })
-      .catch(function(err) { console.warn('[PWA] SW fail:', err); });
+      .catch(function(err) {});
     var refreshing = false;
     navigator.serviceWorker.addEventListener('controllerchange', function() {
       if (!refreshing) { refreshing = true; window.location.reload(); }
