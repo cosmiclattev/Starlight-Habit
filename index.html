@@ -5031,6 +5031,29 @@ function renderMemoCornell(cat){
         var pos=cues.indexOf(this);
         if(pos>=0 && pos<cues.length-1) cues[pos+1].focus();
       }
+      /* 빈 줄 맨 앞에서 백스페이스 → 그 줄 삭제 (줄 수 줄어듦) */
+      if(e.key==='Backspace' && this.selectionStart===0 && this.selectionEnd===0 && this.value===''){
+        var idxC=parseInt(this.dataset.idx,10);
+        var ci=parseInt(this.dataset.cline,10);
+        var dC=memoLoad();
+        dC[cat][idxC]=memoCornellNormCard(dC[cat][idxC]);
+        /* 최소 4줄 유지, 첫 줄은 삭제 불가 */
+        if(dC[cat][idxC].lines.length>4 && ci>0){
+          e.preventDefault();
+          var cueArrC=(dC[cat][idxC].cue||'').split('\n');
+          dC[cat][idxC].lines.splice(ci,1);
+          if(cueArrC.length>ci){ cueArrC.splice(ci,1); }
+          while(cueArrC.length&&!cueArrC[cueArrC.length-1])cueArrC.pop();
+          dC[cat][idxC].cue=cueArrC.join('\n');
+          memoSave(dC);
+          renderMemoCornell(cat);
+          setTimeout(function(){
+            var selC='.memo-cornell-cue[data-idx="'+idxC+'"][data-cline="'+(ci-1)+'"]';
+            var pc=document.querySelector(selC);
+            if(pc){ pc.focus(); pc.setSelectionRange(pc.value.length, pc.value.length); }
+          },30);
+        }
+      }
     });
   });
 
@@ -5065,6 +5088,28 @@ function renderMemoCornell(cat){
           var nl=document.querySelector(sel);
           if(nl){ nl.focus(); nl.scrollIntoView({block:'nearest'}); }
         },30);
+      }
+      /* 빈 줄 맨 앞에서 백스페이스 → 그 줄 삭제 (줄 수 줄어듦) */
+      if(e.key==='Backspace' && this.selectionStart===0 && this.selectionEnd===0 && this.value===''){
+        var idx2=parseInt(this.dataset.idx,10);
+        var li2=parseInt(this.dataset.li,10);
+        var d2=memoLoad();
+        d2[cat][idx2]=memoCornellNormCard(d2[cat][idx2]);
+        /* 최소 4줄은 유지 */
+        if(d2[cat][idx2].lines.length>4 && li2>0){
+          e.preventDefault();
+          var cueArr2=(d2[cat][idx2].cue||'').split('\n');
+          d2[cat][idx2].lines.splice(li2,1);
+          /* 키워드 쪽도 같은 줄 제거 */
+          if(cueArr2.length>li2){ cueArr2.splice(li2,1); while(cueArr2.length&&!cueArr2[cueArr2.length-1])cueArr2.pop(); d2[cat][idx2].cue=cueArr2.join('\n'); }
+          memoSave(d2);
+          renderMemoCornell(cat);
+          setTimeout(function(){
+            var sel2='.memo-cornell-note[data-idx="'+idx2+'"][data-li="'+(li2-1)+'"]';
+            var pl=document.querySelector(sel2);
+            if(pl){ pl.focus(); pl.setSelectionRange(pl.value.length, pl.value.length); pl.scrollIntoView({block:'nearest'}); }
+          },30);
+        }
       }
     });
   });
@@ -7348,7 +7393,7 @@ function dpRenderCert(){
     +'<div class="dp-field-row"><span class="dp-field-label">'+(ko?'이번 달 목표':'Monthly Focus')+'</span>'
     +'<input id="dp-cert-monthly-focus" class="dp-field-input" type="text" placeholder="'+(ko?'목표를 적으며 몸에 새겨보자':'Write your monthly focus')+' " value="'+esc(data.monthlyFocus)+'"></div>'
     +'<div class="dp-field-row" style="margin-bottom:14px;"><span class="dp-field-label">'+(ko?'나의 마음가짐':'My Intention')+'</span>'
-    +'<input id="dp-cert-intention" class="dp-field-input" type="text" placeholder="'+(ko?'오늘은 어떤 마음/태도/상태로 살지 긍정어로':'How will you approach today? Write positively')+' " value="'+esc(data.intention)+'"></div>'
+    +'<input id="dp-cert-intention" class="dp-field-input" type="text" placeholder="'+esc(ko?(dpTodaySpell(dpCurrentDate())||'오늘은 어떤 마음/태도/상태로 살지 긍정어로'):'How will you approach today? Write positively')+'" value="'+esc(data.intention)+'"></div>'
     +'</div>'
     +'<div style="display:flex;gap:10px;align-items:flex-start;">'
     +'<div style="flex:1.1;min-width:0;">'
@@ -7978,7 +8023,7 @@ function dpRenderPlanner(){
     +'<div class="dp-field-row"><span class="dp-field-label">'+(ko?'이번 달 목표':'Monthly Focus')+'</span>'
     +'<input id="dp-monthly-focus" class="dp-field-input" type="text" placeholder="'+(ko?'목표를 적으며 몸에 새겨보자':'Write your monthly focus')+' " value="'+esc(data.monthlyFocus)+'"></div>'
     +'<div class="dp-field-row"><span class="dp-field-label">'+(ko?'나의 마음가짐':'My Intention')+'</span>'
-    +'<input id="dp-intention" class="dp-field-input" type="text" placeholder="'+(ko?'오늘은 어떤 마음/태도/상태로 살지 긍정어로':'How will you approach today? Write positively')+' " value="'+esc(data.intention)+'"></div>'
+    +'<input id="dp-intention" class="dp-field-input" type="text" placeholder="'+esc(ko?(dpTodaySpell(dpCurrentDate())||'오늘은 어떤 마음/태도/상태로 살지 긍정어로'):'How will you approach today? Write positively')+'" value="'+esc(data.intention)+'"></div>'
     +'</div>'
     +'<div style="display:flex;gap:10px;align-items:flex-start;">'
     +'<div style="flex:1.1;min-width:0;">'
@@ -8686,6 +8731,24 @@ var QL_KEY_PREFIX = 'ymwt_ql_';
     }
   }catch(e){}
 })();
+
+/* 오늘의 주문/마음가짐 예시 문장 (날짜 시드로 선택, 3개 양식 공용) */
+function dpTodaySpell(d){
+  try{
+    if(!d) d=new Date();
+    var _epoch = new Date(2025,0,1);
+    var _today = new Date(d.getFullYear(),d.getMonth(),d.getDate());
+    var _totalDays = Math.floor((_today - _epoch) / 86400000);
+    var _seed = (d.getFullYear() * 7919 + 31337) >>> 0;
+    var _idx = Array.from({length: QL_SPELLS.length}, function(_,i){ return i; });
+    for(var _i = _idx.length - 1; _i > 0; _i--){
+      _seed = (_seed * 1664525 + 1013904223) & 0xffffffff;
+      var _j = (_seed >>> 0) % (_i + 1);
+      var _tmp = _idx[_i]; _idx[_i] = _idx[_j]; _idx[_j] = _tmp;
+    }
+    return QL_SPELLS[_idx[((_totalDays % _idx.length) + _idx.length) % _idx.length]] || '';
+  }catch(e){ return ''; }
+}
 
 function qlKey(d) {
   var dt = d || new Date();
