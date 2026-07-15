@@ -6009,9 +6009,12 @@ function dpMirrorForms(fromForm, toForm){
       var merged=[];
       (ql2.mainQuests||[]).forEach(function(q){ if(q&&q.text&&q.text.trim()) merged.push({text:q.text,done:!!q.done}); });
       (ql2.subQuests||[]).forEach(function(q){ if(q&&q.text&&q.text.trim()) merged.push({text:q.text,done:!!q.done}); });
-      basic2.brainDump = merged.length ? merged : [];
-      /* 기억해 둘 것 → 기억할 것 통째 교체 */
+      /* 기본 7개 슬롯 유지 (내용 있는 것 + 빈 슬롯으로 채움) */
+      while(merged.length<7) merged.push({text:'',done:false});
+      basic2.brainDump = merged;
+      /* 기억해 둘 것 → 기억할 것 (기본 5개 유지) */
       var achv=(ql2.achievements||[]).filter(function(a){return a&&a.trim();}).map(function(a){return {text:a,done:false};});
+      while(achv.length<5) achv.push({text:'',done:false});
       basic2.remember = achv;
       /* 이번달 목표 / 오늘의 주문 */
       basic2.monthlyFocus = ql2.monthlyQuest||'';
